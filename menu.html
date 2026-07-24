@@ -2,932 +2,467 @@
 <html lang="id">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Satria — Hub</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap"
-    rel="stylesheet">
-  <style>
-    :root {
-      --bg: #06070E;
-      --ink: #EEF0FB;
-      --ink-soft: #9C9FBE;
-      --ink-faint: #5C5F7C;
-      --glass: rgba(255, 255, 255, 0.03);
-      --glass-hover: rgba(255, 255, 255, 0.08);
-      --glass-border: rgba(255, 255, 255, 0.08);
-      --glass-border-hover: rgba(255, 255, 255, 0.15);
-      --cyan: #4FE3D8;
-      --magenta: #FF5FA8;
-      --violet: #8C7BFF;
-      --amber: #FFC15E;
-      --lime: #A6E85C;
-      --smooth: cubic-bezier(.22, 1, .36, 1);
-      --spring: cubic-bezier(.18, 1.2, .28, 1);
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Satria — Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --peach:#FFB48A;
+    --peach-soft:#FFD9BC;
+    --lav:#B7A6FF;
+    --lav-soft:#D9CFFF;
+    --mint:#7FE8C6;
+    --mint-soft:#C6F6E9;
+    --sun:#FFD65C;
+    --sun-soft:#FFECAF;
+    --rose:#FF9BC0;
+    --rose-soft:#FFD3E4;
+    --sky:#7FC8F8;
+    --sky-soft:#CDEBFF;
+
+    --ink:#241C33;
+    --ink-soft:#5B5270;
+    --ink-faint:#8F87A0;
+    --paper:#FFF9F1;
+    --card-shadow-d: rgba(36,28,51,0.16);
+    --card-shadow-l: rgba(255,255,255,0.75);
+    --spring: cubic-bezier(.34,1.56,.64,1);
+    --smooth: cubic-bezier(.22,1,.36,1);
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{-webkit-tap-highlight-color:transparent;}
+
+  body{
+    background:
+      radial-gradient(120% 60% at 15% -5%, var(--lav-soft) 0%, transparent 55%),
+      radial-gradient(120% 60% at 100% 10%, var(--mint-soft) 0%, transparent 55%),
+      radial-gradient(120% 70% at 50% 100%, var(--rose-soft) 0%, transparent 60%),
+      var(--paper);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    min-height:100vh;
+    overflow-x:hidden;
+    position:relative;
+    padding-bottom:calc(28px + env(safe-area-inset-bottom));
+  }
+
+  :focus-visible{outline:2px solid var(--ink);outline-offset:3px;border-radius:10px;}
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:.001ms !important;transition-duration:.001ms !important;}
+  }
+
+  h1,h2,.font-display{font-family:'Fredoka',sans-serif;}
+  .mono{font-family:'JetBrains Mono',monospace;}
+
+  a{text-decoration:none;color:inherit;}
+
+  /* mobile-first shell, capped width on wider screens so it reads like an app */
+  .shell{
+    max-width:460px;
+    margin:0 auto;
+    position:relative;
+    z-index:2;
+    padding:18px 16px 0;
+  }
+
+  /* floating blobs */
+  .blobs{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none;}
+  .blob{position:absolute;border-radius:50%;filter:blur(2px);opacity:.55;animation:float 9s ease-in-out infinite;}
+  .blob.b1{width:150px;height:150px;background:var(--sun-soft);top:6%;left:-40px;animation-delay:0s;}
+  .blob.b2{width:110px;height:110px;background:var(--sky-soft);top:32%;right:-30px;animation-delay:1.4s;}
+  .blob.b3{width:90px;height:90px;background:var(--rose-soft);bottom:14%;left:-20px;animation-delay:2.6s;}
+
+  @keyframes float{
+    0%,100%{transform:translateY(0) translateX(0) scale(1);}
+    33%{transform:translateY(-18px) translateX(10px) scale(1.06);}
+    66%{transform:translateY(10px) translateX(-8px) scale(.96);}
+  }
+
+  /* ===== HEADER ===== */
+  .topline{
+    display:flex;align-items:center;justify-content:space-between;
+    opacity:0;animation:pop .55s var(--spring) forwards;animation-delay:.05s;
+  }
+
+  .clock-chip{
+    display:flex;align-items:center;gap:6px;
+    background:#fff;border-radius:20px;padding:7px 12px;
+    box-shadow:5px 5px 0 var(--card-shadow-d);
+    font-family:'JetBrains Mono',monospace;font-size:11.5px;font-weight:600;color:var(--ink-soft);
+  }
+  .clock-chip .live-dot{width:6px;height:6px;border-radius:50%;background:var(--mint);box-shadow:0 0 0 3px var(--mint-soft);animation:blink 1.8s ease infinite;}
+  @keyframes blink{0%,100%{opacity:1;}50%{opacity:.35;}}
+
+  .avatar-bubble{
+    width:38px;height:38px;border-radius:50%;
+    background:linear-gradient(150deg,var(--lav),var(--sky));
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:4px 4px 0 var(--card-shadow-d);
+    font-family:'Fredoka',sans-serif;font-weight:600;font-size:14px;color:#fff;
+  }
+
+  .hero{
+    margin-top:22px;
+    opacity:0;animation:pop .6s var(--spring) forwards;animation-delay:.12s;
+  }
+
+  .eyebrow-pill{
+    display:inline-flex;align-items:center;gap:7px;
+    background:#fff;padding:6px 13px;border-radius:20px;
+    box-shadow:4px 4px 0 var(--card-shadow-d);
+    font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);
+    font-weight:600;
+  }
+  .eyebrow-pill .dot{width:6px;height:6px;border-radius:50%;background:var(--rose);}
+
+  .hero h1{
+    margin-top:14px;
+    font-size:clamp(30px,9vw,38px);
+    line-height:1.08;
+    font-weight:700;
+    letter-spacing:-0.01em;
+  }
+  .hero h1 .grad{
+    display:block;
+    background:linear-gradient(100deg,var(--rose),var(--lav) 55%,var(--sky));
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+
+  .hero p{
+    margin-top:10px;font-size:13.5px;color:var(--ink-soft);line-height:1.6;max-width:34ch;
+  }
+
+  @keyframes pop{
+    from{opacity:0;transform:translateY(14px) scale(.97);}
+    to{opacity:1;transform:translateY(0) scale(1);}
+  }
+
+  /* ===== STATS STRIP ===== */
+  .stats-strip{
+    display:flex;gap:10px;margin-top:20px;
+    overflow-x:auto;padding-bottom:4px;
+    scrollbar-width:none;
+  }
+  .stats-strip::-webkit-scrollbar{display:none;}
+
+  .stat-pill{
+    flex:none;
+    background:#fff;border-radius:18px;padding:12px 15px;
+    box-shadow:5px 5px 0 var(--card-shadow-d);
+    min-width:118px;
+    opacity:0;transform:scale(.9);animation:pop .5s var(--spring) forwards;
+  }
+  .stat-pill:nth-child(1){animation-delay:.2s;}
+  .stat-pill:nth-child(2){animation-delay:.26s;}
+  .stat-pill:nth-child(3){animation-delay:.32s;}
+
+  .stat-num{font-family:'Fredoka',sans-serif;font-weight:700;font-size:20px;}
+  .stat-lbl{font-size:10.5px;color:var(--ink-faint);margin-top:2px;font-weight:600;}
+
+  /* ===== SECTION LABEL ===== */
+  .section-label{
+    margin-top:26px;margin-bottom:12px;
+    display:flex;align-items:center;justify-content:space-between;
+    opacity:0;animation:pop .5s var(--smooth) forwards;animation-delay:.36s;
+  }
+  .section-label h2{font-size:15.5px;font-weight:600;}
+  .section-label span{font-size:11px;color:var(--ink-faint);font-weight:600;}
+
+  /* ===== MODULE GRID — single column on phones, cozy 2-col on wider screens ===== */
+  .grid{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:12px;
+  }
+  @media (min-width:420px){
+    .grid{grid-template-columns:1fr 1fr;}
+    .grid .item.feature{grid-column:1 / -1;}
+  }
+
+  .item{
+    --tint: var(--lav-soft);
+    --tint-ink: var(--lav);
+    position:relative;
+    display:flex;align-items:center;gap:14px;
+    background:#fff;
+    border-radius:22px;
+    padding:16px;
+    box-shadow:6px 6px 0 var(--card-shadow-d);
+    opacity:0;
+    transform:translateY(18px) scale(.95);
+    animation:cardPop .55s var(--spring) forwards;
+    transition:transform .28s var(--spring), box-shadow .28s var(--smooth);
+  }
+
+  .item.feature{
+    background:linear-gradient(120deg, var(--tint), #fff 78%);
+  }
+
+  @keyframes cardPop{ to{opacity:1;transform:translateY(0) scale(1);} }
+
+  .item:nth-child(1){animation-delay:.42s;}
+  .item:nth-child(2){animation-delay:.47s;}
+  .item:nth-child(3){animation-delay:.52s;}
+  .item:nth-child(4){animation-delay:.57s;}
+  .item:nth-child(5){animation-delay:.62s;}
+  .item:nth-child(6){animation-delay:.67s;}
+  .item:nth-child(7){animation-delay:.72s;}
+  .item:nth-child(8){animation-delay:.77s;}
+
+  .item:active{
+    transform:translate(3px,3px) scale(.98);
+    box-shadow:3px 3px 0 var(--card-shadow-d);
+    transition:transform .12s var(--smooth), box-shadow .12s var(--smooth);
+  }
+
+  @media (hover:hover){
+    .item:hover{
+      transform:translateY(-3px);
+      box-shadow:8px 10px 0 var(--card-shadow-d);
     }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html {
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    body {
-      background: linear-gradient(135deg, #06070E 0%, #0a0b14 50%, #06070E 100%);
-      color: var(--ink);
-      font-family: 'Inter', sans-serif;
-      min-height: 100vh;
-      padding: 0 0 42px;
-      position: relative;
-      overflow-x: hidden;
-    }
-
-    :focus-visible {
-      outline: 2px solid var(--cyan);
-      outline-offset: 4px;
-      border-radius: 8px;
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      * {
-        animation-duration: .001ms !important;
-        transition-duration: .001ms !important;
-      }
-    }
-
-    .aurora-wrap {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 1;
-      pointer-events: none;
-    }
-
-    .aurora-wrap canvas {
-      width: 100%;
-      height: 100%;
-      display: block;
-    }
-
-    .grain {
-      position: fixed;
-      inset: 0;
-      z-index: 40;
-      pointer-events: none;
-      opacity: .04;
-      mix-blend-mode: overlay;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-    }
-
-    .masthead {
-      position: relative;
-      z-index: 2;
-      padding: 56px 22px 28px;
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .badge-live {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 11px;
-      letter-spacing: .18em;
-      text-transform: uppercase;
-      color: var(--cyan);
-      background: rgba(79, 227, 216, 0.06);
-      border: 1px solid rgba(79, 227, 216, 0.2);
-      padding: 8px 16px;
-      border-radius: 24px;
-      opacity: 0;
-      animation: rise .6s var(--spring) forwards;
-      animation-delay: .05s;
-      backdrop-filter: blur(10px);
-    }
-
-    .badge-live .dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: var(--cyan);
-      box-shadow: 0 0 12px var(--cyan), 0 0 20px rgba(79, 227, 216, 0.5);
-      animation: blink 2s ease infinite;
-    }
-
-    @keyframes blink {
-
-      0%,
-      100% {
-        opacity: 1;
-      }
-
-      50% {
-        opacity: .3;
-      }
-    }
-
-    .wordmark {
-      margin-top: 24px;
-      font-family: 'Space Grotesk', sans-serif;
-      font-weight: 700;
-      font-size: clamp(42px, 13vw, 64px);
-      line-height: 1.05;
-      letter-spacing: -0.02em;
-      opacity: 0;
-      animation: rise .7s var(--spring) forwards;
-      animation-delay: .12s;
-    }
-
-    .wordmark .grad {
-      display: block;
-      background: linear-gradient(100deg, var(--cyan) 0%, var(--violet) 45%, var(--magenta) 90%);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      background-size: 200% 100%;
-      animation: shift 7s ease-in-out infinite;
-      filter: drop-shadow(0 0 30px rgba(79, 227, 216, 0.3));
-    }
-
-    @keyframes shift {
-
-      0%,
-      100% {
-        background-position: 0% 50%;
-      }
-
-      50% {
-        background-position: 100% 50%;
-      }
-    }
-
-    .sub {
-      margin-top: 12px;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 13px;
-      letter-spacing: .24em;
-      text-transform: uppercase;
-      color: var(--ink-faint);
-      opacity: 0;
-      animation: rise .6s var(--spring) forwards;
-      animation-delay: .2s;
-    }
-
-    .tagline {
-      margin-top: 20px;
-      font-size: 15px;
-      color: var(--ink-soft);
-      max-width: 32ch;
-      line-height: 1.65;
-      opacity: 0;
-      animation: rise .6s var(--spring) forwards;
-      animation-delay: .28s;
-    }
-
-    @keyframes rise {
-      from {
-        opacity: 0;
-        transform: translateY(14px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .list {
-      position: relative;
-      z-index: 2;
-      padding: 24px 20px 0;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 16px;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    .item {
-      --accent: var(--cyan);
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 16px;
-      padding: 24px 20px 20px;
-      border-radius: 24px;
-      background: var(--glass);
-      border: 1px solid var(--glass-border);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      text-decoration: none;
-      color: var(--ink);
-      overflow: hidden;
-      opacity: 0;
-      transform: translateY(24px) scale(.96);
-      animation: cardIn .7s var(--spring) forwards;
-      transition: all .4s var(--smooth);
-      will-change: transform;
-      cursor: pointer;
-    }
-
-    .item.feature {
-      grid-column: 1 / -1;
-      flex-direction: row;
-      align-items: center;
-      gap: 24px;
-      padding: 28px 24px;
-      background: linear-gradient(135deg, rgba(79, 227, 216, 0.05), rgba(140, 123, 255, 0.05));
-    }
-
-    @keyframes cardIn {
-      to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-      }
-    }
-
-    .item:nth-child(1) {
-      animation-delay: .34s;
-    }
-
-    .item:nth-child(2) {
-      animation-delay: .38s;
-    }
-
-    .item:nth-child(3) {
-      animation-delay: .42s;
-    }
-
-    .item:nth-child(4) {
-      animation-delay: .46s;
-    }
-
-    .item:nth-child(5) {
-      animation-delay: .50s;
-    }
-
-    .item:nth-child(6) {
-      animation-delay: .54s;
-    }
-
-    .item:nth-child(7) {
-      animation-delay: .58s;
-    }
-
-    .item:nth-child(8) {
-      animation-delay: .62s;
-    }
-
-    .item::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      border-radius: inherit;
-      padding: 1.5px;
-      background: conic-gradient(from 0deg, var(--accent), transparent 30%, transparent 70%, var(--accent));
-      -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-      mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-      -webkit-mask-composite: xor;
-      mask-composite: exclude;
-      opacity: 0;
-      transition: opacity .5s var(--smooth);
-      pointer-events: none;
-      animation: spin 4s linear infinite;
-      animation-play-state: paused;
-    }
-
-    @keyframes spin {
-      to {
-        transform: rotate(360deg);
-      }
-    }
-
-    .item::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      border-radius: inherit;
-      background: radial-gradient(280px circle at var(--mx, 50%) var(--my, 50%), color-mix(in srgb, var(--accent) 25%, transparent), transparent 70%);
-      opacity: 0;
-      transition: opacity .5s var(--smooth);
-      pointer-events: none;
-    }
-
-    @media (hover: hover) {
-      .item:hover {
-        border-color: var(--glass-border-hover);
-        background: var(--glass-hover);
-        transform: translateY(-4px) scale(1.02);
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 0 60px color-mix(in srgb, var(--accent) 15%, transparent);
-      }
-
-      .item:hover::before {
-        opacity: 1;
-        animation-play-state: running;
-      }
-
-      .item:hover::after {
-        opacity: 1;
-      }
-
-      .item:hover .icon {
-        background: var(--accent);
-        color: #05060B;
-        box-shadow: 0 0 30px color-mix(in srgb, var(--accent) 70%, transparent), 0 0 60px color-mix(in srgb, var(--accent) 40%, transparent);
-        transform: scale(1.12) rotate(-5deg);
-      }
-
-      .item:hover .item-name {
-        color: #fff;
-      }
-
-      .item:hover .status {
-        background: color-mix(in srgb, var(--accent) 25%, transparent);
-        border-color: var(--accent);
-      }
-    }
-
-    .item:active {
-      transform: scale(.98) !important;
-      transition: transform .15s var(--smooth);
-    }
-
-    .row-top {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      width: 100%;
-    }
-
-    .item.feature .row-top {
-      display: contents;
-    }
-
-    .icon {
-      flex: none;
-      width: 52px;
-      height: 52px;
-      border-radius: 16px;
-      background: color-mix(in srgb, var(--accent) 12%, transparent);
-      color: var(--accent);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all .5s var(--spring);
-      position: relative;
-    }
-
-    .icon::before {
-      content: '';
-      position: absolute;
-      inset: -2px;
-      border-radius: inherit;
-      background: linear-gradient(135deg, var(--accent), transparent);
-      opacity: 0;
-      transition: opacity .4s var(--smooth);
-      z-index: -1;
-    }
-
-    .item:hover .icon::before {
-      opacity: 0.3;
-    }
-
-    .item.feature .icon {
-      width: 64px;
-      height: 64px;
-      border-radius: 20px;
-    }
-
-    .icon svg {
-      width: 24px;
-      height: 24px;
-    }
-
-    .item.feature .icon svg {
-      width: 28px;
-      height: 28px;
-    }
-
-    .status {
-      flex: none;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 9px;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-      color: var(--accent);
-      background: color-mix(in srgb, var(--accent) 10%, transparent);
-      border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
-      padding: 4px 10px;
-      border-radius: 24px;
-      white-space: nowrap;
-      transition: all .4s var(--smooth);
-    }
-
-    .item-body {
-      min-width: 0;
-      flex: 1;
-    }
-
-    .item.feature .item-body {
-      flex: 1;
-    }
-
-    .item-name {
-      font-family: 'Space Grotesk', sans-serif;
-      font-weight: 600;
-      font-size: 18px;
-      letter-spacing: -0.005em;
-      color: var(--ink);
-      display: block;
-      transition: color .4s var(--smooth);
-    }
-
-    .item.feature .item-name {
-      font-size: 24px;
-    }
-
-    .item-desc {
-      font-size: 13px;
-      color: var(--ink-soft);
-      margin-top: 6px;
-      display: block;
-      line-height: 1.5;
-    }
-
-    .item.feature .item-desc {
-      font-size: 14px;
-    }
-
-    .foot {
-      position: relative;
-      z-index: 2;
-      margin: 36px 20px 0;
-      padding-top: 20px;
-      border-top: 1px solid var(--glass-border);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 11px;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      color: var(--ink-faint);
-      max-width: 1200px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    .foot b {
-      color: var(--cyan);
-      font-weight: 600;
-    }
-
-    /* Responsive adjustments */
-    @media (max-width: 768px) {
-      .list {
-        grid-template-columns: 1fr;
-        padding: 20px 16px 0;
-      }
-
-      .masthead {
-        padding: 40px 16px 20px;
-      }
-
-      .tagline {
-        font-size: 14px;
-      }
-
-      .item.feature {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .wordmark {
-        font-size: clamp(36px, 11vw, 48px);
-      }
-
-      .item {
-        padding: 20px 18px 18px;
-      }
-    }
-  </style>
+    .item:hover .icon-bubble{transform:rotate(-8deg) scale(1.08);}
+  }
+
+  .icon-bubble{
+    flex:none;
+    width:48px;height:48px;border-radius:16px;
+    background:var(--tint);
+    color:var(--tint-ink);
+    display:flex;align-items:center;justify-content:center;
+    transition:transform .4s var(--spring);
+    box-shadow:2px 3px 0 rgba(0,0,0,0.05) inset;
+  }
+  .icon-bubble svg{width:22px;height:22px;}
+
+  .item.feature .icon-bubble{width:56px;height:56px;border-radius:18px;}
+  .item.feature .icon-bubble svg{width:26px;height:26px;}
+
+  .item-text{flex:1;min-width:0;}
+  .item-name{font-family:'Fredoka',sans-serif;font-weight:600;font-size:15.5px;color:var(--ink);}
+  .item.feature .item-name{font-size:18px;}
+  .item-desc{font-size:11.5px;color:var(--ink-faint);margin-top:2px;line-height:1.4;}
+
+  .go-arrow{
+    flex:none;width:30px;height:30px;border-radius:50%;
+    background:var(--tint);color:var(--tint-ink);
+    display:flex;align-items:center;justify-content:center;
+    transition:transform .3s var(--spring);
+  }
+  .go-arrow svg{width:14px;height:14px;}
+  .item:hover .go-arrow{transform:translateX(3px);}
+
+  .ready-tag{
+    position:absolute;top:10px;right:10px;
+    font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.06em;text-transform:uppercase;
+    background:var(--tint);color:var(--tint-ink);
+    padding:3px 7px;border-radius:20px;font-weight:600;
+  }
+  .item.feature .ready-tag{display:none;}
+
+  /* ===== FOOTER ===== */
+  .foot{
+    margin-top:28px;
+    display:flex;align-items:center;justify-content:space-between;
+    background:#fff;border-radius:18px;padding:13px 16px;
+    box-shadow:5px 5px 0 var(--card-shadow-d);
+    font-size:11.5px;color:var(--ink-faint);font-weight:600;
+    opacity:0;animation:pop .5s var(--smooth) forwards;animation-delay:.9s;
+  }
+  .foot b{color:var(--ink);font-family:'JetBrains Mono',monospace;}
+
+  .foot-dots{display:flex;gap:4px;}
+  .foot-dots span{width:5px;height:5px;border-radius:50%;background:var(--lav-soft);}
+  .foot-dots span:nth-child(1){background:var(--mint);}
+  .foot-dots span:nth-child(2){background:var(--sun);}
+  .foot-dots span:nth-child(3){background:var(--rose);}
+</style>
 </head>
 
 <body>
 
-  <div class="aurora-wrap"><canvas id="aurora"></canvas></div>
-  <div class="grain"></div>
+  <div class="blobs">
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+    <div class="blob b3"></div>
+  </div>
 
-  <header class="masthead">
-    <div class="badge-live"><span class="dot"></span>Semua Layanan, Satu Tempat</div>
-    <h1 class="wordmark">Satria<span class="grad">Digital Hub</span></h1>
-    <div class="sub">Portal Modul Terintegrasi</div>
-    <p class="tagline">Pilih modul untuk masuk ke halaman. Toko, AI, PC custom, dan lainnya — semua terhubung di sini.
-    </p>
-  </header>
+  <div class="shell">
 
-  <main>
-    <nav class="list" id="dirList" aria-label="Daftar modul">
+    <div class="topline">
+      <div class="clock-chip"><span class="live-dot"></span><span id="fClock">--:--</span></div>
+      <div class="avatar-bubble">S</div>
+    </div>
 
-      <a class="item feature" href="index.html" style="--accent:var(--cyan)">
-        <span class="icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"
-            stroke-linejoin="round">
-            <path d="M4 9l1-5h14l1 5" />
-            <path d="M4 9h16v10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V9z" />
-            <path d="M9 13a3 3 0 0 0 6 0" />
-          </svg>
+    <header class="hero">
+      <span class="eyebrow-pill"><span class="dot"></span>Semua Layanan, Satu Tempat</span>
+      <h1>Satria<span class="grad">Digital Hub</span></h1>
+      <p>Pilih modul di bawah untuk masuk. Toko, AI, PC custom, dan lainnya — semua terhubung di sini.</p>
+    </header>
+
+    <div class="stats-strip">
+      <div class="stat-pill">
+        <div class="stat-num" data-count="8">0</div>
+        <div class="stat-lbl">Modul Aktif</div>
+      </div>
+      <div class="stat-pill">
+        <div class="stat-num">24/7</div>
+        <div class="stat-lbl">Selalu Online</div>
+      </div>
+      <div class="stat-pill">
+        <div class="stat-num" data-count="99">0<span>%</span></div>
+        <div class="stat-lbl">Uptime</div>
+      </div>
+    </div>
+
+    <div class="section-label">
+      <h2>Modul Tersedia</h2>
+      <span id="fCountLabel">0/8 siap</span>
+    </div>
+
+    <nav class="grid" id="dirList" aria-label="Daftar modul">
+
+      <a class="item feature" href="index.html" style="--tint:var(--sky-soft);--tint-ink:#1E7FBF;">
+        <span class="icon-bubble">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9l1-5h14l1 5"/><path d="M4 9h16v10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V9z"/><path d="M9 13a3 3 0 0 0 6 0"/></svg>
         </span>
-        <span class="item-body">
+        <span class="item-text">
           <span class="item-name">Store</span>
           <span class="item-desc">Belanja layanan digital</span>
         </span>
-        <span class="status">READY</span>
+        <span class="go-arrow">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </span>
       </a>
 
-      <a class="item" href="ai.html" style="--accent:var(--violet)">
-        <span class="row-top">
-          <span class="icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"
-              stroke-linejoin="round">
-              <path d="M4 4h16v11H8l-4 4V4z" />
-              <circle cx="9" cy="9.5" r="1" />
-              <circle cx="12.5" cy="9.5" r="1" />
-              <circle cx="16" cy="9.5" r="1" />
-            </svg>
-          </span>
-          <span class="status">READY</span>
+      <a class="item" href="ai.html" style="--tint:var(--lav-soft);--tint-ink:#6B4FE0;">
+        <span class="ready-tag">Ready</span>
+        <span class="icon-bubble">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v11H8l-4 4V4z"/><circle cx="9" cy="9.5" r="1"/><circle cx="12.5" cy="9.5" r="1"/><circle cx="16" cy="9.5" r="1"/></svg>
         </span>
-        <span class="item-body">
+        <span class="item-text">
           <span class="item-name">Satz AI</span>
           <span class="item-desc">Asisten chat AI</span>
         </span>
       </a>
 
-      <a class="item" href="pc.html" style="--accent:var(--magenta)">
-        <span class="row-top">
-          <span class="icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"
-              stroke-linejoin="round">
-              <rect x="4" y="4" width="16" height="12" rx="1.5" />
-              <path d="M9 20h6M12 16v4" />
-            </svg>
-          </span>
-          <span class="status">READY</span>
+      <a class="item" href="pc.html" style="--tint:var(--rose-soft);--tint-ink:#D93F7C;">
+        <span class="ready-tag">Ready</span>
+        <span class="icon-bubble">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="12" rx="1.5"/><path d="M9 20h6M12 16v4"/></svg>
         </span>
-        <span class="item-body">
+        <span class="item-text">
           <span class="item-name">PC Gaming</span>
           <span class="item-desc">Premium builds & custom</span>
         </span>
       </a>
 
-      <a class="item" href="music.html" style="--accent:var(--amber)">
-        <span class="row-top">
-          <span class="icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"
-              stroke-linejoin="round">
-              <path d="M9 18V5l11-2v13" />
-              <circle cx="6" cy="18" r="3" />
-              <circle cx="17" cy="16" r="3" />
-            </svg>
-          </span>
-          <span class="status">READY</span>
+      <a class="item" href="music.html" style="--tint:var(--sun-soft);--tint-ink:#C48A00;">
+        <span class="ready-tag">Ready</span>
+        <span class="icon-bubble">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/></svg>
         </span>
-        <span class="item-body">
+        <span class="item-text">
           <span class="item-name">Now Playing</span>
           <span class="item-desc">Audio visualizer</span>
         </span>
       </a>
 
-      <a class="item" href="komponen.html" style="--accent:var(--lime)">
-        <span class="row-top">
-          <span class="icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"
-              stroke-linejoin="round">
-              <path d="M4 19.5V6a2 2 0 0 1 2-2h13v15.5" />
-              <path d="M6 17h13" />
-              <path d="M6 21a2 2 0 1 1 0-4h13v4z" />
-            </svg>
-          </span>
-          <span class="status">READY</span>
+      <a class="item" href="komponen.html" style="--tint:var(--mint-soft);--tint-ink:#149C79;">
+        <span class="ready-tag">Ready</span>
+        <span class="icon-bubble">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5V6a2 2 0 0 1 2-2h13v15.5"/><path d="M6 17h13"/><path d="M6 21a2 2 0 1 1 0-4h13v4z"/></svg>
         </span>
-        <span class="item-body">
+        <span class="item-text">
           <span class="item-name">Komponen</span>
           <span class="item-desc">Dokumentasi PC</span>
         </span>
       </a>
 
-      <a class="item" href="kuliner.html" style="--accent:var(--magenta)">
-        <span class="row-top">
-          <span class="icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"
-              stroke-linejoin="round">
-              <path d="M7 3v7a2 2 0 0 0 4 0V3M9 10v11" />
-              <path d="M17 3c-1.5 0-3 1.5-3 4s1.5 4 3 4v10" />
-            </svg>
-          </span>
-          <span class="status">READY</span>
+      <a class="item" href="kuliner.html" style="--tint:var(--rose-soft);--tint-ink:#D93F7C;">
+        <span class="ready-tag">Ready</span>
+        <span class="icon-bubble">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3v7a2 2 0 0 0 4 0V3M9 10v11"/><path d="M17 3c-1.5 0-3 1.5-3 4s1.5 4 3 4v10"/></svg>
         </span>
-        <span class="item-body">
+        <span class="item-text">
           <span class="item-name">Warung Satria</span>
           <span class="item-desc">Menu restoran</span>
         </span>
       </a>
 
-      <a class="item" href="ssm.html" style="--accent:var(--cyan)">
-        <span class="row-top">
-          <span class="icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"
-              stroke-linejoin="round">
-              <circle cx="12" cy="12" r="9" />
-              <path d="M12 3v3M12 18v3M3 12h3M18 12h3" />
-              <path d="M14.5 9.5L16 8l-1.5 4.5L10 14l1.5-4.5z" />
-            </svg>
-          </span>
-          <span class="status">READY</span>
+      <a class="item" href="ssm.html" style="--tint:var(--sky-soft);--tint-ink:#1E7FBF;">
+        <span class="ready-tag">Ready</span>
+        <span class="icon-bubble">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/><path d="M14.5 9.5L16 8l-1.5 4.5L10 14l1.5-4.5z"/></svg>
         </span>
-        <span class="item-body">
+        <span class="item-text">
           <span class="item-name">SSM</span>
           <span class="item-desc">Sistem Informasi Manajemen</span>
         </span>
       </a>
 
-      <a class="item" href="server.html" style="--accent:var(--violet)">
-        <span class="row-top">
-          <span class="icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"
-              stroke-linejoin="round">
-              <rect x="3" y="4" width="18" height="6" rx="1.5" />
-              <rect x="3" y="14" width="18" height="6" rx="1.5" />
-              <circle cx="7" cy="7" r="0.8" fill="currentColor" stroke="none" />
-              <circle cx="7" cy="17" r="0.8" fill="currentColor" stroke="none" />
-            </svg>
-          </span>
-          <span class="status">READY</span>
+      <a class="item" href="server.html" style="--tint:var(--lav-soft);--tint-ink:#6B4FE0;">
+        <span class="ready-tag">Ready</span>
+        <span class="icon-bubble">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="6" rx="1.5"/><rect x="3" y="14" width="18" height="6" rx="1.5"/><circle cx="7" cy="7" r="0.8" fill="currentColor" stroke="none"/><circle cx="7" cy="17" r="0.8" fill="currentColor" stroke="none"/></svg>
         </span>
-        <span class="item-body">
+        <span class="item-text">
           <span class="item-name">Server</span>
           <span class="item-desc">Manajemen server</span>
         </span>
       </a>
 
     </nav>
-  </main>
 
-  <footer class="foot">
-    <span><b id="fCount">0</b> modul online</span>
-    <span id="fClock">--:--</span>
-  </footer>
+    <div class="foot">
+      <span>Dibuat oleh <b>Satria</b></span>
+      <div class="foot-dots"><span></span><span></span><span></span></div>
+    </div>
 
-  <script>
-    // Clock function
-    function tick() {
-      var d = new Date();
-      var fmt = function (n) { return String(n).padStart(2, '0'); };
-      document.getElementById('fClock').textContent = fmt(d.getHours()) + ':' + fmt(d.getMinutes());
-    }
+  </div>
 
-    // Initialize clock
-    if (document.getElementById('fClock')) {
-      tick();
-      setInterval(tick, 15000);
-    }
+<script>
+  function tick(){
+    var d=new Date();
+    var fmt=function(n){return String(n).padStart(2,'0');};
+    document.getElementById('fClock').textContent = fmt(d.getHours())+':'+fmt(d.getMinutes());
+  }
+  tick();
+  setInterval(tick, 1000*15);
 
-    // Module counter animation
-    (function () {
-      var el = document.getElementById('fCount');
-      if (!el) return;
-
-      var items = document.querySelectorAll('#dirList .item');
-      var target = items.length;
+  (function(){
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    document.querySelectorAll('.stat-num[data-count]').forEach(function(el){
+      var target = parseInt(el.getAttribute('data-count'),10);
+      var suffixEl = el.querySelector('span');
+      var suffix = suffixEl ? suffixEl.outerHTML : '';
+      if(reduce){ el.innerHTML = target + suffix; return; }
       var cur = 0;
-      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-      if (reduce) {
-        el.textContent = target;
-        return;
-      }
-
-      var iv = setInterval(function () {
+      var iv = setInterval(function(){
         cur++;
-        el.textContent = cur;
-        if (cur >= target) clearInterval(iv);
-      }, 90);
-    })();
+        el.innerHTML = cur + suffix;
+        if(cur>=target) clearInterval(iv);
+      }, 34);
+    });
+  })();
 
-    // Enhanced Aurora + Galaxy + Stars Background
-    (function () {
-      var canvas = document.getElementById('aurora');
-      if (!canvas) {
-        console.error('Canvas element not found!');
-        return;
-      }
-
-      var ctx = canvas.getContext('2d');
-      if (!ctx) {
-        console.error('Cannot get 2D context!');
-        return;
-      }
-
-      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      var W, H, t = 0;
-
-      // Aurora bands - more intense and visible
-      var bands = [
-        { color: 'rgba(79,227,216,0.3)', amp: 100, freq: 1.2, speed: .025, yBase: .15 },
-        { color: 'rgba(140,123,255,0.28)', amp: 120, freq: 1.5, speed: .020, yBase: .30 },
-        { color: 'rgba(255,95,168,0.25)', amp: 110, freq: 1.0, speed: .028, yBase: .45 },
-        { color: 'rgba(79,227,216,0.2)', amp: 90, freq: 1.8, speed: .018, yBase: .60 },
-        { color: 'rgba(166,232,92,0.18)', amp: 85, freq: 1.4, speed: .022, yBase: .75 }
-      ];
-
-      // Stars for galaxy effect
-      var stars = [];
-      var numStars = 200;
-
-      function initStars() {
-        stars = [];
-        for (var i = 0; i < numStars; i++) {
-          stars.push({
-            x: Math.random() * W,
-            y: Math.random() * H,
-            size: Math.random() * 2.5 + 0.5,
-            opacity: Math.random(),
-            speed: Math.random() * 0.02 + 0.005,
-            twinkleSpeed: Math.random() * 0.03 + 0.01
-          });
-        }
-      }
-
-      function resize() {
-        var dpr = window.devicePixelRatio || 1;
-        W = canvas.width = window.innerWidth * dpr;
-        H = canvas.height = window.innerHeight * dpr;
-        canvas.style.width = window.innerWidth + 'px';
-        canvas.style.height = window.innerHeight + 'px';
-        ctx.scale(dpr, dpr);
-        W = window.innerWidth;
-        H = window.innerHeight;
-        initStars();
-      }
-
-      function drawStars() {
-        stars.forEach(function (star) {
-          star.opacity += Math.sin(t * star.twinkleSpeed) * 0.015;
-          star.opacity = Math.max(0.3, Math.min(1, star.opacity));
-
-          ctx.beginPath();
-          ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
-          ctx.fillStyle = 'rgba(255, 255, 255, ' + star.opacity * 0.7 + ')';
-          ctx.fill();
-
-          // Add glow effect for larger stars
-          if (star.size > 1.8) {
-            ctx.beginPath();
-            ctx.arc(star.x, star.y, star.size * 2.5, 0, Math.PI * 2);
-            ctx.fillStyle = 'rgba(255, 255, 255, ' + star.opacity * 0.2 + ')';
-            ctx.fill();
-          }
-        });
-      }
-
-      function drawNebula() {
-        // Create nebula clouds
-        var time = t * 0.008;
-
-        // Nebula 1 - Cyan/Purple (top left)
-        var grad1 = ctx.createRadialGradient(
-          W * (0.25 + Math.sin(time) * 0.15),
-          H * 0.25,
-          0,
-          W * 0.25,
-          H * 0.25,
-          W * 0.5
-        );
-        grad1.addColorStop(0, 'rgba(79, 227, 216, 0.12)');
-        grad1.addColorStop(0.4, 'rgba(140, 123, 255, 0.08)');
-        grad1.addColorStop(1, 'transparent');
-
-        ctx.fillStyle = grad1;
-        ctx.fillRect(0, 0, W, H);
-
-        // Nebula 2 - Magenta/Violet (bottom right)
-        var grad2 = ctx.createRadialGradient(
-          W * (0.75 + Math.cos(time * 0.7) * 0.12),
-          H * 0.7,
-          0,
-          W * 0.75,
-          H * 0.7,
-          W * 0.45
-        );
-        grad2.addColorStop(0, 'rgba(255, 95, 168, 0.1)');
-        grad2.addColorStop(0.4, 'rgba(140, 123, 255, 0.06)');
-        grad2.addColorStop(1, 'transparent');
-
-        ctx.fillStyle = grad2;
-        ctx.fillRect(0, 0, W, H);
-
-        // Nebula 3 - Amber accent (center)
-        var grad3 = ctx.createRadialGradient(
-          W * 0.5,
-          H * (0.5 + Math.sin(time * 0.5) * 0.1),
-          0,
-          W * 0.5,
-          H * 0.5,
-          W * 0.35
-        );
-        grad3.addColorStop(0, 'rgba(255, 193, 94, 0.06)');
-        grad3.addColorStop(0.5, 'rgba(255, 95, 168, 0.04)');
-        grad3.addColorStop(1, 'transparent');
-
-        ctx.fillStyle = grad3;
-        ctx.fillRect(0, 0, W, H);
-      }
-
-      function draw() {
-        // Clear canvas completely
-        ctx.clearRect(0, 0, W, H);
-
-        // Draw nebula background
-        drawNebula();
-
-        // Draw aurora bands
-        bands.forEach(function (b) {
-          ctx.beginPath();
-          ctx.moveTo(0, H * b.yBase);
-          for (var x = 0; x <= W; x += 6) {
-            var y = H * b.yBase + Math.sin(x * 0.003 * b.freq + t * b.speed) * b.amp;
-            y += Math.sin(x * 0.005 * b.freq + t * b.speed * 1.5) * b.amp * 0.4;
-            y += Math.cos(x * 0.002 * b.freq + t * b.speed * 0.8) * b.amp * 0.2;
-            ctx.lineTo(x, y);
-          }
-          ctx.lineTo(W, H);
-          ctx.lineTo(0, H);
-          ctx.closePath();
-
-          var grad = ctx.createLinearGradient(0, H * b.yBase - 150, 0, H * b.yBase + 250);
-          grad.addColorStop(0, 'transparent');
-          grad.addColorStop(0.2, b.color);
-          grad.addColorStop(0.5, b.color);
-          grad.addColorStop(0.8, b.color);
-          grad.addColorStop(1, 'transparent');
-
-          ctx.fillStyle = grad;
-          ctx.fill();
-        });
-
-        // Draw stars on top
-        drawStars();
-
-        t += 1;
-        if (!reduce) {
-          requestAnimationFrame(draw);
-        }
-      }
-
-      // Initialize
-      resize();
-      window.addEventListener('resize', resize);
-
-      // Start animation
-      draw();
-
-      // Force redraw if reduced motion
-      if (reduce) {
-        draw();
-      }
-    })();
-
-    // Spotlight cursor tracker on cards
-    (function () {
-      var cards = document.querySelectorAll('.item');
-      cards.forEach(function (card) {
-        card.addEventListener('mousemove', function (e) {
-          var rect = card.getBoundingClientRect();
-          var x = ((e.clientX - rect.left) / rect.width) * 100;
-          var y = ((e.clientY - rect.top) / rect.height) * 100;
-          card.style.setProperty('--mx', x + '%');
-          card.style.setProperty('--my', y + '%');
-        });
-      });
-    })();
-  </script>
+  (function(){
+    var el = document.getElementById('fCountLabel');
+    var target = document.querySelectorAll('#dirList .item').length;
+    var cur = 0;
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if(reduce){ el.textContent = target+'/'+target+' siap'; return; }
+    var iv = setInterval(function(){
+      cur++;
+      el.textContent = cur+'/'+target+' siap';
+      if(cur>=target) clearInterval(iv);
+    }, 90);
+  })();
+</script>
 
 </body>
-
 </html>
