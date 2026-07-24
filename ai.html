@@ -152,7 +152,9 @@
       letter-spacing: -0.02em;
       background: linear-gradient(135deg, #818cf8, #a78bfa, #c4b5fd);
       -webkit-background-clip: text;
+      background-clip: text; /* PERBAIKAN: Menambahkan properti standar */
       -webkit-text-fill-color: transparent;
+      color: transparent; /* PERBAIKAN: Fallback untuk kompatibilitas */
       background-size: 200% 200%;
       animation: gradient-shift 3s ease infinite;
       margin-bottom: 8px;
@@ -299,7 +301,9 @@
     .hero-title span { 
       background: linear-gradient(135deg, #818cf8, #a78bfa);
       -webkit-background-clip: text;
+      background-clip: text; /* PERBAIKAN: Menambahkan properti standar */
       -webkit-text-fill-color: transparent;
+      color: transparent; /* PERBAIKAN: Fallback untuk kompatibilitas */
     }
 
     .hero-desc { color: var(--text-dim); max-width: 400px; line-height: 1.6; font-size: 16px; margin-bottom: 32px; }
@@ -487,7 +491,7 @@
       <div class="brand-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a2 2 0 0 1 2 2v2a2 2 0 0 1-4 0V4a2 2 0 0 1 2-2z"/><path d="M12 22a2 2 0 0 1-2-2v-2a2 2 0 0 1 4 0v2a2 2 0 0 1-2 2z"/><path d="M2 12a2 2 0 0 1 2-2h2a2 2 0 0 1 4 0H6a2 2 0 0 1-2 2z"/><path d="M22 12a2 2 0 0 1-2 2h-2a2 2 0 0 1-4 0h2a2 2 0 0 1 2-2z"/><circle cx="12" cy="12" r="3"/></svg>
       </div>
-      <span>SatzAI</span>
+      <span>SatPrime</span>
     </div>
     <div class="status-pill">
       <div class="dot-live"></div>
@@ -500,7 +504,7 @@
       
       <div class="welcome-view" id="welcome-screen">
         <div class="hero-title">Halo, Saya <span>Satria AI</span>.</div>
-        <p class="hero-desc">Siap membantu tugas harian, coding, atau sekadar teman ngobrol santai.</p>
+        <p class="hero-desc">Apa yang ingin Anda buat hari ini?</p>
         
         <div class="grid-suggestions">
           <div class="s-card" onclick="sendSug('Jelaskan tentang Artificial Intelligence')">
@@ -674,7 +678,7 @@
       
       const now = new Date();
       const time = now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0');
-      const avatarIcon = role === 'ai' ? '🤖' : '👤';
+      const avatarIcon = role === 'ai' ? '🤖' : '';
       const avatarClass = role === 'ai' ? 'ai-avatar' : 'user-avatar';
 
       let formatted = text
