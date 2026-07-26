@@ -1932,7 +1932,7 @@
         function openModal() {
             var tot = 0; cart.forEach(function (c) { tot += c.price; });
             var lines = cart.map(function (c) { return '• ' + c.name + ' — ' + fmt(c.price); }).join('\n');
-            waMsg = 'Halo Admin SatzStore!%0A%0ASaya ingin order:%0A' + encodeURIComponent(lines) + '%0A%0ATotal: ' + encodeURIComponent(fmt(tot)) + '%0A%0AMohon konfirmasinya, terima kasih!';
+            waMsg = 'Halo Bos!%0A%0AGw Mau order:%0A' + encodeURIComponent(lines) + '%0A%0ATotal: ' + encodeURIComponent(fmt(tot)) + '%0A%0AKonfirmasi Secepatnya ya Bosku!';
             document.getElementById('modal-text').textContent = 'Total ' + fmt(tot) + ' untuk ' + cart.length + ' item akan dikirim ke WhatsApp admin.';
             document.getElementById('modal').classList.add('show');
         }
