@@ -5,22 +5,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SatzStore — Digital Services Premium</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap"
+        rel="stylesheet">
     <style>
         :root {
-            --bg: #05070d;
-            --bg2: #0a0f1a;
-            --bg3: #0d1522;
-            --border: rgba(56, 189, 248, 0.14);
-            --accent: #2563eb;
-            --accent2: #06b6d4;
-            --neon: #38bdf8;
-            --neon2: #22d3ee;
-            --gold: #fbbf24;
-            --text: #eaf2ff;
-            --muted: rgba(234, 242, 255, 0.42);
-            --card: rgba(56, 189, 248, 0.05);
-            --radius: 16px;
-            --glow: 0 0 40px rgba(37, 99, 235, 0.25)
+            /* ---- Industrial Skeuomorphism tokens ---- */
+            --bg: #e0e5ec;
+            --panel: #f0f2f5;
+            --recessed: #d1d9e6;
+            --ink: #2d3436;
+            --ink-soft: #4a5568;
+            --ink-faint: #7c8798;
+            --accent: #ff4757;
+            --accent-fg: #ffffff;
+            --border-shadow: #babecc;
+            --border-light: #ffffff;
+            --border-dark: #a3b1c6;
+            --led-green: #22c55e;
+            --led-amber: #f0a13a;
+            --led-red: #f43f5e;
+
+            --shadow-card: 8px 8px 16px var(--border-shadow), -8px -8px 16px var(--border-light);
+            --shadow-floating: 12px 12px 24px var(--border-shadow), -12px -12px 24px var(--border-light), inset 1px 1px 0 rgba(255, 255, 255, .5);
+            --shadow-pressed: inset 6px 6px 12px var(--border-shadow), inset -6px -6px 12px var(--border-light);
+            --shadow-recessed: inset 4px 4px 8px var(--border-shadow), inset -4px -4px 8px var(--border-light);
+            --shadow-sharp: 4px 4px 8px rgba(0, 0, 0, .15), -1px -1px 1px rgba(255, 255, 255, .8);
+
+            --ease-mech: cubic-bezier(.175, .885, .32, 1.275);
         }
 
         *,
@@ -28,59 +42,116 @@
         *::after {
             box-sizing: border-box;
             margin: 0;
-            padding: 0
+            padding: 0;
         }
 
         html {
-            scroll-behavior: smooth
+            scroll-behavior: smooth;
         }
 
         body {
             background: var(--bg);
-            color: var(--text);
-            font-family: 'Segoe UI', system-ui, sans-serif;
+            color: var(--ink);
+            font-family: 'Inter', sans-serif;
             font-size: 15px;
             line-height: 1.6;
             min-height: 100vh;
-            overflow-x: hidden
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* noise texture — micro-imperfection of matte plastic */
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: 500;
+            pointer-events: none;
+            opacity: .5;
+            mix-blend-mode: overlay;
+            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+        }
+
+        :focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 3px;
+            border-radius: 6px;
         }
 
         ::-webkit-scrollbar {
-            width: 4px
+            width: 8px;
         }
 
         ::-webkit-scrollbar-track {
-            background: var(--bg)
+            background: var(--bg);
         }
 
         ::-webkit-scrollbar-thumb {
-            background: var(--accent);
-            border-radius: 9px
+            background: var(--border-dark);
+            border-radius: 9px;
         }
 
-        #particles {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            pointer-events: none
+        .mono {
+            font-family: 'JetBrains Mono', monospace;
         }
 
-        body::before {
-            content: '';
-            position: fixed;
-            top: -300px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 900px;
-            height: 600px;
-            background: radial-gradient(ellipse, rgba(37, 99, 235, 0.12) 0%, transparent 70%);
-            pointer-events: none;
-            z-index: 0
+        /* ===== utility: vent slots (3 recessed pills) ===== */
+        .vents {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            display: flex;
+            gap: 3px;
         }
 
+        .vents span {
+            width: 3px;
+            height: 20px;
+            border-radius: 3px;
+            background: var(--recessed);
+            box-shadow: inset 1px 1px 2px rgba(0, 0, 0, .15);
+        }
+
+        /* ===== utility: LED indicator ===== */
+        .led {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            flex: none;
+        }
+
+        .led.green {
+            background: var(--led-green);
+            box-shadow: 0 0 8px 2px rgba(34, 197, 94, .65);
+        }
+
+        .led.amber {
+            background: var(--led-amber);
+            box-shadow: 0 0 8px 2px rgba(240, 161, 58, .65);
+        }
+
+        .led.red {
+            background: var(--led-red);
+            box-shadow: 0 0 8px 2px rgba(244, 63, 94, .65);
+        }
+
+        .led.pulse {
+            animation: ledPulse 2.2s ease infinite;
+        }
+
+        @keyframes ledPulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: .45;
+            }
+        }
+
+        /* ===== NAV ===== */
         nav {
             position: sticky;
             top: 0;
@@ -88,100 +159,150 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 32px;
-            height: 64px;
-            background: rgba(5, 7, 13, 0.88);
-            backdrop-filter: blur(24px);
-            border-bottom: 1px solid var(--border);
-            box-shadow: 0 1px 0 rgba(56, 189, 248, 0.06)
+            padding: 0 24px;
+            height: 68px;
+            background: var(--panel);
+            box-shadow: 0 4px 14px rgba(163, 177, 198, .35), inset 0 -1px 0 rgba(255, 255, 255, .6);
         }
 
         .nav-left {
             display: flex;
             align-items: center;
-            gap: 14px
+            gap: 14px;
         }
 
         .menu-btn {
-            width: 40px;
-            height: 40px;
-            border-radius: 10px;
-            border: 1px solid var(--border);
-            background: rgba(37, 99, 235, 0.08);
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            border: none;
+            background: var(--panel);
+            box-shadow: var(--shadow-card);
             cursor: pointer;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             gap: 4px;
-            transition: all .2s;
-            flex-shrink: 0
+            transition: box-shadow .18s var(--ease-mech), transform .15s var(--ease-mech);
+            flex-shrink: 0;
         }
 
         .menu-btn span {
             width: 4px;
             height: 4px;
             border-radius: 50%;
-            background: var(--text);
+            background: var(--ink-faint);
             display: block;
-            transition: all .2s
-        }
-
-        .menu-btn:hover {
-            background: rgba(37, 99, 235, 0.18);
-            border-color: var(--accent)
+            transition: background .2s;
         }
 
         .menu-btn:hover span {
-            background: var(--neon)
+            background: var(--accent);
+        }
+
+        .menu-btn:active {
+            box-shadow: var(--shadow-pressed);
+            transform: translateY(1px);
         }
 
         .nav-logo {
-            font-size: 22px;
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            font-size: 18px;
             font-weight: 800;
-            letter-spacing: .01em;
-            background: linear-gradient(135deg, var(--accent), var(--neon));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            cursor: pointer
+            letter-spacing: .02em;
+            color: var(--ink);
+            cursor: pointer;
+        }
+
+        .nav-logo .logo-icon {
+            width: 34px;
+            height: 34px;
+            border-radius: 10px;
+            background: var(--panel);
+            box-shadow: var(--shadow-card);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent);
+        }
+
+        .nav-logo .logo-icon svg {
+            width: 18px;
+            height: 18px;
         }
 
         .nav-right {
             display: flex;
             align-items: center;
-            gap: 10px
+            gap: 10px;
         }
 
-        .cart-badge {
-            background: linear-gradient(135deg, var(--accent), var(--neon));
-            color: #fff;
-            font-size: 11px;
-            font-weight: 800;
-            min-width: 20px;
-            height: 20px;
-            border-radius: 10px;
+        .cart-btn {
+            position: relative;
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: var(--panel);
+            box-shadow: var(--shadow-card);
+            border: none;
+            cursor: pointer;
+            color: var(--ink-soft);
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 0 5px
+            transition: box-shadow .18s var(--ease-mech), color .18s;
         }
 
-        /* SIDE MENU */
+        .cart-btn svg {
+            width: 19px;
+            height: 19px;
+        }
+
+        .cart-btn:hover {
+            color: var(--accent);
+        }
+
+        .cart-btn:active {
+            box-shadow: var(--shadow-pressed);
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            background: var(--accent);
+            color: #fff;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            font-weight: 700;
+            min-width: 18px;
+            height: 18px;
+            border-radius: 9px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 4px;
+            box-shadow: 0 0 0 2px var(--panel), 0 0 8px rgba(255, 71, 87, .6);
+        }
+
+        /* ===== SIDE DRAWER ===== */
         .side-overlay {
             position: fixed;
             inset: 0;
             z-index: 400;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(4px);
+            background: rgba(20, 22, 26, .42);
+            backdrop-filter: blur(2px);
             opacity: 0;
             pointer-events: none;
-            transition: opacity .3s
+            transition: opacity .3s;
         }
 
         .side-overlay.show {
             opacity: 1;
-            pointer-events: all
+            pointer-events: all;
         }
 
         .side-drawer {
@@ -189,55 +310,79 @@
             top: 0;
             left: 0;
             height: 100%;
-            width: 280px;
-            max-width: 80vw;
+            width: 288px;
+            max-width: 82vw;
             z-index: 401;
-            background: var(--bg2);
-            border-right: 1px solid rgba(37, 99, 235, 0.25);
-            box-shadow: var(--glow);
+            background: var(--panel);
+            box-shadow: 8px 0 30px rgba(0, 0, 0, .25);
             transform: translateX(-100%);
-            transition: transform .32s cubic-bezier(.4, 0, .2, 1);
+            transition: transform .34s var(--ease-mech);
             display: flex;
             flex-direction: column;
-            padding: 22px 0
+            padding: 20px 0;
         }
 
         .side-drawer.show {
-            transform: translateX(0)
+            transform: translateX(0);
         }
 
         .side-drawer-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 22px 20px;
-            border-bottom: 1px solid var(--border);
-            margin-bottom: 14px
+            padding: 0 20px 18px;
+            margin-bottom: 12px;
+            border-bottom: 1px solid var(--border-shadow);
         }
 
         .side-drawer-title {
-            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 15px;
             font-weight: 800;
-            background: linear-gradient(135deg, var(--accent), var(--neon));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text
+            color: var(--ink);
+        }
+
+        .side-drawer-title .logo-icon {
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            background: var(--bg);
+            box-shadow: var(--shadow-recessed);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent);
+        }
+
+        .side-drawer-title .logo-icon svg {
+            width: 15px;
+            height: 15px;
         }
 
         .side-close-btn {
-            background: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: var(--bg);
+            box-shadow: var(--shadow-recessed);
             border: none;
-            color: var(--muted);
-            font-size: 17px;
+            color: var(--ink-soft);
             cursor: pointer;
-            padding: 5px 9px;
-            border-radius: 8px;
-            transition: all .2s
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: box-shadow .15s;
         }
 
-        .side-close-btn:hover {
-            background: rgba(37, 99, 235, 0.1);
-            color: var(--text)
+        .side-close-btn svg {
+            width: 15px;
+            height: 15px;
+        }
+
+        .side-close-btn:active {
+            box-shadow: var(--shadow-pressed);
         }
 
         .side-nav-item {
@@ -245,661 +390,744 @@
             align-items: center;
             gap: 12px;
             width: 100%;
-            padding: 13px 22px;
+            padding: 13px 20px;
             border: none;
             border-left: 3px solid transparent;
             background: none;
-            color: var(--muted);
-            font-size: 14.5px;
+            color: var(--ink-soft);
+            font-size: 14px;
             font-weight: 600;
             text-align: left;
             cursor: pointer;
-            transition: all .2s
+            transition: background .18s, color .18s, border-color .18s;
+        }
+
+        .side-nav-item svg {
+            width: 17px;
+            height: 17px;
+            flex: none;
         }
 
         .side-nav-item:hover {
-            background: rgba(37, 99, 235, 0.08);
-            color: var(--text)
+            background: rgba(255, 71, 87, .06);
+            color: var(--ink);
         }
 
         .side-nav-item.active {
-            background: rgba(37, 99, 235, 0.14);
+            background: rgba(255, 71, 87, .09);
             border-left-color: var(--accent);
-            color: var(--text)
+            color: var(--ink);
+        }
+
+        .side-nav-item.active svg {
+            color: var(--accent);
         }
 
         .side-nav-divider {
             height: 1px;
-            background: var(--border);
-            margin: 10px 22px
+            background: var(--border-shadow);
+            margin: 10px 20px;
         }
 
+        /* ===== PAGE ===== */
         .page {
             display: none;
             position: relative;
             z-index: 1;
-            animation: fadeUp .35s ease
+            animation: fadeUp .35s var(--ease-mech);
         }
 
         .page.active {
-            display: block
+            display: block;
         }
 
         @keyframes fadeUp {
             from {
                 opacity: 0;
-                transform: translateY(16px)
+                transform: translateY(14px);
             }
 
             to {
                 opacity: 1;
-                transform: translateY(0)
+                transform: translateY(0);
             }
         }
 
+        /* ===== HERO ===== */
         .hero {
             text-align: center;
-            padding: 80px 20px 56px;
-            position: relative;
-            z-index: 1
+            padding: 64px 20px 44px;
         }
 
         .hero-badge {
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            padding: 6px 18px;
+            padding: 7px 18px 7px 14px;
             border-radius: 99px;
-            background: rgba(37, 99, 235, 0.12);
-            border: 1px solid rgba(37, 99, 235, 0.4);
-            font-size: 12px;
+            background: var(--panel);
+            box-shadow: var(--shadow-card);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
             font-weight: 700;
-            color: #7dd3fc;
+            color: var(--ink-soft);
             letter-spacing: .1em;
             text-transform: uppercase;
-            margin-bottom: 24px
+            margin-bottom: 26px;
         }
 
         .hero h1 {
-            font-size: clamp(34px, 5.5vw, 62px);
-            font-weight: 900;
-            letter-spacing: -1px;
+            font-size: clamp(32px, 5.5vw, 58px);
+            font-weight: 800;
+            letter-spacing: -.02em;
             line-height: 1.08;
-            margin-bottom: 20px
+            margin-bottom: 18px;
+            color: var(--ink);
         }
 
-        .grad {
-            background: linear-gradient(135deg, var(--accent), var(--neon));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text
+        .hero h1 .plain {
+            display: block;
+            text-shadow: 1px 1px 0 rgba(255, 255, 255, .7), -1px -1px 1px rgba(163, 177, 198, .3);
+        }
+
+        .hero h1 .accent-word {
+            display: block;
+            color: var(--accent);
         }
 
         .hero p {
-            color: var(--muted);
-            max-width: 500px;
-            margin: 0 auto 36px;
-            font-size: 16px
+            color: var(--ink-soft);
+            max-width: 480px;
+            margin: 0 auto 40px;
+            font-size: 15.5px;
         }
 
         .hero-stats {
             display: flex;
             justify-content: center;
-            gap: 48px;
+            gap: 14px;
             flex-wrap: wrap;
-            margin-top: 48px;
-            padding-top: 36px;
-            border-top: 1px solid var(--border)
+            margin-top: 8px;
         }
 
         .stat-item {
-            text-align: center
+            background: var(--bg);
+            box-shadow: var(--shadow-recessed);
+            border-radius: 12px;
+            padding: 14px 20px;
+            min-width: 96px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-item::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(rgba(0, 0, 0, .05) 0 1px, transparent 1px 3px);
+            pointer-events: none;
         }
 
         .stat-num {
-            font-size: 28px;
-            font-weight: 900;
-            background: linear-gradient(135deg, var(--accent), var(--neon));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--accent);
+            position: relative;
         }
 
         .stat-label {
-            font-size: 12px;
-            color: var(--muted);
+            font-size: 10px;
+            color: var(--ink-faint);
             text-transform: uppercase;
             letter-spacing: .1em;
-            margin-top: 2px
+            margin-top: 3px;
+            position: relative;
         }
 
-        .marquee-wrap {
+        /* ===== TICKER (recessed LED screen) ===== */
+        .ticker-wrap {
+            margin: 0 20px 36px;
+            background: var(--bg);
+            box-shadow: var(--shadow-recessed);
+            border-radius: 12px;
             overflow: hidden;
-            padding: 14px 0;
-            border-top: 1px solid var(--border);
-            border-bottom: 1px solid var(--border);
-            margin-bottom: 36px;
+            padding: 13px 0;
             position: relative;
-            z-index: 1
+        }
+
+        .ticker-wrap::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            z-index: 2;
+            pointer-events: none;
+            background: repeating-linear-gradient(rgba(0, 0, 0, .06) 0 1px, transparent 1px 3px);
         }
 
         .marquee-track {
             display: flex;
-            gap: 40px;
-            animation: marquee 22s linear infinite;
-            white-space: nowrap
+            gap: 36px;
+            animation: marquee 24s linear infinite;
+            white-space: nowrap;
         }
 
         .marquee-item {
             display: flex;
             align-items: center;
-            gap: 10px;
-            font-size: 13px;
-            color: var(--muted);
-            font-weight: 500
-        }
-
-        .marquee-dot {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: var(--accent);
-            box-shadow: 0 0 8px var(--accent);
-            flex-shrink: 0
+            gap: 9px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            color: var(--ink-soft);
+            font-weight: 500;
         }
 
         @keyframes marquee {
             from {
-                transform: translateX(0)
+                transform: translateX(0);
             }
 
             to {
-                transform: translateX(-50%)
+                transform: translateX(-50%);
             }
         }
 
+        /* ===== FILTER (toggle switches) ===== */
         .filter-bar {
             display: flex;
-            gap: 8px;
+            gap: 9px;
             flex-wrap: wrap;
-            padding: 0 32px 28px;
-            position: relative;
-            z-index: 1
+            padding: 0 24px 26px;
         }
 
         .filter-btn {
-            padding: 9px 20px;
-            border-radius: 99px;
-            border: 1px solid var(--border);
-            background: var(--card);
-            color: var(--muted);
-            font-size: 13px;
-            font-weight: 500;
+            padding: 10px 18px;
+            border-radius: 10px;
+            border: none;
+            background: var(--panel);
+            box-shadow: var(--shadow-card);
+            color: var(--ink-soft);
+            font-size: 12.5px;
+            font-weight: 600;
             cursor: pointer;
-            transition: all .2s
+            transition: box-shadow .18s var(--ease-mech), color .18s, transform .15s;
         }
 
         .filter-btn:hover {
-            border-color: var(--accent);
-            color: var(--text)
+            color: var(--ink);
         }
 
         .filter-btn.active {
-            background: rgba(37, 99, 235, 0.18);
-            border-color: var(--accent);
-            color: var(--text);
-            font-weight: 700
+            box-shadow: var(--shadow-pressed);
+            color: var(--accent);
+            font-weight: 700;
         }
 
         .section-title {
-            padding: 0 32px 22px;
+            padding: 0 24px 18px;
             display: flex;
-            align-items: center;
-            gap: 14px;
-            position: relative;
-            z-index: 1
+            align-items: baseline;
+            gap: 12px;
+            flex-wrap: wrap;
         }
 
         .section-title h2 {
-            font-size: 22px;
-            font-weight: 800
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--ink);
+        }
+
+        .section-title h2 .accent-word {
+            color: var(--accent);
         }
 
         .count-lbl {
-            color: var(--muted);
-            font-size: 14px
+            color: var(--ink-faint);
+            font-size: 12.5px;
+            font-family: 'JetBrains Mono', monospace;
         }
 
+        /* ===== PRODUCT GRID ("Bolted Modules") ===== */
         .product-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 20px;
-            padding: 0 32px 56px;
-            position: relative;
-            z-index: 1
+            padding: 0 24px 56px;
         }
 
         .product-card {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
+            background: var(--panel);
+            border-radius: 18px;
             padding: 24px;
-            transition: all .3s;
+            box-shadow: var(--shadow-card);
+            transition: transform .3s var(--ease-mech), box-shadow .3s var(--ease-mech);
             position: relative;
-            overflow: hidden
+            overflow: hidden;
         }
 
         .product-card:hover {
-            border-color: rgba(37, 99, 235, 0.5);
             transform: translateY(-4px);
-            box-shadow: 0 20px 60px rgba(37, 99, 235, 0.16)
+            box-shadow: var(--shadow-floating);
+        }
+
+        .screw {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 32% 30%, rgba(255, 255, 255, .75), rgba(0, 0, 0, .28) 65%, transparent 75%);
+        }
+
+        .screw.tl {
+            top: 12px;
+            left: 12px;
+        }
+
+        .screw.tr {
+            top: 12px;
+            right: 12px;
+        }
+
+        .screw.bl {
+            bottom: 12px;
+            left: 12px;
+        }
+
+        .screw.br {
+            bottom: 12px;
+            right: 12px;
         }
 
         .p-icon {
             width: 52px;
             height: 52px;
-            border-radius: 14px;
+            border-radius: 50%;
+            background: var(--bg);
+            box-shadow: var(--shadow-recessed);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
-            margin-bottom: 16px
+            color: var(--accent);
+            margin-bottom: 16px;
+        }
+
+        .p-icon svg {
+            width: 24px;
+            height: 24px;
         }
 
         .p-cat {
-            font-size: 11px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10.5px;
             font-weight: 700;
-            letter-spacing: .12em;
+            letter-spacing: .1em;
             text-transform: uppercase;
             color: var(--accent);
-            margin-bottom: 7px
+            margin-bottom: 8px;
         }
 
         .p-name {
             font-size: 17px;
             font-weight: 800;
-            margin-bottom: 8px
+            margin-bottom: 8px;
+            color: var(--ink);
         }
 
         .p-desc {
             font-size: 13px;
-            color: var(--muted);
+            color: var(--ink-soft);
             margin-bottom: 16px;
-            line-height: 1.6
+            line-height: 1.6;
         }
 
-        .badge-hot {
+        .tag {
             position: absolute;
             top: 16px;
             right: 16px;
-            background: linear-gradient(135deg, #f43f5e, #fb923c);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 9.5px;
+            font-weight: 700;
+            letter-spacing: .06em;
+            padding: 4px 9px;
+            border-radius: 8px;
+            text-transform: uppercase;
+            box-shadow: var(--shadow-sharp);
+        }
+
+        .tag.hot {
+            background: var(--accent);
             color: #fff;
-            font-size: 10px;
-            font-weight: 800;
-            padding: 4px 10px;
-            border-radius: 99px
         }
 
-        .badge-new {
-            position: absolute;
-            top: 16px;
-            right: 16px;
-            background: linear-gradient(135deg, var(--accent2), var(--neon2));
-            color: #000;
-            font-size: 10px;
-            font-weight: 800;
-            padding: 4px 10px;
-            border-radius: 99px
+        .tag.best {
+            background: var(--panel);
+            color: var(--accent);
+            border: 1.5px solid var(--accent);
+            box-shadow: none;
         }
 
-        .badge-best {
-            position: absolute;
-            top: 16px;
-            right: 16px;
-            background: linear-gradient(135deg, var(--gold), #f97316);
-            color: #000;
-            font-size: 10px;
-            font-weight: 800;
-            padding: 4px 10px;
-            border-radius: 99px
+        .tag.new {
+            background: var(--ink);
+            color: #fff;
         }
 
         .durasi-wrap {
             display: flex;
             flex-wrap: wrap;
             gap: 6px;
-            margin-bottom: 16px
+            margin-bottom: 16px;
         }
 
         .durasi-pill {
-            padding: 5px 12px;
+            padding: 6px 12px;
             border-radius: 8px;
-            border: 1px solid var(--border);
-            background: rgba(37, 99, 235, 0.06);
-            color: var(--muted);
-            font-size: 12px;
+            border: none;
+            background: var(--panel);
+            box-shadow: var(--shadow-card);
+            color: var(--ink-soft);
+            font-size: 11.5px;
             font-weight: 600;
             cursor: pointer;
-            transition: all .2s;
-            user-select: none
+            transition: box-shadow .15s, color .15s;
+            user-select: none;
         }
 
         .durasi-pill:hover {
-            border-color: var(--accent);
-            color: var(--text)
+            color: var(--ink);
         }
 
         .durasi-pill.sel {
-            background: rgba(37, 99, 235, 0.22);
-            border-color: var(--accent);
-            color: var(--text)
+            box-shadow: var(--shadow-pressed);
+            color: var(--accent);
+            font-weight: 700;
         }
 
         .p-footer {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 10px
+            gap: 10px;
+        }
+
+        .p-price-box {
+            background: var(--bg);
+            box-shadow: var(--shadow-recessed);
+            border-radius: 9px;
+            padding: 7px 11px;
         }
 
         .p-price {
-            font-size: 20px;
-            font-weight: 900;
-            background: linear-gradient(135deg, var(--accent2), var(--neon2));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            flex-shrink: 0
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--accent);
         }
 
         .p-price small {
-            font-size: 11px;
+            font-size: 10px;
             font-weight: 400;
-            color: var(--muted);
-            -webkit-text-fill-color: var(--muted)
+            color: var(--ink-faint);
         }
 
         .add-btn {
-            padding: 9px 18px;
+            padding: 11px 18px;
             border-radius: 10px;
-            background: rgba(37, 99, 235, 0.12);
-            border: 1px solid rgba(37, 99, 235, 0.35);
-            color: var(--text);
-            font-size: 13px;
+            border: none;
+            background: var(--accent);
+            color: #fff;
+            box-shadow: 4px 4px 8px rgba(190, 40, 50, .35), -2px -2px 6px rgba(255, 120, 130, .35);
+            font-size: 12.5px;
             font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .04em;
             cursor: pointer;
-            transition: all .25s;
-            white-space: nowrap
+            transition: transform .15s var(--ease-mech), box-shadow .15s;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .add-btn svg {
+            width: 14px;
+            height: 14px;
         }
 
         .add-btn:hover {
-            background: linear-gradient(135deg, var(--accent), var(--neon));
-            border-color: transparent;
-            box-shadow: 0 8px 24px rgba(37, 99, 235, 0.35)
+            filter: brightness(1.06);
+        }
+
+        .add-btn:active,
+        .add-btn.added {
+            transform: translateY(2px);
+            box-shadow: inset 3px 3px 6px rgba(150, 20, 30, .4), inset -2px -2px 4px rgba(255, 140, 150, .25);
         }
 
         .add-btn.added {
-            background: rgba(6, 182, 212, 0.12);
-            border-color: rgba(6, 182, 212, 0.4);
-            color: var(--accent2)
+            background: var(--ink);
         }
 
-        /* DASHBOARD */
+        /* ===== DASHBOARD ===== */
         .dash-wrap {
-            padding: 36px 32px 20px;
-            position: relative;
-            z-index: 1
+            padding: 36px 24px 20px;
         }
 
         .dash-wrap h2,
         .hist-wrap h2,
         .cart-wrap h2 {
-            font-size: 26px;
-            font-weight: 900;
-            margin-bottom: 6px
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 6px;
+            color: var(--ink);
         }
 
         .dash-wrap>p,
         .hist-wrap>p,
         .cart-wrap>p {
-            color: var(--muted);
-            font-size: 14px;
-            margin-bottom: 28px
+            color: var(--ink-soft);
+            font-size: 13.5px;
+            margin-bottom: 26px;
         }
 
         .dash-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
             gap: 16px;
-            margin-bottom: 32px
+            margin-bottom: 32px;
         }
 
         .dash-card {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 24px;
-            transition: all .25s
+            background: var(--panel);
+            border-radius: 16px;
+            padding: 22px;
+            box-shadow: var(--shadow-card);
+            transition: transform .25s var(--ease-mech), box-shadow .25s var(--ease-mech);
+            position: relative;
+            overflow: hidden;
         }
 
         .dash-card:hover {
-            border-color: rgba(37, 99, 235, 0.4);
-            transform: translateY(-2px)
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-floating);
         }
 
         .dc-label {
-            font-size: 12px;
-            color: var(--muted);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10.5px;
+            color: var(--ink-faint);
             text-transform: uppercase;
             letter-spacing: .1em;
-            margin-bottom: 10px
+            margin-bottom: 10px;
         }
 
         .dc-val {
-            font-size: 32px;
-            font-weight: 900;
-            margin-bottom: 4px
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 4px;
+            color: var(--ink);
         }
 
         .dc-sub {
-            font-size: 12px;
-            color: var(--muted)
+            font-size: 11.5px;
+            color: var(--ink-faint);
         }
 
-        .c1 .dc-val {
-            background: linear-gradient(135deg, var(--accent), var(--neon));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text
-        }
-
-        .c2 .dc-val {
-            background: linear-gradient(135deg, var(--accent2), var(--neon2));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text
-        }
-
-        .c3 .dc-val {
-            color: var(--neon)
-        }
-
-        .c4 .dc-val {
-            color: var(--gold)
+        .dash-card.accent .dc-val {
+            color: var(--accent);
         }
 
         .svc-title {
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 800;
-            margin-bottom: 14px
+            margin-bottom: 14px;
+            color: var(--ink);
         }
 
         .svc-item {
             display: flex;
             align-items: center;
             gap: 16px;
-            padding: 18px 20px;
-            border-radius: var(--radius);
-            background: var(--card);
-            border: 1px solid var(--border);
+            padding: 16px 18px;
+            border-radius: 14px;
+            background: var(--panel);
+            box-shadow: var(--shadow-card);
             margin-bottom: 10px;
-            transition: all .2s
-        }
-
-        .svc-item:hover {
-            border-color: rgba(37, 99, 235, 0.3)
-        }
-
-        .svc-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            flex-shrink: 0
-        }
-
-        .svc-dot.green {
-            background: #22c55e;
-            box-shadow: 0 0 8px #22c55e
-        }
-
-        .svc-dot.yellow {
-            background: var(--gold);
-            box-shadow: 0 0 8px var(--gold)
-        }
-
-        .svc-dot.red {
-            background: #f43f5e;
-            box-shadow: 0 0 8px #f43f5e
+            transition: box-shadow .2s;
         }
 
         .svc-info {
-            flex: 1
+            flex: 1;
+            min-width: 0;
         }
 
         .svc-name {
             font-weight: 700;
-            font-size: 14px;
-            margin-bottom: 2px
+            font-size: 13.5px;
+            margin-bottom: 2px;
+            color: var(--ink);
         }
 
         .svc-meta {
-            font-size: 12px;
-            color: var(--muted)
+            font-size: 11.5px;
+            color: var(--ink-faint);
+            font-family: 'JetBrains Mono', monospace;
         }
 
         .svc-badge {
-            font-size: 12px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10.5px;
             font-weight: 700;
-            padding: 5px 12px;
-            border-radius: 8px
+            padding: 5px 11px;
+            border-radius: 8px;
+            text-transform: uppercase;
+            letter-spacing: .04em;
         }
 
         .svc-badge.aktif {
-            background: rgba(34, 197, 94, 0.12);
-            color: #22c55e
+            background: rgba(34, 197, 94, .12);
+            color: #16a34a;
         }
 
         .svc-badge.pending {
-            background: rgba(251, 191, 36, 0.12);
-            color: var(--gold)
+            background: rgba(240, 161, 58, .14);
+            color: #b7791f;
         }
 
         .svc-badge.expired {
-            background: rgba(244, 63, 94, 0.12);
-            color: #f43f5e
+            background: rgba(244, 63, 94, .12);
+            color: #e11d48;
         }
 
-        /* CART */
+        /* ===== CART ===== */
         .cart-wrap {
-            padding: 36px 32px 56px;
-            position: relative;
-            z-index: 1
+            padding: 36px 24px 56px;
         }
 
         .cart-empty {
             text-align: center;
-            padding: 72px 20px;
-            color: var(--muted)
+            padding: 68px 20px;
+            color: var(--ink-faint);
         }
 
         .cart-empty-icon {
-            font-size: 56px;
-            margin-bottom: 14px
+            width: 56px;
+            height: 56px;
+            margin: 0 auto 16px;
+            border-radius: 50%;
+            background: var(--bg);
+            box-shadow: var(--shadow-recessed);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--ink-faint);
+        }
+
+        .cart-empty-icon svg {
+            width: 26px;
+            height: 26px;
         }
 
         .cart-items {
             display: flex;
             flex-direction: column;
             gap: 12px;
-            margin-bottom: 24px
+            margin-bottom: 24px;
         }
 
         .cart-item {
             display: flex;
             align-items: center;
-            gap: 16px;
-            padding: 18px 22px;
-            border-radius: var(--radius);
-            background: var(--card);
-            border: 1px solid var(--border)
-        }
-
-        .cart-item:hover {
-            border-color: rgba(37, 99, 235, 0.3)
+            gap: 15px;
+            padding: 16px 18px;
+            border-radius: 14px;
+            background: var(--panel);
+            box-shadow: var(--shadow-card);
         }
 
         .ci-icon {
-            font-size: 26px;
-            flex-shrink: 0
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: var(--bg);
+            box-shadow: var(--shadow-recessed);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent);
+            flex-shrink: 0;
+        }
+
+        .ci-icon svg {
+            width: 19px;
+            height: 19px;
         }
 
         .ci-info {
-            flex: 1
+            flex: 1;
+            min-width: 0;
         }
 
         .ci-name {
             font-weight: 700;
-            font-size: 15px;
-            margin-bottom: 2px
+            font-size: 14px;
+            margin-bottom: 2px;
+            color: var(--ink);
         }
 
         .ci-meta {
-            font-size: 12px;
-            color: var(--muted)
+            font-size: 11.5px;
+            color: var(--ink-faint);
+            text-transform: uppercase;
+            letter-spacing: .04em;
+            font-family: 'JetBrains Mono', monospace;
         }
 
         .ci-price {
-            font-weight: 800;
-            font-size: 16px;
-            background: linear-gradient(135deg, var(--accent2), var(--neon2));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-right: 12px;
-            white-space: nowrap
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 700;
+            font-size: 14.5px;
+            color: var(--accent);
+            margin-right: 4px;
+            white-space: nowrap;
         }
 
         .rm-btn {
-            background: none;
+            width: 34px;
+            height: 34px;
+            border-radius: 9px;
+            background: var(--bg);
+            box-shadow: var(--shadow-recessed);
             border: none;
-            color: var(--muted);
-            font-size: 18px;
+            color: var(--ink-faint);
             cursor: pointer;
-            padding: 6px 10px;
-            border-radius: 8px;
-            transition: all .2s
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: color .18s, box-shadow .18s;
+        }
+
+        .rm-btn svg {
+            width: 15px;
+            height: 15px;
         }
 
         .rm-btn:hover {
-            background: rgba(244, 63, 94, 0.1);
-            color: #f43f5e
+            color: var(--accent);
+        }
+
+        .rm-btn:active {
+            box-shadow: var(--shadow-pressed);
         }
 
         .cart-summary {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 24px
+            background: var(--panel);
+            box-shadow: var(--shadow-card);
+            border-radius: 16px;
+            padding: 24px;
         }
 
         .sum-row {
@@ -907,252 +1135,318 @@
             justify-content: space-between;
             align-items: center;
             padding: 10px 0;
-            border-bottom: 1px solid var(--border);
-            font-size: 14px;
-            color: var(--muted)
+            border-bottom: 1px solid var(--border-shadow);
+            font-size: 13.5px;
+            color: var(--ink-soft);
         }
 
         .sum-row:last-child {
-            border-bottom: none
+            border-bottom: none;
         }
 
         .sum-row.total {
             font-weight: 800;
-            font-size: 17px;
-            color: var(--text);
-            padding-top: 16px
+            font-size: 15.5px;
+            color: var(--ink);
+            padding-top: 16px;
         }
 
         .sum-row.total .val {
-            background: linear-gradient(135deg, var(--accent2), var(--neon2));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            font-size: 22px
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent);
+            font-size: 21px;
         }
 
         .checkout-btn {
             width: 100%;
             padding: 16px;
             margin-top: 18px;
-            background: linear-gradient(135deg, var(--accent), var(--neon));
             border: none;
-            border-radius: 12px;
+            border-radius: 13px;
+            background: var(--accent);
             color: #fff;
-            font-size: 16px;
+            box-shadow: 5px 5px 10px rgba(190, 40, 50, .35), -3px -3px 8px rgba(255, 120, 130, .3);
+            font-size: 15px;
             font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: .04em;
             cursor: pointer;
-            transition: all .25s
+            transition: transform .15s var(--ease-mech), box-shadow .15s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 9px;
+            min-height: 52px;
         }
 
-        .checkout-btn:hover {
-            opacity: .88;
-            transform: translateY(-2px);
-            box-shadow: 0 12px 32px rgba(37, 99, 235, 0.4)
+        .checkout-btn svg {
+            width: 17px;
+            height: 17px;
         }
 
-        /* HISTORY */
+        .checkout-btn:active {
+            transform: translateY(2px);
+            box-shadow: inset 3px 3px 7px rgba(150, 20, 30, .4), inset -2px -2px 5px rgba(255, 140, 150, .25);
+        }
+
+        /* ===== HISTORY ===== */
         .hist-wrap {
-            padding: 36px 32px 56px;
-            position: relative;
-            z-index: 1
+            padding: 36px 24px 56px;
         }
 
         .hist-item {
             display: flex;
-            gap: 16px;
+            gap: 15px;
             align-items: flex-start;
-            padding: 20px 22px;
-            border-radius: var(--radius);
-            background: var(--card);
-            border: 1px solid var(--border);
+            padding: 18px 18px;
+            border-radius: 14px;
+            background: var(--panel);
+            box-shadow: var(--shadow-card);
             margin-bottom: 12px;
-            transition: all .2s
-        }
-
-        .hist-item:hover {
-            border-color: rgba(37, 99, 235, 0.3)
         }
 
         .hi-icon {
-            font-size: 28px;
+            width: 42px;
+            height: 42px;
+            border-radius: 10px;
+            background: var(--bg);
+            box-shadow: var(--shadow-recessed);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent);
             flex-shrink: 0;
-            margin-top: 2px
+        }
+
+        .hi-icon svg {
+            width: 19px;
+            height: 19px;
         }
 
         .hi-info {
-            flex: 1
+            flex: 1;
         }
 
         .hi-name {
             font-weight: 700;
-            font-size: 15px;
-            margin-bottom: 4px
+            font-size: 14px;
+            margin-bottom: 4px;
+            color: var(--ink);
         }
 
         .hi-meta {
-            font-size: 12px;
-            color: var(--muted)
+            font-size: 11px;
+            color: var(--ink-faint);
+            font-family: 'JetBrains Mono', monospace;
+            text-transform: uppercase;
+            letter-spacing: .04em;
         }
 
         .hi-right {
-            text-align: right
+            text-align: right;
         }
 
         .hi-price {
-            font-weight: 800;
-            font-size: 15px;
-            background: linear-gradient(135deg, var(--accent2), var(--neon2));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 8px
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 700;
+            font-size: 14px;
+            color: var(--accent);
+            margin-bottom: 8px;
         }
 
         .hi-badge {
-            font-size: 11px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
             font-weight: 700;
-            padding: 4px 12px;
-            border-radius: 8px
+            padding: 4px 10px;
+            border-radius: 8px;
+            text-transform: uppercase;
+        }
+
+        .hi-badge svg {
+            width: 11px;
+            height: 11px;
         }
 
         .hi-badge.sukses {
-            background: rgba(34, 197, 94, 0.12);
-            color: #22c55e
+            background: rgba(34, 197, 94, .12);
+            color: #16a34a;
         }
 
         .hi-badge.proses {
-            background: rgba(37, 99, 235, 0.12);
-            color: var(--neon)
+            background: rgba(255, 71, 87, .1);
+            color: var(--accent);
         }
 
         .hi-badge.gagal {
-            background: rgba(244, 63, 94, 0.12);
-            color: #f43f5e
+            background: rgba(244, 63, 94, .12);
+            color: #e11d48;
         }
 
-        /* TOAST */
+        /* ===== TOAST ===== */
         .toast {
             position: fixed;
-            bottom: 28px;
-            right: 28px;
+            bottom: 24px;
+            right: 24px;
+            left: 24px;
+            margin: 0 auto;
+            max-width: 340px;
             z-index: 9999;
-            background: var(--bg3);
-            border: 1px solid rgba(37, 99, 235, 0.4);
-            border-radius: 12px;
-            padding: 14px 22px;
-            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--panel);
+            box-shadow: var(--shadow-floating);
+            border-radius: 13px;
+            padding: 14px 18px;
+            font-size: 13.5px;
             font-weight: 600;
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+            color: var(--ink);
             transform: translateY(24px) scale(.96);
             opacity: 0;
-            transition: all .3s;
-            pointer-events: none
+            transition: all .3s var(--ease-mech);
+            pointer-events: none;
+        }
+
+        @media (min-width: 520px) {
+            .toast {
+                left: auto;
+                right: 28px;
+            }
         }
 
         .toast.show {
             transform: translateY(0) scale(1);
-            opacity: 1
+            opacity: 1;
         }
 
-        .toast.green {
-            border-color: rgba(34, 197, 94, 0.5);
-            color: #4ade80
-        }
-
-        .toast.red {
-            border-color: rgba(244, 63, 94, 0.5);
-            color: #f87171
-        }
-
-        /* MODAL */
+        /* ===== MODAL ===== */
         .modal-overlay {
             position: fixed;
             inset: 0;
             z-index: 500;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(8px);
+            background: rgba(20, 22, 26, .5);
+            backdrop-filter: blur(4px);
             display: flex;
             align-items: center;
             justify-content: center;
+            padding: 20px;
             opacity: 0;
             pointer-events: none;
-            transition: opacity .3s
+            transition: opacity .3s;
         }
 
         .modal-overlay.show {
             opacity: 1;
-            pointer-events: all
+            pointer-events: all;
         }
 
         .modal {
-            background: var(--bg2);
-            border: 1px solid rgba(37, 99, 235, 0.3);
-            border-radius: 20px;
-            padding: 36px;
-            max-width: 440px;
-            width: 90%;
+            background: var(--panel);
+            border-radius: 22px;
+            padding: 32px;
+            max-width: 420px;
+            width: 100%;
+            box-shadow: var(--shadow-floating);
             transform: scale(.93);
-            transition: transform .3s;
-            box-shadow: var(--glow)
+            transition: transform .3s var(--ease-mech);
+            position: relative;
         }
 
         .modal-overlay.show .modal {
-            transform: scale(1)
+            transform: scale(1);
+        }
+
+        .modal-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: rgba(34, 197, 94, .12);
+            color: #16a34a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 16px;
+        }
+
+        .modal-icon svg {
+            width: 24px;
+            height: 24px;
         }
 
         .modal h3 {
-            font-size: 22px;
-            font-weight: 900;
+            font-size: 19px;
+            font-weight: 800;
             margin-bottom: 8px;
-            background: linear-gradient(135deg, var(--accent), var(--neon));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text
+            color: var(--ink);
         }
 
         .modal p {
-            color: var(--muted);
-            font-size: 14px;
+            color: var(--ink-soft);
+            font-size: 13.5px;
             margin-bottom: 24px;
-            line-height: 1.6
+            line-height: 1.6;
         }
 
         .modal-btns {
             display: flex;
-            gap: 10px
+            gap: 10px;
         }
 
         .modal-cancel {
             flex: 1;
             padding: 13px;
-            border-radius: 10px;
-            background: var(--card);
-            border: 1px solid var(--border);
-            color: var(--text);
-            font-size: 14px;
-            cursor: pointer
+            border-radius: 11px;
+            border: none;
+            background: var(--panel);
+            box-shadow: var(--shadow-card);
+            color: var(--ink);
+            font-size: 13.5px;
+            font-weight: 600;
+            cursor: pointer;
+            min-height: 48px;
+            transition: box-shadow .15s;
+        }
+
+        .modal-cancel:active {
+            box-shadow: var(--shadow-pressed);
         }
 
         .modal-confirm {
             flex: 2;
             padding: 13px;
-            border-radius: 10px;
-            background: linear-gradient(135deg, #22c55e, #16a34a);
+            border-radius: 11px;
             border: none;
+            background: linear-gradient(180deg, #22c55e, #16a34a);
             color: #fff;
-            font-size: 14px;
+            box-shadow: 4px 4px 10px rgba(22, 163, 74, .35), -2px -2px 6px rgba(74, 222, 128, .3);
+            font-size: 13.5px;
             font-weight: 800;
-            cursor: pointer
+            cursor: pointer;
+            min-height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: transform .15s var(--ease-mech), box-shadow .15s;
         }
 
-        .modal-confirm:hover {
-            opacity: .88
+        .modal-confirm svg {
+            width: 16px;
+            height: 16px;
         }
 
-        @media(max-width:600px) {
+        .modal-confirm:active {
+            transform: translateY(2px);
+            box-shadow: inset 3px 3px 7px rgba(10, 90, 40, .4);
+        }
+
+        @media (max-width: 600px) {
             nav {
-                padding: 0 14px
+                padding: 0 14px;
             }
 
             .product-grid,
@@ -1163,57 +1457,77 @@
             .section-title,
             .dash-wrap {
                 padding-left: 14px;
-                padding-right: 14px
+                padding-right: 14px;
             }
 
             .hero {
-                padding: 48px 14px 32px
+                padding: 44px 14px 32px;
+            }
+
+            .ticker-wrap {
+                margin-left: 14px;
+                margin-right: 14px;
             }
 
             .side-drawer {
-                width: 240px
+                width: 250px;
+            }
+
+            .add-btn,
+            .checkout-btn,
+            .modal-cancel,
+            .modal-confirm {
+                min-height: 48px;
             }
         }
     </style>
 </head>
 
 <body>
-    <canvas id="particles"></canvas>
 
     <nav>
         <div class="nav-left">
             <button class="menu-btn" onclick="toggleMenu()" aria-label="Buka menu">
                 <span></span><span></span><span></span>
             </button>
-            <div class="nav-logo" onclick="goPage('store')">𝐒𝐀𝐓𝐗𝐗𝐂𝐋𝐎𝐔𝐃𝐒</div>
+            <div class="nav-logo" onclick="goPage('store')">
+                <span class="logo-icon">ICON_BAG</span>
+                SatzStore
+            </div>
+        </div>
+        <div class="nav-right">
+            <button class="cart-btn" onclick="goPage('cart')" aria-label="Keranjang">
+                ICON_CART
+                <span class="cart-badge" id="cart-count">0</span>
+            </button>
         </div>
     </nav>
 
     <div class="side-overlay" id="sideOverlay" onclick="closeMenu()"></div>
     <aside class="side-drawer" id="sideDrawer">
         <div class="side-drawer-header">
-            <span class="side-drawer-title">𝐒𝐀𝐓𝐗𝐗𝐂𝐋𝐎𝐔𝐃𝐒</span>
-            <button class="side-close-btn" onclick="closeMenu()" aria-label="Tutup menu">✕</button>
+            <span class="side-drawer-title"><span class="logo-icon">ICON_BAG_SM</span>SatzStore</span>
+            <button class="side-close-btn" onclick="closeMenu()" aria-label="Tutup menu">ICON_X</button>
         </div>
-        <button class="side-nav-item active" id="tab-store" onclick="goPage('store'); closeMenu()">🛍️ Store</button>
+        <button class="side-nav-item active" id="tab-store" onclick="goPage('store'); closeMenu()">ICON_BAG_NAV
+            Store</button>
         <div class="side-nav-divider"></div>
-        <button class="side-nav-item" id="tab-dashboard" onclick="goPage('dashboard'); closeMenu()">📊
+        <button class="side-nav-item" id="tab-dashboard" onclick="goPage('dashboard'); closeMenu()">ICON_DASH
             Dashboard</button>
         <button class="side-nav-item" id="tab-cart" onclick="goPage('cart'); closeMenu()">
-            <span style="flex:1">🛒 Keranjang</span>
-            <span class="cart-badge" id="cart-count">0</span>
+            ICON_CART_NAV<span style="flex:1">Keranjang</span>
+            <span class="cart-badge" id="cart-count-2" style="position:static;">0</span>
         </button>
         <div class="side-nav-divider"></div>
-        <button class="side-nav-item" id="tab-history" onclick="goPage('history'); closeMenu()">🕘 Riwayat</button>
+        <button class="side-nav-item" id="tab-history" onclick="goPage('history'); closeMenu()">ICON_HIST
+            Riwayat</button>
     </aside>
 
     <!-- STORE -->
     <div class="page active" id="page-store">
         <div class="hero">
-            <div class="hero-badge">⚡ DIGITAL PREMIUM STORE</div>
-            <h1><span
-                    style="background:linear-gradient(135deg,#0ea5e9,#38bdf8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">DIGITAL
-                    STORE</span><br><span class="grad">BY SATZ </span></h1>
+            <div class="hero-badge"><span class="led red pulse"></span>Digital Premium Store</div>
+            <h1><span class="plain">DIGITAL STORE</span><span class="accent-word">BY SATZ</span></h1>
             <p>Bot WhatsApp, API Key, Nomor Kosong, SMM Panel, dan layanan digital premium lainnya. Proses instan,
                 support 24/7.</p>
             <div class="hero-stats">
@@ -1235,19 +1549,22 @@
                 </div>
             </div>
         </div>
-        <div class="marquee-wrap">
+
+        <div class="ticker-wrap">
             <div class="marquee-track" id="mtrack"></div>
         </div>
+
         <div class="filter-bar">
-            <button class="filter-btn active" onclick="setFilter('all',this)">✦ Semua</button>
-            <button class="filter-btn" onclick="setFilter('sewabot',this)">🤖 SewaBot</button>
-            <button class="filter-btn" onclick="setFilter('jadibot',this)">⚙️ JadiBot</button>
-            <button class="filter-btn" onclick="setFilter('nokos',this)">📱 Nokos</button>
-            <button class="filter-btn" onclick="setFilter('smm',this)">📊 SMM Panel</button>
-            <button class="filter-btn" onclick="setFilter('apikey',this)">🔑 API Key</button>
+            <button class="filter-btn active" onclick="setFilter('all',this)">Semua</button>
+            <button class="filter-btn" onclick="setFilter('sewabot',this)">SewaBot</button>
+            <button class="filter-btn" onclick="setFilter('jadibot',this)">JadiBot</button>
+            <button class="filter-btn" onclick="setFilter('nokos',this)">Nokos</button>
+            <button class="filter-btn" onclick="setFilter('smm',this)">SMM Panel</button>
+            <button class="filter-btn" onclick="setFilter('apikey',this)">API Key</button>
         </div>
+
         <div class="section-title">
-            <h2><span class="grad">Produk</span> Tersedia</h2><span class="count-lbl" id="prod-count"></span>
+            <h2><span class="accent-word">Produk</span> Tersedia</h2><span class="count-lbl" id="prod-count"></span>
         </div>
         <div class="product-grid" id="prod-grid"></div>
     </div>
@@ -1258,57 +1575,53 @@
             <h2>Dashboard</h2>
             <p>Ringkasan akun dan layanan aktif kamu</p>
             <div class="dash-grid">
-                <div class="dash-card c1">
+                <div class="dash-card accent">
                     <div class="dc-label">Total Transaksi</div>
                     <div class="dc-val" id="d-total">0</div>
                     <div class="dc-sub">Semua pembelian</div>
                 </div>
-                <div class="dash-card c2">
+                <div class="dash-card">
                     <div class="dc-label">Layanan Aktif</div>
                     <div class="dc-val">3</div>
                     <div class="dc-sub">Berjalan normal</div>
                 </div>
-                <div class="dash-card c3">
+                <div class="dash-card">
                     <div class="dc-label">Di Keranjang</div>
                     <div class="dc-val" id="d-cart">0</div>
                     <div class="dc-sub">Belum checkout</div>
                 </div>
-                <div class="dash-card c4">
+                <div class="dash-card accent">
                     <div class="dc-label">Total Spent</div>
                     <div class="dc-val" id="d-spent">Rp 0</div>
                     <div class="dc-sub">Riwayat pembelian</div>
                 </div>
             </div>
             <div class="svc-title">Layanan Aktif</div>
-            <div class="svc-item">
-                <div class="svc-dot green"></div>
+            <div class="svc-item"><span class="led green pulse"></span>
                 <div class="svc-info">
-                    <div class="svc-name">🤖 SewaBot Premium — 1 Bulan</div>
-                    <div class="svc-meta">Aktif hingga 28 Jul 2025</div>
+                    <div class="svc-name">SewaBot Premium — 1 Bulan</div>
+                    <div class="svc-meta">Aktif hingga 28 Jul 2026</div>
                 </div>
                 <div class="svc-badge aktif">Aktif</div>
             </div>
-            <div class="svc-item">
-                <div class="svc-dot green"></div>
+            <div class="svc-item"><span class="led green pulse"></span>
                 <div class="svc-info">
-                    <div class="svc-name">🔑 API Key WA Bot — 1 Minggu</div>
-                    <div class="svc-meta">Expired 5 Jul 2025</div>
+                    <div class="svc-name">API Key WA Bot — 1 Minggu</div>
+                    <div class="svc-meta">Expired 5 Jul 2026</div>
                 </div>
                 <div class="svc-badge aktif">Aktif</div>
             </div>
-            <div class="svc-item">
-                <div class="svc-dot yellow"></div>
+            <div class="svc-item"><span class="led amber pulse"></span>
                 <div class="svc-info">
-                    <div class="svc-name">📱 Nokos Premium — 1 Hari</div>
+                    <div class="svc-name">Nokos Premium — 1 Hari</div>
                     <div class="svc-meta">Menunggu konfirmasi</div>
                 </div>
                 <div class="svc-badge pending">Pending</div>
             </div>
-            <div class="svc-item">
-                <div class="svc-dot red"></div>
+            <div class="svc-item"><span class="led red"></span>
                 <div class="svc-info">
-                    <div class="svc-name">📊 SMM Panel — 1 Bulan</div>
-                    <div class="svc-meta">Berakhir 1 Jun 2025</div>
+                    <div class="svc-name">SMM Panel — 1 Bulan</div>
+                    <div class="svc-meta">Berakhir 1 Jun 2026</div>
                 </div>
                 <div class="svc-badge expired">Expired</div>
             </div>
@@ -1337,35 +1650,53 @@
 
     <div class="modal-overlay" id="modal">
         <div class="modal">
-            <h3>✅ Konfirmasi Order</h3>
+            <div class="modal-icon">ICON_CHECK</div>
+            <h3>Konfirmasi Order</h3>
             <p id="modal-text"></p>
             <div class="modal-btns">
                 <button class="modal-cancel" onclick="closeModal()">Batal</button>
-                <button class="modal-confirm" onclick="goWA()">💬 Chat WhatsApp</button>
+                <button class="modal-confirm" onclick="goWA()">ICON_MSG Chat WhatsApp</button>
             </div>
         </div>
     </div>
 
     <script>
-        // ── PARTICLES ────────────────────────────────────────────────
-        (function () {
-            var cv = document.getElementById('particles'), cx = cv.getContext('2d');
-            function resize() { cv.width = innerWidth; cv.height = innerHeight }
-            resize(); window.addEventListener('resize', resize);
-            var dots = []; for (var i = 0; i < 70; i++)dots.push({ x: Math.random() * innerWidth, y: Math.random() * innerHeight, r: Math.random() * 1.4 + .3, vx: (Math.random() - .5) * .3, vy: (Math.random() - .5) * .3, a: Math.random() * .4 + .1 });
-            function draw() {
-                cx.clearRect(0, 0, cv.width, cv.height);
-                dots.forEach(function (d) {
-                    d.x += d.vx; d.y += d.vy;
-                    if (d.x < 0 || d.x > cv.width) d.vx *= -1;
-                    if (d.y < 0 || d.y > cv.height) d.vy *= -1;
-                    cx.beginPath(); cx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
-                    cx.fillStyle = 'rgba(56,189,248,' + d.a + ')'; cx.fill();
-                });
-                requestAnimationFrame(draw);
-            }
-            draw();
-        })();
+        // ── ICON LIBRARY (lucide-style inline SVG, stroke=currentColor) ──
+        var ICONS = {
+            bag: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>',
+            cart: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>',
+            dash: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>',
+            history: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/><path d="M12 7v5l3 3"/></svg>',
+            x: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>',
+            bot: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>',
+            gear: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>',
+            phone: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/></svg>',
+            chart: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg>',
+            key: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z"/><circle cx="16.5" cy="7.5" r=".5" fill="currentColor"/></svg>',
+            trash: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>',
+            check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>',
+            alert: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>',
+            clock: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>',
+            msg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>',
+            plus: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>'
+        };
+
+        var CAT_ICON = { sewabot: 'bot', jadibot: 'gear', nokos: 'phone', smm: 'chart', apikey: 'key' };
+
+        function replaceIconTokens() {
+            document.body.innerHTML = document.body.innerHTML
+                .replace(/ICON_BAG_SM/g, ICONS.bag)
+                .replace(/ICON_BAG_NAV/g, ICONS.bag)
+                .replace(/ICON_BAG/g, ICONS.bag)
+                .replace(/ICON_CART_NAV/g, ICONS.cart)
+                .replace(/ICON_CART/g, ICONS.cart)
+                .replace(/ICON_DASH/g, ICONS.dash)
+                .replace(/ICON_HIST/g, ICONS.history)
+                .replace(/ICON_X/g, ICONS.x)
+                .replace(/ICON_CHECK/g, ICONS.check)
+                .replace(/ICON_MSG/g, ICONS.msg);
+        }
+        replaceIconTokens();
 
         // ── SIDE MENU ────────────────────────────────────────────────
         function toggleMenu() {
@@ -1376,15 +1707,13 @@
             document.getElementById('sideOverlay').classList.remove('show');
             document.getElementById('sideDrawer').classList.remove('show');
         }
-        document.addEventListener('keydown', function (e) {
-            if (e.key === 'Escape') closeMenu();
-        });
+        document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeMenu(); });
 
         // ── MARQUEE ──────────────────────────────────────────────────
         (function () {
-            var items = ['SewaBot Premium', 'JadiBot Custom', 'Nokos (Nomor Kosong)', 'Suntil All Sosmed', 'API Key WhatsApp', 'Bot Otomatis', 'Support 24/7', 'Proses Instan', 'Harga Terjangkau', 'Garansi Aktif'];
+            var items = ['SewaBot Premium', 'JadiBot Custom', 'Nokos (Nomor Kosong)', 'SMM All Sosmed', 'API Key WhatsApp', 'Bot Otomatis', 'Support 24/7', 'Proses Instan', 'Harga Terjangkau', 'Garansi Aktif'];
             var html = items.concat(items).concat(items).concat(items).map(function (t) {
-                return '<span class="marquee-item"><span class="marquee-dot"></span>' + t + '</span>';
+                return '<span class="marquee-item"><span class="led green"></span>' + t + '</span>';
             }).join('');
             document.getElementById('mtrack').innerHTML = html;
         })();
@@ -1401,45 +1730,42 @@
             { label: '1 Bulan', price: 150000 }, { label: 'Permanen', price: 499000 }
         ];
         var PRODUCTS = [
-            { id: 1, cat: 'sewabot', icon: '🤖', name: 'SewaBot Basic', badge: 'hot', desc: 'Sewa bot WA siap pakai. Auto-reply, broadcast, multi-device. Uptime 99.9%.', type: 'durasi', durasi: DURASI_SEWABOT },
-            { id: 2, cat: 'sewabot', icon: '🤖', name: 'SewaBot Premium', badge: 'best', desc: 'SewaBot full fitur. Anti-banned, custom prefix, integrasi AI ChatGPT.', type: 'durasi', durasi: DURASI_SEWABOT },
-            { id: 3, cat: 'jadibot', icon: '⚙️', name: 'JadiBot Starter', badge: '', desc: 'Buat bot WA sendiri. Panel mudah, template siap pakai, free subdomain.', type: 'durasi', durasi: DURASI_JADIBOT },
-            { id: 4, cat: 'jadibot', icon: '⚙️', name: 'JadiBot Pro', badge: 'new', desc: 'JadiBot full fitur. Custom domain, unlimited command, priority support.', type: 'durasi', durasi: DURASI_JADIBOT },
-            { id: 5, cat: 'nokos', icon: '📱', name: 'Nokos Standard', badge: '', desc: 'Nomor kosong untuk verifikasi akun sosmed. Nomor aktif, langsung pakai.', type: 'fixed', price: 3000, period: '/ nomor' },
-            { id: 6, cat: 'nokos', icon: '📱', name: 'Nokos Premium', badge: 'hot', desc: 'Nomor premium untuk verifikasi. Jaminan berhasil, ganti gratis jika gagal.', type: 'fixed', price: 8000, period: '/ nomor' },
-            { id: 7, cat: 'smm', icon: '📊', name: 'Suntil All Sosmed', badge: 'best', desc: 'Panel SMM lengkap. Followers, likes, views untuk IG, TikTok, YouTube, Twitter.', type: 'fixed', price: 25000, period: '/ bulan' },
-            { id: 8, cat: 'smm', icon: '📊', name: 'Suntil Auto Order', badge: 'new', desc: 'SMM dengan auto order. Set target, jalan otomatis 24 jam non-stop.', type: 'fixed', price: 45000, period: '/ bulan' },
-            { id: 9, cat: 'apikey', icon: '🔑', name: 'API Key WA Bot', badge: 'hot', desc: 'API key khusus WhatsApp Bot. Unlimited request, low latency, dokumentasi lengkap.', type: 'fixed', price: 85000, period: '/ bulan' },
-            { id: 10, cat: 'apikey', icon: '🔑', name: 'API Key WA Multi', badge: 'new', desc: 'Multi-device API key. Hubungkan hingga 10 device WA sekaligus.', type: 'fixed', price: 150000, period: '/ bulan' }
+            { id: 1, cat: 'sewabot', badge: 'hot', name: 'SewaBot Basic', desc: 'Sewa bot WA siap pakai. Auto-reply, broadcast, multi-device. Uptime 99.9%.', type: 'durasi', durasi: DURASI_SEWABOT },
+            { id: 2, cat: 'sewabot', badge: 'best', name: 'SewaBot Premium', desc: 'SewaBot full fitur. Anti-banned, custom prefix, integrasi AI ChatGPT.', type: 'durasi', durasi: DURASI_SEWABOT },
+            { id: 3, cat: 'jadibot', badge: '', name: 'JadiBot Starter', desc: 'Buat bot WA sendiri. Panel mudah, template siap pakai, free subdomain.', type: 'durasi', durasi: DURASI_JADIBOT },
+            { id: 4, cat: 'jadibot', badge: 'new', name: 'JadiBot Pro', desc: 'JadiBot full fitur. Custom domain, unlimited command, priority support.', type: 'durasi', durasi: DURASI_JADIBOT },
+            { id: 5, cat: 'nokos', badge: '', name: 'Nokos Standard', desc: 'Nomor kosong untuk verifikasi akun sosmed. Nomor aktif, langsung pakai.', type: 'fixed', price: 3000, period: '/ nomor' },
+            { id: 6, cat: 'nokos', badge: 'hot', name: 'Nokos Premium', desc: 'Nomor premium untuk verifikasi. Jaminan berhasil, ganti gratis jika gagal.', type: 'fixed', price: 8000, period: '/ nomor' },
+            { id: 7, cat: 'smm', badge: 'best', name: 'SMM All Sosmed', desc: 'Panel SMM lengkap. Followers, likes, views untuk IG, TikTok, YouTube, Twitter.', type: 'fixed', price: 25000, period: '/ bulan' },
+            { id: 8, cat: 'smm', badge: 'new', name: 'SMM Auto Order', desc: 'SMM dengan auto order. Set target, jalan otomatis 24 jam non-stop.', type: 'fixed', price: 45000, period: '/ bulan' },
+            { id: 9, cat: 'apikey', badge: 'hot', name: 'API Key WA Bot', desc: 'API key khusus WhatsApp Bot. Unlimited request, low latency, dokumentasi lengkap.', type: 'fixed', price: 85000, period: '/ bulan' },
+            { id: 10, cat: 'apikey', badge: 'new', name: 'API Key WA Multi', desc: 'Multi-device API key. Hubungkan hingga 10 device WA sekaligus.', type: 'fixed', price: 150000, period: '/ bulan' }
         ];
         var CAT_NAME = { sewabot: 'SewaBot', jadibot: 'JadiBot', nokos: 'Nokos', smm: 'SMM Panel', apikey: 'API Key' };
-        var CAT_BG = { sewabot: 'rgba(37,99,235,0.15)', jadibot: 'rgba(6,182,212,0.15)', nokos: 'rgba(34,197,94,0.15)', smm: 'rgba(251,191,36,0.12)', apikey: 'rgba(56,189,248,0.15)' };
         var WA = '6281340514077';
 
-        // durasi terpilih per produk
         var selDur = {};
         PRODUCTS.forEach(function (p) { if (p.type === 'durasi') selDur[p.id] = 0; });
 
-        // cart & history
         var cart = [];
         var historyData = [
-            { id: 901, icon: '🤖', name: 'SewaBot Basic — 1 Bulan', cat: 'sewabot', price: 75000, date: '20 Jun 2025', status: 'sukses' },
-            { id: 902, icon: '🔑', name: 'API Key WA Bot — 1 Bulan', cat: 'apikey', price: 85000, date: '15 Jun 2025', status: 'sukses' },
-            { id: 903, icon: '📱', name: 'Nokos Premium x3', cat: 'nokos', price: 24000, date: '10 Jun 2025', status: 'sukses' },
-            { id: 904, icon: '📊', name: 'Suntil All Sosmed', cat: 'smm', price: 25000, date: '5 Jun 2025', status: 'gagal' }
+            { id: 901, cat: 'sewabot', name: 'SewaBot Basic — 1 Bulan', price: 75000, date: '20 Jun 2026', status: 'sukses' },
+            { id: 902, cat: 'apikey', name: 'API Key WA Bot — 1 Bulan', price: 85000, date: '15 Jun 2026', status: 'sukses' },
+            { id: 903, cat: 'nokos', name: 'Nokos Premium x3', price: 24000, date: '10 Jun 2026', status: 'sukses' },
+            { id: 904, cat: 'smm', name: 'SMM All Sosmed', price: 25000, date: '5 Jun 2026', status: 'gagal' }
         ];
 
-        // ── FORMAT ───────────────────────────────────────────────────
         function fmt(n) { return 'Rp ' + n.toLocaleString('id-ID'); }
+        function icon(name) { return ICONS[name] || ''; }
 
-        // ── TOAST ────────────────────────────────────────────────────
         function showToast(msg, type) {
             var t = document.getElementById('toast');
-            t.textContent = msg; t.className = 'toast show ' + (type || '');
+            var dot = type === 'green' ? '<span class="led green"></span>' : type === 'red' ? '<span class="led red"></span>' : '';
+            t.innerHTML = dot + '<span>' + msg + '</span>';
+            t.className = 'toast show';
             clearTimeout(t._t); t._t = setTimeout(function () { t.className = 'toast'; }, 2800);
         }
 
-        // ── NAVIGASI ─────────────────────────────────────────────────
         function goPage(name) {
             document.querySelectorAll('.page').forEach(function (p) { p.classList.remove('active'); });
             document.getElementById('page-' + name).classList.add('active');
@@ -1451,7 +1777,6 @@
             if (name === 'dashboard') updateDash();
         }
 
-        // ── FILTER ───────────────────────────────────────────────────
         var activeFilter = 'all';
         function setFilter(cat, btn) {
             activeFilter = cat;
@@ -1460,7 +1785,6 @@
             renderProducts();
         }
 
-        // ── GET PRICE ─────────────────────────────────────────────────
         function getPrice(p) {
             if (p.type === 'durasi') {
                 var d = p.durasi[selDur[p.id]];
@@ -1469,7 +1793,10 @@
             return { price: p.price, period: p.period };
         }
 
-        // ── RENDER PRODUK ─────────────────────────────────────────────
+        function screws() {
+            return '<span class="screw tl"></span><span class="screw tr"></span><span class="screw bl"></span><span class="screw br"></span>';
+        }
+
         function renderProducts() {
             var grid = document.getElementById('prod-grid');
             var list = activeFilter === 'all' ? PRODUCTS : PRODUCTS.filter(function (p) { return p.cat === activeFilter; });
@@ -1480,7 +1807,7 @@
                 var info = getPrice(p);
                 var uid = p.id + '_' + (p.type === 'durasi' ? selDur[p.id] : 0);
                 var inCart = cart.some(function (c) { return c.uid === uid; });
-                var badge = p.badge === 'hot' ? '<span class="badge-hot">🔥 Hot</span>' : p.badge === 'new' ? '<span class="badge-new">✨ New</span>' : p.badge === 'best' ? '<span class="badge-best">⭐ Best</span>' : '';
+                var badge = p.badge === 'hot' ? '<span class="tag hot">Hot</span>' : p.badge === 'new' ? '<span class="tag new">New</span>' : p.badge === 'best' ? '<span class="tag best">Best</span>' : '';
 
                 var durHtml = '';
                 if (p.type === 'durasi') {
@@ -1492,31 +1819,29 @@
                 }
 
                 html += '<div class="product-card">'
+                    + screws()
                     + badge
-                    + '<div class="p-icon" style="background:' + CAT_BG[p.cat] + '">' + p.icon + '</div>'
+                    + '<div class="p-icon">' + icon(CAT_ICON[p.cat]) + '</div>'
                     + '<div class="p-cat">' + CAT_NAME[p.cat] + '</div>'
                     + '<div class="p-name">' + p.name + '</div>'
                     + '<div class="p-desc">' + p.desc + '</div>'
                     + durHtml
                     + '<div class="p-footer">'
-                    + '<div class="p-price">' + fmt(info.price) + '<small> ' + info.period + '</small></div>'
-                    + '<button class="add-btn' + (inCart ? ' added' : '') + '" onclick="addCart(' + p.id + ')">' + (inCart ? '✓ Added' : '+ Keranjang') + '</button>'
+                    + '<div class="p-price-box"><span class="p-price">' + fmt(info.price) + '</span><br><small class="p-price">' + info.period + '</small></div>'
+                    + '<button class="add-btn' + (inCart ? ' added' : '') + '" onclick="addCart(' + p.id + ')">' + (inCart ? icon('check') + ' Added' : icon('plus') + ' Tambah') + '</button>'
                     + '</div>'
                     + '</div>';
             });
             grid.innerHTML = html;
         }
 
-        // ── PILIH DURASI ──────────────────────────────────────────────
         function pickDur(pid, idx) {
             selDur[pid] = idx;
-            // hapus dari cart kalau harga berubah
             cart = cart.filter(function (c) { return !c.uid.startsWith(pid + '_'); });
             updateCount();
             renderProducts();
         }
 
-        // ── TAMBAH KERANJANG ──────────────────────────────────────────
         function addCart(pid) {
             var p = null;
             for (var i = 0; i < PRODUCTS.length; i++) { if (PRODUCTS[i].id === pid) { p = PRODUCTS[i]; break; } }
@@ -1531,8 +1856,8 @@
                 cart.splice(idx, 1);
                 showToast(p.name + ' dihapus dari keranjang', 'red');
             } else {
-                cart.push({ uid: uid, pid: pid, icon: p.icon, name: p.name + (durLabel ? ' — ' + durLabel : ''), cat: p.cat, price: info.price });
-                showToast('✓ ' + p.name + ' ditambahkan ke keranjang!', 'green');
+                cart.push({ uid: uid, pid: pid, name: p.name + (durLabel ? ' — ' + durLabel : ''), cat: p.cat, price: info.price });
+                showToast(p.name + ' ditambahkan ke keranjang', 'green');
             }
             updateCount();
             renderProducts();
@@ -1540,32 +1865,33 @@
 
         function updateCount() {
             document.getElementById('cart-count').textContent = cart.length;
+            var c2 = document.getElementById('cart-count-2');
+            if (c2) c2.textContent = cart.length;
             updateDash();
         }
 
-        // ── RENDER CART ───────────────────────────────────────────────
         function renderCart() {
             var el = document.getElementById('cart-content');
             if (!cart.length) {
-                el.innerHTML = '<div class="cart-empty"><div class="cart-empty-icon">🛒</div><div style="font-size:17px;font-weight:700;margin-bottom:8px">Keranjang kosong</div><div style="font-size:14px">Tambahkan layanan dari halaman Store</div></div>';
+                el.innerHTML = '<div class="cart-empty"><div class="cart-empty-icon">' + icon('cart') + '</div><div style="font-size:16px;font-weight:700;margin-bottom:8px;color:var(--ink)">Keranjang kosong</div><div style="font-size:13.5px">Tambahkan layanan dari halaman Store</div></div>';
                 return;
             }
             var tot = 0; cart.forEach(function (c) { tot += c.price; });
             var itemsHtml = '';
             cart.forEach(function (c) {
                 itemsHtml += '<div class="cart-item">'
-                    + '<div class="ci-icon">' + c.icon + '</div>'
+                    + '<div class="ci-icon">' + icon(CAT_ICON[c.cat]) + '</div>'
                     + '<div class="ci-info"><div class="ci-name">' + c.name + '</div><div class="ci-meta">' + CAT_NAME[c.cat] + '</div></div>'
                     + '<div class="ci-price">' + fmt(c.price) + '</div>'
-                    + '<button class="rm-btn" onclick="removeCart(\'' + c.uid + '\')">✕</button>'
+                    + '<button class="rm-btn" onclick="removeCart(\'' + c.uid + '\')">' + icon('trash') + '</button>'
                     + '</div>';
             });
             el.innerHTML = '<div class="cart-items">' + itemsHtml + '</div>'
                 + '<div class="cart-summary">'
-                + '<div class="sum-row"><span>Subtotal (' + cart.length + ' item)</span><span>' + fmt(tot) + '</span></div>'
-                + '<div class="sum-row"><span>Biaya Layanan</span><span style="color:#22c55e">Gratis</span></div>'
+                + '<div class="sum-row"><span>Subtotal (' + cart.length + ' item)</span><span class="mono">' + fmt(tot) + '</span></div>'
+                + '<div class="sum-row"><span>Biaya Layanan</span><span style="color:#16a34a" class="mono">Gratis</span></div>'
                 + '<div class="sum-row total"><span>Total</span><span class="val">' + fmt(tot) + '</span></div>'
-                + '<button class="checkout-btn" onclick="openModal()">💬 Checkout via WhatsApp</button>'
+                + '<button class="checkout-btn" onclick="openModal()">' + icon('msg') + ' Checkout via WhatsApp</button>'
                 + '</div>';
         }
 
@@ -1575,26 +1901,26 @@
             showToast('Item dihapus', 'red');
         }
 
-        // ── RENDER HISTORY ────────────────────────────────────────────
         function renderHistory() {
             var el = document.getElementById('hist-list');
             if (!historyData.length) {
-                el.innerHTML = '<div class="cart-empty"><div class="cart-empty-icon">📋</div><div style="font-size:17px;font-weight:700">Belum ada transaksi</div></div>';
+                el.innerHTML = '<div class="cart-empty"><div class="cart-empty-icon">' + icon('history') + '</div><div style="font-size:16px;font-weight:700;color:var(--ink)">Belum ada transaksi</div></div>';
                 return;
             }
             var html = '';
             historyData.forEach(function (h) {
-                var b = h.status === 'sukses' ? '<span class="hi-badge sukses">✓ Sukses</span>' : h.status === 'proses' ? '<span class="hi-badge proses">⏳ Proses</span>' : '<span class="hi-badge gagal">✕ Gagal</span>';
+                var b = h.status === 'sukses' ? '<span class="hi-badge sukses">' + icon('check') + ' Sukses</span>'
+                    : h.status === 'proses' ? '<span class="hi-badge proses">' + icon('clock') + ' Proses</span>'
+                        : '<span class="hi-badge gagal">' + icon('alert') + ' Gagal</span>';
                 html += '<div class="hist-item">'
-                    + '<div class="hi-icon">' + h.icon + '</div>'
-                    + '<div class="hi-info"><div class="hi-name">' + h.name + '</div><div class="hi-meta">' + CAT_NAME[h.cat] + '·' + h.date + '</div></div>'
+                    + '<div class="hi-icon">' + icon(CAT_ICON[h.cat]) + '</div>'
+                    + '<div class="hi-info"><div class="hi-name">' + h.name + '</div><div class="hi-meta">' + CAT_NAME[h.cat] + ' · ' + h.date + '</div></div>'
                     + '<div class="hi-right"><div class="hi-price">' + fmt(h.price) + '</div>' + b + '</div>'
                     + '</div>';
             });
             el.innerHTML = html;
         }
 
-        // ── DASHBOARD ─────────────────────────────────────────────────
         function updateDash() {
             var spent = 0; historyData.filter(function (h) { return h.status === 'sukses'; }).forEach(function (h) { spent += h.price; });
             document.getElementById('d-total').textContent = historyData.length;
@@ -1602,7 +1928,6 @@
             document.getElementById('d-spent').textContent = fmt(spent);
         }
 
-        // ── MODAL & WA ────────────────────────────────────────────────
         var waMsg = '';
         function openModal() {
             var tot = 0; cart.forEach(function (c) { tot += c.price; });
@@ -1616,14 +1941,14 @@
             var now = new Date();
             var date = now.toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
             cart.forEach(function (item) {
-                historyData.unshift({ id: Date.now() + Math.random(), icon: item.icon, name: item.name, cat: item.cat, price: item.price, date: date, status: 'proses' });
+                historyData.unshift({ id: Date.now() + Math.random(), name: item.name, cat: item.cat, price: item.price, date: date, status: 'proses' });
             });
             cart = [];
             closeModal();
             updateCount();
             renderProducts();
             window.open('https://wa.me/' + WA + '?text=' + waMsg, '_blank');
-            showToast('Diarahkan ke WhatsApp! 💬', 'green');
+            showToast('Diarahkan ke WhatsApp', 'green');
             goPage('history');
         }
 
