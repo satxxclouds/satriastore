@@ -3,1319 +3,1091 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NEXUS PC | Premium Gaming & Computer Store</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>Alex Creative | Full Stack Developer</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
     <style>
         :root {
-            --primary: #00f0ff;
-            --primary-dark: #00b8c4;
-            --secondary: #ff2d95;
-            --accent: #7b2dff;
-            --gold: #ffd700;
-            --dark: #0a0a0f;
-            --darker: #050508;
-            --card: #111118;
-            --card-hover: #1a1a25;
-            --text: #e0e0e8;
-            --text-muted: #8888a0;
-            --border: rgba(0, 240, 255, 0.15);
-            --glow: 0 0 20px rgba(0, 240, 255, 0.3), 0 0 40px rgba(0, 240, 255, 0.1);
-            --glow-pink: 0 0 20px rgba(255, 45, 149, 0.3), 0 0 40px rgba(255, 45, 149, 0.1);
+            --bg-color: #E0E5EC;
+            --text-main: #3D4852;
+            --text-muted: #6B7280;
+            --accent: #6C63FF;
+            --accent-hover: #5a52d5;
+            --shadow-light: rgba(255, 255, 255, 0.7);
+            --shadow-dark: rgb(163, 177, 198);
+            --radius-card: 30px;
+            --radius-btn: 15px;
+            --nav-height: 80px;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
+        
+        html { 
+            scroll-behavior: smooth; 
+            scroll-padding-top: var(--nav-height);
+        }
+
         body {
-            font-family: 'Inter', sans-serif;
-            background: var(--darker);
-            color: var(--text);
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'DM Sans', sans-serif;
+            line-height: 1.6;
             overflow-x: hidden;
+            width: 100%;
         }
 
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: var(--darker); }
-        ::-webkit-scrollbar-thumb {
-            background: linear-gradient(180deg, var(--primary), var(--accent));
-            border-radius: 3px;
+        h1, h2, h3, h4 {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 800;
+            color: var(--text-main);
+            letter-spacing: -0.03em;
         }
 
-        /* ===== LOADER ===== */
-        .loader {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--darker); z-index: 9999;
-            display: flex; align-items: center; justify-content: center;
-            flex-direction: column; transition: opacity 0.8s, visibility 0.8s;
-        }
-        .loader.hidden { opacity: 0; visibility: hidden; }
-        .loader-text {
-            font-family: 'Orbitron', sans-serif; font-size: 2rem; font-weight: 800;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            background-clip: text; margin-bottom: 30px; letter-spacing: 5px;
-        }
-        .loader-bar { width: 200px; height: 3px; background: var(--card); border-radius: 3px; overflow: hidden; position: relative; }
-        .loader-progress { position: absolute; top: 0; left: 0; height: 100%; width: 0%; background: linear-gradient(90deg, var(--primary), var(--secondary)); border-radius: 3px; animation: loadProgress 2s ease forwards; }
-        @keyframes loadProgress { 0% { width: 0%; } 100% { width: 100%; } }
+        a { text-decoration: none; color: inherit; transition: 0.3s; }
+        ul { list-style: none; }
+        img { max-width: 100%; display: block; }
 
-        /* ===== NAVBAR ===== */
-        .navbar {
-            position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
-            padding: 20px 5%; display: flex; justify-content: space-between; align-items: center;
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        /* --- NEUMORPHISM UTILITIES --- */
+        .neu-flat {
+            background: var(--bg-color);
+            box-shadow: 9px 9px 16px var(--shadow-dark), -9px -9px 16px var(--shadow-light);
+            border-radius: var(--radius-card);
         }
-        .navbar.scrolled {
-            background: rgba(5, 5, 8, 0.95); backdrop-filter: blur(20px);
-            padding: 15px 5%; border-bottom: 1px solid var(--border);
-        }
-        .logo {
-            font-family: 'Orbitron', sans-serif; font-size: 1.8rem; font-weight: 800;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            background-clip: text; letter-spacing: 2px; position: relative;
-        }
-        .logo::after {
-            content: 'NEXUS'; position: absolute; top: 0; left: 0;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            background-clip: text; filter: blur(15px); opacity: 0.5;
-        }
-        .logo span { font-weight: 300; font-size: 0.9rem; display: block; letter-spacing: 8px; color: var(--text-muted); -webkit-text-fill-color: var(--text-muted); }
 
-        .nav-links { display: flex; gap: 40px; list-style: none; }
-        .nav-links a {
-            font-family: 'Rajdhani', sans-serif; font-size: 1.1rem; font-weight: 600;
-            color: var(--text-muted); text-decoration: none; position: relative;
-            padding: 5px 0; transition: color 0.3s; letter-spacing: 1px; text-transform: uppercase;
+        .neu-pressed {
+            background: var(--bg-color);
+            box-shadow: inset 6px 6px 10px var(--shadow-dark), inset -6px -6px 10px var(--shadow-light);
+            border-radius: var(--radius-btn);
         }
-        .nav-links a::before {
-            content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .nav-links a:hover { color: var(--primary); }
-        .nav-links a:hover::before { width: 100%; }
 
-        .nav-cta {
-            font-family: 'Orbitron', sans-serif; font-size: 0.8rem; font-weight: 600;
-            padding: 12px 30px; background: linear-gradient(135deg, var(--primary), var(--accent));
-            border: none; border-radius: 50px; color: var(--dark); cursor: pointer;
-            position: relative; overflow: hidden; transition: all 0.3s;
-            letter-spacing: 1px; text-transform: uppercase;
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 14px 32px;
+            font-weight: 700;
+            border-radius: var(--radius-btn);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            border: none;
+            outline: none;
+            font-size: 1rem;
         }
-        .nav-cta::before {
-            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-            transition: left 0.5s;
-        }
-        .nav-cta:hover::before { left: 100%; }
-        .nav-cta:hover { transform: translateY(-2px); box-shadow: var(--glow); }
-
-        /* ===== HERO ===== */
-        .hero {
-            min-height: 100vh; display: flex; align-items: center; justify-content: center;
-            position: relative; overflow: hidden; padding: 0 5%;
-        }
-        .hero-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; }
-        .hero-bg canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
-        .hero-overlay {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(ellipse at center, transparent 0%, var(--darker) 70%); z-index: 1;
-        }
-        .hero-content { position: relative; z-index: 2; text-align: center; max-width: 900px; }
-        .hero-badge {
-            display: inline-block; font-family: 'Rajdhani', sans-serif; font-size: 0.9rem;
-            font-weight: 600; letter-spacing: 4px; text-transform: uppercase; color: var(--primary);
-            border: 1px solid var(--border); padding: 8px 24px; border-radius: 50px;
-            margin-bottom: 30px; background: rgba(0, 240, 255, 0.05); backdrop-filter: blur(10px);
-        }
-        .hero-title {
-            font-family: 'Orbitron', sans-serif; font-size: clamp(2.5rem, 6vw, 5rem);
-            font-weight: 900; line-height: 1.1; margin-bottom: 25px; letter-spacing: 2px;
-        }
-        .hero-title .gradient-text {
-            background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            background-clip: text; background-size: 200% 200%;
-            animation: gradientShift 4s ease infinite;
-        }
-        @keyframes gradientShift { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
-        .hero-subtitle {
-            font-family: 'Inter', sans-serif; font-size: 1.2rem; color: var(--text-muted);
-            margin-bottom: 50px; line-height: 1.8; max-width: 600px; margin-left: auto; margin-right: auto;
-        }
-        .hero-buttons { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
 
         .btn-primary {
-            font-family: 'Orbitron', sans-serif; font-size: 0.85rem; font-weight: 700;
-            padding: 18px 45px; background: linear-gradient(135deg, var(--primary), var(--accent));
-            border: none; border-radius: 50px; color: var(--dark); cursor: pointer;
-            position: relative; overflow: hidden; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            letter-spacing: 2px; text-transform: uppercase; text-decoration: none; display: inline-block;
+            background: var(--accent);
+            color: white;
+            box-shadow: 6px 6px 10px rgba(108, 99, 255, 0.2), -6px -6px 10px var(--shadow-light);
         }
-        .btn-primary:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 10px 40px rgba(0, 240, 255, 0.4); }
+
+        .btn-primary:hover { background: var(--accent-hover); transform: translateY(-2px); }
+        .btn-primary:active { transform: translateY(1px); box-shadow: inset 4px 4px 8px rgba(0,0,0,0.2); }
 
         .btn-secondary {
-            font-family: 'Orbitron', sans-serif; font-size: 0.85rem; font-weight: 700;
-            padding: 18px 45px; background: transparent; border: 2px solid var(--border);
-            border-radius: 50px; color: var(--text); cursor: pointer; position: relative;
-            overflow: hidden; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            letter-spacing: 2px; text-transform: uppercase; text-decoration: none; display: inline-block;
+            background: var(--bg-color);
+            color: var(--text-main);
+            box-shadow: 6px 6px 10px var(--shadow-dark), -6px -6px 10px var(--shadow-light);
         }
-        .btn-secondary:hover { border-color: var(--primary); color: var(--primary); box-shadow: var(--glow); transform: translateY(-3px); }
 
-        .scroll-indicator {
-            position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
-            z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 10px;
-            animation: bounce 2s infinite;
-        }
-        .scroll-indicator span { font-family: 'Rajdhani', sans-serif; font-size: 0.8rem; letter-spacing: 3px; text-transform: uppercase; color: var(--text-muted); }
-        .scroll-indicator i { font-size: 1.5rem; color: var(--primary); }
-        @keyframes bounce { 0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); } 40% { transform: translateX(-50%) translateY(-10px); } 60% { transform: translateX(-50%) translateY(-5px); } }
+        .btn-secondary:hover { color: var(--accent); transform: translateY(-2px); }
 
-        /* ===== SECTIONS ===== */
-        section { position: relative; padding: 120px 5%; }
-        .section-header { text-align: center; margin-bottom: 80px; }
-        .section-label {
-            font-family: 'Rajdhani', sans-serif; font-size: 0.9rem; font-weight: 600;
-            letter-spacing: 4px; text-transform: uppercase; color: var(--primary);
-            margin-bottom: 15px; display: inline-block; position: relative;
+        /* --- LAYOUT --- */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
         }
-        .section-label::before, .section-label::after {
-            content: ''; position: absolute; top: 50%; width: 50px; height: 1px;
-        }
-        .section-label::before { right: calc(100% + 20px); background: linear-gradient(90deg, transparent, var(--primary)); }
-        .section-label::after { left: calc(100% + 20px); background: linear-gradient(90deg, var(--primary), transparent); }
-        .section-title { font-family: 'Orbitron', sans-serif; font-size: clamp(2rem, 4vw, 3.5rem); font-weight: 800; margin-bottom: 20px; line-height: 1.2; }
-        .section-desc { font-size: 1.1rem; color: var(--text-muted); max-width: 600px; margin: 0 auto; line-height: 1.8; }
 
-        /* ===== MARQUEE ===== */
-        .marquee-section { background: var(--dark); padding: 30px 0; overflow: hidden; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
-        .marquee-track { display: flex; animation: marquee 30s linear infinite; white-space: nowrap; }
-        .marquee-item {
-            font-family: 'Orbitron', sans-serif; font-size: 1rem; font-weight: 700;
-            color: var(--text-muted); padding: 0 40px; display: flex; align-items: center; gap: 15px;
-            text-transform: uppercase; letter-spacing: 2px;
+        section { 
+            padding: 100px 0; 
+            scroll-margin-top: var(--nav-height);
         }
-        .marquee-item i { color: var(--primary); font-size: 1.2rem; }
-        @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
-        /* ===== PRODUCTS ===== */
-        .products-section { background: var(--dark); }
-        .products-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 30px; max-width: 1400px; margin: 0 auto;
+        .section-header { text-align: center; margin-bottom: 60px; }
+
+        .section-title {
+            font-size: clamp(1.8rem, 5vw, 3rem);
+            margin-bottom: 16px;
         }
-        .product-card {
-            background: var(--card); border: 1px solid var(--border); border-radius: 20px;
-            overflow: hidden; position: relative; transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+
+        .section-subtitle {
+            color: var(--text-muted);
+            font-size: clamp(1rem, 2.5vw, 1.1rem);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* --- NAVBAR --- */
+        .navbar {
+            position: fixed;
+            top: 0; left: 0; width: 100%;
+            z-index: 1000;
+            padding: 15px 0;
+            transition: 0.3s;
+            background: transparent;
+        }
+
+        .navbar.scrolled {
+            background: rgba(224, 229, 236, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(163, 177, 198, 0.2);
+            padding: 10px 0;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            padding: 10px 20px;
+            border-radius: var(--radius-btn);
+            color: var(--accent);
+            z-index: 1002;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+            align-items: center;
+        }
+
+        .nav-link {
+            font-weight: 600;
+            color: var(--text-muted);
+            padding: 8px 4px;
+        }
+
+        .nav-link:hover, .nav-link.active { color: var(--accent); }
+
+        .hamburger {
+            display: none;
+            font-size: 1.3rem;
             cursor: pointer;
+            padding: 12px;
+            border-radius: 12px;
+            z-index: 1002;
+            background: var(--bg-color);
+            box-shadow: 5px 5px 10px var(--shadow-dark), -5px -5px 10px var(--shadow-light);
+            width: 48px;
+            height: 48px;
+            align-items: center;
+            justify-content: center;
         }
-        .product-card::before {
-            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(135deg, rgba(0, 240, 255, 0.05), rgba(255, 45, 149, 0.05));
-            opacity: 0; transition: opacity 0.5s; z-index: 1;
+
+        /* --- HERO --- */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding-top: 100px;
         }
-        .product-card:hover::before { opacity: 1; }
-        .product-card:hover {
-            transform: translateY(-10px); border-color: rgba(0, 240, 255, 0.3);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), var(--glow);
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
         }
-        .product-image { width: 100%; height: 280px; object-fit: cover; transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
-        .product-card:hover .product-image { transform: scale(1.05); }
-        .product-badge {
-            position: absolute; top: 20px; left: 20px; z-index: 2;
-            font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 0.75rem;
-            padding: 6px 16px; border-radius: 50px; text-transform: uppercase; letter-spacing: 1px;
+
+        .hero-text h1 {
+            font-size: clamp(2rem, 5vw, 4rem);
+            line-height: 1.1;
+            margin-bottom: 24px;
         }
-        .badge-hot { background: linear-gradient(135deg, #ff4757, #ff2d95); color: white; }
-        .badge-new { background: linear-gradient(135deg, var(--primary), var(--accent)); color: var(--dark); }
-        .badge-premium { background: linear-gradient(135deg, var(--gold), #ffaa00); color: var(--dark); }
-        .product-info { padding: 25px; position: relative; z-index: 2; }
-        .product-category { font-family: 'Rajdhani', sans-serif; font-size: 0.85rem; color: var(--primary); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; }
-        .product-name { font-family: 'Orbitron', sans-serif; font-size: 1.2rem; font-weight: 700; margin-bottom: 10px; line-height: 1.3; }
-        .product-specs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 15px; }
-        .spec-tag { font-size: 0.75rem; padding: 4px 12px; background: rgba(0, 240, 255, 0.1); border: 1px solid var(--border); border-radius: 20px; color: var(--text-muted); }
-        .product-footer { display: flex; justify-content: space-between; align-items: center; padding-top: 15px; border-top: 1px solid var(--border); }
-        .product-price { font-family: 'Orbitron', sans-serif; font-size: 1.4rem; font-weight: 800; color: var(--primary); }
-        .product-price .currency { font-size: 0.8rem; color: var(--text-muted); }
-        .product-price .old { font-size: 0.9rem; color: var(--text-muted); text-decoration: line-through; margin-left: 10px; }
-        .btn-buy { width: 45px; height: 45px; border-radius: 50%; background: linear-gradient(135deg, var(--primary), var(--accent)); border: none; color: var(--dark); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.3s; font-size: 1rem; }
-        .btn-buy:hover { transform: scale(1.1); box-shadow: var(--glow); }
 
-        /* ===== FEATURES ===== */
-        .features-section { background: var(--darker); position: relative; }
-        .features-section::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 1px; background: linear-gradient(90deg, transparent, var(--primary), transparent); }
-        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; max-width: 1200px; margin: 0 auto; }
-        .feature-card {
-            background: var(--card); border: 1px solid var(--border); border-radius: 20px;
-            padding: 40px 30px; text-align: center; position: relative; overflow: hidden;
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        .hero-text p {
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            color: var(--text-muted);
+            margin-bottom: 40px;
+            max-width: 500px;
         }
-        .feature-card::after {
-            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
-            transform: scaleX(0); transform-origin: left;
-            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+
+        .hero-buttons { display: flex; gap: 15px; flex-wrap: wrap; }
+
+        .profile-wrapper { display: flex; justify-content: center; }
+
+        .profile-frame {
+            width: clamp(250px, 30vw, 380px);
+            height: clamp(250px, 30vw, 380px);
+            border-radius: 50%;
+            padding: 15px;
+            box-shadow: 15px 15px 30px var(--shadow-dark), -15px -15px 30px var(--shadow-light);
         }
-        .feature-card:hover::after { transform: scaleX(1); }
-        .feature-card:hover { transform: translateY(-5px); border-color: rgba(0, 240, 255, 0.2); box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3); }
-        .feature-icon { width: 80px; height: 80px; margin: 0 auto 25px; background: linear-gradient(135deg, rgba(0, 240, 255, 0.1), rgba(255, 45, 149, 0.1)); border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 2rem; color: var(--primary); position: relative; }
-        .feature-icon::before { content: ''; position: absolute; inset: -2px; border-radius: 22px; background: linear-gradient(135deg, var(--primary), var(--secondary)); z-index: -1; opacity: 0; transition: opacity 0.3s; }
-        .feature-card:hover .feature-icon::before { opacity: 0.3; }
-        .feature-title { font-family: 'Orbitron', sans-serif; font-size: 1.2rem; font-weight: 700; margin-bottom: 15px; }
-        .feature-desc { color: var(--text-muted); line-height: 1.7; font-size: 0.95rem; }
 
-        /* ===== SHOWCASE ===== */
-        .showcase-section { background: var(--dark); position: relative; overflow: hidden; }
-        .showcase-section::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 1px; background: linear-gradient(90deg, transparent, var(--secondary), transparent); }
-        .showcase-container { max-width: 1400px; margin: 0 auto; }
-        .showcase-item { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; margin-bottom: 100px; }
-        .showcase-item:last-child { margin-bottom: 0; }
-        .showcase-item.reverse { direction: rtl; }
-        .showcase-item.reverse > * { direction: ltr; }
-        .showcase-image-wrapper { position: relative; border-radius: 20px; overflow: hidden; }
-        .showcase-image-wrapper::before { content: ''; position: absolute; inset: -2px; background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent)); border-radius: 22px; z-index: -1; opacity: 0.5; }
-        .showcase-image { width: 100%; height: 400px; object-fit: cover; border-radius: 20px; transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
-        .showcase-image-wrapper:hover .showcase-image { transform: scale(1.03); }
-        .showcase-content { padding: 20px 0; }
-        .showcase-label { font-family: 'Rajdhani', sans-serif; font-size: 0.85rem; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: var(--secondary); margin-bottom: 15px; }
-        .showcase-title { font-family: 'Orbitron', sans-serif; font-size: clamp(1.5rem, 3vw, 2.5rem); font-weight: 800; margin-bottom: 20px; line-height: 1.2; }
-        .showcase-desc { color: var(--text-muted); line-height: 1.8; margin-bottom: 30px; font-size: 1.05rem; }
-        .showcase-specs { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-bottom: 30px; }
-        .showcase-spec { display: flex; align-items: center; gap: 12px; padding: 12px 15px; background: rgba(0, 240, 255, 0.05); border: 1px solid var(--border); border-radius: 12px; }
-        .showcase-spec i { color: var(--primary); font-size: 1.1rem; }
-        .showcase-spec span { font-size: 0.9rem; color: var(--text); }
-        .showcase-price { font-family: 'Orbitron', sans-serif; font-size: 2rem; font-weight: 800; color: var(--primary); margin-bottom: 25px; }
-
-        /* ===== STATS ===== */
-        .stats-section { background: linear-gradient(135deg, rgba(0, 240, 255, 0.05), rgba(255, 45, 149, 0.05)); padding: 80px 5%; position: relative; }
-        .stats-section::before, .stats-section::after { content: ''; position: absolute; left: 0; width: 100%; height: 1px; }
-        .stats-section::before { top: 0; background: linear-gradient(90deg, transparent, var(--primary), transparent); }
-        .stats-section::after { bottom: 0; background: linear-gradient(90deg, transparent, var(--secondary), transparent); }
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; max-width: 1200px; margin: 0 auto; text-align: center; }
-        .stat-item { position: relative; }
-        .stat-number { font-family: 'Orbitron', sans-serif; font-size: 3rem; font-weight: 900; background: linear-gradient(135deg, var(--primary), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 10px; }
-        .stat-label { font-family: 'Rajdhani', sans-serif; font-size: 1rem; font-weight: 600; color: var(--text-muted); letter-spacing: 2px; text-transform: uppercase; }
-
-        /* ===== TESTIMONIALS ===== */
-        .testimonials-section { background: var(--darker); position: relative; }
-        .testimonials-section::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 1px; background: linear-gradient(90deg, transparent, var(--accent), transparent); }
-        .testimonials-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; max-width: 1200px; margin: 0 auto; }
-        .testimonial-card { background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 35px; position: relative; transition: all 0.4s; }
-        .testimonial-card:hover { border-color: rgba(0, 240, 255, 0.2); transform: translateY(-5px); }
-        .testimonial-quote { font-size: 3rem; color: var(--primary); opacity: 0.3; line-height: 1; margin-bottom: 10px; }
-        .testimonial-text { color: var(--text-muted); line-height: 1.8; margin-bottom: 25px; font-size: 0.95rem; }
-        .testimonial-author { display: flex; align-items: center; gap: 15px; }
-        .testimonial-avatar { width: 50px; height: 50px; border-radius: 50%; background: linear-gradient(135deg, var(--primary), var(--secondary)); display: flex; align-items: center; justify-content: center; font-family: 'Orbitron', sans-serif; font-weight: 700; color: var(--dark); font-size: 1.2rem; }
-        .testimonial-info h4 { font-family: 'Orbitron', sans-serif; font-size: 0.95rem; margin-bottom: 3px; }
-        .testimonial-info span { font-size: 0.8rem; color: var(--text-muted); }
-        .testimonial-stars { color: var(--gold); font-size: 0.85rem; margin-top: 5px; }
-
-        /* ===== CTA ===== */
-        .cta-section { background: linear-gradient(135deg, rgba(0, 240, 255, 0.08), rgba(123, 45, 255, 0.08)); padding: 100px 5%; text-align: center; position: relative; overflow: hidden; }
-        .cta-section::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 1px; background: linear-gradient(90deg, transparent, var(--primary), var(--secondary), transparent); }
-        .cta-title { font-family: 'Orbitron', sans-serif; font-size: clamp(2rem, 4vw, 3.5rem); font-weight: 800; margin-bottom: 20px; }
-        .cta-desc { color: var(--text-muted); font-size: 1.1rem; max-width: 600px; margin: 0 auto 40px; line-height: 1.8; }
-
-        /* ===== FOOTER ===== */
-        .footer { background: var(--darker); padding: 80px 5% 30px; border-top: 1px solid var(--border); }
-        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 60px; max-width: 1400px; margin: 0 auto 60px; }
-        .footer-brand .logo { margin-bottom: 20px; display: inline-block; }
-        .footer-brand p { color: var(--text-muted); line-height: 1.8; margin-bottom: 25px; font-size: 0.95rem; }
-        .footer-social { display: flex; gap: 15px; }
-        .footer-social a { width: 45px; height: 45px; border-radius: 50%; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; color: var(--text-muted); text-decoration: none; transition: all 0.3s; font-size: 1.1rem; }
-        .footer-social a:hover { border-color: var(--primary); color: var(--primary); box-shadow: var(--glow); transform: translateY(-3px); }
-        .footer-column h4 { font-family: 'Orbitron', sans-serif; font-size: 1rem; font-weight: 700; margin-bottom: 25px; color: var(--text); }
-        .footer-column ul { list-style: none; }
-        .footer-column ul li { margin-bottom: 12px; }
-        .footer-column ul li a { color: var(--text-muted); text-decoration: none; font-size: 0.9rem; transition: all 0.3s; display: inline-block; }
-        .footer-column ul li a:hover { color: var(--primary); transform: translateX(5px); }
-        .footer-bottom { border-top: 1px solid var(--border); padding-top: 30px; text-align: center; color: var(--text-muted); font-size: 0.85rem; }
-        .footer-bottom span { color: var(--primary); }
-
-        /* ===== PARTICLES ===== */
-        #particles-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; opacity: 0.3; }
-
-        /* ===== RESPONSIVE ===== */
-        @media (max-width: 1024px) {
-            .showcase-item { grid-template-columns: 1fr; gap: 40px; }
-            .showcase-item.reverse { direction: ltr; }
-            .footer-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
+        .profile-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+            box-shadow: inset 5px 5px 10px rgba(0,0,0,0.1);
         }
-        @media (max-width: 768px) {
-            .navbar { padding: 15px 5%; }
-            .nav-links { display: none; }
-            .products-grid { grid-template-columns: 1fr; }
-            .features-grid { grid-template-columns: 1fr; }
-            .stats-grid { grid-template-columns: repeat(2, 1fr); }
-            .testimonials-grid { grid-template-columns: 1fr; }
-            .footer-grid { grid-template-columns: 1fr; gap: 40px; }
-            .showcase-specs { grid-template-columns: 1fr; }
-            section { padding: 80px 5%; }
+
+        /* --- ABOUT SECTION (UPDATED WITH PERSONAL INFO) --- */
+        .about-card {
+            padding: 40px;
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 40px;
+            align-items: start;
+        }
+
+        /* === PERSONAL INFO GRID === */
+        .personal-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .info-item {
+            padding: 18px 15px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: transform 0.3s;
+        }
+
+        .info-item:hover {
+            transform: translateY(-2px);
+        }
+
+        .info-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent);
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+
+        .info-text {
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+        }
+
+        .info-label {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .info-value {
+            font-size: 0.95rem;
+            color: var(--text-main);
+            font-weight: 700;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            word-break: break-word;
+        }
+
+        /* Status Badge */
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 18px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #10b981;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #10b981;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.3); }
+        }
+
+        .about-text p {
+            color: var(--text-muted);
+            margin-bottom: 15px;
+        }
+
+        /* --- STATS --- */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .stat-box {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            color: var(--accent);
+            font-weight: 800;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 5px;
+        }
+
+        /* --- SKILLS & PROJECTS --- */
+        .skills-grid, .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .skill-card, .project-card {
+            padding: 35px;
+            transition: transform 0.3s;
+        }
+        
+        .project-card { padding: 0; overflow: hidden; }
+        .skill-card:hover, .project-card:hover { transform: translateY(-5px); }
+
+        .skill-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .icon-well {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: var(--accent);
+            flex-shrink: 0;
+        }
+
+        .skill-header h3 { font-size: 1.3rem; }
+
+        .skill-tags { display: flex; flex-wrap: wrap; gap: 10px; }
+
+        .tag {
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            box-shadow: inset 3px 3px 6px var(--shadow-dark), inset -3px -3px 6px var(--shadow-light);
+        }
+
+        .project-img-container {
+            width: 100%;
+            height: 200px;
+            background: #cbd2d9;
+            overflow: hidden;
+        }
+        
+        .project-img-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: 0.3s;
+        }
+
+        .project-card:hover .project-img-container img { transform: scale(1.05); }
+
+        .project-content { padding: 25px; }
+
+        .project-title { font-size: 1.3rem; margin-bottom: 10px; }
+
+        .project-tech {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 15px;
+            font-size: 0.75rem;
+            color: var(--accent);
+            font-weight: 700;
+            flex-wrap: wrap;
+        }
+
+        .project-desc {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+        }
+
+        /* --- CONTACT --- */
+        .contact-wrapper {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 50px;
+        }
+
+        .form-group { margin-bottom: 24px; }
+
+        .form-label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            margin-left: 10px;
+            font-size: 0.95rem;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 16px 20px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 1rem;
+            color: var(--text-main);
+            transition: 0.3s;
+            border: none;
+        }
+
+        .form-input:focus {
+            box-shadow: inset 8px 8px 16px var(--shadow-dark), inset -8px -8px 16px var(--shadow-light);
+            outline: none;
+        }
+
+        .social-row {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+
+        .social-btn {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            color: var(--text-main);
+            transition: 0.3s;
+        }
+
+        .social-btn:hover { color: var(--accent); transform: translateY(-3px); }
+
+        footer { 
+            text-align: center; 
+            padding: 40px 20px; 
+            color: var(--text-muted); 
+            font-size: 0.9rem; 
+        }
+
+        /* =========================================
+           MOBILE RESPONSIVE
+           ========================================= */
+        @media (max-width: 900px) {
+            .hamburger { display: flex; }
+            
+            .nav-links {
+                position: fixed;
+                top: var(--nav-height);
+                left: 0;
+                right: 0;
+                background: rgba(224, 229, 236, 0.98);
+                backdrop-filter: blur(20px);
+                -webkit-backdrop-filter: blur(20px);
+                flex-direction: column;
+                padding: 30px 20px;
+                gap: 10px;
+                box-shadow: 0 10px 30px rgba(163, 177, 198, 0.3);
+                border-bottom-left-radius: 20px;
+                border-bottom-right-radius: 20px;
+                max-height: 0;
+                overflow: hidden;
+                opacity: 0;
+                visibility: hidden;
+                transition: max-height 0.4s ease, opacity 0.3s ease, visibility 0.3s ease, padding 0.3s ease;
+                padding-top: 0;
+                padding-bottom: 0;
+            }
+            
+            .nav-links.active {
+                max-height: 500px;
+                opacity: 1;
+                visibility: visible;
+                padding: 30px 20px;
+            }
+            
+            .nav-links li { width: 100%; text-align: center; }
+            .nav-links .nav-link {
+                display: block;
+                padding: 15px;
+                font-size: 1.1rem;
+                border-radius: 12px;
+            }
+            .nav-links .nav-link:hover {
+                background: rgba(108, 99, 255, 0.1);
+            }
+            
+            .hero-grid { 
+                grid-template-columns: 1fr; 
+                text-align: center; 
+                gap: 40px;
+            }
+            
+            .hero-text p { margin: 0 auto 30px; }
+            .hero-buttons { justify-content: center; }
+            
+            .about-card { 
+                grid-template-columns: 1fr; 
+                padding: 25px;
+            }
+            
+            .personal-info {
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+            }
+            
+            .contact-wrapper { padding: 30px 20px; }
+        }
+
+        @media (max-width: 480px) {
+            section { padding: 70px 0; }
+            .container { padding: 0 16px; }
+            
+            .hero { padding-top: 80px; min-height: auto; padding-bottom: 50px; }
+            
+            .btn { 
+                padding: 12px 24px; 
+                font-size: 0.9rem; 
+                width: 100%;
+                max-width: 280px;
+            }
+            
+            .hero-buttons { 
+                flex-direction: column; 
+                align-items: center;
+                width: 100%;
+            }
+            
+            .profile-frame { 
+                width: 220px; 
+                height: 220px; 
+            }
+            
+            .skill-card, .project-card { padding: 25px; }
+            .project-content { padding: 20px; }
+            
+            .social-btn {
+                width: 50px;
+                height: 50px;
+                font-size: 1.2rem;
+            }
+            
+            .stat-number { font-size: 1.8rem; }
+            
+            .personal-info {
+                grid-template-columns: 1fr;
+            }
+            
+            .info-item {
+                padding: 14px 12px;
+            }
+            
+            .info-icon {
+                width: 36px;
+                height: 36px;
+                font-size: 0.9rem;
+            }
+            
+            .info-value {
+                font-size: 0.85rem;
+            }
         }
     </style>
-<base target="_blank">
 </head>
 <body>
 
-    <!-- Loading Screen -->
-    <div class="loader" id="loader">
-        <div class="loader-text">NEXUS PC</div>
-        <div class="loader-bar"><div class="loader-progress"></div></div>
-    </div>
-
-    <!-- Particles Background -->
-    <canvas id="particles-canvas"></canvas>
-
     <!-- Navbar -->
     <nav class="navbar" id="navbar">
-        <div class="logo">NEXUS<span>PREMIUM PC</span></div>
-        <ul class="nav-links">
-            <li><a href="#home">Beranda</a></li>
-            <li><a href="#products">Produk</a></li>
-            <li><a href="#features">Fitur</a></li>
-            <li><a href="#showcase">Showcase</a></li>
-            <li><a href="#testimonials">Testimoni</a></li>
-        </ul>
-        <button class="nav-cta">Hubungi Kami</button>
+        <div class="container nav-container">
+            <a href="#home" class="logo neu-flat">ALEX.</a>
+            
+            <div class="hamburger" id="hamburger">
+                <i class="fas fa-bars"></i>
+            </div>
+
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#home" class="nav-link" data-lang="nav_home">Home</a></li>
+                <li><a href="#about" class="nav-link" data-lang="nav_about">About</a></li>
+                <li><a href="#skills" class="nav-link" data-lang="nav_skills">Skills</a></li>
+                <li><a href="#projects" class="nav-link" data-lang="nav_projects">Projects</a></li>
+                <li><a href="#contact" class="nav-link" data-lang="nav_contact">Contact</a></li>
+                <li>
+                    <button class="btn btn-secondary" id="langToggle" style="padding: 10px 20px; font-size: 0.9rem;">
+                        ID / EN
+                    </button>
+                </li>
+            </ul>
+        </div>
     </nav>
 
-    <!-- Hero Section -->
-    <section class="hero" id="home">
-        <div class="hero-bg"><canvas id="hero-canvas"></canvas></div>
-        <div class="hero-overlay"></div>
-        <div class="hero-content">
-            <div class="hero-badge">&#9733; Toko PC Gaming No.1 Indonesia</div>
-            <h1 class="hero-title">Bangun <span class="gradient-text">Rig Gaming</span><br>Impian Anda</h1>
-            <p class="hero-subtitle">PC gaming premium dengan performa tertinggi. Dari build custom hingga prebuilt high-end, kami menghadirkan pengalaman gaming yang tak tertandingi.</p>
-            <div class="hero-buttons">
-                <a href="#products" class="btn-primary">Jelajahi Produk</a>
-                <a href="#showcase" class="btn-secondary">Build Custom</a>
+    <!-- Hero -->
+    <section id="home" class="hero">
+        <div class="container hero-grid">
+            <div class="hero-text">
+                <span class="btn btn-secondary" style="margin-bottom: 20px; cursor: default;" data-lang="hero_badge">Full Stack Developer</span>
+                <h1 data-lang="hero_title">Building Digital <br><span style="color: var(--accent);">Experiences</span></h1>
+                <p data-lang="hero_desc">I craft tactile interfaces and robust backend systems. Turning complex problems into elegant solutions with clean code and modern design.</p>
+                
+                <div class="hero-buttons">
+                    <a href="#projects" class="btn btn-primary" data-lang="btn_work">View My Work</a>
+                    <a href="#contact" class="btn btn-secondary" data-lang="btn_contact">Contact Me</a>
+                </div>
+            </div>
+
+            <div class="profile-wrapper">
+                <div class="profile-frame">
+                    <!-- GANTI FOTO DI SINI: src="img/foto-saya.jpg" -->
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Profile" class="profile-img">
+                </div>
             </div>
         </div>
-        <div class="scroll-indicator"><span>Scroll</span><i class="fas fa-chevron-down"></i></div>
     </section>
 
-    <!-- Marquee -->
-    <div class="marquee-section">
-        <div class="marquee-track">
-            <div class="marquee-item"><i class="fas fa-microchip"></i> RTX 4090</div>
-            <div class="marquee-item"><i class="fas fa-memory"></i> DDR5 7200MHz</div>
-            <div class="marquee-item"><i class="fas fa-hdd"></i> NVMe Gen 5</div>
-            <div class="marquee-item"><i class="fas fa-fan"></i> Liquid Cooling</div>
-            <div class="marquee-item"><i class="fas fa-bolt"></i> 1000W PSU</div>
-            <div class="marquee-item"><i class="fas fa-desktop"></i> 4K 240Hz</div>
-            <div class="marquee-item"><i class="fas fa-wifi"></i> WiFi 7</div>
-            <div class="marquee-item"><i class="fas fa-shield-alt"></i> 5 Tahun Garansi</div>
-            <div class="marquee-item"><i class="fas fa-microchip"></i> RTX 4090</div>
-            <div class="marquee-item"><i class="fas fa-memory"></i> DDR5 7200MHz</div>
-            <div class="marquee-item"><i class="fas fa-hdd"></i> NVMe Gen 5</div>
-            <div class="marquee-item"><i class="fas fa-fan"></i> Liquid Cooling</div>
-            <div class="marquee-item"><i class="fas fa-bolt"></i> 1000W PSU</div>
-            <div class="marquee-item"><i class="fas fa-desktop"></i> 4K 240Hz</div>
-            <div class="marquee-item"><i class="fas fa-wifi"></i> WiFi 7</div>
-            <div class="marquee-item"><i class="fas fa-shield-alt"></i> 5 Tahun Garansi</div>
-        </div>
-    </div>
+    <!-- About Section (UPDATED WITH PERSONAL INFO) -->
+    <section id="about">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title" data-lang="about_title">About Me</h2>
+                <p class="section-subtitle" data-lang="about_sub">Get to know me better</p>
+            </div>
 
-    <!-- Products Section -->
-    <section class="products-section" id="products">
-        <div class="section-header">
-            <div class="section-label">Koleksi Kami</div>
-            <h2 class="section-title">PC Gaming <span style="color: var(--primary);">Premium</span></h2>
-            <p class="section-desc">Pilih dari koleksi PC gaming high-end kami yang dirancang untuk performa maksimal</p>
-        </div>
-        <div class="products-grid">
-            <div class="product-card" data-product="1">
-                <div class="product-badge badge-hot">Hot</div>
-                <img src="https://kimi-web-img.moonshot.cn/img/thumbs.dreamstime.com/6a20688dd65e908218d142eaf85e57617ecca06c.jpg" alt="Gaming Setup RGB" class="product-image">
-                <div class="product-info">
-                    <div class="product-category">Gaming Setup</div>
-                    <h3 class="product-name">Nexus Ultimate RGB Setup</h3>
-                    <div class="product-specs">
-                        <span class="spec-tag">RTX 4090</span><span class="spec-tag">i9-14900K</span>
-                        <span class="spec-tag">64GB DDR5</span><span class="spec-tag">2TB NVMe</span>
+            <div class="neu-flat about-card">
+                <!-- KOLOM KIRI: Data Diri + Deskripsi -->
+                <div>
+                    <!-- Status Badge -->
+                    <div class="neu-pressed status-badge">
+                        <span class="status-dot"></span>
+                        <span data-lang="status_available">Available for work</span>
                     </div>
-                    <div class="product-footer">
-                        <div class="product-price"><span class="currency">Rp</span> 45.999.000<span class="old">Rp 52.000.000</span></div>
-                        <button class="btn-buy"><i class="fas fa-shopping-cart"></i></button>
+
+                    <!-- Personal Info Grid -->
+                    <div class="personal-info">
+                        <div class="neu-pressed info-item">
+                            <div class="neu-pressed info-icon">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="info-text">
+                                <span class="info-label" data-lang="info_name_label">Name</span>
+                                <span class="info-value" data-lang="info_name">Alex Creative</span>
+                            </div>
+                        </div>
+
+                        <div class="neu-pressed info-item">
+                            <div class="neu-pressed info-icon">
+                                <i class="fas fa-birthday-cake"></i>
+                            </div>
+                            <div class="info-text">
+                                <span class="info-label" data-lang="info_age_label">Age</span>
+                                <span class="info-value" data-lang="info_age">25 Years</span>
+                            </div>
+                        </div>
+
+                        <div class="neu-pressed info-item">
+                            <div class="neu-pressed info-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div class="info-text">
+                                <span class="info-label" data-lang="info_location_label">Location</span>
+                                <span class="info-value" data-lang="info_location">Jakarta, ID</span>
+                            </div>
+                        </div>
+
+                        <div class="neu-pressed info-item">
+                            <div class="neu-pressed info-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div class="info-text">
+                                <span class="info-label" data-lang="info_email_label">Email</span>
+                                <span class="info-value">hello@alex.com</span>
+                            </div>
+                        </div>
+
+                        <div class="neu-pressed info-item">
+                            <div class="neu-pressed info-icon">
+                                <i class="fas fa-graduation-cap"></i>
+                            </div>
+                            <div class="info-text">
+                                <span class="info-label" data-lang="info_edu_label">Education</span>
+                                <span class="info-value" data-lang="info_edu">S1 Informatics</span>
+                            </div>
+                        </div>
+
+                        <div class="neu-pressed info-item">
+                            <div class="neu-pressed info-icon">
+                                <i class="fas fa-language"></i>
+                            </div>
+                            <div class="info-text">
+                                <span class="info-label" data-lang="info_lang_label">Languages</span>
+                                <span class="info-value" data-lang="info_lang">ID, EN</span>
+                            </div>
+                        </div>
                     </div>
+
+                    <!-- Deskripsi -->
+                    <p class="about-text" data-lang="about_p1">
+                        I am a passionate developer based in Indonesia with over 5 years of experience in building digital products. I don't just write code; I solve problems.
+                    </p>
+                    <p class="about-text" data-lang="about_p2">
+                        My philosophy is simple: Design should feel real, and code should be clean. I specialize in the JavaScript ecosystem, creating seamless experiences from database to pixel.
+                    </p>
                 </div>
-            </div>
-            <div class="product-card" data-product="2">
-                <div class="product-badge badge-new">New</div>
-                <img src="https://kimi-web-img.moonshot.cn/img/cdn.mos.cms.futurecdn.net/c22bfd6c2ba20f507045f901c9f47afec8c4bbbb.jpg" alt="High End Water Cooled PC" class="product-image">
-                <div class="product-info">
-                    <div class="product-category">Custom Water Cooled</div>
-                    <h3 class="product-name">Nexus Hydro X Pro</h3>
-                    <div class="product-specs">
-                        <span class="spec-tag">RTX 4080</span><span class="spec-tag">i7-14700K</span>
-                        <span class="spec-tag">32GB DDR5</span><span class="spec-tag">Custom Loop</span>
+
+                <!-- KOLOM KANAN: Stats -->
+                <div class="stats-grid">
+                    <div class="neu-pressed stat-box">
+                        <div class="stat-number">5+</div>
+                        <div class="stat-label" data-lang="stat_years">Years Exp.</div>
                     </div>
-                    <div class="product-footer">
-                        <div class="product-price"><span class="currency">Rp</span> 38.500.000</div>
-                        <button class="btn-buy"><i class="fas fa-shopping-cart"></i></button>
+                    <div class="neu-pressed stat-box">
+                        <div class="stat-number">50+</div>
+                        <div class="stat-label" data-lang="stat_projects">Projects</div>
                     </div>
-                </div>
-            </div>
-            <div class="product-card" data-product="3">
-                <div class="product-badge badge-premium">Premium</div>
-                <img src="https://kimi-web-img.moonshot.cn/img/www.jouleperformance.com/f372a62254a9034a69184a28e82dd74e58091a75.png" alt="High End Gaming PC Components" class="product-image">
-                <div class="product-info">
-                    <div class="product-category">Prebuilt High-End</div>
-                    <h3 class="product-name">Nexus Titan Build</h3>
-                    <div class="product-specs">
-                        <span class="spec-tag">RTX 4070 Ti</span><span class="spec-tag">i5-14600K</span>
-                        <span class="spec-tag">32GB DDR5</span><span class="spec-tag">1TB NVMe</span>
+                    <div class="neu-pressed stat-box">
+                        <div class="stat-number">30+</div>
+                        <div class="stat-label" data-lang="stat_clients">Clients</div>
                     </div>
-                    <div class="product-footer">
-                        <div class="product-price"><span class="currency">Rp</span> 28.999.000<span class="old">Rp 32.000.000</span></div>
-                        <button class="btn-buy"><i class="fas fa-shopping-cart"></i></button>
-                    </div>
-                </div>
-            </div>
-            <div class="product-card" data-product="4">
-                <div class="product-badge badge-new">New</div>
-                <img src="https://kimi-web-img.moonshot.cn/img/cdn.mos.cms.futurecdn.net/ccee7b5052b25c547abb31c9fff97684587c4b82.png" alt="White Gaming PC Build" class="product-image">
-                <div class="product-info">
-                    <div class="product-category">Aesthetic Build</div>
-                    <h3 class="product-name">Nexus Frost White</h3>
-                    <div class="product-specs">
-                        <span class="spec-tag">RTX 4070</span><span class="spec-tag">Ryzen 7 7800X</span>
-                        <span class="spec-tag">32GB DDR5</span><span class="spec-tag">White Theme</span>
-                    </div>
-                    <div class="product-footer">
-                        <div class="product-price"><span class="currency">Rp</span> 24.500.000</div>
-                        <button class="btn-buy"><i class="fas fa-shopping-cart"></i></button>
-                    </div>
-                </div>
-            </div>
-            <div class="product-card" data-product="5">
-                <div class="product-badge badge-hot">Hot</div>
-                <img src="https://kimi-web-img.moonshot.cn/img/cdn.avadirect.com/c82462cfd10d9929ef1b1e8560a8a78ff685204f.jpg" alt="Pink Gaming PC" class="product-image">
-                <div class="product-info">
-                    <div class="product-category">Aesthetic Build</div>
-                    <h3 class="product-name">Nexus Sakura Pink</h3>
-                    <div class="product-specs">
-                        <span class="spec-tag">RTX 4060 Ti</span><span class="spec-tag">Ryzen 5 7600</span>
-                        <span class="spec-tag">16GB DDR5</span><span class="spec-tag">Pink Theme</span>
-                    </div>
-                    <div class="product-footer">
-                        <div class="product-price"><span class="currency">Rp</span> 18.999.000<span class="old">Rp 21.000.000</span></div>
-                        <button class="btn-buy"><i class="fas fa-shopping-cart"></i></button>
-                    </div>
-                </div>
-            </div>
-            <div class="product-card" data-product="6">
-                <div class="product-badge badge-premium">Premium</div>
-                <img src="https://kimi-web-img.moonshot.cn/img/emarque.co/ee2b06becbe5124d6f0ca3ae8601ddea77d4c449.jpg" alt="RGB Gaming PC Build" class="product-image">
-                <div class="product-info">
-                    <div class="product-category">Enthusiast Build</div>
-                    <h3 class="product-name">Nexus Spectra RGB</h3>
-                    <div class="product-specs">
-                        <span class="spec-tag">RTX 4090</span><span class="spec-tag">i9-14900KS</span>
-                        <span class="spec-tag">128GB DDR5</span><span class="spec-tag">4TB NVMe</span>
-                    </div>
-                    <div class="product-footer">
-                        <div class="product-price"><span class="currency">Rp</span> 65.000.000</div>
-                        <button class="btn-buy"><i class="fas fa-shopping-cart"></i></button>
+                    <div class="neu-pressed stat-box">
+                        <div class="stat-number">12</div>
+                        <div class="stat-label" data-lang="stat_awards">Awards</div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Features Section -->
-    <section class="features-section" id="features">
-        <div class="section-header">
-            <div class="section-label">Mengapa Kami</div>
-            <h2 class="section-title">Keunggulan <span style="color: var(--secondary);">Nexus PC</span></h2>
-            <p class="section-desc">Kami menghadirkan pengalaman terbaik dalam setiap build PC gaming</p>
-        </div>
-        <div class="features-grid">
-            <div class="feature-card">
-                <div class="feature-icon"><i class="fas fa-award"></i></div>
-                <h3 class="feature-title">Garansi 5 Tahun</h3>
-                <p class="feature-desc">Setiap PC gaming kami dilindungi garansi komprehensif 5 tahun untuk semua komponen utama.</p>
+    <!-- Skills -->
+    <section id="skills">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title" data-lang="skills_title">My Expertise</h2>
+                <p class="section-subtitle" data-lang="skills_sub">Tools and technologies I use to bring ideas to life.</p>
             </div>
-            <div class="feature-card">
-                <div class="feature-icon"><i class="fas fa-tools"></i></div>
-                <h3 class="feature-title">Build Custom</h3>
-                <p class="feature-desc">Tim ahli kami akan membantu merancang dan membangun PC sesuai kebutuhan dan budget Anda.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon"><i class="fas fa-shipping-fast"></i></div>
-                <h3 class="feature-title">Pengiriman Aman</h3>
-                <p class="feature-desc">Packing khusus dengan foam protection dan asuransi pengiriman untuk keamanan maksimal.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon"><i class="fas fa-headset"></i></div>
-                <h3 class="feature-title">Support 24/7</h3>
-                <p class="feature-desc">Tim support teknis kami siap membantu kapan saja untuk troubleshooting dan konsultasi.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon"><i class="fas fa-microchip"></i></div>
-                <h3 class="feature-title">Komponen Original</h3>
-                <p class="feature-desc">Hanya menggunakan komponen original dan berkualitas dari brand ternama dunia.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon"><i class="fas fa-chart-line"></i></div>
-                <h3 class="feature-title">Stress Tested</h3>
-                <p class="feature-desc">Setiap PC melewati stress test 48 jam untuk memastikan stabilitas dan performa optimal.</p>
-            </div>
-        </div>
-    </section>
 
-    <!-- Showcase Section -->
-    <section class="showcase-section" id="showcase">
-        <div class="section-header">
-            <div class="section-label">Showcase</div>
-            <h2 class="section-title">Build <span style="color: var(--accent);">Unggulan</span></h2>
-            <p class="section-desc">Lihat detail spesifikasi PC gaming premium pilihan kami</p>
-        </div>
-        <div class="showcase-container">
-            <div class="showcase-item">
-                <div class="showcase-image-wrapper">
-                    <img src="https://kimi-web-img.moonshot.cn/img/siriuspowerpc.com/e1f82be8bc315bc3e16b5afd65a1f0edd663c725.webp" alt="Custom RGB Gaming PC Interior" class="showcase-image">
-                </div>
-                <div class="showcase-content">
-                    <div class="showcase-label">Enthusiast Series</div>
-                    <h3 class="showcase-title">Nexus Nebula RGB</h3>
-                    <p class="showcase-desc">PC gaming dengan sistem cooling custom dan lighting RGB yang dapat dikustomisasi penuh. Dirancang untuk gamer yang menginginkan performa ekstrem dengan estetika yang memukau.</p>
-                    <div class="showcase-specs">
-                        <div class="showcase-spec"><i class="fas fa-microchip"></i><span>Intel Core i9-14900K</span></div>
-                        <div class="showcase-spec"><i class="fas fa-video"></i><span>RTX 4090 24GB</span></div>
-                        <div class="showcase-spec"><i class="fas fa-memory"></i><span>64GB DDR5-7200</span></div>
-                        <div class="showcase-spec"><i class="fas fa-hdd"></i><span>2TB NVMe Gen 5</span></div>
+            <div class="skills-grid">
+                <div class="neu-flat skill-card">
+                    <div class="skill-header">
+                        <div class="neu-pressed icon-well"><i class="fas fa-laptop-code"></i></div>
+                        <h3>Frontend</h3>
                     </div>
-                    <div class="showcase-price">Rp 52.999.000</div>
-                    <a href="#" class="btn-primary">Pesan Sekarang</a>
-                </div>
-            </div>
-            <div class="showcase-item reverse">
-                <div class="showcase-image-wrapper">
-                    <img src="https://kimi-web-img.moonshot.cn/img/static.cybertron.com/c8ed80bd878856b947a248c764d5648e99b62b16.jpg" alt="CLX Gaming PC Purple" class="showcase-image">
-                </div>
-                <div class="showcase-content">
-                    <div class="showcase-label">Streamer Series</div>
-                    <h3 class="showcase-title">Nexus Stream Pro</h3>
-                    <p class="showcase-desc">PC khusus untuk content creator dan streamer dengan dual PC setup capability. Encoding hardware yang powerful untuk streaming 4K tanpa lag.</p>
-                    <div class="showcase-specs">
-                        <div class="showcase-spec"><i class="fas fa-microchip"></i><span>AMD Ryzen 9 7950X</span></div>
-                        <div class="showcase-spec"><i class="fas fa-video"></i><span>RTX 4080 16GB</span></div>
-                        <div class="showcase-spec"><i class="fas fa-memory"></i><span>32GB DDR5-6400</span></div>
-                        <div class="showcase-spec"><i class="fas fa-hdd"></i><span>1TB NVMe + 4TB HDD</span></div>
+                    <div class="skill-tags">
+                        <span class="tag">HTML5/CSS3</span>
+                        <span class="tag">JavaScript</span>
+                        <span class="tag">React.js</span>
+                        <span class="tag">Vue.js</span>
+                        <span class="tag">Tailwind</span>
                     </div>
-                    <div class="showcase-price">Rp 35.500.000</div>
-                    <a href="#" class="btn-primary">Pesan Sekarang</a>
+                </div>
+
+                <div class="neu-flat skill-card">
+                    <div class="skill-header">
+                        <div class="neu-pressed icon-well"><i class="fas fa-server"></i></div>
+                        <h3>Backend</h3>
+                    </div>
+                    <div class="skill-tags">
+                        <span class="tag">Node.js</span>
+                        <span class="tag">Python</span>
+                        <span class="tag">SQL</span>
+                        <span class="tag">Firebase</span>
+                        <span class="tag">REST API</span>
+                    </div>
+                </div>
+
+                <div class="neu-flat skill-card">
+                    <div class="skill-header">
+                        <div class="neu-pressed icon-well"><i class="fas fa-tools"></i></div>
+                        <h3>Tools</h3>
+                    </div>
+                    <div class="skill-tags">
+                        <span class="tag">Git/GitHub</span>
+                        <span class="tag">Docker</span>
+                        <span class="tag">Figma</span>
+                        <span class="tag">VS Code</span>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Stats Section -->
-    <section class="stats-section">
-        <div class="stats-grid">
-            <div class="stat-item"><div class="stat-number" data-count="5000">0</div><div class="stat-label">PC Terjual</div></div>
-            <div class="stat-item"><div class="stat-number" data-count="98">0</div><div class="stat-label">% Kepuasan</div></div>
-            <div class="stat-item"><div class="stat-number" data-count="15">0</div><div class="stat-label">Tahun Pengalaman</div></div>
-            <div class="stat-item"><div class="stat-number" data-count="24">0</div><div class="stat-label">Jam Support</div></div>
+    <!-- Projects -->
+    <section id="projects">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title" data-lang="projects_title">Featured Projects</h2>
+                <p class="section-subtitle" data-lang="projects_sub">Some of my recent work that I'm proud of.</p>
+            </div>
+
+            <div class="projects-grid">
+                <div class="neu-flat project-card">
+                    <div class="project-img-container">
+                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Project 1">
+                    </div>
+                    <div class="project-content">
+                        <h3 class="project-title">E-Commerce Dashboard</h3>
+                        <div class="project-tech"><span>REACT</span> • <span>NODE.JS</span></div>
+                        <p class="project-desc">A comprehensive dashboard for managing products, orders, and analytics with real-time data visualization.</p>
+                        <a href="#" class="btn btn-secondary" style="width: 100%;">View Details</a>
+                    </div>
+                </div>
+
+                <div class="neu-flat project-card">
+                    <div class="project-img-container">
+                        <img src="https://images.unsplash.com/photo-1555774698-0b77e0d5fac6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Project 2">
+                    </div>
+                    <div class="project-content">
+                        <h3 class="project-title">Finance Tracker App</h3>
+                        <div class="project-tech"><span>VUE.JS</span> • <span>FIREBASE</span></div>
+                        <p class="project-desc">Mobile-first application helping users track expenses, set budgets, and visualize spending habits.</p>
+                        <a href="#" class="btn btn-secondary" style="width: 100%;">View Details</a>
+                    </div>
+                </div>
+
+                <div class="neu-flat project-card">
+                    <div class="project-img-container">
+                        <img src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Project 3">
+                    </div>
+                    <div class="project-content">
+                        <h3 class="project-title">Social Media API</h3>
+                        <div class="project-tech"><span>PYTHON</span> • <span>DJANGO</span></div>
+                        <p class="project-desc">High-performance REST API capable of handling thousands of concurrent connections and media uploads.</p>
+                        <a href="#" class="btn btn-secondary" style="width: 100%;">View Details</a>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
-    <!-- Testimonials Section -->
-    <section class="testimonials-section" id="testimonials">
-        <div class="section-header">
-            <div class="section-label">Testimoni</div>
-            <h2 class="section-title">Apa Kata <span style="color: var(--primary);">Pelanggan</span></h2>
-            <p class="section-desc">Pengalaman nyata dari para gamer yang telah mempercayakan build PC mereka pada kami</p>
-        </div>
-        <div class="testimonials-grid">
-            <div class="testimonial-card">
-                <div class="testimonial-quote">"</div>
-                <p class="testimonial-text">PC dari Nexus benar-benar mengubah pengalaman gaming saya. FPS stabil di semua game AAA dan build quality-nya sangat premium. Recommended banget!</p>
-                <div class="testimonial-author">
-                    <div class="testimonial-avatar">AR</div>
-                    <div class="testimonial-info"><h4>Andi Raharjo</h4><span>Pro Gamer</span><div class="testimonial-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div></div>
-                </div>
+    <!-- Contact -->
+    <section id="contact">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title" data-lang="contact_title">Get In Touch</h2>
+                <p class="section-subtitle" data-lang="contact_sub">Have a project in mind? Let's build something together.</p>
             </div>
-            <div class="testimonial-card">
-                <div class="testimonial-quote">"</div>
-                <p class="testimonial-text">Proses custom build sangat smooth. Tim mereka sangat profesional dan memberikan rekomendasi yang tepat sesuai budget. Hasilnya melebihi ekspektasi!</p>
-                <div class="testimonial-author">
-                    <div class="testimonial-avatar">BS</div>
-                    <div class="testimonial-info"><h4>Budi Santoso</h4><span>Content Creator</span><div class="testimonial-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div></div>
-                </div>
-            </div>
-            <div class="testimonial-card">
-                <div class="testimonial-quote">"</div>
-                <p class="testimonial-text">Garansi 5 tahun dan support 24/7 benar-benar real. Pernah ada masalah kecil dan mereka respon sangat cepat. Service terbaik yang pernah saya dapatkan!</p>
-                <div class="testimonial-author">
-                    <div class="testimonial-avatar">CW</div>
-                    <div class="testimonial-info"><h4>Citra Wijaya</h4><span>Streamer</span><div class="testimonial-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div></div>
-                </div>
+
+            <div class="neu-flat contact-wrapper">
+                <form id="contactForm">
+                    <div class="form-group">
+                        <label class="form-label" data-lang="form_name">Your Name</label>
+                        <input type="text" class="neu-pressed form-input" placeholder="John Doe" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" data-lang="form_email">Email Address</label>
+                        <input type="email" class="neu-pressed form-input" placeholder="john@example.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" data-lang="form_message">Message</label>
+                        <textarea class="neu-pressed form-input" rows="5" placeholder="Tell me about your project..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;" data-lang="btn_send">Send Message</button>
+                </form>
+
+                <div class="social-row" id="socialLinksContainer"></div>
             </div>
         </div>
     </section>
 
-    <!-- CTA Section -->
-    <section class="cta-section">
-        <h2 class="cta-title">Siap untuk Upgrade?</h2>
-        <p class="cta-desc">Jadilah bagian dari komunitas gamer premium. Dapatkan konsultasi gratis untuk build PC impian Anda.</p>
-        <a href="#" class="btn-primary">Konsultasi Gratis</a>
-    </section>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="footer-grid">
-            <div class="footer-brand">
-                <div class="logo">NEXUS<span>PREMIUM PC</span></div>
-                <p>Toko PC gaming premium terbaik di Indonesia. Menyediakan build custom, prebuilt high-end, dan komponen komputer berkualitas dengan garansi terbaik.</p>
-                <div class="footer-social">
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                    <a href="#"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#"><i class="fab fa-twitter"></i></a>
-                    <a href="#"><i class="fab fa-youtube"></i></a>
-                    <a href="#"><i class="fab fa-discord"></i></a>
-                </div>
-            </div>
-            <div class="footer-column">
-                <h4>Produk</h4>
-                <ul>
-                    <li><a href="#">PC Gaming Prebuilt</a></li>
-                    <li><a href="#">Build Custom</a></li>
-                    <li><a href="#">Komponen PC</a></li>
-                    <li><a href="#">Aksesoris Gaming</a></li>
-                    <li><a href="#">Monitor Gaming</a></li>
-                </ul>
-            </div>
-            <div class="footer-column">
-                <h4>Layanan</h4>
-                <ul>
-                    <li><a href="#">Konsultasi Build</a></li>
-                    <li><a href="#">Upgrade PC</a></li>
-                    <li><a href="#">Repair & Service</a></li>
-                    <li><a href="#">Instalasi Software</a></li>
-                    <li><a href="#">Cable Management</a></li>
-                </ul>
-            </div>
-            <div class="footer-column">
-                <h4>Kontak</h4>
-                <ul>
-                    <li><a href="#"><i class="fas fa-map-marker-alt" style="margin-right:8px;color:var(--primary)"></i> Jakarta, Indonesia</a></li>
-                    <li><a href="#"><i class="fas fa-phone" style="margin-right:8px;color:var(--primary)"></i> +62 812-3456-7890</a></li>
-                    <li><a href="#"><i class="fas fa-envelope" style="margin-right:8px;color:var(--primary)"></i> info@nexuspc.id</a></li>
-                    <li><a href="#"><i class="fas fa-clock" style="margin-right:8px;color:var(--primary)"></i> Buka 24 Jam</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2026 <span>NEXUS PC</span>. All Rights Reserved. Crafted with passion for gamers.</p>
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Alex Creative. All Rights Reserved.</p>
         </div>
     </footer>
 
     <script>
+        // ==========================================
+        // ⚠️ KONFIGURASI LINK SOSMED (GANTI DI SINI) ⚠️
+        // ==========================================
+        const SOCIAL_LINKS = {
+            instagram: "https://instagram.com/username_anda", 
+            telegram: "https://t.me/username_anda",
+            github: "https://github.com/satxxclouds/satriastore",
+            whatsapp: "https://wa.me/6281340514077" 
+        };
 
-    // ===== LOADER =====
-    window.addEventListener('load', () => {
-        setTimeout(() => {
-            document.getElementById('loader').classList.add('hidden');
-        }, 2200);
-    });
+        function loadSocialLinks() {
+            const container = document.getElementById('socialLinksContainer');
+            const platforms = [
+                { key: 'instagram', icon: 'fa-instagram' },
+                { key: 'telegram', icon: 'fa-telegram-plane' },
+                { key: 'github', icon: 'fa-github' },
+                { key: 'whatsapp', icon: 'fa-whatsapp' }
+            ];
 
-    // ===== NAVBAR SCROLL =====
-    const navbar = document.getElementById('navbar');
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 50) {
-            navbar.classList.add('scrolled');
-        } else {
-            navbar.classList.remove('scrolled');
-        }
-    });
+            let html = '';
+            
+            platforms.forEach(platform => {
+                const link = SOCIAL_LINKS[platform.key];
+                const isValidLink = link && link !== '#' && !link.includes('username_anda');
 
-    // ===== HERO CANVAS ANIMATION =====
-    const heroCanvas = document.getElementById('hero-canvas');
-    const heroCtx = heroCanvas.getContext('2d');
-    let heroParticles = [];
-    let mouseX = 0, mouseY = 0;
-
-    function resizeHeroCanvas() {
-        heroCanvas.width = window.innerWidth;
-        heroCanvas.height = window.innerHeight;
-    }
-    resizeHeroCanvas();
-    window.addEventListener('resize', resizeHeroCanvas);
-
-    class HeroParticle {
-        constructor() {
-            this.x = Math.random() * heroCanvas.width;
-            this.y = Math.random() * heroCanvas.height;
-            this.size = Math.random() * 2 + 0.5;
-            this.speedX = (Math.random() - 0.5) * 0.5;
-            this.speedY = (Math.random() - 0.5) * 0.5;
-            this.opacity = Math.random() * 0.5 + 0.1;
-            this.color = Math.random() > 0.5 ? '0, 240, 255' : '255, 45, 149';
-        }
-        update() {
-            this.x += this.speedX;
-            this.y += this.speedY;
-            if (this.x < 0 || this.x > heroCanvas.width) this.speedX *= -1;
-            if (this.y < 0 || this.y > heroCanvas.height) this.speedY *= -1;
-        }
-        draw() {
-            heroCtx.beginPath();
-            heroCtx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-            heroCtx.fillStyle = `rgba(${this.color}, ${this.opacity})`;
-            heroCtx.fill();
-        }
-    }
-
-    for (let i = 0; i < 80; i++) {
-        heroParticles.push(new HeroParticle());
-    }
-
-    function animateHero() {
-        heroCtx.clearRect(0, 0, heroCanvas.width, heroCanvas.height);
-        heroParticles.forEach(p => {
-            p.update();
-            p.draw();
-        });
-        // Draw connections
-        for (let i = 0; i < heroParticles.length; i++) {
-            for (let j = i + 1; j < heroParticles.length; j++) {
-                const dx = heroParticles[i].x - heroParticles[j].x;
-                const dy = heroParticles[i].y - heroParticles[j].y;
-                const dist = Math.sqrt(dx * dx + dy * dy);
-                if (dist < 150) {
-                    heroCtx.beginPath();
-                    heroCtx.moveTo(heroParticles[i].x, heroParticles[i].y);
-                    heroCtx.lineTo(heroParticles[j].x, heroParticles[j].y);
-                    heroCtx.strokeStyle = `rgba(0, 240, 255, ${0.1 * (1 - dist / 150)})`;
-                    heroCtx.lineWidth = 0.5;
-                    heroCtx.stroke();
-                }
-            }
-        }
-        requestAnimationFrame(animateHero);
-    }
-    animateHero();
-
-    // ===== PARTICLES BACKGROUND =====
-    const particlesCanvas = document.getElementById('particles-canvas');
-    const particlesCtx = particlesCanvas.getContext('2d');
-    let particles = [];
-
-    function resizeParticlesCanvas() {
-        particlesCanvas.width = window.innerWidth;
-        particlesCanvas.height = window.innerHeight;
-    }
-    resizeParticlesCanvas();
-    window.addEventListener('resize', resizeParticlesCanvas);
-
-    class Particle {
-        constructor() {
-            this.x = Math.random() * particlesCanvas.width;
-            this.y = Math.random() * particlesCanvas.height;
-            this.size = Math.random() * 1.5 + 0.3;
-            this.speedX = (Math.random() - 0.5) * 0.3;
-            this.speedY = (Math.random() - 0.5) * 0.3;
-            this.opacity = Math.random() * 0.3 + 0.05;
-        }
-        update() {
-            this.x += this.speedX;
-            this.y += this.speedY;
-            if (this.x < 0) this.x = particlesCanvas.width;
-            if (this.x > particlesCanvas.width) this.x = 0;
-            if (this.y < 0) this.y = particlesCanvas.height;
-            if (this.y > particlesCanvas.height) this.y = 0;
-        }
-        draw() {
-            particlesCtx.beginPath();
-            particlesCtx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-            particlesCtx.fillStyle = `rgba(0, 240, 255, ${this.opacity})`;
-            particlesCtx.fill();
-        }
-    }
-
-    for (let i = 0; i < 50; i++) {
-        particles.push(new Particle());
-    }
-
-    function animateParticles() {
-        particlesCtx.clearRect(0, 0, particlesCanvas.width, particlesCanvas.height);
-        particles.forEach(p => {
-            p.update();
-            p.draw();
-        });
-        requestAnimationFrame(animateParticles);
-    }
-    animateParticles();
-
-    // ===== GSAP SCROLL ANIMATIONS =====
-    gsap.registerPlugin(ScrollTrigger);
-
-    // Hero entrance
-    gsap.from('.hero-badge', { opacity: 0, y: 30, duration: 1, delay: 2.5, ease: 'power3.out' });
-    gsap.from('.hero-title', { opacity: 0, y: 50, duration: 1.2, delay: 2.7, ease: 'power3.out' });
-    gsap.from('.hero-subtitle', { opacity: 0, y: 30, duration: 1, delay: 3, ease: 'power3.out' });
-    gsap.from('.hero-buttons', { opacity: 0, y: 30, duration: 1, delay: 3.2, ease: 'power3.out' });
-    gsap.from('.scroll-indicator', { opacity: 0, duration: 1, delay: 3.5, ease: 'power3.out' });
-
-    // Section headers
-    document.querySelectorAll('.section-header').forEach(header => {
-        gsap.from(header, {
-            scrollTrigger: { trigger: header, start: 'top 85%', toggleActions: 'play none none none' },
-            opacity: 0, y: 40, duration: 0.8, ease: 'power3.out'
-        });
-    });
-
-    // Product cards - staggered
-    gsap.from('.product-card', {
-        scrollTrigger: { trigger: '.products-grid', start: 'top 80%', toggleActions: 'play none none none' },
-        opacity: 0, y: 60, duration: 0.8, stagger: 0.15, ease: 'power3.out'
-    });
-
-    // Feature cards
-    gsap.from('.feature-card', {
-        scrollTrigger: { trigger: '.features-grid', start: 'top 80%', toggleActions: 'play none none none' },
-        opacity: 0, y: 50, scale: 0.95, duration: 0.7, stagger: 0.1, ease: 'power3.out'
-    });
-
-    // Showcase items
-    document.querySelectorAll('.showcase-item').forEach((item, index) => {
-        const image = item.querySelector('.showcase-image-wrapper');
-        const content = item.querySelector('.showcase-content');
-        const direction = index % 2 === 0 ? -80 : 80;
-
-        gsap.from(image, {
-            scrollTrigger: { trigger: item, start: 'top 75%', toggleActions: 'play none none none' },
-            opacity: 0, x: direction, duration: 1, ease: 'power3.out'
-        });
-        gsap.from(content, {
-            scrollTrigger: { trigger: item, start: 'top 75%', toggleActions: 'play none none none' },
-            opacity: 0, x: -direction, duration: 1, delay: 0.2, ease: 'power3.out'
-        });
-    });
-
-    // Stats counter animation
-    const statNumbers = document.querySelectorAll('.stat-number');
-    statNumbers.forEach(stat => {
-        const target = parseInt(stat.getAttribute('data-count'));
-        gsap.from(stat, {
-            scrollTrigger: { trigger: stat, start: 'top 85%', toggleActions: 'play none none none' },
-            textContent: 0, duration: 2.5, ease: 'power2.out',
-            snap: { textContent: 1 },
-            onUpdate: function() {
-                stat.textContent = Math.ceil(this.targets()[0].textContent).toLocaleString();
-            }
-        });
-    });
-
-    // Testimonial cards
-    gsap.from('.testimonial-card', {
-        scrollTrigger: { trigger: '.testimonials-grid', start: 'top 80%', toggleActions: 'play none none none' },
-        opacity: 0, y: 50, rotateX: 10, duration: 0.8, stagger: 0.2, ease: 'power3.out'
-    });
-
-    // CTA section
-    gsap.from('.cta-title', {
-        scrollTrigger: { trigger: '.cta-section', start: 'top 80%', toggleActions: 'play none none none' },
-        opacity: 0, y: 40, duration: 0.8, ease: 'power3.out'
-    });
-    gsap.from('.cta-desc', {
-        scrollTrigger: { trigger: '.cta-section', start: 'top 80%', toggleActions: 'play none none none' },
-        opacity: 0, y: 30, duration: 0.8, delay: 0.2, ease: 'power3.out'
-    });
-    gsap.from('.cta-section .btn-primary', {
-        scrollTrigger: { trigger: '.cta-section', start: 'top 80%', toggleActions: 'play none none none' },
-        opacity: 0, y: 30, duration: 0.8, delay: 0.4, ease: 'power3.out'
-    });
-
-    // Footer
-    gsap.from('.footer-grid > div', {
-        scrollTrigger: { trigger: '.footer', start: 'top 90%', toggleActions: 'play none none none' },
-        opacity: 0, y: 30, duration: 0.6, stagger: 0.1, ease: 'power3.out'
-    });
-
-    // ===== PARALLAX EFFECT =====
-    document.querySelectorAll('.showcase-image').forEach(img => {
-        gsap.to(img, {
-            scrollTrigger: {
-                trigger: img.parentElement,
-                start: 'top bottom',
-                end: 'bottom top',
-                scrub: 1
-            },
-            y: -30,
-            ease: 'none'
-        });
-    });
-
-    // ===== PRODUCT CARD INTERACTION =====
-    document.querySelectorAll('.product-card').forEach(card => {
-        card.addEventListener('mouseenter', () => {
-            gsap.to(card, { scale: 1.02, duration: 0.3, ease: 'power2.out' });
-        });
-        card.addEventListener('mouseleave', () => {
-            gsap.to(card, { scale: 1, duration: 0.3, ease: 'power2.out' });
-        });
-    });
-
-    // ===== SMOOTH SCROLL FOR NAV LINKS =====
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function(e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                gsap.to(window, {
-                    duration: 1.2,
-                    scrollTo: { y: target, offsetY: 80 },
-                    ease: 'power3.inOut'
-                });
-            }
-        });
-    });
-
-    // ===== MOUSE FOLLOW GLOW =====
-    document.addEventListener('mousemove', (e) => {
-        mouseX = e.clientX;
-        mouseY = e.clientY;
-    });
-
-    // ===== BUTTON BUY CLICK =====
-    document.querySelectorAll('.btn-buy').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const card = btn.closest('.product-card');
-            gsap.to(btn, { scale: 0.8, duration: 0.1, yoyo: true, repeat: 1 });
-            // Create ripple effect
-            const ripple = document.createElement('div');
-            ripple.style.cssText = `
-                position: absolute; width: 20px; height: 20px;
-                background: var(--primary); border-radius: 50%;
-                pointer-events: none; opacity: 0.6;
-            `;
-            const rect = btn.getBoundingClientRect();
-            ripple.style.left = (rect.left + rect.width/2 - 10) + 'px';
-            ripple.style.top = (rect.top + rect.height/2 - 10) + 'px';
-            document.body.appendChild(ripple);
-            gsap.to(ripple, {
-                scale: 15, opacity: 0, duration: 0.6,
-                onComplete: () => ripple.remove()
-            });
-        });
-    });
-
-    // ===== NAV CTA CLICK =====
-    document.querySelector('.nav-cta').addEventListener('click', () => {
-        alert('Hubungi kami di WhatsApp: +62 812-3456-7890 atau email: info@nexuspc.id');
-    });
-
-    // ===== SCROLL REVEAL FOR MARQUEE =====
-    gsap.from('.marquee-section', {
-        scrollTrigger: { trigger: '.marquee-section', start: 'top 90%', toggleActions: 'play none none none' },
-        opacity: 0, y: 20, duration: 0.6, ease: 'power3.out'
-    });
-
-    // ===== FLOATING ELEMENTS PARALLAX =====
-    window.addEventListener('scroll', () => {
-        const scrolled = window.pageYOffset;
-        document.querySelectorAll('.float-element').forEach((el, i) => {
-            const speed = 0.1 + (i * 0.05);
-            el.style.transform = `translateY(${scrolled * speed}px)`;
-        });
-    });
-
-    // ===== TILT EFFECT ON PRODUCT CARDS =====
-    document.querySelectorAll('.product-card').forEach(card => {
-        card.addEventListener('mousemove', (e) => {
-            const rect = card.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            const centerX = rect.width / 2;
-            const centerY = rect.height / 2;
-            const rotateX = (y - centerY) / 20;
-            const rotateY = (centerX - x) / 20;
-            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-10px)`;
-        });
-        card.addEventListener('mouseleave', () => {
-            card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateY(0)';
-        });
-    });
-
-    // ===== TEXT SCRAMBLE EFFECT FOR HERO TITLE =====
-    class TextScramble {
-        constructor(el) {
-            this.el = el;
-            this.chars = '!<>-_\/[]{}--=+*^?#________';
-            this.update = this.update.bind(this);
-        }
-        setText(newText) {
-            const oldText = this.el.innerText;
-            const length = Math.max(oldText.length, newText.length);
-            const promise = new Promise((resolve) => this.resolve = resolve);
-            this.queue = [];
-            for (let i = 0; i < length; i++) {
-                const from = oldText[i] || '';
-                const to = newText[i] || '';
-                const start = Math.floor(Math.random() * 40);
-                const end = start + Math.floor(Math.random() * 40);
-                this.queue.push({ from, to, start, end });
-            }
-            cancelAnimationFrame(this.frameRequest);
-            this.frame = 0;
-            this.update();
-            return promise;
-        }
-        update() {
-            let output = '';
-            let complete = 0;
-            for (let i = 0, n = this.queue.length; i < n; i++) {
-                let { from, to, start, end, char } = this.queue[i];
-                if (this.frame >= end) {
-                    complete++;
-                    output += to;
-                } else if (this.frame >= start) {
-                    if (!char || Math.random() < 0.28) {
-                        char = this.randomChar();
-                        this.queue[i].char = char;
-                    }
-                    output += `<span style="color:var(--primary)">${char}</span>`;
+                if (isValidLink) {
+                    html += `
+                        <a href="${link}" 
+                           target="_blank" 
+                           rel="noopener noreferrer" 
+                           class="neu-flat social-btn" 
+                           title="${platform.key}">
+                           <i class="fab ${platform.icon}"></i>
+                        </a>`;
                 } else {
-                    output += from;
-                }
-            }
-            this.el.innerHTML = output;
-            if (complete === this.queue.length) {
-                this.resolve();
-            } else {
-                this.frameRequest = requestAnimationFrame(this.update);
-                this.frame++;
-            }
-        }
-        randomChar() {
-            return this.chars[Math.floor(Math.random() * this.chars.length)];
-        }
-    }
-
-    // ===== CURSOR GLOW =====
-    const cursorGlow = document.createElement('div');
-    cursorGlow.style.cssText = `
-        position: fixed; width: 300px; height: 300px;
-        background: radial-gradient(circle, rgba(0,240,255,0.08) 0%, transparent 70%);
-        border-radius: 50%; pointer-events: none; z-index: 9998;
-        transform: translate(-50%, -50%); transition: opacity 0.3s;
-    `;
-    document.body.appendChild(cursorGlow);
-
-    document.addEventListener('mousemove', (e) => {
-        cursorGlow.style.left = e.clientX + 'px';
-        cursorGlow.style.top = e.clientY + 'px';
-    });
-
-    // ===== INTERSECTION OBSERVER FOR FADE IN =====
-    const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
-    const fadeObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.style.opacity = '1';
-                entry.target.style.transform = 'translateY(0)';
-            }
-        });
-    }, observerOptions);
-
-    document.querySelectorAll('.product-card, .feature-card, .testimonial-card').forEach(el => {
-        el.style.opacity = '0';
-        el.style.transform = 'translateY(30px)';
-        el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-        fadeObserver.observe(el);
-    });
-
-    // ===== NAV LINK ACTIVE STATE =====
-    const sections = document.querySelectorAll('section[id]');
-    window.addEventListener('scroll', () => {
-        let current = '';
-        sections.forEach(section => {
-            const sectionTop = section.offsetTop - 100;
-            if (window.scrollY >= sectionTop) {
-                current = section.getAttribute('id');
-            }
-        });
-        document.querySelectorAll('.nav-links a').forEach(link => {
-            link.style.color = '';
-            if (link.getAttribute('href') === '#' + current) {
-                link.style.color = 'var(--primary)';
-            }
-        });
-    });
-
-    // ===== MAGNETIC BUTTON EFFECT =====
-    document.querySelectorAll('.btn-primary, .btn-secondary, .nav-cta').forEach(btn => {
-        btn.addEventListener('mousemove', (e) => {
-            const rect = btn.getBoundingClientRect();
-            const x = e.clientX - rect.left - rect.width / 2;
-            const y = e.clientY - rect.top - rect.height / 2;
-            btn.style.transform = `translate(${x * 0.2}px, ${y * 0.2}px)`;
-        });
-        btn.addEventListener('mouseleave', () => {
-            btn.style.transform = 'translate(0, 0)';
-        });
-    });
-
-    // ===== GLITCH EFFECT ON SCROLL =====
-    let lastScroll = 0;
-    window.addEventListener('scroll', () => {
-        const currentScroll = window.pageYOffset;
-        const scrollDiff = currentScroll - lastScroll;
-        if (Math.abs(scrollDiff) > 50) {
-            document.querySelectorAll('.section-title').forEach(title => {
-                title.style.textShadow = `${Math.random() * 4 - 2}px 0 var(--primary), ${Math.random() * 4 - 2}px 0 var(--secondary)`;
-                setTimeout(() => { title.style.textShadow = 'none'; }, 100);
-            });
-        }
-        lastScroll = currentScroll;
-    });
-
-    // ===== SMOOTH SCROLL POLYFILL =====
-    if (!('scrollBehavior' in document.documentElement.style)) {
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    html += `
+                        <div class="neu-flat social-btn" 
+                             style="opacity: 0.4; cursor: not-allowed; color: #999;" 
+                             title="Link belum diatur">
+                             <i class="fab ${platform.icon}"></i>
+                        </div>`;
                 }
             });
-        });
-    }
+            
+            container.innerHTML = html;
+        }
+        loadSocialLinks();
 
-    // ===== PRODUCT CARD 3D TILT ENHANCED =====
-    document.querySelectorAll('.product-card').forEach(card => {
-        card.addEventListener('mousemove', (e) => {
-            const rect = card.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            const centerX = rect.width / 2;
-            const centerY = rect.height / 2;
-            const rotateX = (y - centerY) / 15;
-            const rotateY = (centerX - x) / 15;
-            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-10px) scale(1.02)`;
-            card.style.transition = 'transform 0.1s ease-out';
-        });
-        card.addEventListener('mouseleave', () => {
-            card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateY(0) scale(1)';
-            card.style.transition = 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
-        });
-    });
-
-    // ===== FEATURE CARD ICON ANIMATION =====
-    document.querySelectorAll('.feature-card').forEach(card => {
-        const icon = card.querySelector('.feature-icon');
-        card.addEventListener('mouseenter', () => {
-            gsap.to(icon, { rotation: 360, duration: 0.6, ease: 'power2.out' });
-        });
-        card.addEventListener('mouseleave', () => {
-            gsap.to(icon, { rotation: 0, duration: 0.6, ease: 'power2.out' });
-        });
-    });
-
-    // ===== SHOWCASE IMAGE ZOOM ON SCROLL =====
-    document.querySelectorAll('.showcase-image-wrapper').forEach(wrapper => {
-        const img = wrapper.querySelector('.showcase-image');
-        gsap.to(img, {
-            scrollTrigger: {
-                trigger: wrapper,
-                start: 'top bottom',
-                end: 'bottom top',
-                scrub: 2
+        // ==========================================
+        // TRANSLATION (UPDATED WITH PERSONAL INFO)
+        // ==========================================
+        const translations = {
+            en: {
+                nav_home: "Home", nav_about: "About", nav_skills: "Skills", nav_projects: "Projects", nav_contact: "Contact",
+                hero_badge: "Full Stack Developer",
+                hero_title: "Building Digital <br><span style='color: var(--accent);'>Experiences</span>",
+                hero_desc: "I craft tactile interfaces and robust backend systems. Turning complex problems into elegant solutions with clean code and modern design.",
+                btn_work: "View My Work", btn_contact: "Contact Me",
+                
+                // About Section
+                about_title: "About Me",
+                about_sub: "Get to know me better",
+                status_available: "Available for work",
+                info_name_label: "Name", info_name: "Alex Creative",
+                info_age_label: "Age", info_age: "25 Years",
+                info_location_label: "Location", info_location: "Jakarta, ID",
+                info_email_label: "Email",
+                info_edu_label: "Education", info_edu: "S1 Informatics",
+                info_lang_label: "Languages", info_lang: "ID, EN",
+                about_p1: "I am a passionate developer based in Indonesia with over 5 years of experience in building digital products. I don't just write code; I solve problems.",
+                about_p2: "My philosophy is simple: Design should feel real, and code should be clean. I specialize in the JavaScript ecosystem, creating seamless experiences from database to pixel.",
+                stat_years: "Years Exp.", stat_projects: "Projects", stat_clients: "Clients", stat_awards: "Awards",
+                
+                skills_title: "My Expertise", skills_sub: "Tools and technologies I use to bring ideas to life.",
+                projects_title: "Featured Projects", projects_sub: "Some of my recent work that I'm proud of.",
+                contact_title: "Get In Touch", contact_sub: "Have a project in mind? Let's build something together.",
+                form_name: "Your Name", form_email: "Email Address", form_message: "Message", btn_send: "Send Message"
             },
-            scale: 1.1,
-            ease: 'none'
+            id: {
+                nav_home: "Beranda", nav_about: "Tentang", nav_skills: "Keahlian", nav_projects: "Proyek", nav_contact: "Kontak",
+                hero_badge: "Pengembang Full Stack",
+                hero_title: "Membangun Pengalaman <br><span style='color: var(--accent);'>Digital</span>",
+                hero_desc: "Saya menciptakan antarmuka taktil dan sistem backend yang kuat. Mengubah masalah kompleks menjadi solusi elegan dengan kode bersih dan desain modern.",
+                btn_work: "Lihat Karya", btn_contact: "Hubungi Saya",
+                
+                // About Section
+                about_title: "Tentang Saya",
+                about_sub: "Kenali saya lebih dekat",
+                status_available: "Tersedia untuk bekerja",
+                info_name_label: "Nama", info_name: "Alex Creative",
+                info_age_label: "Umur", info_age: "25 Tahun",
+                info_location_label: "Asal", info_location: "Jakarta, ID",
+                info_email_label: "Email",
+                info_edu_label: "Pendidikan", info_edu: "S1 Informatika",
+                info_lang_label: "Bahasa", info_lang: "ID, EN",
+                about_p1: "Saya pengembang yang bersemangat di Indonesia dengan pengalaman lebih dari 5 tahun dalam membangun produk digital. Saya tidak hanya menulis kode; saya memecahkan masalah.",
+                about_p2: "Filosofi saya sederhana: Desain harus terasa nyata, dan kode harus bersih. Saya berspesialisasi dalam ekosistem JavaScript, menciptakan pengalaman mulus dari database hingga piksel.",
+                stat_years: "Tahun Exp.", stat_projects: "Proyek", stat_clients: "Klien", stat_awards: "Penghargaan",
+                
+                skills_title: "Keahlian Saya", skills_sub: "Alat dan teknologi yang saya gunakan untuk menghidupkan ide.",
+                projects_title: "Proyek Unggulan", projects_sub: "Beberapa karya terbaru yang saya banggakan.",
+                contact_title: "Hubungi Saya", contact_sub: "Punya ide proyek? Mari kita bangun bersama.",
+                form_name: "Nama Anda", form_email: "Alamat Email", form_message: "Pesan", btn_send: "Kirim Pesan"
+            }
+        };
+
+        let currentLang = 'en';
+        const langBtn = document.getElementById('langToggle');
+
+        langBtn.addEventListener('click', () => {
+            currentLang = currentLang === 'en' ? 'id' : 'en';
+            document.querySelectorAll('[data-lang]').forEach(el => {
+                const key = el.getAttribute('data-lang');
+                if (translations[currentLang][key]) {
+                    if (key === 'hero_title') el.innerHTML = translations[currentLang][key];
+                    else el.textContent = translations[currentLang][key];
+                }
+            });
         });
-    });
 
-    // ===== TESTIMONIAL CARD HOVER =====
-    document.querySelectorAll('.testimonial-card').forEach(card => {
-        card.addEventListener('mouseenter', () => {
-            gsap.to(card, { y: -8, boxShadow: '0 20px 40px rgba(0,0,0,0.3)', duration: 0.3 });
+        // ==========================================
+        // NAVBAR & MOBILE MENU
+        // ==========================================
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) navbar.classList.add('scrolled');
+            else navbar.classList.remove('scrolled');
         });
-        card.addEventListener('mouseleave', () => {
-            gsap.to(card, { y: 0, boxShadow: 'none', duration: 0.3 });
+
+        const hamburger = document.getElementById('hamburger');
+        const navLinks = document.getElementById('navLinks');
+        const icon = hamburger.querySelector('i');
+
+        hamburger.addEventListener('click', (e) => {
+            e.stopPropagation();
+            navLinks.classList.toggle('active');
+            if (navLinks.classList.contains('active')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            } else {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
         });
-    });
 
-    // ===== HERO PARALLAX =====
-    gsap.to('.hero-content', {
-        scrollTrigger: {
-            trigger: '.hero',
-            start: 'top top',
-            end: 'bottom top',
-            scrub: 1
-        },
-        y: 100,
-        opacity: 0.3,
-        ease: 'none'
-    });
-
-    // ===== NAVBAR BLUR ON SCROLL =====
-    window.addEventListener('scroll', () => {
-        const scrollY = window.scrollY;
-        if (scrollY > 100) {
-            navbar.style.backdropFilter = `blur(${Math.min(scrollY / 10, 20)}px)`;
-        } else {
-            navbar.style.backdropFilter = 'blur(0px)';
-        }
-    });
-
-    // ===== SCROLL VELOCITY EFFECT =====
-    let scrollTimeout;
-    window.addEventListener('scroll', () => {
-        document.body.style.transition = 'transform 0.1s';
-        document.body.style.transform = 'skewY(0.5deg)';
-        clearTimeout(scrollTimeout);
-        scrollTimeout = setTimeout(() => {
-            document.body.style.transform = 'skewY(0deg)';
-        }, 100);
-    });
-
-    // ===== RIPPLE EFFECT ON BUTTONS =====
-    document.querySelectorAll('.btn-primary, .btn-secondary').forEach(btn => {
-        btn.addEventListener('click', function(e) {
-            const rect = this.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            const ripple = document.createElement('span');
-            ripple.style.cssText = `
-                position: absolute; background: rgba(255,255,255,0.3);
-                border-radius: 50%; transform: scale(0); pointer-events: none;
-                animation: rippleEffect 0.6s linear;
-            `;
-            ripple.style.left = x + 'px';
-            ripple.style.top = y + 'px';
-            ripple.style.width = ripple.style.height = Math.max(rect.width, rect.height) + 'px';
-            ripple.style.marginLeft = ripple.style.marginTop = -Math.max(rect.width, rect.height) / 2 + 'px';
-            this.style.position = 'relative';
-            this.style.overflow = 'hidden';
-            this.appendChild(ripple);
-            setTimeout(() => ripple.remove(), 600);
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                icon.classList.add('fa-bars');
+                icon.classList.remove('fa-times');
+            });
         });
-    });
 
-    // Add ripple keyframes
-    const style = document.createElement('style');
-    style.textContent = `
-        @keyframes rippleEffect {
-            to { transform: scale(2); opacity: 0; }
-        }
-    `;
-    document.head.appendChild(style);
+        document.addEventListener('click', (e) => {
+            if (!navLinks.contains(e.target) && !hamburger.contains(e.target)) {
+                navLinks.classList.remove('active');
+                icon.classList.add('fa-bars');
+                icon.classList.remove('fa-times');
+            }
+        });
 
-    // ===== INIT =====
-    console.log('%c NEXUS PC ', 'background: linear-gradient(135deg, #00f0ff, #ff2d95); color: #000; font-size: 24px; font-weight: bold; padding: 10px 20px; border-radius: 10px;');
-    console.log('%c Premium Gaming PC Store - Built with passion ', 'color: #00f0ff; font-size: 14px;');
+        // ==========================================
+        // FORM SUBMIT
+        // ==========================================
+        document.getElementById('contactForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert(currentLang === 'en' ? 'Message sent successfully!' : 'Pesan berhasil dikirim!');
+            e.target.reset();
+        });
     </script>
 </body>
 </html>
