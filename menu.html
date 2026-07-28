@@ -10,17 +10,25 @@
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#E0E5EC;
-    --fg:#3D4852;
-    --muted:#6B7280;
-    --placeholder:#A0AEC0;
-    --accent:#6C63FF;
-    --accent-light:#8B84FF;
-    --accent2:#38B2AC;
-    --sl: rgba(255,255,255,0.6);
-    --sd: rgb(163,177,198,0.6);
-    --sl-hover: rgba(255,255,255,0.7);
-    --sd-hover: rgb(163,177,198,0.7);
+    /* DARK THEME PALETTE */
+    --bg: #1E232C;       /* Base Background (Dark Slate) */
+    --fg: #ECEFF4;       /* Text Color (Off-white) */
+    --muted: #9BA3AF;    /* Muted Text (Grey) */
+    --placeholder: #5C6575; 
+    
+    /* Accents remain similar but adjusted for contrast */
+    --accent: #8B84FF;   /* Slightly lighter purple for dark mode */
+    --accent-light: #A5A0FF; 
+    --accent2: #4FD1C5;  /* Teal */
+    
+    /* Neumorphic Shadows for Dark Mode */
+    /* Light source (top-left) is faint white */
+    --sl: rgba(255, 255, 255, 0.05); 
+    /* Shadow (bottom-right) is deep black */
+    --sd: rgba(0, 0, 0, 0.45); 
+    
+    --sl-hover: rgba(255, 255, 255, 0.08);
+    --sd-hover: rgba(0, 0, 0, 0.55);
   }
 
   *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
@@ -53,7 +61,7 @@
     padding:18px 16px 0;
   }
 
-  /* ambient neumorphic decoration: concentric extruded/inset circles */
+  /* ambient neumorphic decoration */
   .blobs{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none;}
   .blob{
     position:absolute;border-radius:50%;background:var(--bg);
@@ -61,7 +69,7 @@
   }
   .blob.b1{
     width:160px;height:160px;top:4%;left:-60px;
-    box-shadow: 9px 9px 16px var(--sd), -9px -9px 16px var(--sl);
+    box-shadow: 12px 12px 20px var(--sd), -12px -12px 20px var(--sl);
   }
   .blob.b2{
     width:110px;height:110px;top:30%;right:-40px;animation-delay:1.4s;
@@ -69,7 +77,7 @@
   }
   .blob.b3{
     width:90px;height:90px;bottom:12%;left:-30px;animation-delay:2.6s;
-    box-shadow: 6px 6px 12px var(--sd), -6px -6px 12px var(--sl);
+    box-shadow: 10px 10px 16px var(--sd), -10px -10px 16px var(--sl);
   }
 
   @keyframes float{
@@ -90,7 +98,7 @@
     box-shadow: 6px 6px 10px var(--sd), -6px -6px 10px var(--sl);
     font-family:'DM Sans',monospace;font-size:12px;font-weight:700;color:var(--muted);
   }
-  .clock-chip .live-dot{width:6px;height:6px;border-radius:50%;background:var(--accent2);box-shadow:0 0 0 3px rgba(56,178,172,0.18);animation:blink 1.8s ease infinite;}
+  .clock-chip .live-dot{width:6px;height:6px;border-radius:50%;background:var(--accent2);box-shadow:0 0 0 3px rgba(79,209,197,0.18);animation:blink 1.8s ease infinite;}
   @keyframes blink{0%,100%{opacity:1;}50%{opacity:.35;}}
 
   .avatar-bubble{
@@ -138,27 +146,48 @@
     to{opacity:1;transform:translateY(0);}
   }
 
-  /* ===== STATS STRIP ===== */
+  /* ===== STATS STRIP (FIXED) ===== */
   .stats-strip{
-    display:flex;gap:12px;margin-top:24px;
-    overflow-x:auto;padding-bottom:4px;
-    scrollbar-width:none;
+    display:grid;
+    grid-template-columns: repeat(3, 1fr); /* Membagi jadi 3 kolom sama rata */
+    gap:10px;
+    margin-top:24px;
+    overflow:visible; /* Menghapus scroll */
   }
-  .stats-strip::-webkit-scrollbar{display:none;}
 
   .stat-pill{
-    flex:none;
-    background:var(--bg);border-radius:18px;padding:14px 16px;
+    background:var(--bg);
+    border-radius:18px;
+    padding:12px 6px; /* Padding dikurangi agar lebih muat */
     box-shadow: 6px 6px 10px var(--sd), -6px -6px 10px var(--sl);
-    min-width:118px;
-    opacity:0;animation:pop .5s ease-out forwards;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    opacity:0;
+    animation:pop .5s ease-out forwards;
+    min-width:auto; /* Hapus min-width lama */
   }
+  
   .stat-pill:nth-child(1){animation-delay:.2s;}
   .stat-pill:nth-child(2){animation-delay:.26s;}
   .stat-pill:nth-child(3){animation-delay:.32s;}
 
-  .stat-num{font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:20px;color:var(--fg);}
-  .stat-lbl{font-size:10.5px;color:var(--muted);margin-top:3px;font-weight:600;}
+  .stat-num{
+    font-family:'Plus Jakarta Sans',sans-serif;
+    font-weight:800;
+    font-size:17px; /* Ukuran font disesuaikan agar pas */
+    color:var(--fg);
+    line-height:1.2;
+  }
+  .stat-lbl{
+    font-size:10px;
+    color:var(--muted);
+    margin-top:4px;
+    font-weight:600;
+    line-height:1.2;
+  }
 
   /* ===== SECTION LABEL ===== */
   .section-label{
@@ -175,9 +204,19 @@
     grid-template-columns:1fr;
     gap:14px;
   }
+  
+  /* Responsive Grid & Mobile Adjustments */
   @media (min-width:420px){
     .grid{grid-template-columns:1fr 1fr;}
     .grid .item.feature{grid-column:1 / -1;}
+  }
+
+  /* Specific adjustments for mobile screens */
+  @media (max-width:419px) {
+    .shell { padding: 12px 14px 0; }
+    .hero h1 { font-size: 28px; }
+    .item { padding: 14px; border-radius: 20px; }
+    .icon-well { width: 44px; height: 44px; }
   }
 
   .item{
@@ -270,7 +309,7 @@
 
   .foot-dots{display:flex;gap:5px;}
   .foot-dots span{width:6px;height:6px;border-radius:50%;background:var(--bg);box-shadow: inset 2px 2px 3px var(--sd), inset -2px -2px 3px var(--sl);}
-  .foot-dots span:nth-child(1){box-shadow: inset 2px 2px 3px var(--sd), inset -2px -2px 3px var(--sl), 0 0 0 1px rgba(56,178,172,.3) inset;}
+  .foot-dots span:nth-child(1){box-shadow: inset 2px 2px 3px var(--sd), inset -2px -2px 3px var(--sl), 0 0 0 1px rgba(79,209,197,.3) inset;}
 </style>
 </head>
 
@@ -292,9 +331,10 @@
     <header class="hero">
       <span class="eyebrow-pill"><span class="dot"></span>Semua Layanan, Satu Tempat</span>
       <h1>Satria<span class="grad">Digital Hub</span></h1>
-      <p>Pilih modul di bawah untuk masuk. Toko, AI, PC custom, dan lainnya — semua terhubung di sini.</p>
+      <p>Pilih Menu di Bawah Sesuai Selera.</p>
     </header>
 
+    <!-- STATS YANG SUDAH DIPERBAIKI -->
     <div class="stats-strip">
       <div class="stat-pill">
         <div class="stat-num" data-count="8">0</div>
