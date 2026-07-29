@@ -10,42 +10,68 @@
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    /* DARK THEME PALETTE */
-    --bg: #1E232C;       /* Base Background (Dark Slate) */
-    --fg: #ECEFF4;       /* Text Color (Off-white) */
-    --muted: #9BA3AF;    /* Muted Text (Grey) */
+    --bg: #1E232C;       
+    --fg: #ECEFF4;       
+    --muted: #9BA3AF;    
     --placeholder: #5C6575; 
-    
-    /* Accents remain similar but adjusted for contrast */
-    --accent: #8B84FF;   /* Slightly lighter purple for dark mode */
+    --accent: #8B84FF;   
     --accent-light: #A5A0FF; 
-    --accent2: #4FD1C5;  /* Teal */
-    
-    /* Neumorphic Shadows for Dark Mode */
-    /* Light source (top-left) is faint white */
+    --accent2: #4FD1C5;  
     --sl: rgba(255, 255, 255, 0.05); 
-    /* Shadow (bottom-right) is deep black */
     --sd: rgba(0, 0, 0, 0.45); 
-    
     --sl-hover: rgba(255, 255, 255, 0.08);
     --sd-hover: rgba(0, 0, 0, 0.55);
+  }
+
+  body.theme-light{
+    --bg: #F8F9FB; --fg: #1A1D24; --muted: #6B7280; --placeholder: #9CA3AF;
+    --accent: #6366F1; --accent-light: #818CF8; --accent2: #06B6D4;
+    --sl: rgba(0, 0, 0, 0.04); --sd: rgba(0, 0, 0, 0.08);
+    --sl-hover: rgba(0, 0, 0, 0.06); --sd-hover: rgba(0, 0, 0, 0.12);
+  }
+  body.theme-blue{
+    --bg: #0F172A; --fg: #E0E7FF; --muted: #94A3B8; --placeholder: #64748B;
+    --accent: #3B82F6; --accent-light: #60A5FA; --accent2: #06B6D4;
+    --sl: rgba(255, 255, 255, 0.06); --sd: rgba(0, 0, 0, 0.5);
+    --sl-hover: rgba(255, 255, 255, 0.1); --sd-hover: rgba(0, 0, 0, 0.6);
+  }
+  body.theme-purple{
+    --bg: #1E1B4B; --fg: #EDE9FE; --muted: #A78BFA; --placeholder: #9F7AEA;
+    --accent: #A78BFA; --accent-light: #C4B5FD; --accent2: #D946EF;
+    --sl: rgba(255, 255, 255, 0.08); --sd: rgba(0, 0, 0, 0.5);
+    --sl-hover: rgba(255, 255, 255, 0.12); --sd-hover: rgba(0, 0, 0, 0.6);
+  }
+  body.theme-green{
+    --bg: #051B15; --fg: #DCFCE7; --muted: #86EFAC; --placeholder: #6EE7B7;
+    --accent: #10B981; --accent-light: #34D399; --accent2: #14B8A6;
+    --sl: rgba(255, 255, 255, 0.06); --sd: rgba(0, 0, 0, 0.5);
+    --sl-hover: rgba(255, 255, 255, 0.1); --sd-hover: rgba(0, 0, 0, 0.6);
+  }
+  body.theme-orange{
+    --bg: #1F1409; --fg: #FEF3C7; --muted: #FBBF24; --placeholder: #F59E0B;
+    --accent: #F97316; --accent-light: #FB923C; --accent2: #EC4899;
+    --sl: rgba(255, 255, 255, 0.06); --sd: rgba(0, 0, 0, 0.5);
+    --sl-hover: rgba(255, 255, 255, 0.1); --sd-hover: rgba(0, 0, 0, 0.6);
+  }
+  body.theme-red{
+    --bg: #1F0F0F; --fg: #FECACA; --muted: #FCA5A5; --placeholder: #F87171;
+    --accent: #EF4444; --accent-light: #F87171; --accent2: #F43F5E;
+    --sl: rgba(255, 255, 255, 0.06); --sd: rgba(0, 0, 0, 0.5);
+    --sl-hover: rgba(255, 255, 255, 0.1); --sd-hover: rgba(0, 0, 0, 0.6);
   }
 
   *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
   html{background:var(--bg);}
 
   body{
-    background:var(--bg);
-    color:var(--fg);
+    background:var(--bg); color:var(--fg);
     font-family:'DM Sans',sans-serif;
-    min-height:100vh;
-    overflow-x:hidden;
-    position:relative;
+    min-height:100vh; overflow-x:hidden; position:relative;
     padding-bottom:calc(28px + env(safe-area-inset-bottom));
+    transition: background 0.4s ease, color 0.4s ease;
   }
 
   :focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:10px;}
-
   @media (prefers-reduced-motion: reduce){
     *{animation-duration:.001ms !important;transition-duration:.001ms !important;}
   }
@@ -53,32 +79,13 @@
   h1,h2,.font-display{font-family:'Plus Jakarta Sans',sans-serif;}
   a{text-decoration:none;color:inherit;}
 
-  .shell{
-    max-width:460px;
-    margin:0 auto;
-    position:relative;
-    z-index:2;
-    padding:18px 16px 0;
-  }
+  .shell{ max-width:460px; margin:0 auto; position:relative; z-index:2; padding:18px 16px 0; }
 
-  /* ambient neumorphic decoration */
   .blobs{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none;}
-  .blob{
-    position:absolute;border-radius:50%;background:var(--bg);
-    animation:float 8s ease-in-out infinite;
-  }
-  .blob.b1{
-    width:160px;height:160px;top:4%;left:-60px;
-    box-shadow: 12px 12px 20px var(--sd), -12px -12px 20px var(--sl);
-  }
-  .blob.b2{
-    width:110px;height:110px;top:30%;right:-40px;animation-delay:1.4s;
-    box-shadow: inset 6px 6px 10px var(--sd), inset -6px -6px 10px var(--sl);
-  }
-  .blob.b3{
-    width:90px;height:90px;bottom:12%;left:-30px;animation-delay:2.6s;
-    box-shadow: 10px 10px 16px var(--sd), -10px -10px 16px var(--sl);
-  }
+  .blob{ position:absolute;border-radius:50%;background:var(--bg); animation:float 8s ease-in-out infinite; transition: background 0.4s ease, box-shadow 0.4s ease; }
+  .blob.b1{ width:160px;height:160px;top:4%;left:-60px; box-shadow: 12px 12px 20px var(--sd), -12px -12px 20px var(--sl); }
+  .blob.b2{ width:110px;height:110px;top:30%;right:-40px;animation-delay:1.4s; box-shadow: inset 6px 6px 10px var(--sd), inset -6px -6px 10px var(--sl); }
+  .blob.b3{ width:90px;height:90px;bottom:12%;left:-30px;animation-delay:2.6s; box-shadow: 10px 10px 16px var(--sd), -10px -10px 16px var(--sl); }
 
   @keyframes float{
     0%,100%{transform:translateY(0) translateX(0);}
@@ -86,10 +93,10 @@
     66%{transform:translateY(10px) translateX(-6px);}
   }
 
-  /* ===== HEADER ===== */
   .topline{
     display:flex;align-items:center;justify-content:space-between;
     opacity:0;animation:pop .5s ease-out forwards;animation-delay:.05s;
+    position:relative;
   }
 
   .clock-chip{
@@ -97,6 +104,7 @@
     background:var(--bg);border-radius:20px;padding:9px 14px;
     box-shadow: 6px 6px 10px var(--sd), -6px -6px 10px var(--sl);
     font-family:'DM Sans',monospace;font-size:12px;font-weight:700;color:var(--muted);
+    transition: all 0.4s ease;
   }
   .clock-chip .live-dot{width:6px;height:6px;border-radius:50%;background:var(--accent2);box-shadow:0 0 0 3px rgba(79,209,197,0.18);animation:blink 1.8s ease infinite;}
   @keyframes blink{0%,100%{opacity:1;}50%{opacity:.35;}}
@@ -107,89 +115,66 @@
     display:flex;align-items:center;justify-content:center;
     box-shadow: 6px 6px 10px var(--sd), -6px -6px 10px var(--sl);
     font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:15px;color:var(--accent);
+    transition: all 0.4s ease, transform .2s ease;
+    cursor:pointer; border:none; padding:0;
+  }
+  .avatar-bubble:hover{ transform:scale(1.05); }
+  .avatar-bubble:active{
+    transform:scale(0.92);
+    box-shadow: inset 6px 6px 10px var(--sd), inset -6px -6px 10px var(--sl);
+  }
+  /* efek pulse kecil ketika tema berubah */
+  .avatar-bubble.pop-anim{ animation: avatarPop .5s ease; }
+  @keyframes avatarPop{
+    0%{ transform:scale(1) rotate(0); }
+    40%{ transform:scale(1.25) rotate(180deg); }
+    100%{ transform:scale(1) rotate(360deg); }
   }
 
-  .hero{
-    margin-top:26px;
-    opacity:0;animation:pop .55s ease-out forwards;animation-delay:.12s;
-  }
+  .hero{ margin-top:26px; opacity:0;animation:pop .55s ease-out forwards;animation-delay:.12s; }
 
   .eyebrow-pill{
     display:inline-flex;align-items:center;gap:8px;
     background:var(--bg);padding:8px 15px;border-radius:20px;
     box-shadow: 5px 5px 8px var(--sd), -5px -5px 8px var(--sl);
     font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);
-    font-weight:700;
+    font-weight:700; transition: all 0.4s ease;
   }
   .eyebrow-pill .dot{width:6px;height:6px;border-radius:50%;background:var(--accent);}
 
   .hero h1{
     margin-top:16px;
     font-size:clamp(30px,9vw,38px);
-    line-height:1.1;
-    font-weight:800;
-    letter-spacing:-0.01em;
-    color:var(--fg);
+    line-height:1.1; font-weight:800; letter-spacing:-0.01em; color:var(--fg);
   }
   .hero h1 .grad{
     display:block;
     background:linear-gradient(100deg,var(--accent),var(--accent-light) 55%,var(--accent2));
     -webkit-background-clip:text;background-clip:text;color:transparent;
   }
-
-  .hero p{
-    margin-top:12px;font-size:13.5px;color:var(--muted);line-height:1.6;max-width:34ch;
-  }
+  .hero p{ margin-top:12px;font-size:13.5px;color:var(--muted);line-height:1.6;max-width:34ch; }
 
   @keyframes pop{
     from{opacity:0;transform:translateY(14px);}
     to{opacity:1;transform:translateY(0);}
   }
 
-  /* ===== STATS STRIP (FIXED) ===== */
   .stats-strip{
-    display:grid;
-    grid-template-columns: repeat(3, 1fr); /* Membagi jadi 3 kolom sama rata */
-    gap:10px;
-    margin-top:24px;
-    overflow:visible; /* Menghapus scroll */
+    display:grid; grid-template-columns: repeat(3, 1fr);
+    gap:10px; margin-top:24px; overflow:visible;
   }
-
   .stat-pill{
-    background:var(--bg);
-    border-radius:18px;
-    padding:12px 6px; /* Padding dikurangi agar lebih muat */
+    background:var(--bg); border-radius:18px; padding:12px 6px;
     box-shadow: 6px 6px 10px var(--sd), -6px -6px 10px var(--sl);
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    text-align:center;
-    opacity:0;
-    animation:pop .5s ease-out forwards;
-    min-width:auto; /* Hapus min-width lama */
+    display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;
+    opacity:0; animation:pop .5s ease-out forwards; min-width:auto; transition: all 0.4s ease;
   }
-  
   .stat-pill:nth-child(1){animation-delay:.2s;}
   .stat-pill:nth-child(2){animation-delay:.26s;}
   .stat-pill:nth-child(3){animation-delay:.32s;}
+  .stat-num{ font-family:'Plus Jakarta Sans',sans-serif; font-weight:800; font-size:17px; color:var(--fg); line-height:1.2; }
+  .stat-lbl{ font-size:10px; color:var(--muted); margin-top:4px; font-weight:600; line-height:1.2; }
 
-  .stat-num{
-    font-family:'Plus Jakarta Sans',sans-serif;
-    font-weight:800;
-    font-size:17px; /* Ukuran font disesuaikan agar pas */
-    color:var(--fg);
-    line-height:1.2;
-  }
-  .stat-lbl{
-    font-size:10px;
-    color:var(--muted);
-    margin-top:4px;
-    font-weight:600;
-    line-height:1.2;
-  }
-
-  /* ===== SECTION LABEL ===== */
   .section-label{
     margin-top:28px;margin-bottom:14px;
     display:flex;align-items:center;justify-content:space-between;
@@ -198,22 +183,13 @@
   .section-label h2{font-size:15.5px;font-weight:700;color:var(--fg);}
   .section-label span{font-size:11px;color:var(--muted);font-weight:600;}
 
-  /* ===== MODULE GRID ===== */
-  .grid{
-    display:grid;
-    grid-template-columns:1fr;
-    gap:14px;
-  }
-  
-  /* Responsive Grid & Mobile Adjustments */
+  .grid{ display:grid; grid-template-columns:1fr; gap:14px; }
   @media (min-width:420px){
     .grid{grid-template-columns:1fr 1fr;}
     .grid .item.feature{grid-column:1 / -1;}
   }
-
-  /* Specific adjustments for mobile screens */
   @media (max-width:419px) {
-    .shell { padding: 12px 14px 0; }
+    .shell { padding: 12px 14px 100px 14px; }
     .hero h1 { font-size: 28px; }
     .item { padding: 14px; border-radius: 20px; }
     .icon-well { width: 44px; height: 44px; }
@@ -221,20 +197,14 @@
 
   .item{
     --accent-c: var(--accent);
-    position:relative;
-    display:flex;align-items:center;gap:14px;
-    background:var(--bg);
-    border-radius:24px;
-    padding:16px;
+    position:relative; display:flex;align-items:center;gap:14px;
+    background:var(--bg); border-radius:24px; padding:16px;
     box-shadow: 9px 9px 16px var(--sd), -9px -9px 16px var(--sl);
-    opacity:0;
-    transform:translateY(18px);
+    opacity:0; transform:translateY(18px);
     animation:cardPop .5s ease-out forwards;
-    transition:transform .3s ease-out, box-shadow .3s ease-out;
+    transition:transform .3s ease-out, box-shadow .3s ease-out, background 0.4s ease, color 0.4s ease;
   }
-
   @keyframes cardPop{ to{opacity:1;transform:translateY(0);} }
-
   .item:nth-child(1){animation-delay:.42s;}
   .item:nth-child(2){animation-delay:.47s;}
   .item:nth-child(3){animation-delay:.52s;}
@@ -243,13 +213,10 @@
   .item:nth-child(6){animation-delay:.67s;}
   .item:nth-child(7){animation-delay:.72s;}
   .item:nth-child(8){animation-delay:.77s;}
-
   .item:active{
     transform:translateY(1px);
     box-shadow: inset 6px 6px 10px var(--sd), inset -6px -6px 10px var(--sl);
-    transition:transform .15s ease-out, box-shadow .15s ease-out;
   }
-
   @media (hover:hover){
     .item:hover{
       transform:translateY(-2px);
@@ -257,46 +224,39 @@
     }
     .item:hover .icon-well{transform:scale(1.06);}
   }
-
   .icon-well{
-    flex:none;
-    width:50px;height:50px;border-radius:16px;
-    background:var(--bg);
-    color:var(--accent-c);
+    flex:none; width:50px;height:50px;border-radius:16px;
+    background:var(--bg); color:var(--accent-c);
     display:flex;align-items:center;justify-content:center;
-    transition:transform .35s ease-out;
+    transition:transform .35s ease-out, color 0.4s ease, background 0.4s ease;
     box-shadow: inset 6px 6px 10px var(--sd), inset -6px -6px 10px var(--sl);
   }
   .icon-well svg{width:22px;height:22px;}
-
   .item.feature .icon-well{width:58px;height:58px;border-radius:18px;}
   .item.feature .icon-well svg{width:26px;height:26px;}
-
   .item-text{flex:1;min-width:0;}
   .item-name{font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:15.5px;color:var(--fg);}
   .item.feature .item-name{font-size:18px;}
   .item-desc{font-size:11.5px;color:var(--muted);margin-top:3px;line-height:1.4;}
-
   .go-arrow{
     flex:none;width:32px;height:32px;border-radius:50%;
     background:var(--bg);color:var(--accent-c);
     display:flex;align-items:center;justify-content:center;
     box-shadow: 4px 4px 8px var(--sd), -4px -4px 8px var(--sl);
-    transition:transform .3s ease-out;
+    transition:transform .3s ease-out, color 0.4s ease;
   }
   .go-arrow svg{width:14px;height:14px;}
   .item:hover .go-arrow{transform:translateX(3px);}
-
   .ready-tag{
     position:absolute;top:10px;right:10px;
     font-size:8.5px;letter-spacing:.06em;text-transform:uppercase;
     background:var(--bg);color:var(--accent2);
     padding:4px 8px;border-radius:20px;font-weight:700;
     box-shadow: 3px 3px 6px var(--sd), -3px -3px 6px var(--sl);
+    transition: all 0.4s ease;
   }
   .item.feature .ready-tag{display:none;}
 
-  /* ===== FOOTER ===== */
   .foot{
     margin-top:30px;
     display:flex;align-items:center;justify-content:space-between;
@@ -304,12 +264,28 @@
     box-shadow: 6px 6px 10px var(--sd), -6px -6px 10px var(--sl);
     font-size:11.5px;color:var(--muted);font-weight:600;
     opacity:0;animation:pop .5s ease-out forwards;animation-delay:.9s;
+    transition: all 0.4s ease;
   }
   .foot b{color:var(--fg);font-weight:700;}
-
   .foot-dots{display:flex;gap:5px;}
-  .foot-dots span{width:6px;height:6px;border-radius:50%;background:var(--bg);box-shadow: inset 2px 2px 3px var(--sd), inset -2px -2px 3px var(--sl);}
+  .foot-dots span{width:6px;height:6px;border-radius:50%;background:var(--bg);box-shadow: inset 2px 2px 3px var(--sd), inset -2px -2px 3px var(--sl);transition: all 0.4s ease;}
   .foot-dots span:nth-child(1){box-shadow: inset 2px 2px 3px var(--sd), inset -2px -2px 3px var(--sl), 0 0 0 1px rgba(79,209,197,.3) inset;}
+
+  /* Tooltip tema aktif saat hover avatar */
+  .avatar-bubble::after{
+    content: attr(data-theme-name);
+    position:absolute;
+    top:calc(100% + 8px); right:0;
+    background:var(--bg); color:var(--fg);
+    padding:6px 10px; border-radius:10px;
+    font-size:10px; font-weight:700;
+    letter-spacing:.04em; text-transform:uppercase;
+    box-shadow: 4px 4px 8px var(--sd), -4px -4px 8px var(--sl);
+    opacity:0; transform:translateY(-4px);
+    pointer-events:none; white-space:nowrap;
+    transition: all 0.25s ease;
+  }
+  .avatar-bubble:hover::after{ opacity:1; transform:translateY(0); }
 </style>
 </head>
 
@@ -325,7 +301,7 @@
 
     <div class="topline">
       <div class="clock-chip"><span class="live-dot"></span><span id="fClock">--:--</span></div>
-      <div class="avatar-bubble">S</div>
+      <button class="avatar-bubble" id="avatarBtn" title="Klik untuk berganti tema" data-theme-name="Dark">S</button>
     </div>
 
     <header class="hero">
@@ -334,7 +310,6 @@
       <p>Pilih Menu di Bawah Sesuai Selera.</p>
     </header>
 
-    <!-- STATS YANG SUDAH DIPERBAIKI -->
     <div class="stats-strip">
       <div class="stat-pill">
         <div class="stat-num" data-count="8">0</div>
@@ -356,199 +331,205 @@
     </div>
 
     <nav class="grid" id="dirList" aria-label="Daftar modul">
+      <a class="item feature" href="index.html" style="--accent-c:var(--accent);">
+        <span class="icon-well">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 2l1.5 4h9L18 2"/>
+            <path d="M3 6h18l-1.5 14H4.5L3 6z"/>
+            <path d="M9 10a3 3 0 0 0 6 0"/>
+          </svg>
+        </span>
+        <span class="item-text">
+          <span class="item-name">Store</span>
+          <span class="item-desc"></span>
+        </span>
+        <span class="go-arrow">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12h14M13 6l6 6-6 6"/>
+          </svg>
+        </span>
+      </a>
 
-     <!-- ========================= MENU ========================= -->
+      <a class="item" href="ai.html" style="--accent-c:var(--accent-light);">
+        <span class="ready-tag">Ready</span>
+        <span class="icon-well">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="7" y="8" width="10" height="8" rx="2"/>
+            <path d="M12 4v2"/><path d="M9 18v2M15 18v2"/>
+            <circle cx="10" cy="12" r="1"/><circle cx="14" cy="12" r="1"/>
+          </svg>
+        </span>
+        <span class="item-text">
+          <span class="item-name">Stcx AI</span>
+          <span class="item-desc"></span>
+        </span>
+      </a>
 
-<a class="item feature" href="index.html" style="--accent-c:var(--accent);">
-  <span class="icon-well">
-    <!-- Store -->
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M6 2l1.5 4h9L18 2"/>
-      <path d="M3 6h18l-1.5 14H4.5L3 6z"/>
-      <path d="M9 10a3 3 0 0 0 6 0"/>
-    </svg>
-  </span>
+      <a class="item" href="portofolio.html" style="--accent-c:var(--accent2);">
+        <span class="ready-tag">Ready</span>
+        <span class="icon-well">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="8" r="4"/>
+            <path d="M4 20c0-4.4 3.6-8 8-8s8 3.6 8 8"/>
+          </svg>
+        </span>
+        <span class="item-text">
+          <span class="item-name">Portofolio</span>
+          <span class="item-desc"></span>
+        </span>
+      </a>
 
-  <span class="item-text">
-    <span class="item-name">Store</span>
-    <span class="item-desc">Belanja layanan digital</span>
-  </span>
+      <a class="item" href="music.html" style="--accent-c:var(--accent);">
+        <span class="ready-tag">Ready</span>
+        <span class="icon-well">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 18V5l11-2v13"/>
+            <circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/>
+          </svg>
+        </span>
+        <span class="item-text">
+          <span class="item-name">Now Playing</span>
+          <span class="item-desc"></span>
+        </span>
+      </a>
 
-  <span class="go-arrow">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M5 12h14M13 6l6 6-6 6"/>
-    </svg>
-  </span>
-</a>
+      <a class="item" href="komponen.html" style="--accent-c:var(--accent2);">
+        <span class="ready-tag">Ready</span>
+        <span class="icon-well">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="4" width="18" height="12" rx="2"/>
+            <path d="M8 20h8"/><path d="M12 16v4"/>
+          </svg>
+        </span>
+        <span class="item-text">
+          <span class="item-name">Komponen PC</span>
+          <span class="item-desc"></span>
+        </span>
+      </a>
 
+      <a class="item" href="kuliner.html" style="--accent-c:var(--accent-light);">
+        <span class="ready-tag">Ready</span>
+        <span class="icon-well">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 10h16"/>
+            <path d="M5 10a7 7 0 0 1 14 0"/>
+            <path d="M4 14h16"/><path d="M6 18h12"/>
+          </svg>
+        </span>
+        <span class="item-text">
+          <span class="item-name">Warkop</span>
+          <span class="item-desc"></span>
+        </span>
+      </a>
 
+      <a class="item" href="ssm.html" style="--accent-c:var(--accent);">
+        <span class="ready-tag">Ready</span>
+        <span class="icon-well">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 3v18h18"/>
+            <path d="M7 15l3-3 3 2 4-6"/>
+            <circle cx="7" cy="15" r="1"/><circle cx="10" cy="12" r="1"/>
+            <circle cx="13" cy="14" r="1"/><circle cx="17" cy="8" r="1"/>
+          </svg>
+        </span>
+        <span class="item-text">
+          <span class="item-name">SSM</span>
+          <span class="item-desc"></span>
+        </span>
+      </a>
 
-<a class="item" href="ai.html" style="--accent-c:var(--accent-light);">
-  <span class="ready-tag">Ready</span>
-
-  <span class="icon-well">
-    <!-- AI -->
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-      <rect x="7" y="8" width="10" height="8" rx="2"/>
-      <path d="M12 4v2"/>
-      <path d="M9 18v2M15 18v2"/>
-      <circle cx="10" cy="12" r="1"/>
-      <circle cx="14" cy="12" r="1"/>
-    </svg>
-  </span>
-
-  <span class="item-text">
-    <span class="item-name">Satz AI</span>
-    <span class="item-desc">Asisten chat AI</span>
-  </span>
-</a>
-
-
-
-<a class="item" href="portofolio.html" style="--accent-c:var(--accent2);">
-  <span class="ready-tag">Ready</span>
-
-  <span class="icon-well">
-    <!-- Portfolio -->
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-      <circle cx="12" cy="8" r="4"/>
-      <path d="M4 20c0-4.4 3.6-8 8-8s8 3.6 8 8"/>
-    </svg>
-  </span>
-
-  <span class="item-text">
-    <span class="item-name">Portofolio</span>
-    <span class="item-desc">Tentang Saya & Project</span>
-  </span>
-</a>
-
-
-
-<a class="item" href="music.html" style="--accent-c:var(--accent);">
-  <span class="ready-tag">Ready</span>
-
-  <span class="icon-well">
-    <!-- Music -->
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M9 18V5l11-2v13"/>
-      <circle cx="6" cy="18" r="3"/>
-      <circle cx="17" cy="16" r="3"/>
-    </svg>
-  </span>
-
-  <span class="item-text">
-    <span class="item-name">Now Playing</span>
-    <span class="item-desc">Audio Visualizer</span>
-  </span>
-</a>
-
-
-
-<a class="item" href="komponen.html" style="--accent-c:var(--accent2);">
-  <span class="ready-tag">Ready</span>
-
-  <span class="icon-well">
-    <!-- PC -->
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-      <rect x="3" y="4" width="18" height="12" rx="2"/>
-      <path d="M8 20h8"/>
-      <path d="M12 16v4"/>
-    </svg>
-  </span>
-
-  <span class="item-text">
-    <span class="item-name">Komponen</span>
-    <span class="item-desc">Dokumentasi PC</span>
-  </span>
-</a>
-
-
-
-<a class="item" href="kuliner.html" style="--accent-c:var(--accent-light);">
-  <span class="ready-tag">Ready</span>
-
-  <span class="icon-well">
-    <!-- Restaurant -->
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M4 10h16"/>
-      <path d="M5 10a7 7 0 0 1 14 0"/>
-      <path d="M4 14h16"/>
-      <path d="M6 18h12"/>
-    </svg>
-  </span>
-
-  <span class="item-text">
-    <span class="item-name">Warung Satria</span>
-    <span class="item-desc">Menu Restoran</span>
-  </span>
-</a>
-
-
-
-<a class="item" href="ssm.html" style="--accent-c:var(--accent);">
-  <span class="ready-tag">Ready</span>
-
-  <span class="icon-well">
-    <!-- Analytics -->
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M3 3v18h18"/>
-      <path d="M7 15l3-3 3 2 4-6"/>
-      <circle cx="7" cy="15" r="1"/>
-      <circle cx="10" cy="12" r="1"/>
-      <circle cx="13" cy="14" r="1"/>
-      <circle cx="17" cy="8" r="1"/>
-    </svg>
-  </span>
-
-  <span class="item-text">
-    <span class="item-name">SSM</span>
-    <span class="item-desc">Sistem Informasi Manajemen</span>
-  </span>
-</a>
-
-
-
-<a class="item" href="server.html" style="--accent-c:var(--accent2);">
-  <span class="ready-tag">Ready</span>
-
-  <span class="icon-well">
-    <!-- Server -->
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-      <rect x="3" y="4" width="18" height="6" rx="1.5"/>
-      <rect x="3" y="14" width="18" height="6" rx="1.5"/>
-      <circle cx="7" cy="7" r="1" fill="currentColor" stroke="none"/>
-      <circle cx="7" cy="17" r="1" fill="currentColor" stroke="none"/>
-    </svg>
-  </span>
-
-  <span class="item-text">
-    <span class="item-name">Server</span>
-    <span class="item-desc">Manajemen Server</span>
-  </span>
-</a>
-
+      <a class="item" href="server.html" style="--accent-c:var(--accent2);">
+        <span class="ready-tag">Ready</span>
+        <span class="icon-well">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="4" width="18" height="6" rx="1.5"/>
+            <rect x="3" y="14" width="18" height="6" rx="1.5"/>
+            <circle cx="7" cy="7" r="1" fill="currentColor" stroke="none"/>
+            <circle cx="7" cy="17" r="1" fill="currentColor" stroke="none"/>
+          </svg>
+        </span>
+        <span class="item-text">
+          <span class="item-name">Server</span>
+          <span class="item-desc"></span>
+        </span>
+      </a>
     </nav>
 
     <div class="foot">
       <span>Dibuat oleh <b>Satria</b></span>
       <div class="foot-dots"><span></span><span></span><span></span></div>
     </div>
-
   </div>
 
 <script>
+  // ===== SIKLUS TEMA (klik avatar = ganti tema) =====
+  const STORAGE_KEY = 'satria-theme';
+  const THEMES = [
+    { name: 'dark',    label: 'Dark'   },
+    { name: 'light',   label: 'Light'  },
+    { name: 'blue',    label: 'Blue'   },
+    { name: 'purple',  label: 'Purple' },
+    { name: 'green',   label: 'Green'  },
+    { name: 'orange',  label: 'Orange' },
+    { name: 'red',     label: 'Red'    }
+  ];
+
+  function getCurrentThemeIndex() {
+    const saved = localStorage.getItem(STORAGE_KEY) || 'dark';
+    const idx = THEMES.findIndex(t => t.name === saved);
+    return idx === -1 ? 0 : idx;
+  }
+
+  function applyTheme(themeName) {
+    // hapus semua class theme-*
+    document.body.classList.forEach(cls => {
+      if (cls.startsWith('theme-')) document.body.classList.remove(cls);
+    });
+    // tambahkan class baru (kecuali 'dark' yang pakai :root default)
+    if (themeName !== 'dark') {
+      document.body.classList.add('theme-' + themeName);
+    }
+    // update label pada avatar (tooltip)
+    const themeObj = THEMES.find(t => t.name === themeName) || THEMES[0];
+    const btn = document.getElementById('avatarBtn');
+    btn.setAttribute('data-theme-name', themeObj.label);
+
+    // simpan
+    localStorage.setItem(STORAGE_KEY, themeName);
+  }
+
+  function cycleTheme() {
+    const currentIdx = getCurrentThemeIndex();
+    const nextIdx = (currentIdx + 1) % THEMES.length;
+    applyTheme(THEMES[nextIdx].name);
+
+    // animasi kecil pada avatar saat ganti tema
+    const btn = document.getElementById('avatarBtn');
+    btn.classList.remove('pop-anim');
+    void btn.offsetWidth; // reflow
+    btn.classList.add('pop-anim');
+  }
+
+  // pasang event pada avatar
+  document.getElementById('avatarBtn').addEventListener('click', cycleTheme);
+
+  // muat tema saat halaman dibuka
+  applyTheme(localStorage.getItem(STORAGE_KEY) || 'dark');
+
+  // ===== CLOCK =====
   function tick(){
-    var d=new Date();
-    var fmt=function(n){return String(n).padStart(2,'0');};
-    document.getElementById('fClock').textContent = fmt(d.getHours())+':'+fmt(d.getMinutes());
+    var d = new Date();
+    var fmt = function(n){ return String(n).padStart(2,'0'); };
+    document.getElementById('fClock').textContent = fmt(d.getHours()) + ':' + fmt(d.getMinutes());
   }
   tick();
-  setInterval(tick, 1000*15);
+  setInterval(tick, 1000 * 15);
 
+  // ===== STATS COUNTER =====
   (function(){
     var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     document.querySelectorAll('.stat-num[data-count]').forEach(function(el){
-      var target = parseInt(el.getAttribute('data-count'),10);
+      var target = parseInt(el.getAttribute('data-count'), 10);
       var suffixEl = el.querySelector('span');
       var suffix = suffixEl ? suffixEl.outerHTML : '';
       if(reduce){ el.innerHTML = target + suffix; return; }
@@ -556,21 +537,22 @@
       var iv = setInterval(function(){
         cur++;
         el.innerHTML = cur + suffix;
-        if(cur>=target) clearInterval(iv);
+        if(cur >= target) clearInterval(iv);
       }, 34);
     });
   })();
 
+  // ===== MODULE COUNT =====
   (function(){
     var el = document.getElementById('fCountLabel');
     var target = document.querySelectorAll('#dirList .item').length;
     var cur = 0;
     var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if(reduce){ el.textContent = target+'/'+target+' siap'; return; }
+    if(reduce){ el.textContent = target + '/' + target + ' siap'; return; }
     var iv = setInterval(function(){
       cur++;
-      el.textContent = cur+'/'+target+' siap';
-      if(cur>=target) clearInterval(iv);
+      el.textContent = cur + '/' + target + ' siap';
+      if(cur >= target) clearInterval(iv);
     }, 90);
   })();
 </script>
