@@ -1,1962 +1,1344 @@
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SatzStore — Digital Services Premium</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* ---- Industrial Skeuomorphism tokens ---- */
-            --bg: #e0e5ec;
-            --panel: #f0f2f5;
-            --recessed: #d1d9e6;
-            --ink: #2d3436;
-            --ink-soft: #4a5568;
-            --ink-faint: #7c8798;
-            --accent: #ff4757;
-            --accent-fg: #ffffff;
-            --border-shadow: #babecc;
-            --border-light: #ffffff;
-            --border-dark: #a3b1c6;
-            --led-green: #22c55e;
-            --led-amber: #f0a13a;
-            --led-red: #f43f5e;
-
-            --shadow-card: 8px 8px 16px var(--border-shadow), -8px -8px 16px var(--border-light);
-            --shadow-floating: 12px 12px 24px var(--border-shadow), -12px -12px 24px var(--border-light), inset 1px 1px 0 rgba(255, 255, 255, .5);
-            --shadow-pressed: inset 6px 6px 12px var(--border-shadow), inset -6px -6px 12px var(--border-light);
-            --shadow-recessed: inset 4px 4px 8px var(--border-shadow), inset -4px -4px 8px var(--border-light);
-            --shadow-sharp: 4px 4px 8px rgba(0, 0, 0, .15), -1px -1px 1px rgba(255, 255, 255, .8);
-
-            --ease-mech: cubic-bezier(.175, .885, .32, 1.275);
+            --bg: #f6f7fb;
+            --bg-radial: radial-gradient(1200px 600px at 100% -10%, rgba(99,102,241,0.08), transparent 60%), radial-gradient(900px 500px at -10% 20%, rgba(14,165,233,0.08), transparent 60%);
+            --surface: #ffffff;
+            --surface-alt: #f1f3f9;
+            --surface-glass: rgba(255,255,255,0.72);
+            --border: #e4e7ef;
+            --border-soft: #eef0f6;
+            --text: #0f172a;
+            --text-soft: #64748b;
+            --text-faint: #94a3b8;
+            --accent: #4f46e5;
+            --accent-hover: #4338ca;
+            --accent-2: #06b6d4;
+            --accent-light: #eef2ff;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.04);
+            --shadow-md: 0 8px 24px -6px rgba(15, 23, 42, 0.08), 0 2px 6px rgba(15,23,42,0.04);
+            --shadow-lg: 0 24px 48px -12px rgba(15, 23, 42, 0.18);
+            --radius: 14px;
+            --radius-sm: 10px;
+            --transition: 0.25s cubic-bezier(.4,0,.2,1);
         }
-
-        *,
-        *::before,
-        *::after {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
+        [data-theme="dark"] {
+            --bg: #070914;
+            --bg-radial: radial-gradient(1200px 600px at 100% -10%, rgba(99,102,241,0.18), transparent 60%), radial-gradient(900px 500px at -10% 20%, rgba(6,182,212,0.14), transparent 60%);
+            --surface: #10131f;
+            --surface-alt: #1a1e2e;
+            --surface-glass: rgba(16,19,31,0.7);
+            --border: #232838;
+            --border-soft: #1a1e2e;
+            --text: #f1f5f9;
+            --text-soft: #94a3b8;
+            --text-faint: #64748b;
+            --accent: #818cf8;
+            --accent-hover: #6366f1;
+            --accent-2: #22d3ee;
+            --accent-light: rgba(129, 140, 248, 0.14);
+            --success: #34d399;
+            --warning: #fbbf24;
+            --danger: #f87171;
+            --shadow-sm: 0 1px 2px rgba(0,0,0,0.3);
+            --shadow-md: 0 8px 24px -6px rgba(0,0,0,0.5), 0 2px 6px rgba(0,0,0,0.3);
+            --shadow-lg: 0 24px 48px -12px rgba(0,0,0,0.6);
         }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
         body {
             background: var(--bg);
-            color: var(--ink);
-            font-family: 'Inter', sans-serif;
-            font-size: 15px;
+            background-image: var(--bg-radial);
+            color: var(--text);
+            font-family: 'Manrope', system-ui, sans-serif;
+            font-size: 14px;
             line-height: 1.6;
             min-height: 100vh;
             overflow-x: hidden;
-            position: relative;
+            transition: background var(--transition), color var(--transition);
+            -webkit-font-smoothing: antialiased;
         }
+        h1, h2, h3, .display { font-family: 'Bricolage Grotesque', 'Manrope', sans-serif; letter-spacing: -0.02em; }
+        :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 6px; }
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--text-faint); }
+        ::selection { background: var(--accent); color: white; }
 
-        /* noise texture — micro-imperfection of matte plastic */
-        body::after {
-            content: '';
-            position: fixed;
-            inset: 0;
-            z-index: 500;
-            pointer-events: none;
-            opacity: .5;
-            mix-blend-mode: overlay;
-            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
-        }
+        .container { display: flex; min-height: 100vh; }
 
-        :focus-visible {
-            outline: 2px solid var(--accent);
-            outline-offset: 3px;
-            border-radius: 6px;
-        }
-
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: var(--bg);
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: var(--border-dark);
-            border-radius: 9px;
-        }
-
-        .mono {
-            font-family: 'JetBrains Mono', monospace;
-        }
-
-        /* ===== utility: vent slots (3 recessed pills) ===== */
-        .vents {
-            position: absolute;
-            top: 14px;
-            right: 14px;
+        /* ── SIDEBAR ─────────────────────────────── */
+        .sidebar {
+            width: 260px;
+            background: var(--surface-glass);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-right: 1px solid var(--border-soft);
             display: flex;
-            gap: 3px;
-        }
-
-        .vents span {
-            width: 3px;
-            height: 20px;
-            border-radius: 3px;
-            background: var(--recessed);
-            box-shadow: inset 1px 1px 2px rgba(0, 0, 0, .15);
-        }
-
-        /* ===== utility: LED indicator ===== */
-        .led {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            flex: none;
-        }
-
-        .led.green {
-            background: var(--led-green);
-            box-shadow: 0 0 8px 2px rgba(34, 197, 94, .65);
-        }
-
-        .led.amber {
-            background: var(--led-amber);
-            box-shadow: 0 0 8px 2px rgba(240, 161, 58, .65);
-        }
-
-        .led.red {
-            background: var(--led-red);
-            box-shadow: 0 0 8px 2px rgba(244, 63, 94, .65);
-        }
-
-        .led.pulse {
-            animation: ledPulse 2.2s ease infinite;
-        }
-
-        @keyframes ledPulse {
-
-            0%,
-            100% {
-                opacity: 1;
-            }
-
-            50% {
-                opacity: .45;
-            }
-        }
-
-        /* ===== NAV ===== */
-        nav {
-            position: sticky;
-            top: 0;
+            flex-direction: column;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
             z-index: 100;
+            transition: transform var(--transition);
+        }
+        .sidebar-header {
+            padding: 22px 20px;
+            border-bottom: 1px solid var(--border-soft);
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 24px;
-            height: 68px;
-            background: var(--panel);
-            box-shadow: 0 4px 14px rgba(163, 177, 198, .35), inset 0 -1px 0 rgba(255, 255, 255, .6);
-        }
-
-        .nav-left {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-        }
-
-        .menu-btn {
-            width: 44px;
-            height: 44px;
-            border-radius: 12px;
-            border: none;
-            background: var(--panel);
-            box-shadow: var(--shadow-card);
-            cursor: pointer;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 4px;
-            transition: box-shadow .18s var(--ease-mech), transform .15s var(--ease-mech);
             flex-shrink: 0;
         }
-
-        .menu-btn span {
-            width: 4px;
-            height: 4px;
-            border-radius: 50%;
-            background: var(--ink-faint);
-            display: block;
-            transition: background .2s;
+        .brand-group { display: flex; align-items: center; gap: 12px; }
+        .sidebar-logo {
+            width: 38px; height: 38px;
+            border-radius: 11px;
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%);
+            display: flex; align-items: center; justify-content: center;
+            color: white; font-weight: 800; font-size: 18px;
+            font-family: 'Bricolage Grotesque', sans-serif;
+            box-shadow: 0 6px 16px -4px rgba(79, 70, 229, 0.4);
         }
-
-        .menu-btn:hover span {
-            background: var(--accent);
+        .sidebar-title { font-weight: 800; font-size: 17px; color: var(--text); font-family: 'Bricolage Grotesque', sans-serif; letter-spacing: -0.02em; }
+        .sidebar-title .dot-accent { color: var(--accent); }
+        .theme-toggle {
+            background: var(--surface-alt); border: 1px solid var(--border-soft);
+            cursor: pointer; color: var(--text-soft); padding: 8px;
+            border-radius: 10px; transition: all var(--transition);
+            display: flex; align-items: center; justify-content: center;
         }
+        .theme-toggle:hover { background: var(--accent-light); color: var(--accent); border-color: var(--accent); transform: rotate(15deg); }
+        .theme-toggle svg { width: 16px; height: 16px; }
 
-        .menu-btn:active {
-            box-shadow: var(--shadow-pressed);
-            transform: translateY(1px);
-        }
-
-        .nav-logo {
-            display: flex;
-            align-items: center;
-            gap: 9px;
-            font-size: 18px;
-            font-weight: 800;
-            letter-spacing: .02em;
-            color: var(--ink);
-            cursor: pointer;
-        }
-
-        .nav-logo .logo-icon {
-            width: 34px;
-            height: 34px;
-            border-radius: 10px;
-            background: var(--panel);
-            box-shadow: var(--shadow-card);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--accent);
-        }
-
-        .nav-logo .logo-icon svg {
-            width: 18px;
-            height: 18px;
-        }
-
-        .nav-right {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .cart-btn {
+        .sidebar-menu { flex: 1; padding: 14px 12px; overflow-y: auto; }
+        .menu-label { font-size: 10px; font-weight: 700; color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.12em; padding: 12px 12px 8px; }
+        .menu-item {
+            display: flex; align-items: center; gap: 12px;
+            padding: 11px 14px; margin-bottom: 4px;
+            color: var(--text-soft); border: none; background: none;
+            cursor: pointer; font-size: 14px; font-weight: 600;
+            font-family: inherit;
+            transition: all var(--transition);
+            width: 100%; text-align: left; border-radius: 10px;
             position: relative;
-            width: 44px;
-            height: 44px;
-            border-radius: 12px;
-            background: var(--panel);
-            box-shadow: var(--shadow-card);
-            border: none;
-            cursor: pointer;
-            color: var(--ink-soft);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: box-shadow .18s var(--ease-mech), color .18s;
         }
-
-        .cart-btn svg {
-            width: 19px;
-            height: 19px;
+        .menu-item:hover { background: var(--surface-alt); color: var(--text); }
+        .menu-item.active {
+            background: linear-gradient(135deg, var(--accent), var(--accent-hover));
+            color: white;
+            box-shadow: 0 6px 16px -4px rgba(79, 70, 229, 0.45);
         }
+        .menu-item.active svg { color: white; }
+        .menu-item svg { width: 18px; height: 18px; flex-shrink: 0; }
+        .badge-count { margin-left: auto; background: var(--accent-light); color: var(--accent); font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 20px; min-width: 22px; text-align: center; }
+        .menu-item.active .badge-count { background: rgba(255,255,255,0.25); color: white; }
 
-        .cart-btn:hover {
-            color: var(--accent);
+        .sidebar-footer { padding: 16px; border-top: 1px solid var(--border-soft); }
+        .support-card { background: var(--surface-alt); border-radius: 12px; padding: 14px; }
+        .support-card .st { font-size: 12px; color: var(--text-soft); margin-bottom: 6px; }
+        .support-card .sh { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+        .support-btn { display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%; padding: 8px; background: #25d366; color: white; border: none; border-radius: 8px; font-size: 12px; font-weight: 700; cursor: pointer; text-decoration: none; font-family: inherit; transition: all var(--transition); }
+        .support-btn:hover { background: #1fb356; transform: translateY(-1px); }
+        .support-btn svg { width: 14px; height: 14px; }
+
+        /* ── MAIN ────────────────────────────────── */
+        .main {
+            flex: 1; margin-left: 260px;
+            display: flex; flex-direction: column;
+            width: calc(100% - 260px);
         }
-
-        .cart-btn:active {
-            box-shadow: var(--shadow-pressed);
+        .mobile-header {
+            display: none; padding: 12px 16px;
+            background: var(--surface-glass); backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-soft);
+            align-items: center; justify-content: space-between;
+            position: sticky; top: 0; z-index: 90;
         }
+        .mobile-brand { display: flex; align-items: center; gap: 10px; }
+        .header-actions { display: flex; align-items: center; gap: 8px; }
+        .icon-btn { background: var(--surface-alt); border: 1px solid var(--border-soft); cursor: pointer; color: var(--text); padding: 8px; border-radius: 10px; display: flex; align-items: center; justify-content: center; }
 
-        .cart-badge {
-            position: absolute;
-            top: -4px;
-            right: -4px;
-            background: var(--accent);
-            color: #fff;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 10px;
-            font-weight: 700;
-            min-width: 18px;
-            height: 18px;
-            border-radius: 9px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0 4px;
-            box-shadow: 0 0 0 2px var(--panel), 0 0 8px rgba(255, 71, 87, .6);
+        .page { display: none; flex: 1; animation: fadeIn 0.35s ease; }
+        .page.active { display: flex; flex-direction: column; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+        .page-header { padding: 32px 40px 20px; }
+        .page-header .eyebrow { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.14em; color: var(--accent); margin-bottom: 8px; }
+        .page-header h1 { font-size: 34px; font-weight: 700; margin-bottom: 8px; color: var(--text); }
+        .page-header p { font-size: 15px; color: var(--text-soft); max-width: 640px; }
+        .page-content { padding: 8px 40px 48px; flex: 1; }
+
+        /* ── HERO ───────────────────────────────── */
+        .hero-section {
+            position: relative;
+            background: var(--surface);
+            border: 1px solid var(--border-soft);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 28px;
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
         }
-
-        /* ===== SIDE DRAWER ===== */
-        .side-overlay {
-            position: fixed;
-            inset: 0;
-            z-index: 400;
-            background: rgba(20, 22, 26, .42);
-            backdrop-filter: blur(2px);
-            opacity: 0;
+        .hero-section::before {
+            content: ''; position: absolute; inset: 0;
+            background: radial-gradient(600px 300px at 100% 0%, rgba(79, 70, 229, 0.12), transparent 60%);
             pointer-events: none;
-            transition: opacity .3s;
         }
-
-        .side-overlay.show {
-            opacity: 1;
-            pointer-events: all;
-        }
-
-        .side-drawer {
-            position: fixed;
-            top: 0;
-            left: 0;
-            height: 100%;
-            width: 288px;
-            max-width: 82vw;
-            z-index: 401;
-            background: var(--panel);
-            box-shadow: 8px 0 30px rgba(0, 0, 0, .25);
-            transform: translateX(-100%);
-            transition: transform .34s var(--ease-mech);
-            display: flex;
-            flex-direction: column;
-            padding: 20px 0;
-        }
-
-        .side-drawer.show {
-            transform: translateX(0);
-        }
-
-        .side-drawer-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 20px 18px;
-            margin-bottom: 12px;
-            border-bottom: 1px solid var(--border-shadow);
-        }
-
-        .side-drawer-title {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 15px;
-            font-weight: 800;
-            color: var(--ink);
-        }
-
-        .side-drawer-title .logo-icon {
-            width: 28px;
-            height: 28px;
-            border-radius: 8px;
-            background: var(--bg);
-            box-shadow: var(--shadow-recessed);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--accent);
-        }
-
-        .side-drawer-title .logo-icon svg {
-            width: 15px;
-            height: 15px;
-        }
-
-        .side-close-btn {
-            width: 36px;
-            height: 36px;
-            border-radius: 10px;
-            background: var(--bg);
-            box-shadow: var(--shadow-recessed);
-            border: none;
-            color: var(--ink-soft);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: box-shadow .15s;
-        }
-
-        .side-close-btn svg {
-            width: 15px;
-            height: 15px;
-        }
-
-        .side-close-btn:active {
-            box-shadow: var(--shadow-pressed);
-        }
-
-        .side-nav-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            width: 100%;
-            padding: 13px 20px;
-            border: none;
-            border-left: 3px solid transparent;
-            background: none;
-            color: var(--ink-soft);
-            font-size: 14px;
-            font-weight: 600;
-            text-align: left;
-            cursor: pointer;
-            transition: background .18s, color .18s, border-color .18s;
-        }
-
-        .side-nav-item svg {
-            width: 17px;
-            height: 17px;
-            flex: none;
-        }
-
-        .side-nav-item:hover {
-            background: rgba(255, 71, 87, .06);
-            color: var(--ink);
-        }
-
-        .side-nav-item.active {
-            background: rgba(255, 71, 87, .09);
-            border-left-color: var(--accent);
-            color: var(--ink);
-        }
-
-        .side-nav-item.active svg {
-            color: var(--accent);
-        }
-
-        .side-nav-divider {
-            height: 1px;
-            background: var(--border-shadow);
-            margin: 10px 20px;
-        }
-
-        /* ===== PAGE ===== */
-        .page {
-            display: none;
-            position: relative;
-            z-index: 1;
-            animation: fadeUp .35s var(--ease-mech);
-        }
-
-        .page.active {
-            display: block;
-        }
-
-        @keyframes fadeUp {
-            from {
-                opacity: 0;
-                transform: translateY(14px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* ===== HERO ===== */
-        .hero {
-            text-align: center;
-            padding: 64px 20px 44px;
-        }
-
+        .hero-inner { position: relative; z-index: 1; display: grid; grid-template-columns: 1.4fr 1fr; gap: 40px; align-items: center; }
         .hero-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 7px 18px 7px 14px;
-            border-radius: 99px;
-            background: var(--panel);
-            box-shadow: var(--shadow-card);
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 11px;
-            font-weight: 700;
-            color: var(--ink-soft);
-            letter-spacing: .1em;
-            text-transform: uppercase;
-            margin-bottom: 26px;
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 6px 14px;
+            background: var(--accent-light); color: var(--accent);
+            border: 1px solid var(--accent);
+            border-radius: 100px; font-size: 11px; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 0.1em;
+            margin-bottom: 20px;
         }
-
-        .hero h1 {
-            font-size: clamp(32px, 5.5vw, 58px);
-            font-weight: 800;
-            letter-spacing: -.02em;
-            line-height: 1.08;
-            margin-bottom: 18px;
-            color: var(--ink);
+        .hero-badge .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--success); animation: pulse 1.8s ease-in-out infinite; box-shadow: 0 0 8px var(--success); }
+        @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(1.4); } }
+        .hero-section h2 { font-size: clamp(28px, 4vw, 44px); font-weight: 700; margin-bottom: 14px; line-height: 1.05; }
+        .hero-section h2 .accent {
+            background: linear-gradient(135deg, var(--accent), var(--accent-2));
+            -webkit-background-clip: text; background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
-
-        .hero h1 .plain {
-            display: block;
-            text-shadow: 1px 1px 0 rgba(255, 255, 255, .7), -1px -1px 1px rgba(163, 177, 198, .3);
+        .hero-section p.tagline { font-size: 15px; color: var(--text-soft); max-width: 480px; margin-bottom: 24px; }
+        .hero-cta { display: flex; gap: 10px; flex-wrap: wrap; }
+        .btn-primary {
+            padding: 12px 22px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-hover));
+            color: white; border: none; border-radius: 10px;
+            font-size: 14px; font-weight: 700; cursor: pointer;
+            font-family: inherit;
+            transition: all var(--transition);
+            display: inline-flex; align-items: center; gap: 8px;
+            box-shadow: 0 8px 20px -6px rgba(79,70,229,0.5);
         }
-
-        .hero h1 .accent-word {
-            display: block;
-            color: var(--accent);
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 28px -6px rgba(79,70,229,0.6); }
+        .btn-secondary {
+            padding: 12px 22px; background: var(--surface-alt);
+            color: var(--text); border: 1px solid var(--border);
+            border-radius: 10px; font-size: 14px; font-weight: 700;
+            cursor: pointer; font-family: inherit;
+            transition: all var(--transition);
+            display: inline-flex; align-items: center; gap: 8px;
         }
+        .btn-secondary:hover { background: var(--accent-light); color: var(--accent); border-color: var(--accent); }
 
-        .hero p {
-            color: var(--ink-soft);
-            max-width: 480px;
-            margin: 0 auto 40px;
-            font-size: 15.5px;
+        .hero-stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+        .stat-card {
+            background: var(--surface-alt);
+            border: 1px solid var(--border-soft);
+            border-radius: 14px;
+            padding: 18px;
+            transition: all var(--transition);
         }
-
-        .hero-stats {
-            display: flex;
-            justify-content: center;
-            gap: 14px;
-            flex-wrap: wrap;
-            margin-top: 8px;
+        .stat-card:hover { transform: translateY(-3px); border-color: var(--accent); }
+        .stat-value {
+            font-size: 26px; font-weight: 700;
+            background: linear-gradient(135deg, var(--accent), var(--accent-2));
+            -webkit-background-clip: text; background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 4px;
+            font-family: 'Bricolage Grotesque', sans-serif;
         }
+        .stat-label { font-size: 11px; color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.1em; font-weight: 600; }
 
-        .stat-item {
-            background: var(--bg);
-            box-shadow: var(--shadow-recessed);
-            border-radius: 12px;
-            padding: 14px 20px;
-            min-width: 96px;
-            position: relative;
+        /* ── TICKER ─────────────────────────────── */
+        .ticker {
+            background: var(--surface);
+            border: 1px solid var(--border-soft);
+            border-radius: 14px;
+            padding: 12px 0;
             overflow: hidden;
-        }
-
-        .stat-item::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: repeating-linear-gradient(rgba(0, 0, 0, .05) 0 1px, transparent 1px 3px);
-            pointer-events: none;
-        }
-
-        .stat-num {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 22px;
-            font-weight: 700;
-            color: var(--accent);
-            position: relative;
-        }
-
-        .stat-label {
-            font-size: 10px;
-            color: var(--ink-faint);
-            text-transform: uppercase;
-            letter-spacing: .1em;
-            margin-top: 3px;
-            position: relative;
-        }
-
-        /* ===== TICKER (recessed LED screen) ===== */
-        .ticker-wrap {
-            margin: 0 20px 36px;
-            background: var(--bg);
-            box-shadow: var(--shadow-recessed);
-            border-radius: 12px;
-            overflow: hidden;
-            padding: 13px 0;
-            position: relative;
-        }
-
-        .ticker-wrap::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            z-index: 2;
-            pointer-events: none;
-            background: repeating-linear-gradient(rgba(0, 0, 0, .06) 0 1px, transparent 1px 3px);
-        }
-
-        .marquee-track {
-            display: flex;
-            gap: 36px;
-            animation: marquee 24s linear infinite;
-            white-space: nowrap;
-        }
-
-        .marquee-item {
-            display: flex;
-            align-items: center;
-            gap: 9px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 12px;
-            color: var(--ink-soft);
-            font-weight: 500;
-        }
-
-        @keyframes marquee {
-            from {
-                transform: translateX(0);
-            }
-
-            to {
-                transform: translateX(-50%);
-            }
-        }
-
-        /* ===== FILTER (toggle switches) ===== */
-        .filter-bar {
-            display: flex;
-            gap: 9px;
-            flex-wrap: wrap;
-            padding: 0 24px 26px;
-        }
-
-        .filter-btn {
-            padding: 10px 18px;
-            border-radius: 10px;
-            border: none;
-            background: var(--panel);
-            box-shadow: var(--shadow-card);
-            color: var(--ink-soft);
-            font-size: 12.5px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: box-shadow .18s var(--ease-mech), color .18s, transform .15s;
-        }
-
-        .filter-btn:hover {
-            color: var(--ink);
-        }
-
-        .filter-btn.active {
-            box-shadow: var(--shadow-pressed);
-            color: var(--accent);
-            font-weight: 700;
-        }
-
-        .section-title {
-            padding: 0 24px 18px;
-            display: flex;
-            align-items: baseline;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-
-        .section-title h2 {
-            font-size: 20px;
-            font-weight: 800;
-            color: var(--ink);
-        }
-
-        .section-title h2 .accent-word {
-            color: var(--accent);
-        }
-
-        .count-lbl {
-            color: var(--ink-faint);
-            font-size: 12.5px;
-            font-family: 'JetBrains Mono', monospace;
-        }
-
-        /* ===== PRODUCT GRID ("Bolted Modules") ===== */
-        .product-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 20px;
-            padding: 0 24px 56px;
-        }
-
-        .product-card {
-            background: var(--panel);
-            border-radius: 18px;
-            padding: 24px;
-            box-shadow: var(--shadow-card);
-            transition: transform .3s var(--ease-mech), box-shadow .3s var(--ease-mech);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .product-card:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-floating);
-        }
-
-        .screw {
-            position: absolute;
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: radial-gradient(circle at 32% 30%, rgba(255, 255, 255, .75), rgba(0, 0, 0, .28) 65%, transparent 75%);
-        }
-
-        .screw.tl {
-            top: 12px;
-            left: 12px;
-        }
-
-        .screw.tr {
-            top: 12px;
-            right: 12px;
-        }
-
-        .screw.bl {
-            bottom: 12px;
-            left: 12px;
-        }
-
-        .screw.br {
-            bottom: 12px;
-            right: 12px;
-        }
-
-        .p-icon {
-            width: 52px;
-            height: 52px;
-            border-radius: 50%;
-            background: var(--bg);
-            box-shadow: var(--shadow-recessed);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--accent);
-            margin-bottom: 16px;
-        }
-
-        .p-icon svg {
-            width: 24px;
-            height: 24px;
-        }
-
-        .p-cat {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 10.5px;
-            font-weight: 700;
-            letter-spacing: .1em;
-            text-transform: uppercase;
-            color: var(--accent);
-            margin-bottom: 8px;
-        }
-
-        .p-name {
-            font-size: 17px;
-            font-weight: 800;
-            margin-bottom: 8px;
-            color: var(--ink);
-        }
-
-        .p-desc {
-            font-size: 13px;
-            color: var(--ink-soft);
-            margin-bottom: 16px;
-            line-height: 1.6;
-        }
-
-        .tag {
-            position: absolute;
-            top: 16px;
-            right: 16px;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 9.5px;
-            font-weight: 700;
-            letter-spacing: .06em;
-            padding: 4px 9px;
-            border-radius: 8px;
-            text-transform: uppercase;
-            box-shadow: var(--shadow-sharp);
-        }
-
-        .tag.hot {
-            background: var(--accent);
-            color: #fff;
-        }
-
-        .tag.best {
-            background: var(--panel);
-            color: var(--accent);
-            border: 1.5px solid var(--accent);
-            box-shadow: none;
-        }
-
-        .tag.new {
-            background: var(--ink);
-            color: #fff;
-        }
-
-        .durasi-wrap {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-            margin-bottom: 16px;
-        }
-
-        .durasi-pill {
-            padding: 6px 12px;
-            border-radius: 8px;
-            border: none;
-            background: var(--panel);
-            box-shadow: var(--shadow-card);
-            color: var(--ink-soft);
-            font-size: 11.5px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: box-shadow .15s, color .15s;
-            user-select: none;
-        }
-
-        .durasi-pill:hover {
-            color: var(--ink);
-        }
-
-        .durasi-pill.sel {
-            box-shadow: var(--shadow-pressed);
-            color: var(--accent);
-            font-weight: 700;
-        }
-
-        .p-footer {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 10px;
-        }
-
-        .p-price-box {
-            background: var(--bg);
-            box-shadow: var(--shadow-recessed);
-            border-radius: 9px;
-            padding: 7px 11px;
-        }
-
-        .p-price {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 16px;
-            font-weight: 700;
-            color: var(--accent);
-        }
-
-        .p-price small {
-            font-size: 10px;
-            font-weight: 400;
-            color: var(--ink-faint);
-        }
-
-        .add-btn {
-            padding: 11px 18px;
-            border-radius: 10px;
-            border: none;
-            background: var(--accent);
-            color: #fff;
-            box-shadow: 4px 4px 8px rgba(190, 40, 50, .35), -2px -2px 6px rgba(255, 120, 130, .35);
-            font-size: 12.5px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: .04em;
-            cursor: pointer;
-            transition: transform .15s var(--ease-mech), box-shadow .15s;
-            white-space: nowrap;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .add-btn svg {
-            width: 14px;
-            height: 14px;
-        }
-
-        .add-btn:hover {
-            filter: brightness(1.06);
-        }
-
-        .add-btn:active,
-        .add-btn.added {
-            transform: translateY(2px);
-            box-shadow: inset 3px 3px 6px rgba(150, 20, 30, .4), inset -2px -2px 4px rgba(255, 140, 150, .25);
-        }
-
-        .add-btn.added {
-            background: var(--ink);
-        }
-
-        /* ===== DASHBOARD ===== */
-        .dash-wrap {
-            padding: 36px 24px 20px;
-        }
-
-        .dash-wrap h2,
-        .hist-wrap h2,
-        .cart-wrap h2 {
-            font-size: 24px;
-            font-weight: 800;
-            margin-bottom: 6px;
-            color: var(--ink);
-        }
-
-        .dash-wrap>p,
-        .hist-wrap>p,
-        .cart-wrap>p {
-            color: var(--ink-soft);
-            font-size: 13.5px;
-            margin-bottom: 26px;
-        }
-
-        .dash-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
-            gap: 16px;
             margin-bottom: 32px;
+            box-shadow: var(--shadow-sm);
+        }
+        .ticker-content { display: flex; gap: 40px; animation: slide 40s linear infinite; white-space: nowrap; }
+        .ticker-item { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--text-soft); font-weight: 500; }
+        .ticker-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--success); }
+        @keyframes slide { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+        /* ── FILTERS ─────────────────────────────── */
+        .filter-wrap { margin-bottom: 24px; }
+        .search-box { position: relative; margin-bottom: 14px; }
+        .search-box svg { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); width: 16px; height: 16px; color: var(--text-faint); }
+        .search-input {
+            width: 100%; padding: 12px 14px 12px 40px;
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: 12px; font-family: inherit; font-size: 14px;
+            color: var(--text); transition: all var(--transition);
+        }
+        .search-input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 4px var(--accent-light); }
+        .filter-group { display: flex; gap: 8px; flex-wrap: wrap; }
+        .filter-btn {
+            padding: 8px 16px; background: var(--surface);
+            border: 1px solid var(--border); border-radius: 100px;
+            color: var(--text-soft); font-size: 13px; font-weight: 600;
+            cursor: pointer; font-family: inherit;
+            transition: all var(--transition);
+            display: inline-flex; align-items: center; gap: 6px;
+        }
+        .filter-btn:hover { background: var(--surface-alt); color: var(--text); border-color: var(--text-faint); }
+        .filter-btn.active {
+            background: linear-gradient(135deg, var(--accent), var(--accent-hover));
+            color: white; border-color: var(--accent);
+            box-shadow: 0 4px 12px -2px rgba(79,70,229,0.4);
         }
 
-        .dash-card {
-            background: var(--panel);
-            border-radius: 16px;
-            padding: 22px;
-            box-shadow: var(--shadow-card);
-            transition: transform .25s var(--ease-mech), box-shadow .25s var(--ease-mech);
+        .section-label { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+        .section-label h3 { font-size: 20px; font-weight: 700; color: var(--text); }
+        .section-label h3 .accent { color: var(--accent); }
+        .section-label .count { font-size: 12px; color: var(--text-soft); background: var(--surface-alt); padding: 6px 12px; border-radius: 100px; font-weight: 600; }
+
+        /* ── PRODUCT CARD ────────────────────────── */
+        .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 18px; }
+        .product-card {
+            background: var(--surface);
+            border: 1px solid var(--border-soft);
+            border-radius: var(--radius);
+            padding: 20px;
+            transition: all var(--transition);
             position: relative;
+            display: flex; flex-direction: column;
             overflow: hidden;
         }
+        .product-card::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent), var(--accent-2));
+            transform: scaleX(0); transform-origin: left;
+            transition: transform var(--transition);
+        }
+        .product-card:hover { transform: translateY(-4px); border-color: transparent; box-shadow: var(--shadow-md); }
+        .product-card:hover::before { transform: scaleX(1); }
+        .product-badge {
+            position: absolute; top: 14px; right: 14px;
+            font-size: 10px; font-weight: 800;
+            padding: 4px 10px; border-radius: 100px;
+            text-transform: uppercase; letter-spacing: 0.08em;
+        }
+        .product-badge.hot { background: linear-gradient(135deg, #ef4444, #f97316); color: white; }
+        .product-badge.new { background: linear-gradient(135deg, var(--accent-2), var(--accent)); color: white; }
+        .product-badge.best { background: linear-gradient(135deg, var(--accent), var(--accent-hover)); color: white; }
+        .product-badge.sale { background: linear-gradient(135deg, #10b981, #059669); color: white; }
+        .product-icon {
+            width: 46px; height: 46px; border-radius: 12px;
+            background: linear-gradient(135deg, var(--accent-light), var(--surface-alt));
+            border: 1px solid var(--border-soft);
+            display: flex; align-items: center; justify-content: center;
+            color: var(--accent); margin-bottom: 14px;
+        }
+        .product-icon svg { width: 22px; height: 22px; }
+        .product-category { font-size: 10px; font-weight: 800; color: var(--accent); text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 6px; }
+        .product-name { font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 8px; font-family: 'Bricolage Grotesque', sans-serif; letter-spacing: -0.01em; }
+        .product-desc { font-size: 13px; color: var(--text-soft); margin-bottom: 14px; line-height: 1.55; flex-grow: 1; }
 
-        .dash-card:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-floating);
+        .duration-options { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
+        .duration-btn {
+            padding: 6px 11px; background: var(--surface-alt);
+            border: 1px solid var(--border-soft); border-radius: 8px;
+            font-size: 11px; font-weight: 600; color: var(--text-soft);
+            cursor: pointer; font-family: inherit;
+            transition: all var(--transition);
+        }
+        .duration-btn:hover { background: var(--accent-light); border-color: var(--accent); color: var(--accent); }
+        .duration-btn.selected {
+            background: linear-gradient(135deg, var(--accent), var(--accent-hover));
+            border-color: var(--accent); color: white; font-weight: 700;
+            box-shadow: 0 3px 8px -2px rgba(79,70,229,0.5);
         }
 
-        .dc-label {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 10.5px;
-            color: var(--ink-faint);
-            text-transform: uppercase;
-            letter-spacing: .1em;
-            margin-bottom: 10px;
+        .product-footer { display: flex; align-items: center; gap: 10px; margin-top: auto; }
+        .product-price {
+            background: var(--surface-alt);
+            padding: 10px 14px; border-radius: 10px;
+            font-weight: 800; color: var(--text); font-size: 14px;
+            white-space: nowrap; font-family: 'Bricolage Grotesque', sans-serif;
         }
-
-        .dc-val {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 28px;
-            font-weight: 700;
-            margin-bottom: 4px;
-            color: var(--ink);
+        .product-price .cur { color: var(--accent); font-size: 11px; margin-right: 2px; }
+        .add-to-cart-btn {
+            flex: 1; padding: 10px 12px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-hover));
+            color: white; border: none; border-radius: 10px;
+            font-size: 13px; font-weight: 700; cursor: pointer;
+            font-family: inherit;
+            transition: all var(--transition);
+            display: flex; align-items: center; justify-content: center; gap: 6px;
+            box-shadow: 0 4px 12px -2px rgba(79,70,229,0.4);
         }
+        .add-to-cart-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 16px -2px rgba(79,70,229,0.55); }
+        .add-to-cart-btn svg { width: 15px; height: 15px; }
+        .empty-state { text-align: center; padding: 60px 20px; color: var(--text-faint); grid-column: 1 / -1; }
+        .empty-state svg { width: 48px; height: 48px; opacity: 0.4; margin-bottom: 12px; }
 
-        .dc-sub {
-            font-size: 11.5px;
-            color: var(--ink-faint);
-        }
-
-        .dash-card.accent .dc-val {
-            color: var(--accent);
-        }
-
-        .svc-title {
-            font-size: 16px;
-            font-weight: 800;
-            margin-bottom: 14px;
-            color: var(--ink);
-        }
-
-        .svc-item {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            padding: 16px 18px;
-            border-radius: 14px;
-            background: var(--panel);
-            box-shadow: var(--shadow-card);
-            margin-bottom: 10px;
-            transition: box-shadow .2s;
-        }
-
-        .svc-info {
-            flex: 1;
-            min-width: 0;
-        }
-
-        .svc-name {
-            font-weight: 700;
-            font-size: 13.5px;
-            margin-bottom: 2px;
-            color: var(--ink);
-        }
-
-        .svc-meta {
-            font-size: 11.5px;
-            color: var(--ink-faint);
-            font-family: 'JetBrains Mono', monospace;
-        }
-
-        .svc-badge {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 10.5px;
-            font-weight: 700;
-            padding: 5px 11px;
-            border-radius: 8px;
-            text-transform: uppercase;
-            letter-spacing: .04em;
-        }
-
-        .svc-badge.aktif {
-            background: rgba(34, 197, 94, .12);
-            color: #16a34a;
-        }
-
-        .svc-badge.pending {
-            background: rgba(240, 161, 58, .14);
-            color: #b7791f;
-        }
-
-        .svc-badge.expired {
-            background: rgba(244, 63, 94, .12);
-            color: #e11d48;
-        }
-
-        /* ===== CART ===== */
-        .cart-wrap {
-            padding: 36px 24px 56px;
-        }
-
-        .cart-empty {
-            text-align: center;
-            padding: 68px 20px;
-            color: var(--ink-faint);
-        }
-
-        .cart-empty-icon {
-            width: 56px;
-            height: 56px;
-            margin: 0 auto 16px;
-            border-radius: 50%;
-            background: var(--bg);
-            box-shadow: var(--shadow-recessed);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--ink-faint);
-        }
-
-        .cart-empty-icon svg {
-            width: 26px;
-            height: 26px;
-        }
-
-        .cart-items {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            margin-bottom: 24px;
-        }
-
+        /* ── CART ─────────────────────────────── */
+        .cart-layout { display: grid; grid-template-columns: 1fr 380px; gap: 24px; align-items: start; }
+        .cart-list { display: flex; flex-direction: column; gap: 10px; }
         .cart-item {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            padding: 16px 18px;
-            border-radius: 14px;
-            background: var(--panel);
-            box-shadow: var(--shadow-card);
+            background: var(--surface);
+            border: 1px solid var(--border-soft); border-radius: 12px;
+            padding: 14px; display: flex; align-items: center; gap: 14px;
+            transition: all var(--transition);
         }
-
-        .ci-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 10px;
-            background: var(--bg);
-            box-shadow: var(--shadow-recessed);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--accent);
-            flex-shrink: 0;
+        .cart-item:hover { border-color: var(--accent); }
+        .cart-item-icon {
+            width: 40px; height: 40px; border-radius: 10px;
+            background: linear-gradient(135deg, var(--accent-light), var(--surface-alt));
+            border: 1px solid var(--border-soft);
+            display: flex; align-items: center; justify-content: center;
+            color: var(--accent); flex-shrink: 0;
         }
-
-        .ci-icon svg {
-            width: 19px;
-            height: 19px;
+        .cart-item-icon svg { width: 18px; height: 18px; }
+        .cart-item-info { flex: 1; min-width: 0; }
+        .cart-item-name { font-weight: 700; font-size: 13px; color: var(--text); margin-bottom: 3px; }
+        .cart-item-meta { font-size: 12px; color: var(--text-faint); }
+        .cart-item-actions { display: flex; align-items: center; gap: 6px; background: var(--surface-alt); padding: 4px; border-radius: 8px; border: 1px solid var(--border-soft); }
+        .qty-btn {
+            width: 26px; height: 26px; border: none; background: transparent;
+            border-radius: 6px; cursor: pointer; display: flex;
+            align-items: center; justify-content: center; font-weight: 700; font-size: 14px;
+            color: var(--text-soft); transition: all var(--transition);
         }
+        .qty-btn:hover { background: var(--accent); color: white; }
+        .qty-value { width: 28px; text-align: center; font-weight: 700; color: var(--text); font-size: 13px; }
+        .cart-item-price { font-weight: 800; font-size: 14px; color: var(--accent); min-width: 90px; text-align: right; font-family: 'Bricolage Grotesque', sans-serif; }
+        .remove-btn { width: 30px; height: 30px; border: 1px solid var(--border-soft); background: var(--surface-alt); border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--text-soft); transition: all var(--transition); }
+        .remove-btn:hover { background: rgba(239, 68, 68, 0.1); color: var(--danger); border-color: var(--danger); }
+        .remove-btn svg { width: 15px; height: 15px; }
 
-        .ci-info {
-            flex: 1;
-            min-width: 0;
+        .cart-empty { text-align: center; padding: 60px 20px; color: var(--text-faint); background: var(--surface); border: 1px dashed var(--border); border-radius: var(--radius); }
+        .cart-empty svg { width: 56px; height: 56px; margin-bottom: 16px; opacity: 0.4; }
+        .cart-empty .title { font-size: 17px; font-weight: 700; margin-bottom: 8px; color: var(--text); font-family: 'Bricolage Grotesque', sans-serif; }
+
+        .cart-summary-box {
+            background: var(--surface);
+            border: 1px solid var(--border-soft);
+            border-radius: var(--radius);
+            padding: 22px;
+            position: sticky; top: 24px;
+            box-shadow: var(--shadow-sm);
         }
-
-        .ci-name {
-            font-weight: 700;
-            font-size: 14px;
-            margin-bottom: 2px;
-            color: var(--ink);
+        .summary-title { font-size: 17px; font-weight: 700; color: var(--text); margin-bottom: 16px; font-family: 'Bricolage Grotesque', sans-serif; }
+        .notes-section { margin-bottom: 16px; }
+        .notes-label { display: block; font-size: 12px; font-weight: 700; color: var(--text); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.08em; }
+        .notes-input { width: 100%; padding: 12px; background: var(--surface-alt); border: 1px solid var(--border); border-radius: 10px; font-family: inherit; font-size: 13px; color: var(--text); resize: vertical; min-height: 80px; transition: all var(--transition); }
+        .notes-input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 4px var(--accent-light); background: var(--surface); }
+        .notes-hint { font-size: 11px; color: var(--text-faint); margin-top: 6px; }
+        .summary-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px dashed var(--border); font-size: 13px; color: var(--text-soft); }
+        .summary-row.total {
+            border: none; padding-top: 16px; margin-top: 6px;
+            font-weight: 700; font-size: 15px; color: var(--text);
+            border-top: 1px solid var(--border);
         }
-
-        .ci-meta {
-            font-size: 11.5px;
-            color: var(--ink-faint);
-            text-transform: uppercase;
-            letter-spacing: .04em;
-            font-family: 'JetBrains Mono', monospace;
-        }
-
-        .ci-price {
-            font-family: 'JetBrains Mono', monospace;
-            font-weight: 700;
-            font-size: 14.5px;
-            color: var(--accent);
-            margin-right: 4px;
-            white-space: nowrap;
-        }
-
-        .rm-btn {
-            width: 34px;
-            height: 34px;
-            border-radius: 9px;
-            background: var(--bg);
-            box-shadow: var(--shadow-recessed);
-            border: none;
-            color: var(--ink-faint);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: color .18s, box-shadow .18s;
-        }
-
-        .rm-btn svg {
-            width: 15px;
-            height: 15px;
-        }
-
-        .rm-btn:hover {
-            color: var(--accent);
-        }
-
-        .rm-btn:active {
-            box-shadow: var(--shadow-pressed);
-        }
-
-        .cart-summary {
-            background: var(--panel);
-            box-shadow: var(--shadow-card);
-            border-radius: 16px;
-            padding: 24px;
-        }
-
-        .sum-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 0;
-            border-bottom: 1px solid var(--border-shadow);
-            font-size: 13.5px;
-            color: var(--ink-soft);
-        }
-
-        .sum-row:last-child {
-            border-bottom: none;
-        }
-
-        .sum-row.total {
+        .summary-row.total .value {
+            font-size: 22px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-2));
+            -webkit-background-clip: text; background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-family: 'Bricolage Grotesque', sans-serif;
             font-weight: 800;
-            font-size: 15.5px;
-            color: var(--ink);
-            padding-top: 16px;
         }
-
-        .sum-row.total .val {
-            font-family: 'JetBrains Mono', monospace;
-            color: var(--accent);
-            font-size: 21px;
-        }
-
         .checkout-btn {
-            width: 100%;
-            padding: 16px;
-            margin-top: 18px;
-            border: none;
-            border-radius: 13px;
-            background: var(--accent);
-            color: #fff;
-            box-shadow: 5px 5px 10px rgba(190, 40, 50, .35), -3px -3px 8px rgba(255, 120, 130, .3);
-            font-size: 15px;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: .04em;
-            cursor: pointer;
-            transition: transform .15s var(--ease-mech), box-shadow .15s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 9px;
-            min-height: 52px;
+            width: 100%; padding: 14px; margin-top: 16px;
+            background: linear-gradient(135deg, #25d366, #128c7e);
+            color: white; border: none; border-radius: 12px;
+            font-size: 14px; font-weight: 700; cursor: pointer;
+            font-family: inherit;
+            transition: all var(--transition);
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            box-shadow: 0 6px 18px -4px rgba(37, 211, 102, 0.5);
         }
+        .checkout-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 24px -4px rgba(37, 211, 102, 0.65); }
+        .checkout-btn svg { width: 18px; height: 18px; }
 
-        .checkout-btn svg {
-            width: 17px;
-            height: 17px;
+        /* ── DASHBOARD ─────────────────────────── */
+        .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-bottom: 32px; }
+        .dashboard-card {
+            background: var(--surface);
+            border: 1px solid var(--border-soft);
+            border-radius: 14px; padding: 22px;
+            transition: all var(--transition);
+            position: relative; overflow: hidden;
         }
-
-        .checkout-btn:active {
-            transform: translateY(2px);
-            box-shadow: inset 3px 3px 7px rgba(150, 20, 30, .4), inset -2px -2px 5px rgba(255, 140, 150, .25);
+        .dashboard-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+        .dashboard-card.accent {
+            background: linear-gradient(135deg, var(--accent), var(--accent-hover));
+            border: none; color: white;
         }
-
-        /* ===== HISTORY ===== */
-        .hist-wrap {
-            padding: 36px 24px 56px;
+        .dashboard-card.accent .card-label,
+        .dashboard-card.accent .card-subtext { color: rgba(255,255,255,0.85); }
+        .dashboard-card.accent .card-value { color: white; }
+        .dashboard-card.accent::after {
+            content: ''; position: absolute; right: -30px; bottom: -30px;
+            width: 130px; height: 130px; border-radius: 50%;
+            background: rgba(255,255,255,0.08);
         }
+        .card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+        .card-label { font-size: 12px; color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.08em; font-weight: 700; }
+        .card-icon { width: 32px; height: 32px; border-radius: 8px; background: var(--accent-light); color: var(--accent); display: flex; align-items: center; justify-content: center; }
+        .dashboard-card.accent .card-icon { background: rgba(255,255,255,0.18); color: white; }
+        .card-icon svg { width: 16px; height: 16px; }
+        .card-value { font-size: 30px; font-weight: 800; color: var(--text); margin-bottom: 4px; font-family: 'Bricolage Grotesque', sans-serif; letter-spacing: -0.02em; }
+        .card-subtext { font-size: 12px; color: var(--text-soft); }
 
-        .hist-item {
-            display: flex;
-            gap: 15px;
-            align-items: flex-start;
-            padding: 18px 18px;
-            border-radius: 14px;
-            background: var(--panel);
-            box-shadow: var(--shadow-card);
-            margin-bottom: 12px;
+        .services-list, .history-list { display: flex; flex-direction: column; gap: 10px; }
+        .service-item, .history-item {
+            background: var(--surface);
+            border: 1px solid var(--border-soft); border-radius: 12px;
+            padding: 16px; display: flex; align-items: center; gap: 14px;
+            transition: all var(--transition);
         }
-
-        .hi-icon {
-            width: 42px;
-            height: 42px;
-            border-radius: 10px;
-            background: var(--bg);
-            box-shadow: var(--shadow-recessed);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--accent);
+        .service-item:hover, .history-item:hover { border-color: var(--accent); transform: translateX(3px); }
+        .service-status { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+        .service-status.active { background: var(--success); box-shadow: 0 0 12px rgba(16, 185, 129, 0.6); }
+        .service-status.pending { background: var(--warning); box-shadow: 0 0 12px rgba(245, 158, 11, 0.6); }
+        .service-status.expired { background: var(--danger); box-shadow: 0 0 12px rgba(239, 68, 68, 0.6); }
+        .service-info, .history-content { flex: 1; min-width: 0; }
+        .service-name, .history-name { font-weight: 700; font-size: 14px; color: var(--text); margin-bottom: 3px; }
+        .service-meta, .history-meta { font-size: 12px; color: var(--text-faint); }
+        .service-badge, .history-status {
+            font-size: 10px; font-weight: 700; padding: 5px 11px;
+            border-radius: 100px; text-transform: uppercase; letter-spacing: 0.06em;
             flex-shrink: 0;
         }
-
-        .hi-icon svg {
-            width: 19px;
-            height: 19px;
+        .service-badge.active, .history-status.sukses { background: rgba(16, 185, 129, 0.1); color: var(--success); }
+        .service-badge.pending, .history-status.proses { background: rgba(245, 158, 11, 0.1); color: var(--warning); }
+        .service-badge.expired, .history-status.gagal { background: rgba(239, 68, 68, 0.1); color: var(--danger); }
+        .history-icon {
+            width: 40px; height: 40px; border-radius: 10px;
+            background: linear-gradient(135deg, var(--accent-light), var(--surface-alt));
+            border: 1px solid var(--border-soft);
+            display: flex; align-items: center; justify-content: center;
+            color: var(--accent); flex-shrink: 0;
         }
+        .history-icon svg { width: 18px; height: 18px; }
+        .history-right { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
+        .history-price { font-weight: 800; font-size: 14px; color: var(--text); font-family: 'Bricolage Grotesque', sans-serif; }
 
-        .hi-info {
-            flex: 1;
-        }
-
-        .hi-name {
-            font-weight: 700;
-            font-size: 14px;
-            margin-bottom: 4px;
-            color: var(--ink);
-        }
-
-        .hi-meta {
-            font-size: 11px;
-            color: var(--ink-faint);
-            font-family: 'JetBrains Mono', monospace;
-            text-transform: uppercase;
-            letter-spacing: .04em;
-        }
-
-        .hi-right {
-            text-align: right;
-        }
-
-        .hi-price {
-            font-family: 'JetBrains Mono', monospace;
-            font-weight: 700;
-            font-size: 14px;
-            color: var(--accent);
-            margin-bottom: 8px;
-        }
-
-        .hi-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 10px;
-            font-weight: 700;
-            padding: 4px 10px;
-            border-radius: 8px;
-            text-transform: uppercase;
-        }
-
-        .hi-badge svg {
-            width: 11px;
-            height: 11px;
-        }
-
-        .hi-badge.sukses {
-            background: rgba(34, 197, 94, .12);
-            color: #16a34a;
-        }
-
-        .hi-badge.proses {
-            background: rgba(255, 71, 87, .1);
-            color: var(--accent);
-        }
-
-        .hi-badge.gagal {
-            background: rgba(244, 63, 94, .12);
-            color: #e11d48;
-        }
-
-        /* ===== TOAST ===== */
+        /* ── TOAST & MODAL ────────────────────────── */
         .toast {
-            position: fixed;
-            bottom: 24px;
-            right: 24px;
-            left: 24px;
-            margin: 0 auto;
-            max-width: 340px;
+            position: fixed; bottom: 24px; right: 24px;
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: 12px; padding: 14px 18px;
+            font-size: 13px; font-weight: 600; color: var(--text);
+            box-shadow: var(--shadow-lg);
+            display: flex; align-items: center; gap: 10px;
             z-index: 9999;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            background: var(--panel);
-            box-shadow: var(--shadow-floating);
-            border-radius: 13px;
-            padding: 14px 18px;
-            font-size: 13.5px;
-            font-weight: 600;
-            color: var(--ink);
-            transform: translateY(24px) scale(.96);
-            opacity: 0;
-            transition: all .3s var(--ease-mech);
+            opacity: 0; transform: translateY(20px);
+            transition: all var(--transition);
             pointer-events: none;
+            max-width: 380px;
         }
+        .toast.show { opacity: 1; transform: translateY(0); pointer-events: all; }
+        .toast-icon { width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; flex-shrink: 0; }
+        .toast-icon svg { width: 14px; height: 14px; }
+        .toast.success .toast-icon { background: var(--success); }
+        .toast.error .toast-icon { background: var(--danger); }
+        .toast.default .toast-icon { background: var(--accent); }
 
-        @media (min-width: 520px) {
-            .toast {
-                left: auto;
-                right: 28px;
-            }
-        }
-
-        .toast.show {
-            transform: translateY(0) scale(1);
-            opacity: 1;
-        }
-
-        /* ===== MODAL ===== */
         .modal-overlay {
-            position: fixed;
-            inset: 0;
-            z-index: 500;
-            background: rgba(20, 22, 26, .5);
+            position: fixed; inset: 0;
+            background: rgba(15, 23, 42, 0.7);
             backdrop-filter: blur(4px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity .3s;
+            display: flex; align-items: center; justify-content: center;
+            z-index: 1000;
+            opacity: 0; pointer-events: none;
+            transition: opacity var(--transition);
+            padding: 16px;
         }
-
-        .modal-overlay.show {
-            opacity: 1;
-            pointer-events: all;
-        }
-
+        .modal-overlay.show { opacity: 1; pointer-events: all; }
         .modal {
-            background: var(--panel);
-            border-radius: 22px;
-            padding: 32px;
-            max-width: 420px;
-            width: 100%;
-            box-shadow: var(--shadow-floating);
-            transform: scale(.93);
-            transition: transform .3s var(--ease-mech);
-            position: relative;
+            background: var(--surface); border-radius: 20px;
+            padding: 32px; max-width: 440px; width: 100%;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border);
+            transform: scale(0.96); transition: transform var(--transition);
         }
-
-        .modal-overlay.show .modal {
-            transform: scale(1);
-        }
-
+        .modal-overlay.show .modal { transform: scale(1); }
         .modal-icon {
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            background: rgba(34, 197, 94, .12);
-            color: #16a34a;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 16px;
+            width: 60px; height: 60px; border-radius: 50%;
+            background: linear-gradient(135deg, #25d366, #128c7e);
+            display: flex; align-items: center; justify-content: center;
+            color: white; margin-bottom: 18px;
+            box-shadow: 0 8px 20px -4px rgba(37, 211, 102, 0.5);
         }
+        .modal-icon svg { width: 28px; height: 28px; }
+        .modal h3 { font-size: 22px; font-weight: 700; margin-bottom: 10px; color: var(--text); }
+        .modal p { font-size: 14px; color: var(--text-soft); margin-bottom: 24px; line-height: 1.6; }
+        .modal-buttons { display: flex; gap: 10px; }
+        .modal-btn { flex: 1; padding: 12px; border: none; border-radius: 10px; font-size: 13px; font-weight: 700; cursor: pointer; font-family: inherit; transition: all var(--transition); display: flex; align-items: center; justify-content: center; gap: 6px; }
+        .modal-cancel { background: var(--surface-alt); color: var(--text); border: 1px solid var(--border); }
+        .modal-cancel:hover { background: var(--border); }
+        .modal-confirm { background: linear-gradient(135deg, #25d366, #128c7e); color: white; flex: 2; box-shadow: 0 4px 14px -2px rgba(37,211,102,0.5); }
+        .modal-confirm:hover { transform: translateY(-1px); box-shadow: 0 8px 20px -2px rgba(37,211,102,0.6); }
+        .modal-confirm svg { width: 16px; height: 16px; }
 
-        .modal-icon svg {
-            width: 24px;
-            height: 24px;
+        /* ── MOBILE ─────────────────────────────── */
+        @media (max-width: 900px) {
+            .cart-layout { grid-template-columns: 1fr; }
+            .hero-inner { grid-template-columns: 1fr; gap: 28px; }
         }
-
-        .modal h3 {
-            font-size: 19px;
-            font-weight: 800;
-            margin-bottom: 8px;
-            color: var(--ink);
+        @media (max-width: 768px) {
+            .sidebar { transform: translateX(-100%); width: 280px; box-shadow: 4px 0 20px rgba(0,0,0,0.15); }
+            .sidebar.mobile-open { transform: translateX(0); }
+            .main { margin-left: 0; width: 100%; }
+            .mobile-header { display: flex; }
+            .page-header { padding: 24px 20px 16px; }
+            .page-header h1 { font-size: 26px; }
+            .page-content { padding: 8px 20px 36px; }
+            .hero-section { padding: 28px 22px; }
+            .product-grid { grid-template-columns: 1fr; }
+            .dashboard-grid { grid-template-columns: repeat(2, 1fr); }
+            .toast { left: 12px; right: 12px; bottom: 12px; max-width: none; }
+            .sidebar-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 99; opacity: 0; pointer-events: none; transition: opacity var(--transition); }
+            .sidebar-overlay.show { opacity: 1; pointer-events: all; }
+            .cart-item { flex-wrap: wrap; }
+            .cart-item-price { min-width: unset; }
         }
-
-        .modal p {
-            color: var(--ink-soft);
-            font-size: 13.5px;
-            margin-bottom: 24px;
-            line-height: 1.6;
-        }
-
-        .modal-btns {
-            display: flex;
-            gap: 10px;
-        }
-
-        .modal-cancel {
-            flex: 1;
-            padding: 13px;
-            border-radius: 11px;
-            border: none;
-            background: var(--panel);
-            box-shadow: var(--shadow-card);
-            color: var(--ink);
-            font-size: 13.5px;
-            font-weight: 600;
-            cursor: pointer;
-            min-height: 48px;
-            transition: box-shadow .15s;
-        }
-
-        .modal-cancel:active {
-            box-shadow: var(--shadow-pressed);
-        }
-
-        .modal-confirm {
-            flex: 2;
-            padding: 13px;
-            border-radius: 11px;
-            border: none;
-            background: linear-gradient(180deg, #22c55e, #16a34a);
-            color: #fff;
-            box-shadow: 4px 4px 10px rgba(22, 163, 74, .35), -2px -2px 6px rgba(74, 222, 128, .3);
-            font-size: 13.5px;
-            font-weight: 800;
-            cursor: pointer;
-            min-height: 48px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            transition: transform .15s var(--ease-mech), box-shadow .15s;
-        }
-
-        .modal-confirm svg {
-            width: 16px;
-            height: 16px;
-        }
-
-        .modal-confirm:active {
-            transform: translateY(2px);
-            box-shadow: inset 3px 3px 7px rgba(10, 90, 40, .4);
-        }
-
-        @media (max-width: 600px) {
-            nav {
-                padding: 0 14px;
-            }
-
-            .product-grid,
-            .filter-bar,
-            .dash-grid,
-            .cart-wrap,
-            .hist-wrap,
-            .section-title,
-            .dash-wrap {
-                padding-left: 14px;
-                padding-right: 14px;
-            }
-
-            .hero {
-                padding: 44px 14px 32px;
-            }
-
-            .ticker-wrap {
-                margin-left: 14px;
-                margin-right: 14px;
-            }
-
-            .side-drawer {
-                width: 250px;
-            }
-
-            .add-btn,
-            .checkout-btn,
-            .modal-cancel,
-            .modal-confirm {
-                min-height: 48px;
-            }
+        @media (min-width: 769px) { .sidebar-overlay { display: none !important; } }
+        @media (max-width: 480px) {
+            .dashboard-grid { grid-template-columns: 1fr; }
+            .hero-stats { grid-template-columns: 1fr 1fr; }
         }
     </style>
 </head>
-
 <body>
-
-    <nav>
-        <div class="nav-left">
-            <button class="menu-btn" onclick="toggleMenu()" aria-label="Buka menu">
-                <span></span><span></span><span></span>
-            </button>
-            <div class="nav-logo" onclick="goPage('store')">
-                <span class="logo-icon">ICON_BAG</span>
-                SatzStore
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+    <div class="container">
+        <!-- SIDEBAR -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="brand-group">
+                    <div class="sidebar-logo">S</div>
+                    <div class="sidebar-title">Satz<span class="dot-accent">Store</span></div>
+                </div>
+                <button class="theme-toggle" onclick="toggleTheme()" aria-label="Ganti Tema" data-testid="theme-toggle">
+                    <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+                    <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                </button>
             </div>
-        </div>
-        <div class="nav-right">
-            <button class="cart-btn" onclick="goPage('cart')" aria-label="Keranjang">
-                ICON_CART
-                <span class="cart-badge" id="cart-count">0</span>
-            </button>
-        </div>
-    </nav>
-
-    <div class="side-overlay" id="sideOverlay" onclick="closeMenu()"></div>
-    <aside class="side-drawer" id="sideDrawer">
-        <div class="side-drawer-header">
-            <span class="side-drawer-title"><span class="logo-icon">ICON_BAG_SM</span>SatzStore</span>
-            <button class="side-close-btn" onclick="closeMenu()" aria-label="Tutup menu">ICON_X</button>
-        </div>
-        <button class="side-nav-item active" id="tab-store" onclick="goPage('store'); closeMenu()">ICON_BAG_NAV
-            Store</button>
-        <div class="side-nav-divider"></div>
-        <button class="side-nav-item" id="tab-dashboard" onclick="goPage('dashboard'); closeMenu()">ICON_DASH
-            Dashboard</button>
-        <button class="side-nav-item" id="tab-cart" onclick="goPage('cart'); closeMenu()">
-            ICON_CART_NAV<span style="flex:1">Keranjang</span>
-            <span class="cart-badge" id="cart-count-2" style="position:static;">0</span>
-        </button>
-        <div class="side-nav-divider"></div>
-        <button class="side-nav-item" id="tab-history" onclick="goPage('history'); closeMenu()">ICON_HIST
-            Riwayat</button>
-    </aside>
-
-    <!-- STORE -->
-    <div class="page active" id="page-store">
-        <div class="hero">
-            <div class="hero-badge"><span class="led red pulse"></span>Digital Premium Store</div>
-            <h1><span class="plain">DIGITAL STORE</span><span class="accent-word">STECX</span></h1>
-            <p>Bot WhatsApp, API Key, Nomor Kosong, SMM Panel, dan layanan digital premium lainnya. Proses instan,
-                support 24/7.</p>
-            <div class="hero-stats">
-                <div class="stat-item">
-                    <div class="stat-num">5K+</div>
-                    <div class="stat-label">Pelanggan</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-num">99%</div>
-                    <div class="stat-label">Kepuasan</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-num">24/7</div>
-                    <div class="stat-label">Support</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-num">100+</div>
-                    <div class="stat-label">Layanan</div>
+            <nav class="sidebar-menu">
+                <div class="menu-label">Menu Utama</div>
+                <button class="menu-item active" onclick="goPage('store')" id="menu-store" data-testid="menu-store">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m2 7 4.41-4.41A2 2 0 0 1 7.83 2h8.34a2 2 0 0 1 1.42.59L22 7"/><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><path d="M15 22v-4a2 2 0 0 0-2-2h-2a2 2 0 0 0-2 2v4"/><path d="M2 7h20"/></svg>
+                    <span>Toko</span>
+                </button>
+                <button class="menu-item" onclick="goPage('dashboard')" id="menu-dashboard" data-testid="menu-dashboard">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
+                    <span>Dashboard</span>
+                </button>
+                <button class="menu-item" onclick="goPage('cart')" id="menu-cart" data-testid="menu-cart">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>
+                    <span>Keranjang</span>
+                    <span class="badge-count" id="cart-count-badge" style="display:none;">0</span>
+                </button>
+                <button class="menu-item" onclick="goPage('history')" id="menu-history" data-testid="menu-history">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/><path d="M12 7v5l3 3"/></svg>
+                    <span>Riwayat</span>
+                </button>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="support-card">
+                    <div class="st">Butuh bantuan?</div>
+                    <div class="sh">Silahkan Contact Admin Jika ada kendala.</div>
+                    <a href="https://wa.me/6285111612903" target="_blank" class="support-btn" data-testid="sidebar-wa-btn">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+                        Chat WhatsApp
+                    </a>
                 </div>
             </div>
-        </div>
+        </aside>
 
-        <div class="ticker-wrap">
-            <div class="marquee-track" id="mtrack"></div>
-        </div>
+        <!-- MAIN CONTENT -->
+        <main class="main">
+            <div class="mobile-header">
+                <div class="mobile-brand">
+                    <div class="sidebar-logo" style="width:30px; height:30px; font-size:14px; border-radius:9px;">S</div>
+                    <span style="font-weight:800; font-size:15px; font-family:'Bricolage Grotesque', sans-serif;">SatzStore</span>
+                </div>
+                <div class="header-actions">
+                    <button class="theme-toggle" onclick="toggleTheme()" aria-label="Ganti Tema">
+                        <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+                        <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                    </button>
+                    <button class="icon-btn" onclick="toggleSidebar()" aria-label="Menu" data-testid="mobile-menu-btn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+                    </button>
+                </div>
+            </div>
 
-        <div class="filter-bar">
-            <button class="filter-btn active" onclick="setFilter('all',this)">Semua</button>
-            <button class="filter-btn" onclick="setFilter('sewabot',this)">SewaBot</button>
-            <button class="filter-btn" onclick="setFilter('jadibot',this)">JadiBot</button>
-            <button class="filter-btn" onclick="setFilter('nokos',this)">Nokos</button>
-            <button class="filter-btn" onclick="setFilter('smm',this)">SMM Panel</button>
-            <button class="filter-btn" onclick="setFilter('apikey',this)">API Key</button>
-        </div>
+            <!-- STORE PAGE -->
+            <div class="page active" id="page-store">
+                <div class="page-header">
+                    <div class="eyebrow">Katalog Digital</div>
+                    <h1>Layanan Digital Premium</h1>
+                    <p>Bot WhatsApp, API Key, Nomor Kosong, SMM Panel, APK Premium, dan layanan digital lainnya dengan harga kompetitif dan support 24/7.</p>
+                </div>
+                <div class="page-content">
+                    <div class="hero-section">
+                        <div class="hero-inner">
+                            <div>
+                                <div class="hero-badge"><span class="dot"></span> Online & Tersedia 24/7</div>
+                                <h2>Kebutuhan Digital<br><span class="accent">Terlengkap</span> di Satu Tempat</h2>
+                                <p class="tagline">Pilih layanan yang kamu butuhkan, checkout via WhatsApp, dan langsung dapatkan aksesnya. Cepat, aman, terpercaya.</p>
+                                <div class="hero-cta">
+                                    <button class="btn-primary" onclick="scrollToProducts()" data-testid="hero-shop-btn">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>
+                                        Belanja Sekarang
+                                    </button>
+                                    <a href="https://wa.me/6285111612903" target="_blank" class="btn-secondary">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>
+                                        Tanya Admin
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="hero-stats">
+                                <div class="stat-card"><div class="stat-value">5K+</div><div class="stat-label">Pelanggan</div></div>
+                                <div class="stat-card"><div class="stat-value">99%</div><div class="stat-label">Rating Puas</div></div>
+                                <div class="stat-card"><div class="stat-value">30+</div><div class="stat-label">Layanan</div></div>
+                                <div class="stat-card"><div class="stat-value">24/7</div><div class="stat-label">Support</div></div>
+                            </div>
+                        </div>
+                    </div>
 
-        <div class="section-title">
-            <h2><span class="accent-word">Produk</span> Tersedia</h2><span class="count-lbl" id="prod-count"></span>
-        </div>
-        <div class="product-grid" id="prod-grid"></div>
+                    <div class="ticker"><div class="ticker-content" id="ticker-track"></div></div>
+
+                    <div class="filter-wrap" id="filters-anchor">
+                        <div class="search-box">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                            <input type="text" class="search-input" id="search-input" placeholder="Cari layanan... (misal: SewaBot, Nokos, APK)" oninput="renderProducts()" data-testid="search-input">
+                        </div>
+                        <div class="filter-group" id="filter-group"></div>
+                    </div>
+
+                    <div class="section-label">
+                        <h3><span class="accent">Produk</span> Tersedia</h3>
+                        <span class="count" id="prod-count">0 layanan</span>
+                    </div>
+                    <div class="product-grid" id="prod-grid"></div>
+                </div>
+            </div>
+
+            <!-- DASHBOARD PAGE -->
+            <div class="page" id="page-dashboard">
+                <div class="page-header">
+                    <div class="eyebrow">Overview</div>
+                    <h1>Dashboard</h1>
+                    <p>Ringkasan akun, layanan aktif, dan statistik pembelian Anda dalam satu tempat.</p>
+                </div>
+                <div class="page-content">
+                    <div class="dashboard-grid">
+                        <div class="dashboard-card accent">
+                            <div class="card-header">
+                                <div class="card-label">Total Transaksi</div>
+                                <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div>
+                            </div>
+                            <div class="card-value" id="dash-total">0</div>
+                            <div class="card-subtext">Semua pembelian</div>
+                        </div>
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <div class="card-label">Layanan Aktif</div>
+                                <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg></div>
+                            </div>
+                            <div class="card-value">3</div>
+                            <div class="card-subtext">Berjalan normal</div>
+                        </div>
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <div class="card-label">Di Keranjang</div>
+                                <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg></div>
+                            </div>
+                            <div class="card-value" id="dash-cart">0</div>
+                            <div class="card-subtext">Belum checkout</div>
+                        </div>
+                        <div class="dashboard-card accent">
+                            <div class="card-header">
+                                <div class="card-label">Total Pengeluaran</div>
+                                <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+                            </div>
+                            <div class="card-value" id="dash-spent">Rp 0</div>
+                            <div class="card-subtext">Dari pembelian sukses</div>
+                        </div>
+                    </div>
+                    <div class="section-label">
+                        <h3><span class="accent">Layanan</span> Aktif</h3>
+                        <span class="count">4 layanan</span>
+                    </div>
+                    <div class="services-list" id="services-list"></div>
+                </div>
+            </div>
+
+            <!-- CART PAGE -->
+            <div class="page" id="page-cart">
+                <div class="page-header">
+                    <div class="eyebrow">Checkout</div>
+                    <h1>Keranjang Belanja</h1>
+                    <p>Periksa pesanan dan tambahkan catatan sebelum checkout via WhatsApp.</p>
+                </div>
+                <div class="page-content"><div id="cart-content"></div></div>
+            </div>
+
+            <!-- HISTORY PAGE -->
+            <div class="page" id="page-history">
+                <div class="page-header">
+                    <div class="eyebrow">Log Transaksi</div>
+                    <h1>Riwayat Pesanan</h1>
+                    <p>Semua transaksi yang telah dilakukan beserta statusnya.</p>
+                </div>
+                <div class="page-content"><div id="hist-list"></div></div>
+            </div>
+        </main>
     </div>
 
-    <!-- DASHBOARD -->
-    <div class="page" id="page-dashboard">
-        <div class="dash-wrap">
-            <h2>Dashboard</h2>
-            <p>Ringkasan akun dan layanan aktif kamu</p>
-            <div class="dash-grid">
-                <div class="dash-card accent">
-                    <div class="dc-label">Total Transaksi</div>
-                    <div class="dc-val" id="d-total">0</div>
-                    <div class="dc-sub">Semua pembelian</div>
-                </div>
-                <div class="dash-card">
-                    <div class="dc-label">Layanan Aktif</div>
-                    <div class="dc-val">3</div>
-                    <div class="dc-sub">Berjalan normal</div>
-                </div>
-                <div class="dash-card">
-                    <div class="dc-label">Di Keranjang</div>
-                    <div class="dc-val" id="d-cart">0</div>
-                    <div class="dc-sub">Belum checkout</div>
-                </div>
-                <div class="dash-card accent">
-                    <div class="dc-label">Total Spent</div>
-                    <div class="dc-val" id="d-spent">Rp 0</div>
-                    <div class="dc-sub">Riwayat pembelian</div>
-                </div>
-            </div>
-            <div class="svc-title">Layanan Aktif</div>
-            <div class="svc-item"><span class="led green pulse"></span>
-                <div class="svc-info">
-                    <div class="svc-name">SewaBot Premium — 1 Bulan</div>
-                    <div class="svc-meta">Aktif hingga 28 Jul 2026</div>
-                </div>
-                <div class="svc-badge aktif">Aktif</div>
-            </div>
-            <div class="svc-item"><span class="led green pulse"></span>
-                <div class="svc-info">
-                    <div class="svc-name">API Key WA Bot — 1 Minggu</div>
-                    <div class="svc-meta">Expired 5 Jul 2026</div>
-                </div>
-                <div class="svc-badge aktif">Aktif</div>
-            </div>
-            <div class="svc-item"><span class="led amber pulse"></span>
-                <div class="svc-info">
-                    <div class="svc-name">Nokos Premium — 1 Hari</div>
-                    <div class="svc-meta">Menunggu konfirmasi</div>
-                </div>
-                <div class="svc-badge pending">Pending</div>
-            </div>
-            <div class="svc-item"><span class="led red"></span>
-                <div class="svc-info">
-                    <div class="svc-name">SMM Panel — 1 Bulan</div>
-                    <div class="svc-meta">Berakhir 1 Jun 2026</div>
-                </div>
-                <div class="svc-badge expired">Expired</div>
-            </div>
-        </div>
+    <div class="toast default" id="toast">
+        <div class="toast-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <span id="toast-msg">Notification</span>
     </div>
-
-    <!-- CART -->
-    <div class="page" id="page-cart">
-        <div class="cart-wrap">
-            <h2>Keranjang</h2>
-            <p>Periksa pesanan sebelum checkout via WhatsApp</p>
-            <div id="cart-content"></div>
-        </div>
-    </div>
-
-    <!-- HISTORY -->
-    <div class="page" id="page-history">
-        <div class="hist-wrap">
-            <h2>Riwayat Pemesanan</h2>
-            <p>Semua transaksi yang pernah dilakukan</p>
-            <div id="hist-list"></div>
-        </div>
-    </div>
-
-    <div class="toast" id="toast"></div>
-
-    <div class="modal-overlay" id="modal">
+    <div class="modal-overlay" id="modal-overlay">
         <div class="modal">
-            <div class="modal-icon">ICON_CHECK</div>
-            <h3>Konfirmasi Order</h3>
+            <div class="modal-icon">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+            </div>
+            <h3>Konfirmasi Pesanan</h3>
             <p id="modal-text"></p>
-            <div class="modal-btns">
-                <button class="modal-cancel" onclick="closeModal()">Batal</button>
-                <button class="modal-confirm" onclick="goWA()">ICON_MSG Chat WhatsApp</button>
+            <div class="modal-buttons">
+                <button class="modal-btn modal-cancel" onclick="closeModal()" data-testid="modal-cancel">Batal</button>
+                <button class="modal-btn modal-confirm" onclick="goWA()" data-testid="modal-confirm">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+                    Kirim ke WhatsApp
+                </button>
             </div>
         </div>
     </div>
 
     <script>
-        // ── ICON LIBRARY (lucide-style inline SVG, stroke=currentColor) ──
-        var ICONS = {
-            bag: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>',
-            cart: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>',
-            dash: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>',
-            history: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/><path d="M12 7v5l3 3"/></svg>',
-            x: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>',
-            bot: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>',
-            gear: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>',
-            phone: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/></svg>',
-            chart: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg>',
-            key: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z"/><circle cx="16.5" cy="7.5" r=".5" fill="currentColor"/></svg>',
-            trash: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>',
-            check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>',
-            alert: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>',
-            clock: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>',
-            msg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>',
-            plus: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>'
+    (function() {
+        'use strict';
+
+        // ── CONFIG ─────────────────────────────
+        const WA = '6285111612903';
+        const STORAGE = { cart: 'satz_cart_v4', notes: 'satz_notes_v4', history: 'satz_history_v4', theme: 'satz_theme_v4' };
+
+        // ── ICONS ──────────────────────────────
+        const ICONS = {
+            bag: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/></svg>',
+            bot: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="10" x="3" y="11" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/><line x1="8" y1="16" x2="8" y2="16"/><line x1="16" y1="16" x2="16" y2="16"/></svg>',
+            gear: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>',
+            phone: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="14" height="20" x="5" y="2" rx="2"/><path d="M12 18h.01"/></svg>',
+            chart: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg>',
+            key: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z"/></svg>',
+            apk: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="3"/><path d="M12 18h.01"/><path d="M9 6h6"/></svg>',
+            streaming: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><polygon points="10 8 16 12 10 16 10 8" fill="currentColor"/></svg>',
+            vpn: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>',
+            trash: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>',
+            plus: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>',
+            clock: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>',
+            check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>',
+            x: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>',
         };
 
-        var CAT_ICON = { sewabot: 'bot', jadibot: 'gear', nokos: 'phone', smm: 'chart', apikey: 'key' };
+        // ── CATEGORIES ─────────────────────────
+        const CATEGORIES = [
+            { key: 'all',      label: 'Semua', icon: 'bag' },
+            { key: 'sewabot',  label: 'SewaBot', icon: 'bot' },
+            { key: 'jadibot',  label: 'JadiBot', icon: 'gear' },
+            { key: 'nokos',    label: 'Nokos', icon: 'phone' },
+            { key: 'smm',      label: 'SMM Panel', icon: 'chart' },
+            { key: 'apikey',   label: 'API Key', icon: 'key' },
+            { key: 'apk',      label: 'APK Premium', icon: 'apk' },
+            { key: 'streaming',label: 'Streaming', icon: 'streaming' },
+            { key: 'vpn',      label: 'VPN', icon: 'vpn' },
+        ];
+        const CAT_ICON = Object.fromEntries(CATEGORIES.map(c => [c.key, c.icon]));
+        const CAT_NAME = Object.fromEntries(CATEGORIES.map(c => [c.key, c.label]));
 
-        function replaceIconTokens() {
-            document.body.innerHTML = document.body.innerHTML
-                .replace(/ICON_BAG_SM/g, ICONS.bag)
-                .replace(/ICON_BAG_NAV/g, ICONS.bag)
-                .replace(/ICON_BAG/g, ICONS.bag)
-                .replace(/ICON_CART_NAV/g, ICONS.cart)
-                .replace(/ICON_CART/g, ICONS.cart)
-                .replace(/ICON_DASH/g, ICONS.dash)
-                .replace(/ICON_HIST/g, ICONS.history)
-                .replace(/ICON_X/g, ICONS.x)
-                .replace(/ICON_CHECK/g, ICONS.check)
-                .replace(/ICON_MSG/g, ICONS.msg);
-        }
-        replaceIconTokens();
-
-        // ── SIDE MENU ────────────────────────────────────────────────
-        function toggleMenu() {
-            document.getElementById('sideOverlay').classList.toggle('show');
-            document.getElementById('sideDrawer').classList.toggle('show');
-        }
-        function closeMenu() {
-            document.getElementById('sideOverlay').classList.remove('show');
-            document.getElementById('sideDrawer').classList.remove('show');
-        }
-        document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeMenu(); });
-
-        // ── MARQUEE ──────────────────────────────────────────────────
-        (function () {
-            var items = ['SewaBot Premium', 'JadiBot Custom', 'Nokos (Nomor Kosong)', 'SMM All Sosmed', 'API Key WhatsApp', 'Bot Otomatis', 'Support 24/7', 'Proses Instan', 'Harga Terjangkau', 'Garansi Aktif'];
-            var html = items.concat(items).concat(items).concat(items).map(function (t) {
-                return '<span class="marquee-item"><span class="led green"></span>' + t + '</span>';
-            }).join('');
-            document.getElementById('mtrack').innerHTML = html;
-        })();
-
-        // ── DATA ─────────────────────────────────────────────────────
-        var DURASI_SEWABOT = [
+        // ── DURATIONS ──────────────────────────
+        const DURASI_SEWABOT = [
             { label: '1 Menit', price: 500 }, { label: '1 Jam', price: 2000 },
             { label: '1 Hari', price: 5000 }, { label: '1 Minggu', price: 25000 },
-            { label: '1 Bulan', price: 75000 }, { label: 'Permanen', price: 20000 }
+            { label: '1 Bulan', price: 75000 }, { label: 'Permanen', price: 200000 }
         ];
-        var DURASI_JADIBOT = [
+        const DURASI_JADIBOT = [
             { label: '1 Menit', price: 1000 }, { label: '1 Jam', price: 5000 },
             { label: '1 Hari', price: 15000 }, { label: '1 Minggu', price: 60000 },
             { label: '1 Bulan', price: 150000 }, { label: 'Permanen', price: 499000 }
         ];
-        var PRODUCTS = [
-            { id: 1, cat: 'sewabot', badge: 'hot', name: 'SewaBot Basic', desc: 'Sewa bot WA siap pakai. Auto-reply, broadcast, multi-device. Uptime 99.9%.', type: 'durasi', durasi: DURASI_SEWABOT },
-            { id: 2, cat: 'sewabot', badge: 'best', name: 'SewaBot Premium', desc: 'SewaBot full fitur. Anti-banned, custom prefix, integrasi AI ChatGPT.', type: 'durasi', durasi: DURASI_SEWABOT },
-            { id: 3, cat: 'jadibot', badge: '', name: 'JadiBot Starter', desc: 'Buat bot WA sendiri. Panel mudah, template siap pakai, free subdomain.', type: 'durasi', durasi: DURASI_JADIBOT },
-            { id: 4, cat: 'jadibot', badge: 'new', name: 'JadiBot Pro', desc: 'JadiBot full fitur. Custom domain, unlimited command, priority support.', type: 'durasi', durasi: DURASI_JADIBOT },
-            { id: 5, cat: 'nokos', badge: '', name: 'Nokos Standard', desc: 'Nomor kosong untuk verifikasi akun sosmed. Nomor aktif, langsung pakai.', type: 'fixed', price: 3000, period: '/ nomor' },
-            { id: 6, cat: 'nokos', badge: 'hot', name: 'Nokos Premium', desc: 'Nomor premium untuk verifikasi. Jaminan berhasil, ganti gratis jika gagal.', type: 'fixed', price: 8000, period: '/ nomor' },
-            { id: 7, cat: 'smm', badge: 'best', name: 'SMM All Sosmed', desc: 'Panel SMM lengkap. Followers, likes, views untuk IG, TikTok, YouTube, Twitter.', type: 'fixed', price: 25000, period: '/ bulan' },
-            { id: 8, cat: 'smm', badge: 'new', name: 'SMM Auto Order', desc: 'SMM dengan auto order. Set target, jalan otomatis 24 jam non-stop.', type: 'fixed', price: 45000, period: '/ bulan' },
-            { id: 9, cat: 'apikey', badge: 'hot', name: 'API Key WA Bot', desc: 'API key khusus WhatsApp Bot. Unlimited request, low latency, dokumentasi lengkap.', type: 'fixed', price: 85000, period: '/ bulan' },
-            { id: 10, cat: 'apikey', badge: 'new', name: 'API Key WA Multi', desc: 'Multi-device API key. Hubungkan hingga 10 device WA sekaligus.', type: 'fixed', price: 150000, period: '/ bulan' }
+        const DURASI_STREAMING = [
+            { label: '1 Bulan', price: 25000 }, { label: '3 Bulan', price: 65000 },
+            { label: '6 Bulan', price: 120000 }, { label: '1 Tahun', price: 220000 }
         ];
-        var CAT_NAME = { sewabot: 'SewaBot', jadibot: 'JadiBot', nokos: 'Nokos', smm: 'SMM Panel', apikey: 'API Key' };
-        var WA = '6281340514077';
-
-        var selDur = {};
-        PRODUCTS.forEach(function (p) { if (p.type === 'durasi') selDur[p.id] = 0; });
-
-        var cart = [];
-        var historyData = [
-            { id: 901, cat: 'sewabot', name: 'SewaBot Basic — 1 Bulan', price: 75000, date: '20 Jun 2026', status: 'sukses' },
-            { id: 902, cat: 'apikey', name: 'API Key WA Bot — 1 Bulan', price: 85000, date: '15 Jun 2026', status: 'sukses' },
-            { id: 903, cat: 'nokos', name: 'Nokos Premium x3', price: 24000, date: '10 Jun 2026', status: 'sukses' },
-            { id: 904, cat: 'smm', name: 'SMM All Sosmed', price: 25000, date: '5 Jun 2026', status: 'gagal' }
+        const DURASI_VPN = [
+            { label: '1 Bulan', price: 15000 }, { label: '3 Bulan', price: 40000 },
+            { label: '6 Bulan', price: 75000 }, { label: '1 Tahun', price: 140000 }
         ];
 
-        function fmt(n) { return 'Rp ' + n.toLocaleString('id-ID'); }
-        function icon(name) { return ICONS[name] || ''; }
+        // ── PRODUCTS ───────────────────────────
+        const PRODUCTS = [
+            // SewaBot
+            { id: 1, cat: 'sewabot', badge: 'hot',  name: 'SewaBot Basic', desc: 'Sewa bot WA siap pakai. Auto-reply, broadcast, multi-device. Uptime 99.9%.', type: 'durasi', durasi: DURASI_SEWABOT },
+            { id: 2, cat: 'sewabot', badge: 'best', name: 'SewaBot Premium', desc: 'SewaBot full fitur. Anti-banned, custom prefix, integrasi AI ChatGPT & Gemini.', type: 'durasi', durasi: DURASI_SEWABOT },
+            { id: 3, cat: 'sewabot', badge: '',     name: 'SewaBot Ultimate', desc: 'SewaBot enterprise. Multi-nomor, dashboard analytics, priority support.', type: 'durasi', durasi: DURASI_SEWABOT },
 
-        function showToast(msg, type) {
-            var t = document.getElementById('toast');
-            var dot = type === 'green' ? '<span class="led green"></span>' : type === 'red' ? '<span class="led red"></span>' : '';
-            t.innerHTML = dot + '<span>' + msg + '</span>';
-            t.className = 'toast show';
-            clearTimeout(t._t); t._t = setTimeout(function () { t.className = 'toast'; }, 2800);
+            // JadiBot
+            { id: 10, cat: 'jadibot', badge: '',    name: 'JadiBot Starter', desc: 'Buat bot WA sendiri. Panel mudah, template siap pakai, free subdomain.', type: 'durasi', durasi: DURASI_JADIBOT },
+            { id: 11, cat: 'jadibot', badge: 'new', name: 'JadiBot Pro', desc: 'JadiBot full fitur. Custom domain, unlimited command, priority support.', type: 'durasi', durasi: DURASI_JADIBOT },
+            { id: 12, cat: 'jadibot', badge: 'best',name: 'JadiBot Business', desc: 'JadiBot untuk bisnis. Multi-akun, CRM, chatbot AI, laporan otomatis.', type: 'durasi', durasi: DURASI_JADIBOT },
+
+            // Nokos
+            { id: 20, cat: 'nokos', badge: '',     name: 'Nokos WhatsApp',      desc: 'Nomor kosong untuk verifikasi WA. Nomor aktif, langsung pakai, garansi 5 menit.',   type: 'fixed', price: 3500,  period: '/ nomor' },
+            { id: 21, cat: 'nokos', badge: 'hot',  name: 'Nokos WA Premium',    desc: 'Nomor premium untuk verifikasi WA. Jaminan berhasil, ganti gratis jika gagal.',   type: 'fixed', price: 8000,  period: '/ nomor' },
+            { id: 22, cat: 'nokos', badge: '',     name: 'Nokos Telegram',      desc: 'Nomor untuk verifikasi Telegram. Support multi-akun, aktif langsung pakai.',      type: 'fixed', price: 4000,  period: '/ nomor' },
+            { id: 23, cat: 'nokos', badge: 'new',  name: 'Nokos Gojek/Grab',    desc: 'Nomor khusus verifikasi Gojek & Grab. Region Indonesia, aktif 100%.',              type: 'fixed', price: 15000, period: '/ nomor' },
+            { id: 24, cat: 'nokos', badge: '',     name: 'Nokos Shopee/Tokped', desc: 'Nomor untuk buat akun Shopee/Tokopedia. Bisa untuk cashback hunter.',             type: 'fixed', price: 12000, period: '/ nomor' },
+            { id: 25, cat: 'nokos', badge: '',     name: 'Nokos Instagram',     desc: 'Nomor verifikasi Instagram. Aman, tidak dipakai orang lain.',                     type: 'fixed', price: 5000,  period: '/ nomor' },
+            { id: 26, cat: 'nokos', badge: '',     name: 'Nokos Global',        desc: 'Nomor negara luar (US/UK/CA) untuk verifikasi apps global.',                      type: 'fixed', price: 10000, period: '/ nomor' },
+
+            // SMM Panel
+            { id: 30, cat: 'smm', badge: 'hot',  name: 'SMM Instagram',    desc: 'Followers, likes, views, komentar IG real & aktif. Order langsung jalan.',       type: 'fixed', price: 25000, period: '/ paket' },
+            { id: 31, cat: 'smm', badge: '',     name: 'SMM TikTok',        desc: 'Followers, likes, views TikTok. FYP boost, ranking naik cepat.',                  type: 'fixed', price: 30000, period: '/ paket' },
+            { id: 32, cat: 'smm', badge: 'best', name: 'SMM YouTube',       desc: 'Subscriber, jam tayang, views YT. Support monetize channel.',                     type: 'fixed', price: 45000, period: '/ paket' },
+            { id: 33, cat: 'smm', badge: '',     name: 'SMM Twitter / X',   desc: 'Followers, likes, retweet X (Twitter). Cocok untuk influencer & brand.',         type: 'fixed', price: 20000, period: '/ paket' },
+            { id: 34, cat: 'smm', badge: '',     name: 'SMM Facebook',      desc: 'Followers, likes page & post FB. Boost engagement organik.',                      type: 'fixed', price: 22000, period: '/ paket' },
+            { id: 35, cat: 'smm', badge: 'new',  name: 'SMM All Sosmed',    desc: 'Panel lengkap semua sosmed dalam satu akses. Ekonomis untuk agency.',            type: 'fixed', price: 65000, period: '/ bulan' },
+            { id: 36, cat: 'smm', badge: '',     name: 'SMM Auto Order',    desc: 'Auto order 24 jam non-stop. Set target sekali, jalan otomatis.',                  type: 'fixed', price: 45000, period: '/ bulan' },
+
+            // API Key
+            { id: 40, cat: 'apikey', badge: 'hot',  name: 'API Key WA Bot',     desc: 'API khusus WhatsApp Bot. Unlimited request, low latency, docs lengkap.',    type: 'fixed', price: 85000,  period: '/ bulan' },
+            { id: 41, cat: 'apikey', badge: 'best', name: 'API Key WA Multi',   desc: 'Multi-device API key. Hubungkan hingga 10 device WA sekaligus.',            type: 'fixed', price: 150000, period: '/ bulan' },
+            { id: 42, cat: 'apikey', badge: '',     name: 'API Key OCR',        desc: 'API untuk baca teks dari gambar. Support 50+ bahasa, akurasi tinggi.',      type: 'fixed', price: 50000,  period: '/ bulan' },
+            { id: 43, cat: 'apikey', badge: 'new',  name: 'API Key AI Chat',    desc: 'API ChatGPT & Gemini terintegrasi. Bebas rate-limit dari kami.',             type: 'fixed', price: 75000,  period: '/ bulan' },
+            { id: 44, cat: 'apikey', badge: '',     name: 'API Key Cek Resi',   desc: 'Cek resi pengiriman semua ekspedisi Indonesia. JNE, J&T, SiCepat, dll.',    type: 'fixed', price: 40000,  period: '/ bulan' },
+
+            // APK Premium (JPM SPECIAL REQUEST)
+            { id: 50, cat: 'apk', badge: 'hot',  name: 'APK JPM',         desc: 'APK JPM versi terbaru. Fitur lengkap, update rutin, garansi replace jika error.', type: 'fixed', price: 20000, period: '/ lisensi' },
+            { id: 51, cat: 'apk', badge: 'new',  name: 'APK JPM Pro',     desc: 'APK JPM versi Pro dengan fitur premium tambahan & priority update.',              type: 'fixed', price: 35000, period: '/ lisensi' },
+            { id: 52, cat: 'apk', badge: '',     name: 'APK MOD Umum',    desc: 'Berbagai APK MOD populer siap install. Request judul via WhatsApp admin.',        type: 'fixed', price: 15000, period: '/ apk' },
+            { id: 53, cat: 'apk', badge: '',     name: 'APK Editor Video',desc: 'Kumpulan APK editor video premium: CapCut Pro, VN Pro, KineMaster Pro.',          type: 'fixed', price: 25000, period: '/ bundle' },
+
+            // Streaming
+            { id: 60, cat: 'streaming', badge: 'hot',  name: 'Netflix Premium',  desc: 'Akun Netflix Premium 4K. Bisa 4 device, garansi full periode.',        type: 'durasi', durasi: DURASI_STREAMING },
+            { id: 61, cat: 'streaming', badge: '',     name: 'Spotify Premium',  desc: 'Spotify Premium individual/family. No iklan, offline download.',       type: 'durasi', durasi: DURASI_STREAMING },
+            { id: 62, cat: 'streaming', badge: 'best', name: 'Disney+ Hotstar',  desc: 'Disney+ Hotstar Premium. Marvel, Star Wars, film box office lengkap.', type: 'durasi', durasi: DURASI_STREAMING },
+            { id: 63, cat: 'streaming', badge: '',     name: 'YouTube Premium',  desc: 'YT Premium + YT Music. Tanpa iklan, background play, download.',       type: 'durasi', durasi: DURASI_STREAMING },
+            { id: 64, cat: 'streaming', badge: 'new',  name: 'Vidio Platinum',   desc: 'Vidio Platinum. Nonton bola, drama Korea, film Indonesia.',            type: 'durasi', durasi: DURASI_STREAMING },
+
+            // VPN
+            { id: 70, cat: 'vpn', badge: 'best', name: 'NordVPN Premium',    desc: 'Akun NordVPN premium. Server 60+ negara, aman & cepat.',        type: 'durasi', durasi: DURASI_VPN },
+            { id: 71, cat: 'vpn', badge: '',    name: 'ExpressVPN Premium', desc: 'Akun ExpressVPN. Speed tinggi, no-log policy, unlimited devices.', type: 'durasi', durasi: DURASI_VPN },
+            { id: 72, cat: 'vpn', badge: 'new', name: 'SurfShark VPN',      desc: 'SurfShark unlimited device. Cocok untuk keluarga & tim kerja.',   type: 'durasi', durasi: DURASI_VPN },
+        ];
+
+        // ── STATE ──────────────────────────────
+        let selDur = {};
+        PRODUCTS.forEach(p => { if (p.type === 'durasi') selDur[p.id] = 0; });
+
+        let cart = safeParse(localStorage.getItem(STORAGE.cart)) || [];
+        let buyerNotes = localStorage.getItem(STORAGE.notes) || '';
+        let activeFilter = 'all';
+        let searchQuery = '';
+        let historyData = safeParse(localStorage.getItem(STORAGE.history)) || [
+            { id: 901, cat: 'sewabot', name: 'SewaBot Basic — 1 Bulan',   price: 75000, date: '20 Jan 2026', status: 'sukses' },
+            { id: 902, cat: 'apikey',  name: 'API Key WA Bot — 1 Bulan',  price: 85000, date: '15 Jan 2026', status: 'sukses' },
+            { id: 903, cat: 'nokos',   name: 'Nokos WA Premium x3',        price: 24000, date: '10 Jan 2026', status: 'sukses' },
+            { id: 904, cat: 'smm',     name: 'SMM Instagram',              price: 25000, date: '5 Jan 2026',  status: 'gagal' }
+        ];
+        let waMsgCache = '';
+
+        function safeParse(str) { try { return JSON.parse(str); } catch(e) { return null; } }
+
+        // ── THEME ──────────────────────────────
+        function initTheme() {
+            const saved = localStorage.getItem(STORAGE.theme);
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            applyTheme(saved || (prefersDark ? 'dark' : 'light'));
+        }
+        function applyTheme(theme) {
+            document.documentElement.setAttribute('data-theme', theme);
+            localStorage.setItem(STORAGE.theme, theme);
+            document.querySelectorAll('.sun-icon').forEach(el => el.style.display = theme === 'dark' ? 'block' : 'none');
+            document.querySelectorAll('.moon-icon').forEach(el => el.style.display = theme === 'dark' ? 'none' : 'block');
+        }
+        function toggleTheme() {
+            const cur = document.documentElement.getAttribute('data-theme');
+            applyTheme(cur === 'dark' ? 'light' : 'dark');
         }
 
+        // ── UTILS ──────────────────────────────
+        const fmt = n => 'Rp ' + Math.round(n).toLocaleString('id-ID');
+        function saveState() {
+            localStorage.setItem(STORAGE.cart, JSON.stringify(cart));
+            localStorage.setItem(STORAGE.notes, buyerNotes);
+            localStorage.setItem(STORAGE.history, JSON.stringify(historyData));
+        }
+        function showToast(msg, type = 'default') {
+            const t = document.getElementById('toast');
+            document.getElementById('toast-msg').textContent = msg;
+            t.className = 'toast ' + type + ' show';
+            clearTimeout(t._timeout);
+            t._timeout = setTimeout(() => t.className = 'toast ' + type, 2600);
+        }
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('mobile-open');
+            document.getElementById('sidebar-overlay').classList.toggle('show');
+        }
         function goPage(name) {
-            document.querySelectorAll('.page').forEach(function (p) { p.classList.remove('active'); });
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.getElementById('page-' + name).classList.add('active');
-            document.querySelectorAll('.side-nav-item').forEach(function (t) { t.classList.remove('active'); });
-            var tab = document.getElementById('tab-' + name);
-            if (tab) tab.classList.add('active');
+            document.querySelectorAll('.menu-item').forEach(m => m.classList.remove('active'));
+            const menuBtn = document.getElementById('menu-' + name);
+            if (menuBtn) menuBtn.classList.add('active');
+            if (window.innerWidth <= 768) {
+                document.getElementById('sidebar').classList.remove('mobile-open');
+                document.getElementById('sidebar-overlay').classList.remove('show');
+            }
             if (name === 'cart') renderCart();
             if (name === 'history') renderHistory();
             if (name === 'dashboard') updateDash();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
-
-        var activeFilter = 'all';
-        function setFilter(cat, btn) {
+        function scrollToProducts() {
+            document.getElementById('filters-anchor').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+        function setFilter(cat) {
             activeFilter = cat;
-            document.querySelectorAll('.filter-btn').forEach(function (b) { b.classList.remove('active'); });
-            btn.classList.add('active');
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.toggle('active', b.dataset.cat === cat));
             renderProducts();
         }
 
-        function getPrice(p) {
-            if (p.type === 'durasi') {
-                var d = p.durasi[selDur[p.id]];
-                return { price: d.price, period: '/ ' + d.label.toLowerCase() };
+        function getItemDetails(uid) {
+            const parts = uid.split('_');
+            const pid = parseInt(parts[0]);
+            const durIdx = parseInt(parts[1]);
+            const product = PRODUCTS.find(p => p.id === pid);
+            if (!product) return null;
+            let price, period, label;
+            if (product.type === 'durasi') {
+                const dur = product.durasi[durIdx] || product.durasi[0];
+                price = dur.price;
+                period = ' / ' + dur.label.toLowerCase();
+                label = dur.label;
+            } else {
+                price = product.price;
+                period = ' ' + (product.period || '');
+                label = '';
             }
-            return { price: p.price, period: p.period };
+            return { product, price, period, label, durIdx };
         }
 
-        function screws() {
-            return '<span class="screw tl"></span><span class="screw tr"></span><span class="screw bl"></span><span class="screw br"></span>';
+        // ── RENDER ─────────────────────────────
+        function initTicker() {
+            const items = ['SewaBot Premium', 'JadiBot Custom', 'Nokos Nomor Kosong', 'SMM All Sosmed', 'API Key WA Bot', 'APK JPM', 'Netflix Premium', 'Spotify Premium', 'NordVPN', 'Support 24/7', 'Proses Instan', 'Garansi Full'];
+            document.getElementById('ticker-track').innerHTML = [...items, ...items].map(t => `<span class="ticker-item"><span class="ticker-dot"></span>${t}</span>`).join('');
+        }
+
+        function initFilters() {
+            const wrap = document.getElementById('filter-group');
+            wrap.innerHTML = CATEGORIES.map(c => {
+                const cnt = c.key === 'all' ? PRODUCTS.length : PRODUCTS.filter(p => p.cat === c.key).length;
+                return `<button class="filter-btn${c.key === activeFilter ? ' active' : ''}" data-cat="${c.key}" onclick="__api.setFilter('${c.key}')" data-testid="filter-${c.key}">${c.label} <span style="opacity:.6;font-size:11px">(${cnt})</span></button>`;
+            }).join('');
         }
 
         function renderProducts() {
-            var grid = document.getElementById('prod-grid');
-            var list = activeFilter === 'all' ? PRODUCTS : PRODUCTS.filter(function (p) { return p.cat === activeFilter; });
+            const grid = document.getElementById('prod-grid');
+            const q = (document.getElementById('search-input')?.value || '').toLowerCase().trim();
+            searchQuery = q;
+
+            let list = PRODUCTS;
+            if (activeFilter !== 'all') list = list.filter(p => p.cat === activeFilter);
+            if (q) list = list.filter(p => p.name.toLowerCase().includes(q) || p.desc.toLowerCase().includes(q) || (CAT_NAME[p.cat] || '').toLowerCase().includes(q));
             document.getElementById('prod-count').textContent = list.length + ' layanan';
 
-            var html = '';
-            list.forEach(function (p) {
-                var info = getPrice(p);
-                var uid = p.id + '_' + (p.type === 'durasi' ? selDur[p.id] : 0);
-                var inCart = cart.some(function (c) { return c.uid === uid; });
-                var badge = p.badge === 'hot' ? '<span class="tag hot">Hot</span>' : p.badge === 'new' ? '<span class="tag new">New</span>' : p.badge === 'best' ? '<span class="tag best">Best</span>' : '';
+            if (!list.length) {
+                grid.innerHTML = `<div class="empty-state">${ICONS.bag}<div style="font-weight:700;font-size:15px;color:var(--text);margin-bottom:6px">Tidak ada produk</div><div>Coba ubah filter atau kata kunci pencarian</div></div>`;
+                return;
+            }
 
-                var durHtml = '';
+            let html = '';
+            list.forEach(p => {
+                const curDurIdx = p.type === 'durasi' ? selDur[p.id] : 0;
+                const uid = p.id + '_' + curDurIdx;
+                const cartItem = cart.find(c => c.uid === uid);
+                const qty = cartItem ? cartItem.qty : 0;
+                const details = getItemDetails(uid);
+                if (!details) return;
+
+                const badge = p.badge === 'hot' ? '<span class="product-badge hot">Hot</span>' :
+                              p.badge === 'new' ? '<span class="product-badge new">New</span>' :
+                              p.badge === 'best' ? '<span class="product-badge best">Best</span>' :
+                              p.badge === 'sale' ? '<span class="product-badge sale">Sale</span>' : '';
+
+                let durHtml = '';
                 if (p.type === 'durasi') {
-                    durHtml = '<div class="durasi-wrap">';
-                    p.durasi.forEach(function (d, i) {
-                        durHtml += '<div class="durasi-pill' + (selDur[p.id] === i ? ' sel' : '') + '" onclick="pickDur(' + p.id + ',' + i + ');event.stopPropagation()">' + d.label + '</div>';
-                    });
-                    durHtml += '</div>';
+                    durHtml = '<div class="duration-options">' + p.durasi.map((d, i) =>
+                        `<button class="duration-btn${selDur[p.id] === i ? ' selected' : ''}" onclick="__api.pickDur(${p.id},${i})" data-testid="dur-${p.id}-${i}">${d.label}</button>`
+                    ).join('') + '</div>';
                 }
 
-                html += '<div class="product-card">'
-                    + screws()
-                    + badge
-                    + '<div class="p-icon">' + icon(CAT_ICON[p.cat]) + '</div>'
-                    + '<div class="p-cat">' + CAT_NAME[p.cat] + '</div>'
-                    + '<div class="p-name">' + p.name + '</div>'
-                    + '<div class="p-desc">' + p.desc + '</div>'
-                    + durHtml
-                    + '<div class="p-footer">'
-                    + '<div class="p-price-box"><span class="p-price">' + fmt(info.price) + '</span><br><small class="p-price">' + info.period + '</small></div>'
-                    + '<button class="add-btn' + (inCart ? ' added' : '') + '" onclick="addCart(' + p.id + ')">' + (inCart ? icon('check') + ' Added' : icon('plus') + ' Tambah') + '</button>'
-                    + '</div>'
-                    + '</div>';
+                html += `<div class="product-card" data-testid="product-${p.id}">
+                    ${badge}
+                    <div class="product-icon">${ICONS[CAT_ICON[p.cat]] || ICONS.bag}</div>
+                    <div class="product-category">${CAT_NAME[p.cat]}</div>
+                    <div class="product-name">${p.name}</div>
+                    <div class="product-desc">${p.desc}</div>
+                    ${durHtml}
+                    <div class="product-footer">
+                        <div class="product-price">${fmt(details.price)}</div>
+                        <button class="add-to-cart-btn" onclick="__api.addCart('${uid}')" data-testid="add-${p.id}">
+                            ${ICONS.plus} ${qty > 0 ? 'Di Keranjang (' + qty + ')' : 'Tambah'}
+                        </button>
+                    </div>
+                </div>`;
             });
             grid.innerHTML = html;
         }
 
         function pickDur(pid, idx) {
             selDur[pid] = idx;
-            cart = cart.filter(function (c) { return !c.uid.startsWith(pid + '_'); });
-            updateCount();
             renderProducts();
         }
 
-        function addCart(pid) {
-            var p = null;
-            for (var i = 0; i < PRODUCTS.length; i++) { if (PRODUCTS[i].id === pid) { p = PRODUCTS[i]; break; } }
-            if (!p) return;
-            var durIdx = p.type === 'durasi' ? selDur[pid] : 0;
-            var uid = pid + '_' + durIdx;
-            var info = getPrice(p);
-            var durLabel = p.type === 'durasi' ? p.durasi[durIdx].label : '';
-            var idx = -1;
-            for (var j = 0; j < cart.length; j++) { if (cart[j].uid === uid) { idx = j; break; } }
-            if (idx > -1) {
-                cart.splice(idx, 1);
-                showToast(p.name + ' dihapus dari keranjang', 'red');
-            } else {
-                cart.push({ uid: uid, pid: pid, name: p.name + (durLabel ? ' — ' + durLabel : ''), cat: p.cat, price: info.price });
-                showToast(p.name + ' ditambahkan ke keranjang', 'green');
-            }
+        function addCart(uid) {
+            const existing = cart.find(c => c.uid === uid);
+            if (existing) existing.qty++;
+            else cart.push({ uid, qty: 1 });
+            saveState();
+            const details = getItemDetails(uid);
+            const nm = details ? details.product.name + (details.label ? ' — ' + details.label : '') : 'Item';
+            showToast(nm + ' ditambahkan ke keranjang', 'success');
             updateCount();
             renderProducts();
         }
 
         function updateCount() {
-            document.getElementById('cart-count').textContent = cart.length;
-            var c2 = document.getElementById('cart-count-2');
-            if (c2) c2.textContent = cart.length;
+            const total = cart.reduce((sum, item) => sum + item.qty, 0);
+            const badge = document.getElementById('cart-count-badge');
+            if (total > 0) { badge.textContent = total; badge.style.display = 'inline-block'; }
+            else { badge.style.display = 'none'; }
             updateDash();
         }
 
         function renderCart() {
-            var el = document.getElementById('cart-content');
-            if (!cart.length) {
-                el.innerHTML = '<div class="cart-empty"><div class="cart-empty-icon">' + icon('cart') + '</div><div style="font-size:16px;font-weight:700;margin-bottom:8px;color:var(--ink)">Keranjang kosong</div><div style="font-size:13.5px">Tambahkan layanan dari halaman Store</div></div>';
+            const el = document.getElementById('cart-content');
+            const validItems = cart.filter(c => c.qty > 0 && getItemDetails(c.uid));
+
+            if (!validItems.length) {
+                el.innerHTML = `<div class="cart-empty">${ICONS.bag}<div class="title">Keranjang kosong</div><div>Tambahkan layanan dari halaman Toko untuk mulai belanja</div><button class="btn-primary" style="margin-top:24px" onclick="__api.goPage('store')" data-testid="cart-empty-shop">Mulai Belanja</button></div>`;
                 return;
             }
-            var tot = 0; cart.forEach(function (c) { tot += c.price; });
-            var itemsHtml = '';
-            cart.forEach(function (c) {
-                itemsHtml += '<div class="cart-item">'
-                    + '<div class="ci-icon">' + icon(CAT_ICON[c.cat]) + '</div>'
-                    + '<div class="ci-info"><div class="ci-name">' + c.name + '</div><div class="ci-meta">' + CAT_NAME[c.cat] + '</div></div>'
-                    + '<div class="ci-price">' + fmt(c.price) + '</div>'
-                    + '<button class="rm-btn" onclick="removeCart(\'' + c.uid + '\')">' + icon('trash') + '</button>'
-                    + '</div>';
+
+            let total = 0;
+            let itemsHtml = '';
+            validItems.forEach(item => {
+                const details = getItemDetails(item.uid);
+                const subtotal = details.price * item.qty;
+                total += subtotal;
+                itemsHtml += `<div class="cart-item" data-testid="cart-item-${details.product.id}">
+                    <div class="cart-item-icon">${ICONS[CAT_ICON[details.product.cat]] || ICONS.bag}</div>
+                    <div class="cart-item-info">
+                        <div class="cart-item-name">${details.product.name}${details.label ? ' — ' + details.label : ''}</div>
+                        <div class="cart-item-meta">${CAT_NAME[details.product.cat]} · ${fmt(details.price)}${details.period}</div>
+                    </div>
+                    <div class="cart-item-actions">
+                        <button class="qty-btn" onclick="__api.updateQty('${item.uid}', -1)" data-testid="qty-minus-${details.product.id}">−</button>
+                        <span class="qty-value">${item.qty}</span>
+                        <button class="qty-btn" onclick="__api.updateQty('${item.uid}', 1)" data-testid="qty-plus-${details.product.id}">+</button>
+                    </div>
+                    <div class="cart-item-price">${fmt(subtotal)}</div>
+                    <button class="remove-btn" onclick="__api.removeCart('${item.uid}')" data-testid="remove-${details.product.id}">${ICONS.trash}</button>
+                </div>`;
             });
-            el.innerHTML = '<div class="cart-items">' + itemsHtml + '</div>'
-                + '<div class="cart-summary">'
-                + '<div class="sum-row"><span>Subtotal (' + cart.length + ' item)</span><span class="mono">' + fmt(tot) + '</span></div>'
-                + '<div class="sum-row"><span>Biaya Layanan</span><span style="color:#16a34a" class="mono">Gratis</span></div>'
-                + '<div class="sum-row total"><span>Total</span><span class="val">' + fmt(tot) + '</span></div>'
-                + '<button class="checkout-btn" onclick="openModal()">' + icon('msg') + ' Checkout via WhatsApp</button>'
-                + '</div>';
+
+            el.innerHTML = `<div class="cart-layout">
+                <div class="cart-list">${itemsHtml}</div>
+                <div class="cart-summary-box">
+                    <div class="summary-title">Ringkasan Pesanan</div>
+                    <div class="notes-section">
+                        <label class="notes-label" for="buyer-notes">Catatan (Opsional)</label>
+                        <textarea id="buyer-notes" class="notes-input" placeholder="Contoh: Minta setup sekalian ya gan, atau kirim detail akun setelah pembayaran..." oninput="__api.updateNotes(this.value)" data-testid="notes-input">${escapeHtml(buyerNotes)}</textarea>
+                        <div class="notes-hint">Catatan akan disertakan di pesan WhatsApp admin</div>
+                    </div>
+                    <div class="summary-row"><span>Subtotal (${validItems.length} item)</span><span style="color:var(--text);font-weight:700">${fmt(total)}</span></div>
+                    <div class="summary-row"><span>Biaya Layanan</span><span style="color:var(--success);font-weight:700">Gratis</span></div>
+                    <div class="summary-row total"><span>Total Bayar</span><span class="value">${fmt(total)}</span></div>
+                    <button class="checkout-btn" onclick="__api.openModal()" data-testid="checkout-btn">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347"/></svg>
+                        Checkout via WhatsApp
+                    </button>
+                </div>
+            </div>`;
+        }
+
+        function escapeHtml(str) { return String(str).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
+
+        function updateNotes(val) { buyerNotes = val; saveState(); }
+
+        function updateQty(uid, delta) {
+            const item = cart.find(c => c.uid === uid);
+            if (!item) return;
+            item.qty += delta;
+            if (item.qty <= 0) {
+                cart = cart.filter(c => c.uid !== uid);
+                showToast('Item dihapus dari keranjang', 'error');
+            }
+            saveState();
+            updateCount();
+            renderCart();
+            renderProducts();
         }
 
         function removeCart(uid) {
-            cart = cart.filter(function (c) { return c.uid !== uid; });
-            updateCount(); renderCart(); renderProducts();
-            showToast('Item dihapus', 'red');
-        }
-
-        function renderHistory() {
-            var el = document.getElementById('hist-list');
-            if (!historyData.length) {
-                el.innerHTML = '<div class="cart-empty"><div class="cart-empty-icon">' + icon('history') + '</div><div style="font-size:16px;font-weight:700;color:var(--ink)">Belum ada transaksi</div></div>';
-                return;
-            }
-            var html = '';
-            historyData.forEach(function (h) {
-                var b = h.status === 'sukses' ? '<span class="hi-badge sukses">' + icon('check') + ' Sukses</span>'
-                    : h.status === 'proses' ? '<span class="hi-badge proses">' + icon('clock') + ' Proses</span>'
-                        : '<span class="hi-badge gagal">' + icon('alert') + ' Gagal</span>';
-                html += '<div class="hist-item">'
-                    + '<div class="hi-icon">' + icon(CAT_ICON[h.cat]) + '</div>'
-                    + '<div class="hi-info"><div class="hi-name">' + h.name + '</div><div class="hi-meta">' + CAT_NAME[h.cat] + ' · ' + h.date + '</div></div>'
-                    + '<div class="hi-right"><div class="hi-price">' + fmt(h.price) + '</div>' + b + '</div>'
-                    + '</div>';
-            });
-            el.innerHTML = html;
+            cart = cart.filter(c => c.uid !== uid);
+            saveState();
+            updateCount();
+            renderCart();
+            renderProducts();
+            showToast('Item dihapus dari keranjang', 'error');
         }
 
         function updateDash() {
-            var spent = 0; historyData.filter(function (h) { return h.status === 'sukses'; }).forEach(function (h) { spent += h.price; });
-            document.getElementById('d-total').textContent = historyData.length;
-            document.getElementById('d-cart').textContent = cart.length;
-            document.getElementById('d-spent').textContent = fmt(spent);
+            const spent = historyData.filter(h => h.status === 'sukses').reduce((a, h) => a + h.price, 0);
+            const cartTotal = cart.reduce((a, b) => a + b.qty, 0);
+            const totalEl = document.getElementById('dash-total');
+            const cartEl = document.getElementById('dash-cart');
+            const spentEl = document.getElementById('dash-spent');
+            if (totalEl) totalEl.textContent = historyData.length;
+            if (cartEl) cartEl.textContent = cartTotal;
+            if (spentEl) spentEl.textContent = fmt(spent);
+            renderServices();
         }
 
-        var waMsg = '';
-        function openModal() {
-            var tot = 0; cart.forEach(function (c) { tot += c.price; });
-            var lines = cart.map(function (c) { return '• ' + c.name + ' — ' + fmt(c.price); }).join('\n');
-            waMsg = 'Halo Bos!%0A%0AGw Mau order:%0A' + encodeURIComponent(lines) + '%0A%0ATotal: ' + encodeURIComponent(fmt(tot)) + '%0A%0AKonfirmasi Secepatnya ya Bosku!';
-            document.getElementById('modal-text').textContent = 'Total ' + fmt(tot) + ' untuk ' + cart.length + ' item akan dikirim ke WhatsApp admin.';
-            document.getElementById('modal').classList.add('show');
+        function renderServices() {
+            const el = document.getElementById('services-list');
+            if (!el) return;
+            const services = [
+                { name: 'SewaBot Premium — 1 Bulan', meta: 'Aktif hingga 28 Feb 2026', status: 'active' },
+                { name: 'API Key WA Bot — 1 Bulan',  meta: 'Berakhir 5 Mar 2026',       status: 'active' },
+                { name: 'Nokos WA Premium',          meta: 'Menunggu konfirmasi admin',  status: 'pending' },
+                { name: 'SMM Instagram',             meta: 'Berakhir 1 Jan 2026',       status: 'expired' }
+            ];
+            el.innerHTML = services.map(s => `<div class="service-item">
+                <span class="service-status ${s.status}"></span>
+                <div class="service-info"><div class="service-name">${s.name}</div><div class="service-meta">${s.meta}</div></div>
+                <span class="service-badge ${s.status}">${s.status === 'active' ? 'Aktif' : s.status === 'pending' ? 'Pending' : 'Expired'}</span>
+            </div>`).join('');
         }
-        function closeModal() { document.getElementById('modal').classList.remove('show'); }
-        function goWA() {
-            var now = new Date();
-            var date = now.toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
-            cart.forEach(function (item) {
-                historyData.unshift({ id: Date.now() + Math.random(), name: item.name, cat: item.cat, price: item.price, date: date, status: 'proses' });
+
+        function renderHistory() {
+            const el = document.getElementById('hist-list');
+            if (!historyData.length) {
+                el.innerHTML = `<div class="cart-empty">${ICONS.clock}<div class="title">Belum ada transaksi</div><div>Riwayat pembelian akan muncul di sini</div></div>`;
+                return;
+            }
+            el.innerHTML = '<div class="history-list">' + historyData.map(h => `<div class="history-item">
+                <div class="history-icon">${ICONS[CAT_ICON[h.cat]] || ICONS.bag}</div>
+                <div class="history-content">
+                    <div class="history-name">${h.name}</div>
+                    <div class="history-meta">${CAT_NAME[h.cat] || 'Lainnya'} · ${h.date}</div>
+                </div>
+                <div class="history-right">
+                    <div class="history-price">${fmt(h.price)}</div>
+                    <span class="history-status ${h.status}">${h.status === 'sukses' ? '✓ Sukses' : h.status === 'proses' ? '⏱ Proses' : '✗ Gagal'}</span>
+                </div>
+            </div>`).join('') + '</div>';
+        }
+
+        // ── CHECKOUT ───────────────────────────
+        function openModal() {
+            const validItems = cart.filter(c => c.qty > 0 && getItemDetails(c.uid));
+            if (!validItems.length) { showToast('Keranjang kosong!', 'error'); return; }
+            let total = 0;
+            const msgLines = [];
+            validItems.forEach(item => {
+                const details = getItemDetails(item.uid);
+                const subtotal = details.price * item.qty;
+                total += subtotal;
+                msgLines.push('• ' + details.product.name + (details.label ? ' (' + details.label + ')' : '') + ' x' + item.qty + ' = ' + fmt(subtotal));
             });
+            document.getElementById('modal-text').textContent = 'Total ' + fmt(total) + ' untuk ' + validItems.length + ' item akan dikirim ke admin SatzStore via WhatsApp.';
+            let waText = 'Halo Admin SatzStore! 👋\n\nSaya mau order:\n' + msgLines.join('\n') + '\n\n💰 Total: ' + fmt(total);
+            if (buyerNotes.trim()) waText += '\n\n📝 Catatan:\n' + buyerNotes.trim();
+            waText += '\n\nMohon diproses ya, terima kasih!';
+            waMsgCache = encodeURIComponent(waText);
+            document.getElementById('modal-overlay').classList.add('show');
+        }
+        function closeModal() { document.getElementById('modal-overlay').classList.remove('show'); }
+
+        function goWA() {
+            const now = new Date();
+            const date = now.toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
+            const newEntries = [];
+            cart.forEach(item => {
+                const details = getItemDetails(item.uid);
+                if (!details) return;
+                newEntries.push({
+                    id: Date.now() + Math.random(),
+                    name: details.product.name + (details.label ? ' — ' + details.label : '') + (item.qty > 1 ? ' x' + item.qty : ''),
+                    cat: details.product.cat,
+                    price: details.price * item.qty,
+                    date: date,
+                    status: 'proses'
+                });
+            });
+            historyData = [...newEntries, ...historyData];
             cart = [];
+            buyerNotes = '';
+            saveState();
             closeModal();
             updateCount();
             renderProducts();
-            window.open('https://wa.me/' + WA + '?text=' + waMsg, '_blank');
-            showToast('Diarahkan ke WhatsApp', 'green');
-            goPage('history');
+            window.open('https://wa.me/' + WA + '?text=' + waMsgCache, '_blank');
+            showToast('Diarahkan ke WhatsApp admin...', 'success');
+            setTimeout(() => goPage('history'), 700);
         }
 
-        // ── INIT ──────────────────────────────────────────────────────
-        renderProducts();
-        updateCount();
-        updateDash();
+        // ── EXPOSE API ─────────────────────────
+        window.__api = { setFilter, pickDur, addCart, updateQty, removeCart, updateNotes, openModal, goPage };
+        window.toggleTheme = toggleTheme;
+        window.toggleSidebar = toggleSidebar;
+        window.goPage = goPage;
+        window.setFilter = setFilter;
+        window.scrollToProducts = scrollToProducts;
+        window.closeModal = closeModal;
+        window.goWA = goWA;
+
+        // Close modal on overlay click / ESC
+        document.getElementById('modal-overlay').addEventListener('click', e => {
+            if (e.target.id === 'modal-overlay') closeModal();
+        });
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape') closeModal();
+        });
+
+        // ── INIT ───────────────────────────────
+        try {
+            initTheme();
+            initTicker();
+            initFilters();
+            renderProducts();
+            updateCount();
+            updateDash();
+        } catch(e) {
+            console.error('Init Error:', e);
+            const g = document.getElementById('prod-grid');
+            if (g) g.innerHTML = '<div style="padding:20px;color:var(--danger);text-align:center;">Terjadi kesalahan saat memuat. Silakan refresh halaman.</div>';
+        }
+    })();
     </script>
 </body>
-
 </html>
