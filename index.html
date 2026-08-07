@@ -1,639 +1,332 @@
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SatzStore — Digital Services Premium</title>
+    <title>SatzStore</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --bg: #030712;
-            --surface: #0f172a;
-            --surface-alt: #1e293b;
-            --border: rgba(255, 255, 255, 0.08);
-            --text: #f8fafc;
-            --text-soft: #94a3b8;
-            --text-faint: #64748b;
-            --accent: #38bdf8;
-            --accent-hover: #0ea5e9;
-            --accent-light: rgba(56, 189, 248, 0.12);
-            --success: #10b981;
-            --warning: #f59e0b;
-            --danger: #ef4444;
-            --shadow-sm: 0 4px 20px -2px rgba(0, 0, 0, 0.5);
-            --shadow-md: 0 10px 30px -4px rgba(0, 0, 0, 0.6);
-            --shadow-lg: 0 20px 40px -6px rgba(0, 0, 0, 0.7);
-            --radius: 16px;
-            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        [data-theme="light"] {
-            --bg: #f1f5f9;
-            --surface: #ffffff;
-            --surface-alt: #f8fafc;
-            --border: rgba(0, 0, 0, 0.08);
-            --text: #0f172a;
-            --text-soft: #475569;
-            --text-faint: #94a3b8;
-            --accent: #0284c7;
-            --accent-hover: #0369a1;
-            --accent-light: rgba(2, 132, 199, 0.1);
-            --shadow-sm: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
-            --shadow-md: 0 10px 30px -4px rgba(0, 0, 0, 0.08);
-            --shadow-lg: 0 20px 40px -6px rgba(0, 0, 0, 0.1);
-        }
-
-        *,
-        *::before,
-        *::after {
-            box-sizing: border-box;
+        * {
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
         }
 
-        html {
-            scroll-behavior: smooth;
+        :root {
+            --bg-dark: #0d1117;
+            --bg-primary: #161b22;
+            --surface: #1c2128;
+            --surface-alt: #262c33;
+            --text-primary: #e6edf3;
+            --text-secondary: #8b949e;
+            --text-tertiary: #6e7681;
+            --accent: #58a6ff;
+            --accent-light: #79c0ff;
+            --accent-dark: #1f6feb;
+            --success: #3fb950;
+            --danger: #f85149;
+            --warning: #d29922;
+            --shadow-sm: 0 8px 16px rgba(0, 0, 0, 0.3);
+            --shadow-md: 0 12px 24px rgba(0, 0, 0, 0.4);
+            --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.5);
         }
 
+        html,
         body {
-            background: var(--bg);
-            color: var(--text);
             font-family: 'Plus Jakarta Sans', sans-serif;
-            font-size: 14px;
+            background: var(--bg-dark);
+            color: var(--text-primary);
             line-height: 1.6;
             min-height: 100vh;
-            overflow-x: hidden;
-            transition: background var(--transition), color var(--transition);
-            position: relative;
         }
 
-        /* Ambient Glow Background Effects */
-        body::before {
-            content: '';
+        /* ===== AUTH ===== */
+        .auth-page {
             position: fixed;
-            top: -10%;
-            left: 10%;
-            width: 400px;
-            height: 400px;
-            background: rgba(56, 189, 248, 0.07);
-            filter: blur(100px);
-            border-radius: 50%;
-            z-index: 0;
-            pointer-events: none;
-        }
-
-        body::after {
-            content: '';
-            position: fixed;
-            bottom: -10%;
-            right: 10%;
-            width: 400px;
-            height: 400px;
-            background: rgba(168, 85, 247, 0.07);
-            filter: blur(100px);
-            border-radius: 50%;
-            z-index: 0;
-            pointer-events: none;
-        }
-
-        :focus-visible {
-            outline: 2px solid var(--accent);
-            outline-offset: 2px;
-            border-radius: 8px;
-        }
-
-        ::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: var(--border);
-            border-radius: 3px;
-        }
-
-        /* ===== LAYOUT ===== */
-        .container {
-            display: flex;
-            min-height: 100vh;
-            position: relative;
-            z-index: 1;
-        }
-
-        /* ===== AUTH PAGES ===== */
-       .auth-page {
-    position: fixed;
-    inset: 0;
-    display: flex;
-
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-
-    transform: translateY(20px);
-    transition:
-        opacity .45s ease,
-        transform .45s ease,
-        visibility .45s;
-}
-
-.auth-page.active {
-    opacity: 1;
-    visibility: visible;
-    pointer-events: auto;
-
-    transform: translateY(0);
-}
-
-       
-
-        .auth-container {
-            display: flex;
-            width: 100%;
-            min-height: 100vh;
-        }
-
-        .auth-left {
-            flex: 1;
-            background: linear-gradient(135deg, var(--bg), var(--surface));
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 40px 30px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .auth-left::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, rgba(56, 189, 248, 0.15) 0%, transparent 70%);
-            border-radius: 50%;
-            z-index: 0;
-        }
-
-        .auth-left-content {
-            position: relative;
-            z-index: 1;
-            text-align: center;
-            max-width: 420px;
-        }
-
-        .auth-logo {
-            width: 80px;
-            height: 80px;
-            border-radius: 20px;
-            background: linear-gradient(135deg, var(--accent), #818cf8);
+            inset: 0;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #030712;
-            font-weight: 800;
-            font-size: 40px;
-            box-shadow: 0 12px 30px rgba(56, 189, 248, 0.3);
-            margin: 0 auto 24px;
+            background: var(--bg-dark);
+            z-index: 1000;
+            padding: 20px;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s;
         }
 
-        .auth-left-content h2 {
-            font-size: 28px;
-            font-weight: 800;
-            margin-bottom: 12px;
-            letter-spacing: -0.02em;
-            background: linear-gradient(135deg, var(--text), var(--text-soft));
-            background-clip: text;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            line-height: 1.2;
-        }
-
-        .auth-left-content p {
-            font-size: 13px;
-            color: var(--text-soft);
-            line-height: 1.6;
-            margin-bottom: 28px;
-        }
-
-        .auth-features {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            text-align: left;
-        }
-
-        .auth-feature {
-            display: flex;
-            align-items: flex-start;
-            gap: 10px;
-            padding: 10px;
-            background: rgba(56, 189, 248, 0.08);
-            border-radius: 10px;
-            border: 1px solid rgba(56, 189, 248, 0.2);
-        }
-
-        .auth-feature-icon {
-            width: 22px;
-            height: 22px;
-            border-radius: 50%;
-            background: var(--accent-light);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--accent);
-            flex-shrink: 0;
-            font-weight: 700;
-            font-size: 11px;
-        }
-
-        .auth-feature-text {
-            font-size: 11px;
-            color: var(--text-soft);
-            font-weight: 600;
-            line-height: 1.4;
-        }
-
-        .auth-right {
-            flex: 1;
-            background: var(--surface);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 40px 30px;
-            border-left: 1px solid var(--border);
+        .auth-page.active {
+            opacity: 1;
+            visibility: visible;
         }
 
         .auth-card {
             width: 100%;
-            max-width: 360px;
+            max-width: 420px;
+            background: var(--surface);
+            padding: 48px 32px;
+            border-radius: 32px;
+            box-shadow: var(--shadow-lg);
         }
 
-        .auth-header {
-            text-align: center;
-            margin-bottom: 32px;
-        }
-
-        .auth-header h3 {
-            font-size: 26px;
+        .auth-logo {
+            font-size: 48px;
             font-weight: 800;
+            letter-spacing: 2px;
+            margin-bottom: 24px;
+            color: var(--accent-light);
+        }
+
+        .auth-title {
+            font-size: 28px;
+            font-weight: 700;
             margin-bottom: 8px;
-            color: var(--text);
-            letter-spacing: -0.01em;
+            color: var(--text-primary);
         }
 
-        .auth-header p {
+        .auth-subtitle {
             font-size: 13px;
-            color: var(--text-soft);
-        }
-
-        .auth-form {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
+            color: var(--text-secondary);
+            margin-bottom: 36px;
         }
 
         .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
+            margin-bottom: 20px;
         }
 
-        .form-group label {
+        .form-label {
+            display: block;
             font-size: 12px;
-            font-weight: 700;
-            color: var(--text-soft);
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-secondary);
             text-transform: uppercase;
-            letter-spacing: 0.05em;
+            letter-spacing: 0.5px;
         }
 
-        .form-input {
+        .form-input,
+        .form-textarea {
             width: 100%;
             padding: 14px 16px;
             background: var(--surface-alt);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            color: var(--text);
-            font-family: inherit;
-            font-size: 13px;
-            font-weight: 600;
-            transition: all var(--transition);
-        }
-
-        .form-input::placeholder {
-            color: var(--text-faint);
-        }
-
-        .form-input:focus {
-            border-color: var(--accent);
-            outline: none;
-            box-shadow: 0 0 0 3px var(--accent-light);
-            background: var(--surface);
-        }
-
-        .form-input.error {
-            border-color: var(--danger);
-            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
-        }
-
-        .form-error {
-            font-size: 12px;
-            color: var(--danger);
-            font-weight: 600;
-            display: none;
-            margin-top: -4px;
-        }
-
-        .form-error.show {
-            display: block;
-        }
-
-        .btn-auth {
-            padding: 14px 20px;
-            background: var(--accent);
-            color: #030712;
             border: none;
-            border-radius: 12px;
+            border-radius: 16px;
+            font-family: inherit;
             font-size: 14px;
-            font-weight: 700;
+            color: var(--text-primary);
+            transition: all 0.3s;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 80px;
+            font-size: 13px;
+        }
+
+        .form-input::placeholder,
+        .form-textarea::placeholder {
+            color: var(--text-tertiary);
+        }
+
+        .form-input:focus,
+        .form-textarea:focus {
+            outline: none;
+            background: var(--surface);
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2), 0 0 0 3px rgba(88, 166, 255, 0.1);
+            border-bottom: 2px solid var(--accent);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px 20px;
+            background: linear-gradient(135deg, var(--accent-dark), var(--accent));
+            color: #fff;
+            border: none;
+            border-radius: 16px;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 600;
             cursor: pointer;
-            transition: all var(--transition);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            box-shadow: 0 6px 20px rgba(56, 189, 248, 0.3);
-            letter-spacing: -0.01em;
-            min-height: 48px;
+            margin-top: 24px;
+            transition: all 0.3s;
+            box-shadow: 0 8px 16px rgba(88, 166, 255, 0.2);
         }
 
-        .btn-auth:hover {
-            background: var(--accent-hover);
+        .btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(56, 189, 248, 0.4);
+            box-shadow: 0 12px 24px rgba(88, 166, 255, 0.3);
         }
 
-        .btn-auth:active {
+        .btn:active {
             transform: translateY(0);
         }
 
-        .btn-auth.loading {
-            opacity: 0.7;
-            pointer-events: none;
+        .btn-small {
+            width: auto;
+            padding: 8px 16px;
+            margin: 0;
+            font-size: 12px;
+            margin-top: 8px;
         }
 
         .auth-footer {
-            margin-top: 24px;
             text-align: center;
-        }
-
-        .auth-footer p {
+            margin-top: 24px;
             font-size: 13px;
-            color: var(--text-soft);
+            color: var(--text-secondary);
         }
 
-        .auth-footer-link {
-            color: var(--accent);
-            font-weight: 700;
+        .auth-footer a {
             cursor: pointer;
+            color: var(--accent-light);
+            font-weight: 600;
             text-decoration: none;
-            transition: all var(--transition);
         }
 
-        .auth-footer-link:hover {
-            color: var(--accent-hover);
-            text-decoration: underline;
-        }
-
-        .password-toggle {
-    position: absolute;
-    top: 50%;
-    right: 14px;
-
-    width: 42px;
-    height: 42px;
-
-    transform: translateY(-50%);
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    color: var(--text-soft);
-    padding: 0;
-    line-height: 1;
-}
-
-        .password-toggle:hover {
+        .auth-footer a:hover {
             color: var(--accent);
         }
 
-        .form-group-password {
-            position: relative;
+        /* ===== CONTAINER ===== */
+        .container {
+            display: flex;
+            min-height: 100vh;
         }
-.password-toggle svg{
-    width:20px;
-    height:20px;
-}
+
         /* ===== SIDEBAR ===== */
         .sidebar {
-            width: 280px;
+            width: 260px;
             background: var(--surface);
-            border-right: 1px solid var(--border);
-            backdrop-filter: blur(20px);
             display: flex;
             flex-direction: column;
             position: fixed;
             height: 100vh;
             overflow-y: auto;
             z-index: 100;
-            transition: transform var(--transition), background var(--transition), border-color var(--transition);
+            border-right: 1px solid var(--surface-alt);
+            transition: transform 0.3s;
         }
 
         .sidebar-header {
-            padding: 24px 20px;
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .sidebar-logo {
-            width: 40px;
-            height: 40px;
-            border-radius: 12px;
-            background: linear-gradient(135deg, var(--accent), #818cf8);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #030712;
+            padding: 28px 24px;
+            font-size: 24px;
             font-weight: 800;
-            font-size: 20px;
-            box-shadow: 0 8px 20px rgba(56, 189, 248, 0.3);
-        }
-
-        .sidebar-title {
-            font-weight: 800;
-            font-size: 18px;
-            color: var(--text);
-            letter-spacing: -0.01em;
-            background: linear-gradient(to right, var(--text), var(--text-soft));
-            background-clip: text;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: var(--accent-light);
+            border-bottom: 1px solid var(--surface-alt);
         }
 
         .sidebar-menu {
             flex: 1;
-            padding: 20px 12px;
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-
-        .menu-divider {
-            font-size: 10px;
-            font-weight: 800;
-            color: var(--text-faint);
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            padding: 16px 16px 6px;
+            padding: 16px 12px;
         }
 
         .menu-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px 16px;
-            color: var(--text-soft);
-            border: none;
-            background: none;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 600;
-            transition: all var(--transition);
+            display: block;
             width: 100%;
+            padding: 14px 20px;
+            background: none;
+            border: none;
+            border-radius: 12px;
+            font-family: inherit;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
             text-align: left;
-            border-radius: var(--radius);
+            color: var(--text-secondary);
+            margin-bottom: 6px;
+            transition: all 0.3s;
+            position: relative;
         }
 
         .menu-item:hover {
-            background: var(--surface-alt);
-            color: var(--text);
+            background: rgba(88, 166, 255, 0.08);
+            color: var(--text-primary);
             transform: translateX(4px);
         }
 
         .menu-item.active {
-            background: var(--accent-light);
-            color: var(--accent);
-            box-shadow: inset 0 0 0 1px rgba(56, 189, 248, 0.2);
-        }
-
-        .menu-item svg {
-            width: 20px;
-            height: 20px;
-            flex-shrink: 0;
+            background: rgba(88, 166, 255, 0.15);
+            color: var(--accent-light);
+            font-weight: 600;
+            box-shadow: inset 0 0 12px rgba(88, 166, 255, 0.1);
         }
 
         .sidebar-footer {
-            padding: 20px;
-            border-top: 1px solid var(--border);
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
+            border-top: 1px solid var(--surface-alt);
+            padding: 16px 12px;
         }
 
         .user-info {
             background: var(--surface-alt);
             border-radius: 12px;
-            padding: 12px;
-            border: 1px solid var(--border);
-            text-align: center;
+            padding: 14px 16px;
+            margin-bottom: 12px;
+            font-size: 12px;
         }
 
-        .user-info-name {
-            font-weight: 700;
-            font-size: 13px;
-            color: var(--text);
-            margin-bottom: 2px;
-        }
-
-        .user-info-phone {
-            font-size: 11px;
-            color: var(--text-soft);
-        }
-
-        .theme-toggle-btn {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            width: 100%;
-            padding: 12px 16px;
-            background: var(--surface-alt);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            color: var(--text);
-            font-size: 13px;
+        .user-name {
             font-weight: 600;
-            cursor: pointer;
-            transition: all var(--transition);
+            color: var(--text-primary);
+            margin-bottom: 4px;
         }
 
-        .theme-toggle-btn:hover {
-            border-color: var(--accent);
-            transform: translateY(-2px);
-        }
-
-        .theme-toggle-btn svg {
-            width: 16px;
-            height: 16px;
+        .user-phone {
+            font-size: 11px;
+            color: var(--text-tertiary);
         }
 
         .logout-btn {
             width: 100%;
-            padding: 10px;
-            background: rgba(239, 68, 68, 0.15);
+            padding: 12px 16px;
+            background: rgba(248, 81, 73, 0.15);
             color: var(--danger);
-            border: 1px solid rgba(239, 68, 68, 0.3);
+            border: none;
             border-radius: 12px;
-            font-size: 13px;
-            font-weight: 700;
+            font-family: inherit;
+            font-size: 12px;
+            font-weight: 600;
             cursor: pointer;
-            transition: all var(--transition);
+            transition: all 0.3s;
         }
 
         .logout-btn:hover {
-            background: var(--danger);
-            color: white;
+            background: rgba(248, 81, 73, 0.25);
+            transform: translateY(-2px);
         }
 
-        /* ===== MAIN CONTENT ===== */
+        /* ===== MAIN ===== */
         .main {
+            margin-left: 260px;
             flex: 1;
-            margin-left: 280px;
             display: flex;
             flex-direction: column;
-            min-width: 0;
+        }
+
+        .page-header {
+            padding: 32px 40px;
+            border-bottom: 1px solid var(--surface-alt);
+            background: var(--surface);
+        }
+
+        .page-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 6px;
+            color: var(--text-primary);
+        }
+
+        .page-subtitle {
+            font-size: 13px;
+            color: var(--text-secondary);
         }
 
         .page {
             display: none;
             flex: 1;
+            overflow-y: auto;
         }
 
         .page.active {
@@ -641,1176 +334,431 @@
             flex-direction: column;
         }
 
-        .page-header {
-            padding: 32px 40px;
-            border-bottom: 1px solid var(--border);
-            background: var(--surface);
-            backdrop-filter: blur(20px);
-            transition: background var(--transition), border-color var(--transition);
-        }
-
-        .page-header h1 {
-            font-size: 24px;
-            font-weight: 800;
-            margin-bottom: 6px;
-            color: var(--text);
-            letter-spacing: -0.02em;
-        }
-
-        .page-header p {
-            font-size: 13px;
-            color: var(--text-soft);
-        }
-
         .page-content {
-            padding: 40px;
+            padding: 32px 40px;
             flex: 1;
         }
 
-        /* ===== HERO BANNER ===== */
-        .hero-section {
-            background: linear-gradient(135deg, var(--surface), var(--surface-alt));
-            border: 1px solid var(--border);
+        /* ===== HERO ===== */
+        .hero {
+            background: linear-gradient(135deg, rgba(88, 166, 255, 0.08), rgba(79, 39, 245, 0.08));
             border-radius: 24px;
-            padding: 48px 32px;
+            padding: 48px 40px;
+            margin-bottom: 32px;
             text-align: center;
-            margin-bottom: 36px;
-            box-shadow: var(--shadow-md);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            box-shadow: var(--shadow-sm);
+            border: 1px solid rgba(88, 166, 255, 0.1);
         }
 
         .hero-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
+            display: inline-block;
+            background: rgba(88, 166, 255, 0.15);
+            color: var(--accent-light);
             padding: 8px 16px;
-            background: var(--accent-light);
-            color: var(--accent);
-            border-radius: 30px;
-            font-size: 12px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
             margin-bottom: 20px;
-            box-shadow: inset 0 0 0 1px rgba(56, 189, 248, 0.3);
+            border: 1px solid rgba(88, 166, 255, 0.2);
         }
 
-        .hero-badge .dot {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: var(--success);
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% {
-                opacity: 1;
-                transform: scale(1);
-            }
-            50% {
-                opacity: 0.4;
-                transform: scale(0.9);
-            }
-        }
-
-        .hero-section h2 {
-            font-size: 32px;
+        .hero-title {
+            font-size: 36px;
             font-weight: 800;
             margin-bottom: 12px;
-            color: var(--text);
-            letter-spacing: -0.02em;
+            color: var(--text-primary);
+            background: linear-gradient(135deg, var(--accent-light), var(--accent));
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        .hero-section .accent {
-            color: var(--accent);
-            text-shadow: 0 0 30px rgba(56, 189, 248, 0.3);
-        }
-
-        .hero-section p {
+        .hero-desc {
             font-size: 14px;
-            color: var(--text-soft);
+            color: var(--text-secondary);
+            margin-bottom: 32px;
             max-width: 560px;
-            margin: 0 auto 32px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .hero-stats {
             display: grid;
-            grid-template-columns: repeat(3, minmax(120px, 1fr));
+            grid-template-columns: repeat(3, 1fr);
             gap: 16px;
-            max-width: 520px;
+            max-width: 480px;
             margin: 0 auto;
         }
 
-        .stat-card {
+        .stat {
             background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 14px;
+            border-radius: 16px;
             padding: 16px;
             box-shadow: var(--shadow-sm);
-            transition: transform var(--transition);
-        }
-
-        .stat-card:hover {
-            transform: translateY(-3px);
-            border-color: var(--accent);
+            border: 1px solid var(--surface-alt);
         }
 
         .stat-value {
-            font-size: 20px;
-            font-weight: 800;
-            color: var(--accent);
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--accent-light);
             margin-bottom: 4px;
         }
 
         .stat-label {
             font-size: 11px;
-            color: var(--text-faint);
-            font-weight: 700;
+            color: var(--text-tertiary);
             text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        /* ===== TICKER ===== */
-        .ticker {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 14px;
-            padding: 14px 0;
-            overflow: hidden;
-            margin-bottom: 32px;
-            box-shadow: var(--shadow-sm);
-        }
-
-        .ticker-content {
-            display: flex;
-            gap: 40px;
-            animation: slide 30s linear infinite;
-            white-space: nowrap;
-        }
-
-        .ticker-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 13px;
-            color: var(--text-soft);
-            font-weight: 600;
-        }
-
-        .ticker-dot {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: var(--success);
-        }
-
-        @keyframes slide {
-            from {
-                transform: translateX(0);
-            }
-            to {
-                transform: translateX(-50%);
-            }
+            letter-spacing: 0.5px;
         }
 
         /* ===== FILTERS ===== */
-        .filter-group {
+        .filters {
             display: flex;
             gap: 10px;
+            margin-bottom: 32px;
             flex-wrap: wrap;
-            margin-bottom: 28px;
         }
 
         .filter-btn {
-            padding: 10px 18px;
+            padding: 10px 16px;
             background: var(--surface);
-            border: 1px solid var(--border);
+            border: none;
             border-radius: 12px;
-            color: var(--text-soft);
-            font-size: 13px;
+            font-family: inherit;
+            font-size: 12px;
             font-weight: 600;
+            color: var(--text-secondary);
             cursor: pointer;
-            transition: all var(--transition);
+            transition: all 0.3s;
             box-shadow: var(--shadow-sm);
         }
 
         .filter-btn:hover {
-            border-color: var(--accent);
-            color: var(--text);
+            background: var(--surface-alt);
+            color: var(--text-primary);
             transform: translateY(-2px);
         }
 
         .filter-btn.active {
-            background: var(--accent);
-            color: #030712;
-            border-color: var(--accent);
-            font-weight: 700;
-            box-shadow: 0 6px 20px rgba(56, 189, 248, 0.35);
+            background: linear-gradient(135deg, var(--accent-dark), var(--accent));
+            color: #fff;
+            box-shadow: 0 8px 16px rgba(88, 166, 255, 0.3);
         }
 
-        /* ===== PRODUCT GRID ===== */
-        .section-label {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 20px;
-        }
-
-        .section-label h3 {
+        /* ===== SECTION ===== */
+        .section-title {
             font-size: 18px;
-            font-weight: 800;
-            color: var(--text);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .section-label .count {
-            font-size: 12px;
-            color: var(--text-faint);
-            background: var(--surface-alt);
-            border: 1px solid var(--border);
-            padding: 6px 12px;
-            border-radius: 30px;
             font-weight: 700;
-        }
-
-        .product-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 24px;
-        }
-
-        .product-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 24px;
-            transition: all var(--transition);
-            position: relative;
-            overflow: hidden;
+            margin-bottom: 20px;
+            color: var(--text-primary);
             display: flex;
-            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .prod-count {
+            background: var(--surface);
+            color: var(--text-secondary);
+            padding: 6px 12px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
             box-shadow: var(--shadow-sm);
         }
 
-        .product-card:hover {
-            border-color: var(--accent);
-            transform: translateY(-6px);
+        /* ===== PRODUCTS ===== */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .product {
+            background: var(--surface);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--surface-alt);
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .product:hover {
+            transform: translateY(-8px);
             box-shadow: var(--shadow-md);
+            border-color: rgba(88, 166, 255, 0.2);
+        }
+
+        .product::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(88, 166, 255, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .product:hover::before {
+            left: 100%;
         }
 
         .product-badge {
             position: absolute;
-            top: 20px;
-            right: 20px;
-            font-size: 10px;
-            font-weight: 800;
-            padding: 5px 10px;
-            border-radius: 8px;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        .product-badge.hot {
-            background: rgba(239, 68, 68, 0.15);
-            color: var(--danger);
-            border: 1px solid rgba(239, 68, 68, 0.3);
-        }
-
-        .product-badge.new {
-            background: var(--surface-alt);
-            color: var(--text);
-            border: 1px solid var(--border);
-        }
-
-        .product-badge.best {
-            background: rgba(56, 189, 248, 0.15);
-            color: var(--accent);
-            border: 1px solid rgba(56, 189, 248, 0.3);
-        }
-
-        .product-icon {
-            width: 48px;
-            height: 48px;
+            top: 16px;
+            right: 16px;
+            background: linear-gradient(135deg, var(--accent-dark), var(--accent));
+            color: #fff;
+            padding: 6px 12px;
             border-radius: 12px;
-            background: var(--accent-light);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--accent);
-            margin-bottom: 16px;
-            box-shadow: inset 0 0 0 1px rgba(56, 189, 248, 0.2);
-        }
-
-        .product-icon svg {
-            width: 24px;
-            height: 24px;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            box-shadow: 0 4px 8px rgba(88, 166, 255, 0.3);
         }
 
         .product-category {
             font-size: 11px;
-            font-weight: 700;
-            color: var(--accent);
+            font-weight: 600;
+            color: var(--accent-light);
             text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-bottom: 6px;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
         }
 
         .product-name {
             font-size: 16px;
-            font-weight: 800;
-            color: var(--text);
+            font-weight: 700;
+            color: var(--text-primary);
             margin-bottom: 8px;
-            letter-spacing: -0.01em;
         }
 
         .product-desc {
-            font-size: 13px;
-            color: var(--text-soft);
-            margin-bottom: 20px;
-            line-height: 1.6;
-            flex: 1;
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+            line-height: 1.5;
+            min-height: 36px;
         }
 
-        .duration-options {
+        .durations {
             display: flex;
-            flex-wrap: wrap;
             gap: 6px;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
         }
 
         .duration-btn {
             padding: 6px 12px;
             background: var(--surface-alt);
-            border: 1px solid var(--border);
-            border-radius: 8px;
+            border: 1px solid var(--surface-alt);
+            border-radius: 10px;
+            font-family: inherit;
             font-size: 11px;
             font-weight: 600;
-            color: var(--text-soft);
+            color: var(--text-secondary);
             cursor: pointer;
-            transition: all var(--transition);
+            flex: 1;
+            min-width: 60px;
+            transition: all 0.3s;
         }
 
         .duration-btn:hover {
-            background: var(--accent-light);
+            background: rgba(88, 166, 255, 0.1);
+            color: var(--accent-light);
             border-color: var(--accent);
-            color: var(--accent);
         }
 
         .duration-btn.selected {
             background: var(--accent);
+            color: #fff;
             border-color: var(--accent);
-            color: #030712;
             font-weight: 700;
         }
 
         .product-footer {
             display: flex;
-            align-items: center;
             justify-content: space-between;
+            align-items: center;
             gap: 12px;
-            margin-top: auto;
+            margin-top: 16px;
             padding-top: 16px;
-            border-top: 1px solid var(--border);
+            border-top: 1px solid var(--surface-alt);
         }
 
         .product-price {
-            font-weight: 800;
-            color: var(--accent);
             font-size: 16px;
-            letter-spacing: -0.01em;
+            font-weight: 700;
+            color: var(--accent-light);
         }
 
-        .add-to-cart-btn {
-            padding: 10px 18px;
-            background: var(--accent);
-            color: #030712;
+        .btn-add {
+            flex: 1;
+            padding: 10px 14px;
+            background: linear-gradient(135deg, var(--accent-dark), var(--accent));
+            color: #fff;
             border: none;
-            border-radius: 10px;
-            font-size: 13px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all var(--transition);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            box-shadow: 0 4px 15px rgba(56, 189, 248, 0.3);
-        }
-
-        .add-to-cart-btn:hover {
-            background: var(--accent-hover);
-            transform: scale(1.03);
-        }
-
-        .add-to-cart-btn svg {
-            width: 16px;
-            height: 16px;
-        }
-
-        /* ===== ADMIN LOGIN & PANEL ===== */
-        .admin-login-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 40px;
-            max-width: 440px;
-            margin: 40px auto;
-            box-shadow: var(--shadow-md);
-            text-align: center;
-        }
-
-        .admin-login-card h3 {
-            font-size: 22px;
-            font-weight: 800;
-            margin-bottom: 8px;
-            color: var(--text);
-        }
-
-        .admin-login-card p {
-            font-size: 13px;
-            color: var(--text-soft);
-            margin-bottom: 28px;
-        }
-
-        .admin-section {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 28px;
-            margin-bottom: 32px;
-            box-shadow: var(--shadow-sm);
-        }
-
-        .admin-section h3 {
-            font-size: 18px;
-            font-weight: 800;
-            margin-bottom: 20px;
-            color: var(--text);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .admin-top-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 24px;
-            padding-bottom: 16px;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .voucher-form-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) 130px;
-            gap: 16px;
-            align-items: flex-end;
-            margin-bottom: 24px;
-        }
-
-        .btn-primary {
-            padding: 12px 20px;
-            background: var(--accent);
-            color: #030712;
-            border: none;
-            border-radius: 10px;
-            font-size: 13px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all var(--transition);
-            height: 46px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            box-shadow: 0 4px 15px rgba(56, 189, 248, 0.3);
-        }
-
-        .btn-primary:hover {
-            background: var(--accent-hover);
-        }
-
-        .voucher-table-wrapper {
-            overflow-x: auto;
-        }
-
-        .voucher-table {
-            width: 100%;
-            border-collapse: collapse;
-            text-align: left;
-            font-size: 13px;
-        }
-
-        .voucher-table th {
-            background: var(--surface-alt);
-            padding: 12px 16px;
-            font-weight: 700;
-            color: var(--text-soft);
-            border-bottom: 1px solid var(--border);
-        }
-
-        .voucher-table td {
-            padding: 14px 16px;
-            border-bottom: 1px solid var(--border);
+            border-radius: 12px;
+            font-family: inherit;
+            font-size: 12px;
             font-weight: 600;
-            color: var(--text);
-        }
-
-        .badge-status {
-            display: inline-block;
-            padding: 5px 10px;
-            border-radius: 6px;
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
-        }
-
-        .badge-active {
-            background: rgba(16, 185, 129, 0.15);
-            color: var(--success);
-            border: 1px solid rgba(16, 185, 129, 0.3);
-        }
-
-        .badge-expired {
-            background: rgba(239, 68, 68, 0.15);
-            color: var(--danger);
-            border: 1px solid rgba(239, 68, 68, 0.3);
-        }
-
-        .btn-icon-danger {
-            background: rgba(239, 68, 68, 0.15);
-            color: var(--danger);
-            border: 1px solid rgba(239, 68, 68, 0.3);
-            width: 34px;
-            height: 34px;
-            border-radius: 8px;
             cursor: pointer;
-            display: inline-flex;
+            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(88, 166, 255, 0.2);
+        }
+
+        .btn-add:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(88, 166, 255, 0.3);
+        }
+
+        /* ===== PRODUCT DETAIL MODAL ===== */
+        .product-modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            display: flex;
             align-items: center;
             justify-content: center;
-            transition: all var(--transition);
+            z-index: 1500;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s;
+            padding: 20px;
         }
 
-        .btn-icon-danger:hover {
-            background: var(--danger);
-            color: white;
+        .product-modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
         }
 
-        .btn-icon-danger svg {
-            width: 16px;
-            height: 16px;
+        .product-modal {
+            background: var(--surface);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--surface-alt);
+            position: relative;
         }
 
-        .btn-outline-danger {
+        .product-modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
             background: transparent;
-            color: var(--danger);
-            border: 1px solid rgba(239, 68, 68, 0.4);
-            padding: 8px 16px;
-            border-radius: 8px;
-            font-size: 12px;
-            font-weight: 700;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 28px;
             cursor: pointer;
-            transition: all var(--transition);
-        }
-
-        .btn-outline-danger:hover {
-            background: rgba(239, 68, 68, 0.15);
-        }
-
-        /* ===== DASHBOARD ===== */
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 20px;
-            margin-bottom: 32px;
-        }
-
-        .dashboard-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 24px;
-            box-shadow: var(--shadow-sm);
-        }
-
-        .dashboard-card.accent {
-            background: var(--accent-light);
-            border-color: rgba(56, 189, 248, 0.3);
-        }
-
-        .dashboard-card.accent .card-value {
-            color: var(--accent);
-        }
-
-        .card-label {
-            font-size: 11px;
-            color: var(--text-faint);
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-bottom: 8px;
-        }
-
-        .card-value {
-            font-size: 30px;
-            font-weight: 800;
-            color: var(--text);
-            margin-bottom: 4px;
-            letter-spacing: -0.02em;
-        }
-
-        .card-subtext {
-            font-size: 12px;
-            color: var(--text-soft);
-        }
-
-        /* ===== SERVICES LIST ===== */
-        .services-list {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .service-item {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 20px;
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            box-shadow: var(--shadow-sm);
-        }
-
-        .service-status {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            flex-shrink: 0;
-        }
-
-        .service-status.active {
-            background: var(--success);
-            box-shadow: 0 0 10px rgba(16, 185, 129, 0.6);
-        }
-
-        .service-status.pending {
-            background: var(--warning);
-            box-shadow: 0 0 10px rgba(245, 158, 11, 0.6);
-        }
-
-        .service-status.expired {
-            background: var(--danger);
-        }
-
-        .service-info {
-            flex: 1;
-            min-width: 0;
-        }
-
-        .service-name {
-            font-weight: 700;
-            font-size: 14px;
-            color: var(--text);
-            margin-bottom: 4px;
-        }
-
-        .service-meta {
-            font-size: 12px;
-            color: var(--text-faint);
-        }
-
-        .service-badge {
-            font-size: 11px;
-            font-weight: 700;
-            padding: 5px 12px;
-            border-radius: 8px;
-            text-transform: uppercase;
-            letter-spacing: 0.04em;
-            flex-shrink: 0;
-        }
-
-        .service-badge.active {
-            background: rgba(16, 185, 129, 0.15);
-            color: var(--success);
-            border: 1px solid rgba(16, 185, 129, 0.3);
-        }
-
-        .service-badge.pending {
-            background: rgba(245, 158, 11, 0.15);
-            color: var(--warning);
-            border: 1px solid rgba(245, 158, 11, 0.3);
-        }
-
-        .service-badge.expired {
-            background: rgba(239, 68, 68, 0.15);
-            color: var(--danger);
-            border: 1px solid rgba(239, 68, 68, 0.3);
-        }
-
-        /* ===== CART ===== */
-        .cart-layout {
-            display: grid;
-            grid-template-columns: 1fr 400px;
-            gap: 28px;
-            align-items: start;
-        }
-
-        .cart-list {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-
-        .cart-item {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 20px;
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            box-shadow: var(--shadow-sm);
-        }
-
-        .cart-item-icon {
-            width: 44px;
-            height: 44px;
-            border-radius: 12px;
-            background: var(--accent-light);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--accent);
-            flex-shrink: 0;
-            box-shadow: inset 0 0 0 1px rgba(56, 189, 248, 0.2);
-        }
-
-        .cart-item-icon svg {
-            width: 22px;
-            height: 22px;
-        }
-
-        .cart-item-info {
-            flex: 1;
-            min-width: 0;
-        }
-
-        .cart-item-name {
-            font-weight: 700;
-            font-size: 15px;
-            color: var(--text);
-            margin-bottom: 4px;
-        }
-
-        .cart-item-meta {
-            font-size: 12px;
-            color: var(--text-faint);
-        }
-
-        .cart-item-actions {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .qty-btn {
-            width: 32px;
-            height: 32px;
-            border: 1px solid var(--border);
-            background: var(--surface-alt);
-            border-radius: 8px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 14px;
-            color: var(--text-soft);
-            transition: all var(--transition);
-        }
-
-        .qty-btn:hover {
-            background: var(--accent-light);
-            color: var(--accent);
-            border-color: var(--accent);
-        }
-
-        .cart-item-price {
-            font-weight: 800;
-            font-size: 15px;
-            color: var(--accent);
-            min-width: 90px;
-            text-align: right;
-        }
-
-        .remove-btn {
+            transition: all 0.3s;
+            padding: 0;
             width: 36px;
             height: 36px;
-            border: 1px solid var(--border);
-            background: var(--surface-alt);
-            border-radius: 10px;
-            cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--text-soft);
-            transition: all var(--transition);
         }
 
-        .remove-btn:hover {
-            background: rgba(239, 68, 68, 0.15);
-            color: var(--danger);
-            border-color: rgba(239, 68, 68, 0.3);
+        .product-modal-close:hover {
+            color: var(--text-primary);
+            background: var(--surface-alt);
+            border-radius: 8px;
         }
 
-        .remove-btn svg {
-            width: 18px;
-            height: 18px;
-        }
-
-        .cart-empty {
-            text-align: center;
-            padding: 80px 20px;
-            color: var(--text-faint);
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-        }
-
-        .cart-empty svg {
-            width: 64px;
-            height: 64px;
-            margin-bottom: 20px;
-            opacity: 0.4;
-            color: var(--accent);
-        }
-
-        .cart-summary {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 28px;
-            box-shadow: var(--shadow-sm);
-            position: sticky;
-            top: 32px;
-        }
-
-        .summary-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 12px 0;
-            border-bottom: 1px solid var(--border);
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--text-soft);
-        }
-
-        .summary-row:last-of-type {
-            border-bottom: none;
-        }
-
-        .summary-row.total {
-            border-top: 1px solid var(--border);
-            padding-top: 16px;
-            margin-top: 6px;
-            font-weight: 800;
-            font-size: 16px;
-            color: var(--text);
-        }
-
-        .summary-row.total .value {
-            color: var(--accent);
-            font-size: 20px;
-        }
-
-        /* VOUCHER INPUT BOX DI KERANJANG */
-        .voucher-box {
-            margin: 20px 0;
-            padding-top: 20px;
-            border-top: 1px dashed var(--border);
-        }
-
-        .voucher-input-group {
-            display: flex;
-            gap: 10px;
-            margin-top: 8px;
-        }
-
-        .voucher-feedback {
+        .modal-category {
             font-size: 12px;
             font-weight: 700;
-            margin-top: 8px;
-        }
-
-        .voucher-feedback.success {
-            color: var(--success);
-        }
-
-        .voucher-feedback.error {
-            color: var(--danger);
-        }
-
-        .notes-group {
-            margin: 20px 0;
-        }
-
-        .notes-group label {
-            display: block;
-            font-size: 11px;
-            font-weight: 700;
-            margin-bottom: 8px;
-            color: var(--text-soft);
+            color: var(--accent-light);
             text-transform: uppercase;
-            letter-spacing: 0.05em;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
         }
 
-        .notes-input {
-            width: 100%;
-            padding: 12px 16px;
-            background: var(--surface-alt);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            color: var(--text);
-            font-family: inherit;
-            font-size: 13px;
-            resize: vertical;
-            min-height: 80px;
-        }
-
-        .notes-input:focus {
-            border-color: var(--accent);
-            outline: none;
-            box-shadow: 0 0 0 3px var(--accent-light);
-        }
-
-        .checkout-btn {
-            width: 100%;
-            padding: 16px;
-            margin-top: 20px;
-            background: var(--success);
-            color: white;
-            border: none;
-            border-radius: 12px;
-            font-size: 15px;
-            font-weight: 800;
-            cursor: pointer;
-            transition: all var(--transition);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.35);
-        }
-
-        .checkout-btn:hover {
-            opacity: 0.9;
-            transform: translateY(-2px);
-        }
-
-        .checkout-btn svg {
-            width: 20px;
-            height: 20px;
-        }
-
-        /* ===== HISTORY ===== */
-        .history-list {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-
-        .history-item {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 20px;
-            display: flex;
-            gap: 16px;
-            align-items: flex-start;
-            box-shadow: var(--shadow-sm);
-        }
-
-        .history-icon {
-            width: 44px;
-            height: 44px;
-            border-radius: 12px;
-            background: var(--accent-light);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--accent);
-            flex-shrink: 0;
-            box-shadow: inset 0 0 0 1px rgba(56, 189, 248, 0.2);
-        }
-
-        .history-icon svg {
-            width: 22px;
-            height: 22px;
-        }
-
-        .history-content {
-            flex: 1;
-            min-width: 0;
-        }
-
-        .history-name {
+        .modal-title {
+            font-size: 24px;
             font-weight: 700;
-            font-size: 15px;
-            color: var(--text);
-            margin-bottom: 4px;
-        }
-
-        .history-meta {
-            font-size: 12px;
-            color: var(--text-faint);
+            color: var(--text-primary);
             margin-bottom: 12px;
         }
 
-        .history-footer {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .history-price {
-            font-weight: 800;
-            font-size: 15px;
-            color: var(--accent);
-        }
-
-        .history-status {
-            font-size: 11px;
-            font-weight: 700;
-            padding: 5px 12px;
-            border-radius: 8px;
-            text-transform: uppercase;
-            letter-spacing: 0.04em;
-        }
-
-        .history-status.sukses {
-            background: rgba(16, 185, 129, 0.15);
-            color: var(--success);
-            border: 1px solid rgba(16, 185, 129, 0.3);
-        }
-
-        .history-status.proses {
-            background: rgba(56, 189, 248, 0.15);
-            color: var(--accent);
-            border: 1px solid rgba(56, 189, 248, 0.3);
-        }
-
-        .history-status.gagal {
-            background: rgba(239, 68, 68, 0.15);
-            color: var(--danger);
-            border: 1px solid rgba(239, 68, 68, 0.3);
-        }
-
-        /* ===== TOAST ===== */
-        .toast {
-            position: fixed;
-            bottom: 28px;
-            right: 28px;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 14px;
-            padding: 16px 20px;
-            font-size: 13px;
-            font-weight: 700;
-            color: var(--text);
-            box-shadow: var(--shadow-lg);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            z-index: 9999;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all var(--transition);
-            pointer-events: none;
-            backdrop-filter: blur(20px);
-        }
-
-        .toast.show {
-            opacity: 1;
-            transform: translateY(0);
-            pointer-events: all;
-        }
-
-        /* ===== MODAL ===== */
-        .modal-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(3, 7, 18, 0.7);
-            backdrop-filter: blur(8px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity var(--transition);
-        }
-
-        .modal-overlay.show {
-            opacity: 1;
-            pointer-events: all;
-        }
-
-        .modal {
-            background: var(--surface);
-            border-radius: 20px;
-            padding: 36px;
-            max-width: 460px;
-            width: 90%;
-            box-shadow: var(--shadow-lg);
-            border: 1px solid var(--border);
-            text-align: center;
-        }
-
-        .modal-icon {
-            width: 64px;
-            height: 64px;
-            border-radius: 50%;
-            background: rgba(16, 185, 129, 0.15);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--success);
-            margin: 0 auto 20px;
-            border: 1px solid rgba(16, 185, 129, 0.3);
-        }
-
-        .modal-icon svg {
-            width: 32px;
-            height: 32px;
-        }
-
-        .modal h3 {
-            font-size: 20px;
-            font-weight: 800;
-            margin-bottom: 10px;
-            color: var(--text);
-        }
-
-        .modal p {
-            font-size: 13px;
-            color: var(--text-soft);
-            margin-bottom: 28px;
+        .modal-desc {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 24px;
             line-height: 1.6;
+        }
+
+        .modal-durations {
+            margin-bottom: 24px;
+        }
+
+        .modal-duration-label {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+        }
+
+        .modal-duration-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .modal-duration-option {
+            padding: 12px 16px;
+            background: var(--surface-alt);
+            border: 2px solid var(--surface-alt);
+            border-radius: 12px;
+            font-family: inherit;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .modal-duration-option:hover {
+            border-color: var(--accent);
+            background: rgba(88, 166, 255, 0.1);
+        }
+
+        .modal-duration-option.selected {
+            background: var(--accent);
+            color: #fff;
+            border-color: var(--accent);
+        }
+
+        .modal-price {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            background: rgba(88, 166, 255, 0.1);
+            border-radius: 12px;
+            margin-bottom: 24px;
+        }
+
+        .modal-price-label {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .modal-price-value {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--accent-light);
         }
 
         .modal-buttons {
@@ -1820,293 +768,828 @@
 
         .modal-btn {
             flex: 1;
-            padding: 14px;
+            padding: 14px 20px;
             border: none;
             border-radius: 12px;
+            font-family: inherit;
             font-size: 13px;
-            font-weight: 700;
+            font-weight: 600;
             cursor: pointer;
-            transition: all var(--transition);
+            transition: all 0.3s;
+        }
+
+        .modal-btn-cancel {
+            background: var(--surface-alt);
+            color: var(--text-primary);
+        }
+
+        .modal-btn-cancel:hover {
+            background: rgba(88, 166, 255, 0.1);
+        }
+
+        .modal-btn-confirm {
+            background: linear-gradient(135deg, var(--accent-dark), var(--accent));
+            color: #fff;
+            box-shadow: 0 6px 16px rgba(88, 166, 255, 0.3);
+        }
+
+        .modal-btn-confirm:hover {
+            transform: translateY(-2px);
+        }
+
+        /* ===== CART ===== */
+        .cart-layout {
+            display: grid;
+            grid-template-columns: 1fr 380px;
+            gap: 24px;
+            align-items: start;
+        }
+
+        .cart-items {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .cart-item {
+            background: var(--surface);
+            border-radius: 16px;
+            padding: 16px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--surface-alt);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .cart-item-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .cart-item-name {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+
+        .cart-item-meta {
+            font-size: 11px;
+            color: var(--text-tertiary);
+        }
+
+        .cart-controls {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .qty-btn {
+            width: 32px;
+            height: 32px;
+            border: none;
+            background: var(--surface-alt);
+            border-radius: 10px;
+            color: var(--text-primary);
+            font-family: inherit;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .qty-btn:hover {
+            background: var(--accent);
+            color: #fff;
+        }
+
+        .qty-display {
+            min-width: 28px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .cart-price {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--accent-light);
+            min-width: 90px;
+            text-align: right;
+        }
+
+        .cart-summary {
+            background: var(--surface);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--surface-alt);
+            position: sticky;
+            top: 20px;
+        }
+
+        .summary-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 16px;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+        }
+
+        .summary-row.discount {
+            color: var(--success);
+            font-weight: 600;
+        }
+
+        .summary-total {
+            border-top: 1px solid var(--surface-alt);
+            padding-top: 12px;
+            margin-top: 12px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--accent-light);
+        }
+
+        .voucher-section {
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid var(--surface-alt);
+        }
+
+        .voucher-label {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+            display: block;
+            text-transform: uppercase;
+        }
+
+        .voucher-input-group {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 8px;
+        }
+
+        .voucher-input-group .form-input {
+            flex: 1;
+            margin: 0;
+            padding: 10px 12px;
+            font-size: 12px;
+            border-radius: 10px;
+            text-transform: uppercase;
+        }
+
+        .btn-apply-voucher {
+            padding: 10px 14px;
+            background: linear-gradient(135deg, var(--accent-dark), var(--accent));
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+
+        .btn-apply-voucher:hover {
+            transform: translateY(-2px);
+        }
+
+        .voucher-message {
+            font-size: 11px;
+            margin-top: 6px;
+            font-weight: 600;
+        }
+
+        .voucher-message.success {
+            color: var(--success);
+        }
+
+        .voucher-message.error {
+            color: var(--danger);
+        }
+
+        .notes-section {
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid var(--surface-alt);
+        }
+
+        .notes-textarea {
+            width: 100%;
+            padding: 10px 12px;
+            background: var(--surface-alt);
+            border: none;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 12px;
+            color: var(--text-primary);
+            resize: vertical;
+            min-height: 70px;
+            transition: all 0.3s;
+        }
+
+        .notes-textarea::placeholder {
+            color: var(--text-tertiary);
+        }
+
+        .notes-textarea:focus {
+            outline: none;
+            background: var(--surface);
+            box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.1);
+        }
+
+        .checkout-btn {
+            width: 100%;
+            padding: 14px 20px;
+            background: linear-gradient(135deg, var(--success), #1fb955);
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            font-family: inherit;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s;
+            box-shadow: 0 6px 16px rgba(63, 185, 80, 0.3);
+        }
+
+        .checkout-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(63, 185, 80, 0.4);
+        }
+
+        /* ===== ADMIN ===== */
+        .admin-login {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            min-height: 400px;
         }
 
-        .modal-cancel {
+        .admin-card {
+            background: var(--surface);
+            border-radius: 20px;
+            padding: 32px;
+            max-width: 380px;
+            width: 100%;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--surface-alt);
+        }
+
+        .admin-panel {
+            display: none;
+        }
+
+        .admin-panel.active {
+            display: block;
+        }
+
+        .admin-section {
+            background: var(--surface);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--surface-alt);
+        }
+
+        .admin-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 20px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .voucher-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+        }
+
+        .voucher-table th {
             background: var(--surface-alt);
-            color: var(--text);
-            border: 1px solid var(--border);
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+            color: var(--text-secondary);
+            border-bottom: 1px solid var(--surface-alt);
         }
 
-        .modal-cancel:hover {
-            opacity: 0.8;
+        .voucher-table td {
+            padding: 12px;
+            border-bottom: 1px solid var(--surface-alt);
+            color: var(--text-primary);
         }
 
-        .modal-confirm {
-            background: var(--success);
-            color: white;
-            flex: 2;
-            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.35);
+        .badge-active {
+            background: rgba(63, 185, 80, 0.15);
+            color: var(--success);
+            padding: 5px 10px;
+            border-radius: 8px;
+            font-size: 10px;
+            font-weight: 600;
+            display: inline-block;
         }
 
-        .modal-confirm:hover {
-            opacity: 0.9;
+        .badge-expired {
+            background: rgba(248, 81, 73, 0.15);
+            color: var(--danger);
+            padding: 5px 10px;
+            border-radius: 8px;
+            font-size: 10px;
+            font-weight: 600;
+            display: inline-block;
         }
 
-        /* ===== MOBILE RESPONSIVE ===== */
-        .mobile-toggle-btn {
+        .badge-used {
+            background: rgba(210, 153, 34, 0.15);
+            color: var(--warning);
+            padding: 5px 10px;
+            border-radius: 8px;
+            font-size: 10px;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .btn-danger {
+            background: rgba(248, 81, 73, 0.15);
+            color: var(--danger);
+            border: none;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-danger:hover {
+            background: rgba(248, 81, 73, 0.25);
+            transform: translateY(-2px);
+        }
+
+        .btn-reset {
+            background: rgba(88, 166, 255, 0.15);
+            color: var(--accent-light);
+            border: none;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-reset:hover {
+            background: rgba(88, 166, 255, 0.25);
+        }
+
+        /* ===== MODAL ===== */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal {
+            background: var(--surface);
+            border-radius: 20px;
+            padding: 32px;
+            max-width: 420px;
+            width: 100%;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--surface-alt);
+        }
+
+        .modal-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+        }
+
+        .modal-text {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin: 20px 0;
+            line-height: 1.8;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .modal-btn {
+            flex: 1;
+            padding: 12px 16px;
+            border: none;
+            border-radius: 12px;
+            font-family: inherit;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: var(--surface-alt);
+            color: var(--text-primary);
+        }
+
+        .modal-btn.confirm {
+            background: linear-gradient(135deg, var(--success), #1fb955);
+            color: #fff;
+            box-shadow: 0 6px 16px rgba(63, 185, 80, 0.3);
+        }
+
+        .modal-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        /* ===== TOAST ===== */
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: var(--surface);
+            border: 1px solid var(--surface-alt);
+            color: var(--text-primary);
+            padding: 16px 24px;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 600;
+            box-shadow: var(--shadow-md);
+            z-index: 9999;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            transition: all 0.3s;
+        }
+
+        .toast.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        /* ===== EMPTY STATE ===== */
+        .empty-state {
+            background: var(--surface);
+            border-radius: 16px;
+            padding: 60px 40px;
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--surface-alt);
+        }
+
+        .empty-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+
+        .empty-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .empty-desc {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+        }
+
+        /* ===== MOBILE ===== */
+        .mobile-toggle {
             display: none;
             position: fixed;
             bottom: 24px;
             right: 24px;
-            width: 54px;
-            height: 54px;
-            background: var(--accent);
-            color: #030712;
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, var(--accent-dark), var(--accent));
             border: none;
-            border-radius: 50%;
-            z-index: 200;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 8px 25px rgba(56, 189, 248, 0.5);
+            border-radius: 16px;
+            color: #fff;
+            font-size: 24px;
             cursor: pointer;
-            transition: transform 0.2s ease;
+            z-index: 102;
+            box-shadow: var(--shadow-md);
+            transition: all 0.3s;
         }
 
-        .mobile-toggle-btn:active {
-            transform: scale(0.92);
+        .mobile-toggle:hover {
+            transform: scale(1.08);
         }
 
-        @media (max-width: 1200px) {
-            .auth-container {
-                flex-direction: column;
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 1024px) {
+            .cart-layout {
+                grid-template-columns: 1fr;
             }
 
-            .auth-left {
-                min-height: auto;
-                padding: 40px 20px;
-                border-bottom: 1px solid var(--border);
+            .cart-summary {
+                position: relative;
+                top: 0;
             }
 
-            .auth-right {
-                border-left: none;
-                min-height: auto;
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+                gap: 16px;
+            }
+
+            .page-content {
+                padding: 20px 24px;
+            }
+
+            .page-header {
+                padding: 20px 24px;
+            }
+
+            .hero {
+                padding: 32px 24px;
+            }
+
+            .hero-stats {
+                grid-template-columns: 1fr;
             }
         }
 
-        @media (max-width: 900px) {
+        @media (max-width: 768px) {
             .sidebar {
                 transform: translateX(-100%);
+                width: 240px;
+                box-shadow: 4px 0 20px rgba(0, 0, 0, 0.5);
             }
 
             .sidebar.mobile-open {
                 transform: translateX(0);
-                box-shadow: 10px 0 50px rgba(0, 0, 0, 0.8);
             }
 
             .main {
                 margin-left: 0;
             }
 
-            .mobile-toggle-btn {
+            .mobile-toggle {
                 display: flex;
+                align-items: center;
+                justify-content: center;
             }
 
-            .cart-layout {
+            .products-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+
+            .product {
+                padding: 16px;
+            }
+
+            .product-name {
+                font-size: 14px;
+            }
+
+            .product-desc {
+                font-size: 11px;
+                min-height: 32px;
+            }
+
+            .durations {
+                gap: 4px;
+            }
+
+            .duration-btn {
+                min-width: 50px;
+                padding: 5px 8px;
+                font-size: 10px;
+            }
+
+            .hero-title {
+                font-size: 24px;
+            }
+
+            .page-title {
+                font-size: 20px;
+            }
+
+            .cart-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
+
+            .cart-controls {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .cart-price {
+                width: 100%;
+                text-align: left;
+            }
+
+            .modal,
+            .product-modal {
+                padding: 24px;
+            }
+
+            .auth-card {
+                padding: 32px 24px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .products-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            .hero-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .form-row {
                 grid-template-columns: 1fr;
             }
 
             .page-content {
-                padding: 20px;
+                padding: 16px;
             }
 
             .page-header {
-                padding: 20px;
+                padding: 16px;
             }
 
-            .hero-section {
-                padding: 32px 20px;
+            .hero {
+                padding: 24px 16px;
             }
 
-            .hero-stats {
-                grid-template-columns: repeat(3, 1fr);
-                gap: 8px;
-            }
-
-            .voucher-form-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        @media (max-width: 640px) {
-            .auth-left {
-                padding: 20px;
-            }
-
-            .auth-left-content h2 {
-                font-size: 24px;
-            }
-
-            .auth-right {
-                padding: 20px;
-            }
-
-            .auth-card {
-                max-width: 100%;
-            }
-
-            .auth-header h3 {
+            .hero-title {
                 font-size: 20px;
             }
 
-            .product-grid {
-                grid-template-columns: 1fr;
+            .page-title {
+                font-size: 18px;
             }
 
-            .auth-features {
-                display: none;
+            .sidebar-header {
+                font-size: 20px;
+                padding: 20px 16px;
             }
+
+            .menu-item {
+                padding: 12px 16px;
+                font-size: 12px;
+            }
+
+            .modal-buttons,
+            .modal-buttons {
+                flex-direction: column;
+            }
+
+            .auth-card {
+                padding: 24px 16px;
+            }
+
+            .cart-summary {
+                margin-top: 20px;
+            }
+
+            .toast {
+                bottom: 16px;
+                right: 16px;
+                left: 16px;
+                border-radius: 12px;
+            }
+
+            .mobile-toggle {
+                bottom: 16px;
+                right: 16px;
+                width: 48px;
+                height: 48px;
+                font-size: 20px;
+            }
+
+            .product-modal {
+                padding: 20px;
+            }
+
+            .modal-duration-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-primary);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--surface-alt);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--text-tertiary);
         }
     </style>
 </head>
-
 <body>
-    <!-- AUTH PAGES -->
-    <!-- LOGIN PAGE -->
+    <!-- LOGIN -->
     <div class="auth-page active" id="auth-login">
-        <div class="auth-container">
-            <div class="auth-left">
-                <div class="auth-left-content">
-                    <div class="auth-logo">S</div>
-                    <h2>Selamat Datang di SatzStore</h2>
-                    <p>Platform terpercaya untuk semua kebutuhan digital services Anda. Bot WhatsApp, API Key, Nokos, dan SMM Panel dalam satu tempat.</p>
-                    <div class="auth-features">
-                        <div class="auth-feature">
-                            <div class="auth-feature-icon">✓</div>
-                            <div class="auth-feature-text">5000+ Pelanggan Puas</div>
-                        </div>
-                        <div class="auth-feature">
-                            <div class="auth-feature-icon">✓</div>
-                            <div class="auth-feature-text">99% Uptime Guaranteed</div>
-                        </div>
-                        <div class="auth-feature">
-                            <div class="auth-feature-icon">✓</div>
-                            <div class="auth-feature-text">24/7 Support Ready</div>
-                        </div>
-                        <div class="auth-feature">
-                            <div class="auth-feature-icon">✓</div>
-                            <div class="auth-feature-text">Pembayaran Aman & Mudah</div>
-                        </div>
-                    </div>
+        <div class="auth-card">
+            <div class="auth-logo">SATZ</div>
+            <h1 class="auth-title">Masuk Akun</h1>
+            <p class="auth-subtitle">Nikmati Layanan Digital Premium</p>
+
+            <form onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label class="form-label">Nomor Telepon / Username</label>
+                    <input type="text" id="login-phone" class="form-input" placeholder="08123456789" required>
                 </div>
-            </div>
-            <div class="auth-right">
-                <div class="auth-card">
-                    <div class="auth-header">
-                        <h3>Masuk Akun</h3>
-                        <p>Gunakan nomor telepon atau username Anda</p>
-                    </div>
-                    <form class="auth-form" onsubmit="handleLogin(event)">
-                        <div class="form-group">
-                            <label for="login-phone">Nomor Telepon / Username</label>
-                            <input type="text" id="login-phone" class="form-input" placeholder="Contoh: 08123456789 atau username">
-                            <div class="form-error" id="login-phone-error"></div>
-                        </div>
-                        <div class="form-group form-group-password">
-                            <label for="login-pass">Password</label>
-                            <input type="password" id="login-pass" class="form-input" placeholder="Masukkan password">
-                            <button type="button" class="password-toggle" onclick="togglePassword('login-pass')">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
-                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-                                    <circle cx="12" cy="12" r="3"/>
-                                </svg>
-                            </button>
-                            <div class="form-error" id="login-pass-error"></div>
-                        </div>
-                        <button type="submit" class="btn-auth" id="login-btn">Masuk Sekarang</button>
-                    </form>
-                    <div class="auth-footer">
-                        <p>Belum punya akun? <span class="auth-footer-link" onclick="goToRegister()">Daftar di sini</span></p>
-                    </div>
+
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" id="login-pass" class="form-input" placeholder="Password" required>
                 </div>
+
+                <button type="submit" class="btn">Masuk</button>
+            </form>
+
+            <div class="auth-footer">
+                Belum punya akun? <a onclick="goToRegister()">Daftar di sini</a>
             </div>
         </div>
     </div>
 
-    <!-- REGISTER PAGE -->
+    <!-- REGISTER -->
     <div class="auth-page" id="auth-register">
-        <div class="auth-container">
-            <div class="auth-left">
-                <div class="auth-left-content">
-                    <div class="auth-logo">S</div>
-                    <h2>Bergabung dengan SatzStore</h2>
-                    <p>Daftar sekarang dan nikmati akses penuh ke semua layanan digital premium kami. Proses cepat, aman, dan mudah hanya dalam beberapa menit.</p>
-                    <div class="auth-features">
-                        <div class="auth-feature">
-                            <div class="auth-feature-icon">1</div>
-                            <div class="auth-feature-text">Isi data diri Anda dengan lengkap</div>
-                        </div>
-                        <div class="auth-feature">
-                            <div class="auth-feature-icon">2</div>
-                            <div class="auth-feature-text">Buat password yang kuat</div>
-                        </div>
-                        <div class="auth-feature">
-                            <div class="auth-feature-icon">3</div>
-                            <div class="auth-feature-text">Akun siap digunakan langsung</div>
-                        </div>
-                        <div class="auth-feature">
-                            <div class="auth-feature-icon">✓</div>
-                            <div class="auth-feature-text">Nikmati semua fitur premium</div>
-                        </div>
-                    </div>
+        <div class="auth-card">
+            <div class="auth-logo">SATZ</div>
+            <h1 class="auth-title">Daftar Akun</h1>
+            <p class="auth-subtitle">Buat Akun Baru Sekarang</p>
+
+            <form onsubmit="handleRegister(event)">
+                <div class="form-group">
+                    <label class="form-label">Nama Lengkap</label>
+                    <input type="text" id="reg-name" class="form-input" placeholder="Nama Anda" required>
                 </div>
-            </div>
-            <div class="auth-right">
-                <div class="auth-card">
-                    <div class="auth-header">
-                        <h3>Daftar Akun Baru</h3>
-                        <p>Siapkan data diri Anda untuk memulai</p>
-                    </div>
-                    <form class="auth-form" onsubmit="handleRegister(event)">
-                        <div class="form-group">
-                            <label for="reg-name">Nama Lengkap</label>
-                            <input type="text" id="reg-name" class="form-input" placeholder="Contoh: Budi Santoso">
-                            <div class="form-error" id="reg-name-error"></div>
-                        </div>
-                        <div class="form-group">
-                            <label for="reg-phone">Nomor Telepon</label>
-                            <input type="tel" id="reg-phone" class="form-input" placeholder="Contoh: 08123456789">
-                            <div class="form-error" id="reg-phone-error"></div>
-                        </div>
-                        <div class="form-group form-group-password">
-                            <label for="reg-pass">Password</label>
-                            <input type="password" id="reg-pass" class="form-input" placeholder="Min. 6 karakter">
-                            <button type="button" class="password-toggle" onclick="togglePassword('reg-pass')">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
-                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-                                    <circle cx="12" cy="12" r="3"/>
-                                </svg>
-                            </button>
-                            <div class="form-error" id="reg-pass-error"></div>
-                        </div>
-                        <div class="form-group form-group-password">
-                            <label for="reg-confirm">Konfirmasi Password</label>
-                            <input type="password" id="reg-confirm" class="form-input" placeholder="Ulangi password">
-                            <button type="button" class="password-toggle" onclick="togglePassword('reg-confirm')">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
-                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-                                    <circle cx="12" cy="12" r="3"/>
-                                </svg>
-                            </button>
-                            <div class="form-error" id="reg-confirm-error"></div>
-                        </div>
-                        <button type="submit" class="btn-auth" id="register-btn">Daftar Sekarang</button>
-                    </form>
-                    <div class="auth-footer">
-                        <p>Sudah punya akun? <span class="auth-footer-link" onclick="goToLogin()">Masuk di sini</span></p>
-                    </div>
+
+                <div class="form-group">
+                    <label class="form-label">Nomor Telepon</label>
+                    <input type="tel" id="reg-phone" class="form-input" placeholder="08123456789" required>
                 </div>
+
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" id="reg-pass" class="form-input" placeholder="Min. 6 Karakter" required>
+                </div>
+
+                <button type="submit" class="btn">Daftar</button>
+            </form>
+
+            <div class="auth-footer">
+                Sudah punya akun? <a onclick="goToLogin()">Masuk di sini</a>
             </div>
         </div>
     </div>
@@ -2115,66 +1598,28 @@
     <div class="container" id="main-app" style="display: none;">
         <!-- SIDEBAR -->
         <aside class="sidebar" id="sidebar">
-            <div class="sidebar-header">
-                <div class="sidebar-logo">S</div>
-                <div class="sidebar-title">SatzStore</div>
-            </div>
+            <div class="sidebar-header">SATZ</div>
+
             <nav class="sidebar-menu">
                 <button class="menu-item active" onclick="goPage('store')" id="menu-store">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="8" cy="21" r="1" />
-                        <circle cx="19" cy="21" r="1" />
-                        <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12" />
-                    </svg>
-                    <span>Toko Layanan</span>
-                </button>
-                <button class="menu-item" onclick="goPage('dashboard')" id="menu-dashboard">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <rect width="7" height="9" x="3" y="3" rx="1" />
-                        <rect width="7" height="5" x="14" y="3" rx="1" />
-                        <rect width="7" height="9" x="14" y="12" rx="1" />
-                        <rect width="7" height="5" x="3" y="16" rx="1" />
-                    </svg>
-                    <span>Dashboard Saya</span>
+                    🛍️ Toko
                 </button>
                 <button class="menu-item" onclick="goPage('cart')" id="menu-cart">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="8" cy="21" r="1" />
-                        <circle cx="19" cy="21" r="1" />
-                        <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12" />
-                    </svg>
-                    <span>Keranjang <span id="cart-count-badge"></span></span>
+                    🛒 Keranjang <span id="cart-badge" style="display: none; margin-left: 4px; background: var(--accent); color: #fff; padding: 2px 6px; border-radius: 6px; font-size: 10px;">0</span>
                 </button>
                 <button class="menu-item" onclick="goPage('history')" id="menu-history">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M3 12a9 9 0 1 0 3-6.7" />
-                        <path d="M3 4v5h5" />
-                        <path d="M12 7v5l3 3" />
-                    </svg>
-                    <span>Riwayat Pesanan</span>
+                    📋 Riwayat
                 </button>
-
-                <div class="menu-divider">Restricted</div>
-                <button class="menu-item" onclick="goPage('admin')" id="menu-admin">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-                    </svg>
-                    <span>Admin Panel</span>
+                <button class="menu-item" onclick="goPage('admin')" id="menu-admin" style="display: none;">
+                    ⚙️ Admin
                 </button>
             </nav>
+
             <div class="sidebar-footer">
                 <div class="user-info">
-                    <div class="user-info-name" id="sidebar-user-name">-</div>
-                    <div class="user-info-phone" id="sidebar-user-phone">-</div>
+                    <div class="user-name" id="user-name">-</div>
+                    <div class="user-phone" id="user-phone">-</div>
                 </div>
-                <button class="theme-toggle-btn" onclick="toggleTheme()">
-                    <span id="theme-text">Mode Terang</span>
-                    <svg id="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="12" cy="12" r="5" />
-                        <path
-                            d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72 1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
-                    </svg>
-                </button>
                 <button class="logout-btn" onclick="handleLogout()">Logout</button>
             </div>
         </aside>
@@ -2184,178 +1629,56 @@
             <!-- STORE PAGE -->
             <div class="page active" id="page-store">
                 <div class="page-header">
-                    <h1>Toko Digital Premium</h1>
-                    <p>Solusi bot WhatsApp, API Key, Nokos, dan panel SMM terlengkap & terpercaya</p>
+                    <h1 class="page-title">Toko Digital Premium</h1>
+                    <p class="page-subtitle">Sewa Bot WA, API Key, Nokos, dan SMM Panel Terlengkap</p>
                 </div>
+
                 <div class="page-content">
-                    <div class="hero-section">
-                        <div class="hero-badge">
-                            <span class="dot"></span>
-                            Online 24 Jam Otomatis
-                        </div>
-                        <h2>Layanan Digital <span class="accent">Berkualitas Tinggi</span></h2>
-                        <p>Dapatkan pengalaman otomatisasi terbaik dengan harga terjangkau dan garansi penuh</p>
+                    <div class="hero">
+                        <div class="hero-badge">✨ TERSEDIA 24/7 ✨</div>
+                        <h2 class="hero-title">Layanan Digital Terbaik</h2>
+                        <p class="hero-desc">Dapatkan solusi otomasi dengan kualitas terjangkau dan dukungan 24/7</p>
                         <div class="hero-stats">
-                            <div class="stat-card">
+                            <div class="stat">
                                 <div class="stat-value">5K+</div>
                                 <div class="stat-label">Klien Puas</div>
                             </div>
-                            <div class="stat-card">
+                            <div class="stat">
                                 <div class="stat-value">99%</div>
                                 <div class="stat-label">Uptime</div>
                             </div>
-                            <div class="stat-card">
+                            <div class="stat">
                                 <div class="stat-value">24/7</div>
                                 <div class="stat-label">Support</div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="ticker">
-                        <div class="ticker-content" id="ticker-track"></div>
-                    </div>
-
-                    <div class="filter-group">
-                        <button class="filter-btn active" onclick="setFilter('all', this)">Semua Layanan</button>
+                    <div class="filters">
+                        <button class="filter-btn active" onclick="setFilter('all', this)">Semua</button>
                         <button class="filter-btn" onclick="setFilter('sewabot', this)">SewaBot</button>
                         <button class="filter-btn" onclick="setFilter('jadibot', this)">JadiBot</button>
                         <button class="filter-btn" onclick="setFilter('nokos', this)">Nokos</button>
-                        <button class="filter-btn" onclick="setFilter('smm', this)">SMM Panel</button>
-                        <button class="filter-btn" onclick="setFilter('apikey', this)">API Key</button>
+                        <button class="filter-btn" onclick="setFilter('smm', this)">SMM</button>
+                        <button class="filter-btn" onclick="setFilter('apikey', this)">API</button>
                     </div>
 
-                    <div class="section-label">
-                        <h3>Daftar Produk</h3>
-                        <span class="count" id="prod-count">0 layanan</span>
+                    <div class="section-title">
+                        <span>Produk Tersedia</span>
+                        <span class="prod-count" id="prod-count">0</span>
                     </div>
 
-                    <div class="product-grid" id="prod-grid"></div>
-                </div>
-            </div>
-
-            <!-- DASHBOARD PAGE -->
-            <div class="page" id="page-dashboard">
-                <div class="page-header">
-                    <h1>Dashboard Pelanggan</h1>
-                    <p>Pantau status layanan aktif dan riwayat penggunaan Anda</p>
-                </div>
-                <div class="page-content">
-                    <div class="dashboard-grid">
-                        <div class="dashboard-card accent">
-                            <div class="card-label">Total Transaksi</div>
-                            <div class="card-value" id="dash-total">0</div>
-                            <div class="card-subtext">Semua pembelian sukses</div>
-                        </div>
-                        <div class="dashboard-card">
-                            <div class="card-label">Layanan Aktif</div>
-                            <div class="card-value">3</div>
-                            <div class="card-subtext">Berjalan normal</div>
-                        </div>
-                        <div class="dashboard-card accent">
-                            <div class="card-label">Total Pengeluaran</div>
-                            <div class="card-value" id="dash-spent">Rp 0</div>
-                            <div class="card-subtext">Akumulasi bersih</div>
-                        </div>
-                    </div>
-
-                    <h3 style="font-size:18px;font-weight:800;margin-bottom:16px;color:var(--text)">Daftar Layanan Aktif
-                    </h3>
-                    <div class="services-list" id="services-list"></div>
-                </div>
-            </div>
-
-            <!-- ADMIN PAGE -->
-            <div class="page" id="page-admin">
-                <div class="page-header">
-                    <h1>Administrator Control Panel</h1>
-                    <p>Kelola sistem toko dan atur kode voucher promo diskon</p>
-                </div>
-                <div class="page-content">
-                    <div id="admin-login-view" class="admin-login-card">
-                        <div class="product-icon" style="margin: 0 auto 16px;">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="22"
-                                height="22">
-                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-                            </svg>
-                        </div>
-                        <h3>Login Admin</h3>
-                        <p>Masukkan username dan password rahasia Anda</p>
-                        <div class="form-group" style="margin-bottom: 16px;">
-                            <label for="admin-user">Username</label>
-                            <input type="text" id="admin-user" class="form-input" placeholder="Masukkan username">
-                        </div>
-                        <div class="form-group" style="margin-bottom: 24px;">
-                            <label for="admin-pass">Password</label>
-                            <input type="password" id="admin-pass" class="form-input" placeholder="Masukkan password">
-                        </div>
-                        <button class="btn-primary" style="width: 100%;" onclick="handleAdminLogin()">Masuk
-                            Admin</button>
-                    </div>
-
-                    <div id="admin-panel-view" style="display: none;">
-                        <div class="admin-top-bar">
-                            <div
-                                style="font-weight: 700; color: var(--success); display: flex; align-items: center; gap: 8px;">
-                                <span
-                                    style="width:10px;height:10px;background:var(--success);border-radius:50%;display:inline-block;box-shadow:0 0 8px var(--success);"></span>
-                                Sesi Admin Aktif
-                            </div>
-                            <button class="btn-outline-danger" onclick="handleAdminLogout()">Logout</button>
-                        </div>
-
-                        <div class="admin-section">
-                            <h3>
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20"
-                                    height="20">
-                                    <path
-                                        d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z">
-                                    </path>
-                                    <line x1="7" y1="7" x2="7.01" y2="7"></line>
-                                </svg>
-                                Buat & Kelola Kode Voucher Promo
-                            </h3>
-                            <div class="voucher-form-grid">
-                                <div class="form-group">
-                                    <label for="new-code">Kode Voucher</label>
-                                    <input type="text" id="new-code" class="form-input" placeholder="Contoh: SATZPROMO">
-                                </div>
-                                <div class="form-group">
-                                    <label for="new-discount">Diskon (%)</label>
-                                    <input type="number" id="new-discount" class="form-input" min="1" max="100"
-                                        placeholder="Contoh: 20">
-                                </div>
-                                <div class="form-group">
-                                    <label for="new-expiry">Masa Aktif (Tanggal)</label>
-                                    <input type="date" id="new-expiry" class="form-input">
-                                </div>
-                                <button class="btn-primary" onclick="addNewVoucher()">Tambah Promo</button>
-                            </div>
-
-                            <div class="voucher-table-wrapper">
-                                <table class="voucher-table">
-                                    <thead>
-                                        <tr>
-                                            <th>Kode Voucher</th>
-                                            <th>Diskon</th>
-                                            <th>Masa Berlaku</th>
-                                            <th>Status</th>
-                                            <th>Aksi</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="voucher-table-body"></tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
+                    <div class="products-grid" id="prod-grid"></div>
                 </div>
             </div>
 
             <!-- CART PAGE -->
             <div class="page" id="page-cart">
                 <div class="page-header">
-                    <h1>Keranjang Belanja</h1>
-                    <p>Periksa pesanan, gunakan kode voucher, dan lanjutkan pembayaran via WhatsApp</p>
+                    <h1 class="page-title">Keranjang Belanja</h1>
+                    <p class="page-subtitle">Periksa pesanan, gunakan voucher, dan checkout via WhatsApp</p>
                 </div>
+
                 <div class="page-content">
                     <div id="cart-content"></div>
                 </div>
@@ -2364,863 +1687,713 @@
             <!-- HISTORY PAGE -->
             <div class="page" id="page-history">
                 <div class="page-header">
-                    <h1>Riwayat Pesanan</h1>
-                    <p>Arsip lengkap seluruh transaksi yang pernah Anda lakukan</p>
+                    <h1 class="page-title">Riwayat Pesanan</h1>
+                    <p class="page-subtitle">Arsip lengkap seluruh transaksi Anda</p>
                 </div>
+
                 <div class="page-content">
-                    <div id="hist-list"></div>
+                    <div id="history-content"></div>
+                </div>
+            </div>
+
+            <!-- ADMIN PAGE -->
+            <div class="page" id="page-admin">
+                <div class="page-header">
+                    <h1 class="page-title">Admin Panel</h1>
+                    <p class="page-subtitle">Kelola Voucher Promo & Tracking Penggunaan</p>
+                </div>
+
+                <div class="page-content">
+                    <div id="admin-login" class="admin-login">
+                        <div class="admin-card">
+                            <h2 style="font-size: 24px; font-weight: 700; margin-bottom: 20px; color: var(--text-primary);">Login Admin</h2>
+                            <p style="font-size: 12px; color: var(--text-secondary); margin-bottom: 24px;">Masukkan password untuk mengakses panel</p>
+                            <div class="form-group">
+                                <label class="form-label">Password Admin</label>
+                                <input type="password" id="admin-pass" class="form-input" placeholder="Password">
+                            </div>
+                            <button class="btn" onclick="adminLogin()">Masuk</button>
+                        </div>
+                    </div>
+
+                    <div id="admin-panel" class="admin-panel">
+                        <div class="admin-section">
+                            <div class="admin-title">📌 Tambah Voucher Baru</div>
+                            <div class="form-row">
+                                <div class="form-group" style="margin-bottom: 0;">
+                                    <label class="form-label">Kode Voucher</label>
+                                    <input type="text" id="voucher-code" class="form-input" placeholder="PROMO100" style="text-transform: uppercase;">
+                                </div>
+                                <div class="form-group" style="margin-bottom: 0;">
+                                    <label class="form-label">Diskon %</label>
+                                    <input type="number" id="voucher-discount" class="form-input" placeholder="25" min="1" max="100">
+                                </div>
+                                <div class="form-group" style="margin-bottom: 0;">
+                                    <label class="form-label">Maks Penggunaan</label>
+                                    <input type="number" id="voucher-maxuse" class="form-input" placeholder="3" min="1">
+                                </div>
+                                <div class="form-group" style="margin-bottom: 0;">
+                                    <label class="form-label">Berlaku Sampai</label>
+                                    <input type="date" id="voucher-expiry" class="form-input">
+                                </div>
+                            </div>
+                            <button class="btn" onclick="addVoucher()" style="margin-top: 16px; margin-bottom: 0;">Tambah Voucher</button>
+                        </div>
+
+                        <div class="admin-section">
+                            <div class="admin-title">📋 Daftar Voucher Aktif</div>
+                            <div style="overflow-x: auto;">
+                                <table class="voucher-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Kode</th>
+                                            <th>Diskon</th>
+                                            <th>Maks Pakai</th>
+                                            <th>Berlaku</th>
+                                            <th>Status</th>
+                                            <th>Penggunaan</th>
+                                            <th>Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="voucher-list"></tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <button class="btn" onclick="adminLogout()" style="background: linear-gradient(135deg, var(--danger), #e84c3d); box-shadow: 0 6px 16px rgba(248, 81, 73, 0.3); margin-top: 0;">Logout Admin</button>
+                    </div>
                 </div>
             </div>
         </main>
     </div>
 
-    <!-- TOAST -->
-    <div class="toast" id="toast"></div>
+    <!-- PRODUCT DETAIL MODAL -->
+    <div class="product-modal-overlay" id="product-modal-overlay">
+        <div class="product-modal">
+            <button class="product-modal-close" onclick="closeProductModal()">✕</button>
+            <div class="modal-category" id="modal-category"></div>
+            <h2 class="modal-title" id="modal-title"></h2>
+            <p class="modal-desc" id="modal-desc"></p>
 
-    <!-- MODAL KONFIRMASI -->
-    <div class="modal-overlay" id="modal-overlay">
-        <div class="modal">
-            <div class="modal-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                    <polyline points="20 6 9 17 4 12"></polyline>
-                </svg>
+            <div class="modal-durations" id="modal-durations-section">
+                <div class="modal-duration-label">Pilih Durasi</div>
+                <div class="modal-duration-grid" id="modal-duration-grid"></div>
             </div>
-            <h3>Konfirmasi Pesanan WhatsApp</h3>
-            <p id="modal-text"></p>
+
+            <div class="modal-price">
+                <span class="modal-price-label">Harga</span>
+                <span class="modal-price-value" id="modal-price-value">Rp0</span>
+            </div>
+
             <div class="modal-buttons">
-                <button class="modal-btn modal-cancel" onclick="closeModal()">Batal</button>
-                <button class="modal-btn modal-confirm" onclick="goWA()">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
-                        <path
-                            d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
-                    </svg>
-                    Kirim ke WhatsApp
-                </button>
+                <button class="modal-btn modal-btn-cancel" onclick="closeProductModal()">Batal</button>
+                <button class="modal-btn modal-btn-confirm" onclick="addFromModal()">Tambah ke Keranjang</button>
             </div>
         </div>
     </div>
 
+    <!-- CHECKOUT MODAL -->
+    <div class="modal-overlay" id="modal">
+        <div class="modal">
+            <h2 class="modal-title">✓ Konfirmasi Pesanan</h2>
+            <p class="modal-text" id="modal-text"></p>
+            <div class="modal-buttons">
+                <button class="modal-btn" onclick="closeModal()">Batal</button>
+                <button class="modal-btn confirm" onclick="goWhatsApp()">Kirim ke WhatsApp</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST -->
+    <div class="toast" id="toast"></div>
+
+    <!-- Mobile Toggle -->
+    <button class="mobile-toggle" id="mobile-toggle" onclick="toggleMobileSidebar()">☰</button>
+
     <script>
-        // AUTH STATE
         let currentUser = null;
-        const ADMIN_USER = 'satz';
-        const ADMIN_PASS = 'satz123';
-        let isAdminLoggedIn = false;
-
-        // ICONS
-        const ICONS = {
-            bag: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/></svg>',
-            bot: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="8" height="14" x="2" y="5" rx="1"/><path d="M11 6h3a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-3"/><circle cx="18" cy="12" r="1"/></svg>',
-            gear: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v6m0 6v6M4.22 4.22l4.24 4.24m5.08 5.08l4.24 4.24M1 12h6m6 0h6M4.22 19.78l4.24-4.24m5.08-5.08l4.24-4.24"/></svg>',
-            phone: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="14" height="20" x="5" y="2" rx="2"/><path d="M12 18h.01"/></svg>',
-            chart: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg>',
-            key: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z"/></svg>',
-            trash: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>',
-            plus: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>',
-            clock: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>',
-        };
-
-        const CAT_ICON = { sewabot: 'bot', jadibot: 'gear', nokos: 'phone', smm: 'chart', apikey: 'key' };
-        const CAT_NAME = { sewabot: 'SewaBot', jadibot: 'JadiBot', nokos: 'Nokos', smm: 'SMM Panel', apikey: 'API Key' };
-        const WA = '6285111612909';
-
-        // PRODUCTS DATA
-        const DURASI_SEWABOT = [
-            { label: '1 Menit', price: 500 },
-            { label: '1 Jam', price: 2000 },
-            { label: '1 Hari', price: 5000 },
-            { label: '1 Minggu', price: 25000 },
-            { label: '1 Bulan', price: 75000 },
-        ];
-        const DURASI_JADIBOT = [
-            { label: '1 Menit', price: 1000 },
-            { label: '1 Jam', price: 5000 },
-            { label: '1 Hari', price: 15000 },
-            { label: '1 Minggu', price: 60000 },
-            { label: '1 Bulan', price: 150000 },
-        ];
-        const PRODUCTS = [
-            { id: 1, cat: 'sewabot', badge: 'hot', name: 'SewaBot Basic', desc: 'Sewa bot WA siap pakai. Auto-reply, broadcast, multi-device.', type: 'durasi', durasi: DURASI_SEWABOT },
-            { id: 2, cat: 'sewabot', badge: 'best', name: 'SewaBot Premium', desc: 'SewaBot full fitur. Anti-banned, custom prefix, integrasi AI.', type: 'durasi', durasi: DURASI_SEWABOT },
-            { id: 3, cat: 'jadibot', badge: '', name: 'JadiBot Starter', desc: 'Buat bot WA sendiri. Panel mudah, template siap pakai.', type: 'durasi', durasi: DURASI_JADIBOT },
-            { id: 4, cat: 'jadibot', badge: 'new', name: 'JadiBot Pro', desc: 'JadiBot full fitur. Custom domain, unlimited command.', type: 'durasi', durasi: DURASI_JADIBOT },
-            { id: 5, cat: 'nokos', badge: '', name: 'Nokos Standard', desc: 'Nomor kosong untuk verifikasi akun sosmed.', type: 'fixed', price: 3000, period: '/ nomor' },
-            { id: 6, cat: 'nokos', badge: 'hot', name: 'Nokos Premium', desc: 'Nomor premium. Jaminan berhasil, ganti gratis jika gagal.', type: 'fixed', price: 8000, period: '/ nomor' },
-            { id: 7, cat: 'smm', badge: 'best', name: 'SMM All Sosmed', desc: 'Panel SMM lengkap. Followers, likes, views untuk semua platform.', type: 'fixed', price: 25000, period: '/ bulan' },
-            { id: 8, cat: 'smm', badge: 'new', name: 'SMM Auto Order', desc: 'SMM dengan auto order. Set target, jalan 24 jam non-stop.', type: 'fixed', price: 45000, period: '/ bulan' },
-            { id: 9, cat: 'apikey', badge: 'hot', name: 'API Key WA Bot', desc: 'API key WhatsApp Bot. Unlimited request, low latency.', type: 'fixed', price: 85000, period: '/ bulan' },
-            { id: 10, cat: 'apikey', badge: 'new', name: 'API Key WA Multi', desc: 'Multi-device API key. Hubungkan hingga 10 device WA.', type: 'fixed', price: 150000, period: '/ bulan' }
-        ];
-
-        // APP STATE
-        let selDur = {};
-        PRODUCTS.forEach(p => { if (p.type === 'durasi') selDur[p.id] = 0; });
-
         let cart = {};
+        let selectedDuration = {};
+        let currentFilter = 'all';
+        let isAdminLoggedIn = false;
+        let appliedVoucher = null;
         let orderNotes = '';
-        let activeFilter = 'all';
+        let currentModalProduct = null;
+        const ADMIN_PASSWORD = 'admin123';
+        const WA_NUMBER = '6285111612909';
+
+        const PRODUCTS = [
+            {id:1,cat:'sewabot',name:'SewaBot Lite',desc:'Bot WhatsApp siap pakai dengan fitur basic seperti auto-reply, broadcast, dan group management. Cocok untuk pemula.',badge:'hot',durations:[{l:'1 Jam',p:2000},{l:'1 Hari',p:5000},{l:'7 Hari',p:25000}]},
+            {id:2,cat:'sewabot',name:'SewaBot Standard',desc:'Bot lengkap dengan banyak fitur seperti custom command, API integration, dan advanced automation.',badge:'',durations:[{l:'1 Jam',p:5000},{l:'1 Hari',p:10000},{l:'7 Hari',p:50000}]},
+            {id:3,cat:'sewabot',name:'SewaBot Premium',desc:'Bot advanced dengan anti-banned protection, AI integration, dan full customization untuk bisnis besar.',badge:'best',durations:[{l:'1 Hari',p:15000},{l:'7 Hari',p:75000},{l:'30 Hari',p:200000}]},
+            {id:4,cat:'jadibot',name:'JadiBot Starter',desc:'Paket untuk membuat bot WhatsApp sendiri. Dengan panel mudah dan template siap pakai untuk pemula.',badge:'',durations:[{l:'30 Hari',p:50000},{l:'90 Hari',p:120000},{l:'180 Hari',p:200000}]},
+            {id:5,cat:'jadibot',name:'JadiBot Personal',desc:'Bot pribadi dengan panel kontrol lengkap, custom domain, dan dukungan unlimited command untuk penggunaan personal.',badge:'new',durations:[{l:'30 Hari',p:100000},{l:'90 Hari',p:250000},{l:'180 Hari',p:450000}]},
+            {id:6,cat:'jadibot',name:'JadiBot Business',desc:'Solusi enterprise dengan SLA support, custom branding, dan akses development penuh untuk bisnis profesional.',badge:'best',durations:[{l:'30 Hari',p:200000},{l:'90 Hari',p:500000},{l:'180 Hari',p:900000}]},
+            {id:7,cat:'nokos',name:'Nokos Standar',desc:'Nomor kosong standar untuk verifikasi akun sosial media, game, dan aplikasi lainnya.',badge:'',price:1500,unit:'/nomor'},
+            {id:8,cat:'nokos',name:'Nokos Premium',desc:'Nomor kosong premium dengan kualitas terbaik, jaminan berhasil, dan free replace jika gagal.',badge:'hot',price:3000,unit:'/nomor'},
+            {id:9,cat:'smm',name:'SMM Instagram',desc:'Layanan SMM lengkap untuk Instagram: tambah followers, likes, comments dengan paket hemat.',badge:'best',price:15000,unit:'/bulan'},
+            {id:10,cat:'smm',name:'SMM TikTok',desc:'Tingkatkan engagement TikTok Anda dengan followers, views, dan likes dari akun real.',badge:'hot',price:18000,unit:'/bulan'},
+            {id:11,cat:'smm',name:'SMM YouTube',desc:'Paket SMM YouTube untuk menambah subscribers, views, dan meningkatkan engagement channel Anda.',badge:'',price:25000,unit:'/bulan'},
+            {id:12,cat:'apikey',name:'API WhatsApp Basic',desc:'API WhatsApp dengan unlimited request, low latency, dan support lengkap untuk automation.',badge:'hot',price:75000,unit:'/bulan'},
+            {id:13,cat:'apikey',name:'API WhatsApp Pro',desc:'API WhatsApp advanced dengan multi-device support, custom webhook, dan priority support.',badge:'best',price:150000,unit:'/bulan'},
+            {id:14,cat:'apikey',name:'API SMM Panel',desc:'API lengkap untuk SMM services dengan dokumentasi lengkap dan support 24/7.',badge:'',price:100000,unit:'/bulan'},
+        ];
 
         let vouchers = [
-            { code: 'SATZHEMAT', discount: 15, expiry: '2026-12-31' },
-            { code: 'PROMOJUNI', discount: 25, expiry: '2026-06-30' }
-        ];
-        let appliedVoucher = null;
-
-        let historyData = [
-            { id: 901, cat: 'sewabot', name: 'SewaBot Basic — 1 Bulan', price: 75000, date: '20 Jun 2026', status: 'sukses' },
-            { id: 902, cat: 'apikey', name: 'API Key WA Bot — 1 Bulan', price: 85000, date: '15 Jun 2026', status: 'sukses' },
-            { id: 903, cat: 'nokos', name: 'Nokos Premium x3', price: 24000, date: '10 Jun 2026', status: 'sukses' }
+            {code:'SATZPROMO',discount:15,maxuse:3,expiry:'2025-12-31',usageCount:0,usedBy:[]},
+            {code:'HEMAT100',discount:20,maxuse:5,expiry:'2025-06-30',usageCount:0,usedBy:[]},
+            {code:'NEWUSER',discount:25,maxuse:1,expiry:'2025-05-31',usageCount:0,usedBy:[]},
         ];
 
-        // ===== AUTH FUNCTIONS =====
-        function togglePassword(inputId) {
-            const input = document.getElementById(inputId);
-            input.type = input.type === 'password' ? 'text' : 'password';
-        }
+        let history = [];
 
-        function clearAuthErrors() {
-            document.querySelectorAll('.form-error').forEach(el => {
-                el.classList.remove('show');
-                el.textContent = '';
-            });
-            document.querySelectorAll('.form-input').forEach(el => {
-                el.classList.remove('error');
-            });
-        }
-
-        function showAuthError(fieldId, message) {
-            const input = document.getElementById(fieldId);
-            const error = document.getElementById(`${fieldId}-error`);
-            input.classList.add('error');
-            error.textContent = message;
-            error.classList.add('show');
+        function fmt(n) {
+            return 'Rp' + n.toLocaleString('id-ID');
         }
 
         function goToLogin() {
-    clearAuthErrors();
-
-    window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-    });
-
-    document.getElementById('auth-register').classList.remove('active');
-    document.getElementById('auth-login').classList.add('active');
-
-    setTimeout(() => {
-        document.getElementById('login-phone').focus();
-    }, 100);
-}
+            document.getElementById('auth-register').classList.remove('active');
+            document.getElementById('auth-login').classList.add('active');
+        }
 
         function goToRegister() {
-    clearAuthErrors();
-
-    window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-    });
-
-    document.getElementById('auth-login').classList.remove('active');
-    document.getElementById('auth-register').classList.add('active');
-
-    setTimeout(() => {
-        document.getElementById('reg-name').focus();
-    }, 100);
-}
+            document.getElementById('auth-login').classList.remove('active');
+            document.getElementById('auth-register').classList.add('active');
+        }
 
         function handleLogin(e) {
             e.preventDefault();
-            clearAuthErrors();
             const phone = document.getElementById('login-phone').value.trim();
             const pass = document.getElementById('login-pass').value.trim();
-            let hasError = false;
-
-            if (!phone) {
-                showAuthError('login-phone', 'Nomor telepon / username wajib diisi');
-                hasError = true;
+            if (!phone || !pass) {
+                showToast('Lengkapi data login', 'error');
+                return;
             }
-            if (!pass) {
-                showAuthError('login-pass', 'Password wajib diisi');
-                hasError = true;
-            }
-            if (hasError) return;
-
-            const btn = document.getElementById('login-btn');
-            btn.classList.add('loading');
-            btn.innerHTML = 'Sedang masuk...';
-
-            setTimeout(() => {
-                currentUser = {
-                    name: phone === 'satz' ? 'Admin SatzStore' : 'User ' + phone.substring(0, 4) + '...',
-                    phone: phone
-                };
-                localStorage.setItem('satzstore_current_user', JSON.stringify(currentUser));
-                showToast('Login berhasil! Selamat datang.', 'success');
-                goToApp();
-            }, 800);
+            currentUser = {name:'User '+phone.slice(-4), phone, email: phone + '@satz.local'};
+            localStorage.setItem('satz_user', JSON.stringify(currentUser));
+            goToApp();
         }
 
         function handleRegister(e) {
             e.preventDefault();
-            clearAuthErrors();
             const name = document.getElementById('reg-name').value.trim();
             const phone = document.getElementById('reg-phone').value.trim();
             const pass = document.getElementById('reg-pass').value.trim();
-            const confirm = document.getElementById('reg-confirm').value.trim();
-            let hasError = false;
-
-            if (!name) { showAuthError('reg-name', 'Nama lengkap wajib diisi'); hasError = true; }
-            if (!phone) { showAuthError('reg-phone', 'Nomor telepon wajib diisi'); hasError = true; }
-            if (pass.length < 6) { showAuthError('reg-pass', 'Password minimal 6 karakter'); hasError = true; }
-            if (pass !== confirm) { showAuthError('reg-confirm', 'Password tidak cocok'); hasError = true; }
-            if (hasError) return;
-
-            const btn = document.getElementById('register-btn');
-            btn.classList.add('loading');
-            btn.innerHTML = 'Memproses...';
-
-            setTimeout(() => {
-                currentUser = { name, phone };
-                localStorage.setItem('satzstore_current_user', JSON.stringify(currentUser));
-                showToast('Registrasi berhasil!', 'success');
-                goToApp();
-            }, 800);
+            if (!name || !phone || pass.length < 6) {
+                showToast('Data tidak lengkap', 'error');
+                return;
+            }
+            currentUser = {name, phone, email: phone + '@satz.local'};
+            localStorage.setItem('satz_user', JSON.stringify(currentUser));
+            goToApp();
         }
 
         function handleLogout() {
-            currentUser = null;
-            isAdminLoggedIn = false;
-            localStorage.removeItem('satzstore_current_user');
-            
-            document.getElementById('main-app').style.display = 'none';
-            const authLogin = document.getElementById('auth-login');
-authLogin.classList.add('active');
-            
-            setTimeout(() => {
-                const btn = document.getElementById('login-btn');
-                btn.classList.remove('loading');
-                btn.innerHTML = 'Masuk Sekarang';
-                document.getElementById('login-phone').value = '';
-                document.getElementById('login-pass').value = '';
-            }, 50);
+            if (confirm('Yakin ingin logout?')) {
+                currentUser = null;
+                isAdminLoggedIn = false;
+                appliedVoucher = null;
+                orderNotes = '';
+                localStorage.removeItem('satz_user');
+                document.getElementById('main-app').style.display = 'none';
+                document.getElementById('auth-login').classList.add('active');
+            }
         }
 
         function goToApp() {
-            document.querySelectorAll('.auth-page').forEach(el => el.classList.remove('active'));
-            setTimeout(() => {
-    document.getElementById('main-app').style.display = 'flex';
-                
-                document.getElementById('sidebar-user-name').textContent = currentUser.name;
-                document.getElementById('sidebar-user-phone').textContent = currentUser.phone;
-                
-                if(currentUser.phone === 'satz' || currentUser.name.toLowerCase().includes('admin')) {
-                    document.getElementById('menu-admin').style.display = 'flex';
-                    document.querySelector('.menu-divider').style.display = 'block';
-                } else {
-                    document.getElementById('menu-admin').style.display = 'none';
-                    document.querySelector('.menu-divider').style.display = 'none';
-                }
-                
-                renderProducts();
-                goPage('store');
-            }, 300);
-        }
-
-        // ===== ADMIN FUNCTIONS =====
-        function handleAdminLogin() {
-            const u = document.getElementById('admin-user').value;
-            const p = document.getElementById('admin-pass').value;
-            if (u === ADMIN_USER && p === ADMIN_PASS) {
-                isAdminLoggedIn = true;
-                showToast('Login Admin Berhasil', 'success');
-                document.getElementById('admin-login-view').style.display = 'none';
-                document.getElementById('admin-panel-view').style.display = 'block';
-                renderAdminVouchers();
-            } else {
-                showToast('Username atau password admin salah!', 'error');
+            document.getElementById('auth-login').classList.remove('active');
+            document.getElementById('auth-register').classList.remove('active');
+            document.getElementById('main-app').style.display = 'flex';
+            document.getElementById('user-name').textContent = currentUser.name;
+            document.getElementById('user-phone').textContent = currentUser.phone;
+            renderProducts();
+            if (currentUser.phone === 'admin') {
+                document.getElementById('menu-admin').style.display = 'block';
             }
         }
 
-        function handleAdminLogout() {
-            isAdminLoggedIn = false;
-            document.getElementById('admin-pass').value = '';
-            document.getElementById('admin-panel-view').style.display = 'none';
-            document.getElementById('admin-login-view').style.display = 'block';
-            showToast('Sesi Admin Diakhiri', 'success');
+        function setFilter(cat, btn) {
+            currentFilter = cat;
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            renderProducts();
         }
 
-        function isVoucherActive(expDate) {
-            return new Date(expDate) >= new Date(new Date().setHours(0,0,0,0));
+        function renderProducts() {
+            const grid = document.getElementById('prod-grid');
+            const filtered = currentFilter === 'all' ? PRODUCTS : PRODUCTS.filter(p => p.cat === currentFilter);
+            document.getElementById('prod-count').textContent = filtered.length;
+
+            grid.innerHTML = filtered.map(p => {
+                let badge = p.badge ? `<div class="product-badge">${p.badge.toUpperCase()}</div>` : '';
+                const price = p.durations ? fmt(p.durations[0].p) : fmt(p.price);
+                return `
+                    <div class="product" onclick="openProductModal(${p.id})">
+                        ${badge}
+                        <div class="product-category">${p.cat.toUpperCase()}</div>
+                        <div class="product-name">${p.name}</div>
+                        <div class="product-desc">${p.desc}</div>
+                        <div class="product-footer">
+                            <div class="product-price">Mulai ${price}</div>
+                            <button class="btn-add" onclick="event.stopPropagation(); quickAdd(${p.id})">+ BELI</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
         }
 
-        function renderAdminVouchers() {
-            const tbody = document.getElementById('voucher-table-body');
-            if (vouchers.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--text-faint);">Belum ada data voucher</td></tr>';
+        // Fungsi untuk menambah langsung ke keranjang (tanpa modal)
+        function quickAdd(productId) {
+            const p = PRODUCTS.find(x => x.id === productId);
+            if (!p) return;
+            let durIdx = 0;
+            if (p.durations) {
+                // Ambil durasi pertama sebagai default
+                durIdx = 0;
+            }
+            const key = p.durations ? `${p.id}_${durIdx}` : `${p.id}_0`;
+            cart[key] = (cart[key] || 0) + 1;
+            updateCartBadge();
+            showToast(`${p.name} ditambahkan ke keranjang`);
+        }
+
+        function openProductModal(productId) {
+            currentModalProduct = PRODUCTS.find(p => p.id === productId);
+            if (!currentModalProduct) return;
+
+            document.getElementById('modal-category').textContent = currentModalProduct.cat.toUpperCase();
+            document.getElementById('modal-title').textContent = currentModalProduct.name;
+            document.getElementById('modal-desc').textContent = currentModalProduct.desc;
+
+            if (currentModalProduct.durations) {
+                const grid = document.getElementById('modal-duration-grid');
+                grid.innerHTML = currentModalProduct.durations.map((d, i) => `
+                    <button class="modal-duration-option ${i === 0 ? 'selected' : ''}" onclick="selectModalDuration(${i})">${d.l}<br><small style="font-size:11px;color:var(--text-secondary)">${fmt(d.p)}</small></button>
+                `).join('');
+                document.getElementById('modal-durations-section').style.display = 'block';
+                updateModalPrice(0);
+            } else {
+                document.getElementById('modal-durations-section').style.display = 'none';
+                document.getElementById('modal-price-value').textContent = fmt(currentModalProduct.price);
+            }
+
+            document.getElementById('product-modal-overlay').classList.add('active');
+        }
+
+        function selectModalDuration(idx) {
+            document.querySelectorAll('.modal-duration-option').forEach(b => b.classList.remove('selected'));
+            document.querySelectorAll('.modal-duration-option')[idx].classList.add('selected');
+            updateModalPrice(idx);
+        }
+
+        function updateModalPrice(idx) {
+            if (currentModalProduct.durations) {
+                document.getElementById('modal-price-value').textContent = fmt(currentModalProduct.durations[idx].p);
+            }
+        }
+
+        function addFromModal() {
+            if (!currentModalProduct) return;
+
+            const durIdx = currentModalProduct.durations ? Array.from(document.querySelectorAll('.modal-duration-option')).findIndex(b => b.classList.contains('selected')) : 0;
+            const key = currentModalProduct.durations ? `${currentModalProduct.id}_${durIdx}` : `${currentModalProduct.id}_0`;
+
+            cart[key] = (cart[key] || 0) + 1;
+            updateCartBadge();
+            showToast(`${currentModalProduct.name} ditambahkan ke keranjang`);
+            closeProductModal();
+        }
+
+        function closeProductModal() {
+            document.getElementById('product-modal-overlay').classList.remove('active');
+            currentModalProduct = null;
+        }
+
+        function updateCartBadge() {
+            const total = Object.values(cart).reduce((a,b)=>a+b,0);
+            const badge = document.getElementById('cart-badge');
+            if (total > 0) {
+                badge.textContent = total;
+                badge.style.display = 'inline';
+            } else {
+                badge.style.display = 'none';
+            }
+        }
+
+        function applyVoucher() {
+            const code = document.getElementById('cart-voucher-code')?.value.trim().toUpperCase();
+            const msgEl = document.getElementById('voucher-message');
+
+            if (!code) {
+                appliedVoucher = null;
+                if (msgEl) {
+                    msgEl.textContent = '';
+                    msgEl.className = 'voucher-message';
+                }
+                renderCart();
                 return;
             }
 
-            let html = '';
-            vouchers.forEach((v, idx) => {
-                const active = isVoucherActive(v.expiry);
-                const badge = active 
-                    ? '<span class="badge-status badge-active">Aktif</span>'
-                    : '<span class="badge-status badge-expired">Expired</span>';
-                
-                html += `
+            const voucher = vouchers.find(v => v.code === code);
+            const today = new Date().toISOString().split('T')[0];
+
+            if (!voucher) {
+                appliedVoucher = null;
+                if (msgEl) {
+                    msgEl.className = 'voucher-message error';
+                    msgEl.textContent = '❌ Kode voucher tidak valid';
+                }
+                renderCart();
+                return;
+            }
+
+            if (voucher.expiry < today) {
+                appliedVoucher = null;
+                if (msgEl) {
+                    msgEl.className = 'voucher-message error';
+                    msgEl.textContent = '❌ Voucher sudah kedaluwarsa';
+                }
+                renderCart();
+                return;
+            }
+
+            if (voucher.usageCount >= voucher.maxuse) {
+                appliedVoucher = null;
+                if (msgEl) {
+                    msgEl.className = 'voucher-message error';
+                    msgEl.textContent = `❌ Voucher sudah mencapai batas penggunaan (${voucher.maxuse}x)`;
+                }
+                renderCart();
+                return;
+            }
+
+            if (voucher.usedBy.includes(currentUser.email)) {
+                appliedVoucher = null;
+                if (msgEl) {
+                    msgEl.className = 'voucher-message error';
+                    msgEl.textContent = '❌ Anda sudah menggunakan voucher ini';
+                }
+                renderCart();
+                return;
+            }
+
+            appliedVoucher = {code: voucher.code, discount: voucher.discount};
+            if (msgEl) {
+                msgEl.className = 'voucher-message success';
+                msgEl.textContent = '✓ Voucher berhasil diterapkan!';
+            }
+            renderCart();
+            showToast('Diskon ' + voucher.discount + '% diterapkan');
+        }
+
+        function renderCart() {
+            const content = document.getElementById('cart-content');
+            const items = Object.entries(cart).filter(([_,q])=>q>0);
+
+            if (!items.length) {
+                content.innerHTML = '<div class="empty-state"><div class="empty-icon">🛒</div><div class="empty-title">Keranjang Kosong</div><div class="empty-desc">Mulai belanja dan temukan produk yang Anda butuhkan</div><button class="btn" onclick="goPage(\'store\')" style="margin-top: 0;">Belanja Sekarang</button></div>';
+                return;
+            }
+
+            let subtotal = 0;
+            const itemsHtml = items.map(([key,qty])=>{
+                const [pid,durIdx] = key.split('_');
+                const p = PRODUCTS.find(x=>x.id==parseInt(pid));
+                if (!p) return '';
+                const price = p.durations ? p.durations[parseInt(durIdx)].p : p.price;
+                const itemTotal = price * qty;
+                subtotal += itemTotal;
+                const label = p.durations ? p.durations[parseInt(durIdx)].l : p.unit;
+                return `
+                    <div class="cart-item">
+                        <div class="cart-item-info">
+                            <div class="cart-item-name">${p.name}</div>
+                            <div class="cart-item-meta">${label}</div>
+                        </div>
+                        <div class="cart-controls">
+                            <button class="qty-btn" onclick="updateQty('${key}',-1)">−</button>
+                            <div class="qty-display">${qty}</div>
+                            <button class="qty-btn" onclick="updateQty('${key}',1)">+</button>
+                        </div>
+                        <div class="cart-price">${fmt(itemTotal)}</div>
+                    </div>
+                `;
+            }).join('');
+
+            let discount = 0;
+            if (appliedVoucher) {
+                discount = Math.floor((subtotal * appliedVoucher.discount) / 100);
+            }
+            const total = subtotal - discount;
+
+            content.innerHTML = `
+                <div class="cart-layout">
+                    <div class="cart-items">${itemsHtml}</div>
+                    <div class="cart-summary">
+                        <div class="summary-title">Ringkasan Pembayaran</div>
+                        <div class="summary-row">
+                            <span>Subtotal (${items.length} item)</span>
+                            <span>${fmt(subtotal)}</span>
+                        </div>
+                        ${appliedVoucher ? `<div class="summary-row discount">
+                            <span>Diskon (${appliedVoucher.code} -${appliedVoucher.discount}%)</span>
+                            <span>-${fmt(discount)}</span>
+                        </div>` : ''}
+                        <div class="summary-total">
+                            <span>TOTAL</span>
+                            <span>${fmt(total)}</span>
+                        </div>
+
+                        <div class="voucher-section">
+                            <label class="voucher-label">Kode Voucher Promo</label>
+                            <div class="voucher-input-group">
+                                <input type="text" id="cart-voucher-code" class="form-input" placeholder="PROMO100" value="${appliedVoucher ? appliedVoucher.code : ''}">
+                                <button class="btn-apply-voucher" onclick="applyVoucher()">PAKAI</button>
+                            </div>
+                            <div id="voucher-message" class="voucher-message ${appliedVoucher ? 'success' : ''}"></div>
+                        </div>
+
+                        <div class="notes-section">
+                            <label class="voucher-label">Catatan Tambahan</label>
+                            <textarea class="notes-textarea" id="order-notes" placeholder="Contoh: Nomor WA tujuan bot, nama pengguna, atau keterangan khusus..." oninput="orderNotes = this.value">${orderNotes}</textarea>
+                        </div>
+
+                        <button class="checkout-btn" onclick="checkout()">Lanjut Checkout</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function updateQty(key, change) {
+            if (!cart[key]) return;
+            cart[key] += change;
+            if (cart[key] <= 0) delete cart[key];
+            updateCartBadge();
+            renderCart();
+        }
+
+        function checkout() {
+            const items = Object.entries(cart).filter(([_,q])=>q>0);
+            if (!items.length) return;
+
+            let text = '*PESANAN BARU - SatzStore*\n\n';
+            let subtotal = 0;
+            items.forEach(([key,qty])=>{
+                const [pid,durIdx] = key.split('_');
+                const p = PRODUCTS.find(x=>x.id==parseInt(pid));
+                if (!p) return;
+                const price = p.durations ? p.durations[parseInt(durIdx)].p : p.price;
+                const label = p.durations ? p.durations[parseInt(durIdx)].l : p.unit;
+                const total = price * qty;
+                subtotal += total;
+                text += `• ${p.name} (${label}) x${qty} = ${fmt(total)}\n`;
+            });
+
+            let discount = 0;
+            if (appliedVoucher) {
+                discount = Math.floor((subtotal * appliedVoucher.discount) / 100);
+                text += `\n✓ Voucher: ${appliedVoucher.code} (-${appliedVoucher.discount}%)\nDiskon: -${fmt(discount)}\n`;
+            }
+
+            const finalTotal = subtotal - discount;
+            text += `\n*TOTAL: ${fmt(finalTotal)}*`;
+            text += `\n\nPemesan: ${currentUser.name}`;
+            text += `\nNo. HP: ${currentUser.phone}`;
+            if (orderNotes.trim()) {
+                text += `\nCatatan: ${orderNotes}`;
+            }
+
+            const detailText = `Subtotal: ${fmt(subtotal)}\n${appliedVoucher ? `Diskon ${appliedVoucher.code} (${appliedVoucher.discount}%): -${fmt(discount)}\n` : ''}Total: ${fmt(finalTotal)}\n\nPemesan: ${currentUser.name}\nNo. HP: ${currentUser.phone}${orderNotes ? '\nCatatan: ' + orderNotes : ''}`;
+
+            document.getElementById('modal-text').textContent = detailText;
+            document.getElementById('modal').classList.add('active');
+            window.wa_url = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(text)}`;
+        }
+
+        function goWhatsApp() {
+            if (window.wa_url) {
+                window.open(window.wa_url, '_blank');
+
+                if (appliedVoucher) {
+                    const voucherIdx = vouchers.findIndex(v => v.code === appliedVoucher.code);
+                    if (voucherIdx !== -1) {
+                        vouchers[voucherIdx].usageCount++;
+                        if (!vouchers[voucherIdx].usedBy.includes(currentUser.email)) {
+                            vouchers[voucherIdx].usedBy.push(currentUser.email);
+                        }
+                    }
+                }
+
+                const items = Object.entries(cart);
+                items.forEach(([key])=>{
+                    history.push({
+                        name: key,
+                        date: new Date().toLocaleDateString('id-ID'),
+                        status: 'DIPROSES',
+                        voucher: appliedVoucher ? appliedVoucher.code : '-',
+                        notes: orderNotes
+                    });
+                });
+                cart = {};
+                appliedVoucher = null;
+                orderNotes = '';
+                updateCartBadge();
+                closeModal();
+                goPage('history');
+                showToast('Pesanan Dikirim ke WhatsApp');
+            }
+        }
+
+        function closeModal() {
+            document.getElementById('modal').classList.remove('active');
+        }
+
+        function renderHistory() {
+            const content = document.getElementById('history-content');
+            if (!history.length) {
+                content.innerHTML = '<div class="empty-state"><div class="empty-icon">📋</div><div class="empty-title">Riwayat Kosong</div><div class="empty-desc">Anda belum melakukan pemesanan</div></div>';
+                return;
+            }
+            content.innerHTML = history.map((h,i)=>`
+                <div class="admin-section" style="margin-bottom: 12px;">
+                    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;">
+                        <div>
+                            <div style="font-weight:600;font-size:13px;color:var(--text-primary);margin-bottom:4px;">${h.name}</div>
+                            <div style="font-size:11px;color:var(--text-tertiary);margin-bottom:4px;">${h.date}</div>
+                            ${h.voucher !== '-' ? `<div style="font-size:11px;color:var(--success);margin-bottom:4px;">✓ Voucher: ${h.voucher}</div>` : ''}
+                            ${h.notes ? `<div style="font-size:11px;color:var(--text-secondary);margin-top:6px;font-style:italic;">Catatan: ${h.notes}</div>` : ''}
+                        </div>
+                        <div class="badge-active">${h.status}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function adminLogin() {
+            const pass = document.getElementById('admin-pass').value;
+            if (pass !== ADMIN_PASSWORD) {
+                showToast('Password Salah', 'error');
+                return;
+            }
+            isAdminLoggedIn = true;
+            document.getElementById('admin-login').style.display = 'none';
+            document.getElementById('admin-panel').classList.add('active');
+            renderVouchers();
+            showToast('Login Admin Berhasil');
+        }
+
+        function adminLogout() {
+            isAdminLoggedIn = false;
+            document.getElementById('admin-panel').classList.remove('active');
+            document.getElementById('admin-login').style.display = 'flex';
+            document.getElementById('admin-pass').value = '';
+            showToast('Logout Admin');
+        }
+
+        function renderVouchers() {
+            const list = document.getElementById('voucher-list');
+            list.innerHTML = vouchers.map((v,i)=>{
+                const isActive = new Date(v.expiry) >= new Date();
+                const status = isActive ? '<div class="badge-active">AKTIF</div>' : '<div class="badge-expired">EXPIRED</div>';
+                const isFull = v.usageCount >= v.maxuse;
+                const usageStatus = isFull ? `<div class="badge-expired">PENUH (${v.usageCount}/${v.maxuse})</div>` : `<div style="font-size:11px;color:var(--text-secondary);">${v.usageCount}/${v.maxuse} digunakan</div>`;
+                return `
                     <tr>
-                        <td style="font-family: monospace; font-size: 14px; font-weight: 800; color: var(--accent);">${v.code}</td>
+                        <td style="font-weight: 600;">${v.code}</td>
                         <td>${v.discount}%</td>
+                        <td>${v.maxuse}x</td>
                         <td>${v.expiry}</td>
-                        <td>${badge}</td>
-                        <td>
-                            <button class="btn-icon-danger" onclick="deleteVoucher(${idx})" title="Hapus">
-                                ${ICONS.trash}
-                            </button>
+                        <td>${status}</td>
+                        <td>${usageStatus}</td>
+                        <td style="display:flex;gap:4px;">
+                            <button class="btn-reset" onclick="resetVoucher(${i})">Reset</button>
+                            <button class="btn-danger" onclick="deleteVoucher(${i})">Hapus</button>
                         </td>
                     </tr>
                 `;
-            });
-            tbody.innerHTML = html;
+            }).join('');
         }
 
-        function addNewVoucher() {
-            const code = document.getElementById('new-code').value.trim().toUpperCase();
-            const disc = parseInt(document.getElementById('new-discount').value);
-            const exp = document.getElementById('new-expiry').value;
+        function resetVoucher(idx) {
+            if (confirm('Reset penggunaan voucher ini?')) {
+                vouchers[idx].usageCount = 0;
+                vouchers[idx].usedBy = [];
+                renderVouchers();
+                showToast('Voucher Direset');
+            }
+        }
 
-            if (!code || !disc || !exp) {
-                showToast('Lengkapi semua data voucher!', 'error');
+        function addVoucher() {
+            const code = document.getElementById('voucher-code').value.trim().toUpperCase();
+            const discount = parseInt(document.getElementById('voucher-discount').value);
+            const maxuse = parseInt(document.getElementById('voucher-maxuse').value);
+            const expiry = document.getElementById('voucher-expiry').value;
+
+            if (!code || !discount || !maxuse || !expiry) {
+                showToast('Lengkapi semua data', 'error');
                 return;
             }
-            if (vouchers.find(v => v.code === code)) {
-                showToast('Kode voucher sudah ada!', 'error');
+
+            if (vouchers.find(v=>v.code===code)) {
+                showToast('Kode sudah ada', 'error');
                 return;
             }
 
-            vouchers.unshift({ code: code, discount: disc, expiry: exp });
-            document.getElementById('new-code').value = '';
-            document.getElementById('new-discount').value = '';
-            document.getElementById('new-expiry').value = '';
-            renderAdminVouchers();
-            showToast('Voucher berhasil ditambahkan!', 'success');
+            vouchers.unshift({code,discount,maxuse,expiry,usageCount:0,usedBy:[]});
+            document.getElementById('voucher-code').value = '';
+            document.getElementById('voucher-discount').value = '';
+            document.getElementById('voucher-maxuse').value = '';
+            document.getElementById('voucher-expiry').value = '';
+            renderVouchers();
+            showToast('Voucher Ditambahkan');
         }
 
         function deleteVoucher(idx) {
-            vouchers.splice(idx, 1);
-            renderAdminVouchers();
-            showToast('Voucher dihapus', 'success');
+            if (confirm('Hapus voucher ini?')) {
+                vouchers.splice(idx,1);
+                renderVouchers();
+                showToast('Voucher Dihapus');
+            }
         }
 
-        // ===== UTILS =====
-        function fmt(n) { return 'Rp ' + n.toLocaleString('id-ID'); }
+        function goPage(page) {
+            document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+            document.querySelectorAll('.menu-item').forEach(m=>m.classList.remove('active'));
+            const targetPage = document.getElementById('page-'+page);
+            if (targetPage) targetPage.classList.add('active');
+            const targetMenu = document.getElementById('menu-'+page);
+            if (targetMenu) targetMenu.classList.add('active');
 
-        function showToast(msg, type = 'success') {
-            const toast = document.getElementById('toast');
-            const icon = type === 'success'
-                ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="20" height="20" style="color:var(--success)"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>'
-                : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="20" height="20" style="color:var(--danger)"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>';
+            if (page === 'cart') renderCart();
+            if (page === 'history') renderHistory();
+            if (page === 'admin' && !isAdminLoggedIn) {
+                document.getElementById('admin-login').style.display = 'flex';
+                document.getElementById('admin-panel').classList.remove('active');
+            }
 
-            toast.innerHTML = icon + msg;
-            toast.classList.add('show');
-            setTimeout(() => toast.classList.remove('show'), 3000);
-        }
-
-        // ===== NAVIGATION =====
-        function goPage(pageId) {
-            document.querySelectorAll('.page').forEach(el => el.classList.remove('active'));
-            document.querySelectorAll('.menu-item').forEach(el => el.classList.remove('active'));
-
-            document.getElementById('page-' + pageId).classList.add('active');
-            document.getElementById('menu-' + pageId).classList.add('active');
-
-            if (window.innerWidth <= 900) {
+            if (window.innerWidth <= 768) {
                 document.getElementById('sidebar').classList.remove('mobile-open');
             }
+        }
 
-            if (pageId === 'cart') renderCart();
-            if (pageId === 'dashboard') renderDashboard();
-            if (pageId === 'history') renderHistory();
-            if (pageId === 'admin') {
-                if (isAdminLoggedIn) renderAdminVouchers();
-            }
+        function showToast(msg, type='success') {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.className = 'toast show';
+            setTimeout(()=>toast.classList.remove('show'), 3000);
         }
 
         function toggleMobileSidebar() {
             document.getElementById('sidebar').classList.toggle('mobile-open');
         }
 
-        function toggleTheme() {
-            const isLight = document.body.parentElement.getAttribute('data-theme') === 'light';
-            document.body.parentElement.setAttribute('data-theme', isLight ? 'dark' : 'light');
-            document.getElementById('theme-text').textContent = isLight ? 'Mode Terang' : 'Mode Gelap';
-        }
-
-        // ===== STORE =====
-        function getPrice(p, idx) {
-            if (p.type === 'fixed') return { price: p.price, label: '' };
-            return p.durasi[idx];
-        }
-
-        function setFilter(cat, btnElement) {
-            activeFilter = cat;
-            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-            btnElement.classList.add('active');
-            renderProducts();
-        }
-
-        function selectDur(pid, idx) {
-            selDur[pid] = idx;
-            renderProducts();
-        }
-
-        function renderProducts() {
-            const grid = document.getElementById('prod-grid');
-            const filtered = activeFilter === 'all' ? PRODUCTS : PRODUCTS.filter(p => p.cat === activeFilter);
-            
-            document.getElementById('prod-count').textContent = `${filtered.length} layanan`;
-
-            grid.innerHTML = filtered.map(p => {
-                const isFixed = p.type === 'fixed';
-                const sIdx = isFixed ? 0 : selDur[p.id];
-                const info = getPrice(p, sIdx);
-
-                let badgeHtml = '';
-                if (p.badge) {
-                    badgeHtml = `<div class="product-badge ${p.badge}">${p.badge}</div>`;
-                }
-
-                let durHtml = '';
-                if (!isFixed) {
-                    durHtml = '<div class="duration-options">';
-                    durHtml += p.durasi.map((d, i) => `
-                        <button class="duration-btn ${i === sIdx ? 'selected' : ''}" onclick="selectDur(${p.id}, ${i})">${d.label}</button>
-                    `).join('');
-                    durHtml += '</div>';
-                }
-
-                return `
-                    <div class="product-card">
-                        ${badgeHtml}
-                        <div class="product-icon">${ICONS[CAT_ICON[p.cat]]}</div>
-                        <div class="product-category">${CAT_NAME[p.cat]}</div>
-                        <div class="product-name">${p.name}</div>
-                        <div class="product-desc">${p.desc}</div>
-                        ${durHtml}
-                        <div class="product-footer">
-                            <div class="product-price">${fmt(info.price)}<span style="font-size:11px;color:var(--text-faint);font-weight:600">${isFixed ? p.period : ''}</span></div>
-                            <button class="add-to-cart-btn" onclick="addCart(${p.id}, ${sIdx})">
-                                ${ICONS.plus} Beli
-                            </button>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        function addCart(pid, durIdx) {
-            const uid = `${pid}_${durIdx}`;
-            cart[uid] = (cart[uid] || 0) + 1;
-            updateCount();
-            showToast('Berhasil ditambahkan ke keranjang');
-        }
-
-        function updateCount() {
-            const totalItems = Object.values(cart).reduce((a, b) => a + b, 0);
-            const b = document.getElementById('cart-count-badge');
-            
-            if (totalItems > 0) {
-                b.textContent = totalItems;
-                b.style.display = 'inline-flex';
-                b.style.marginLeft = '8px';
-                b.style.background = 'var(--accent)';
-                b.style.color = '#030712';
-                b.style.borderRadius = '30px';
-                b.style.padding = '2px 8px';
-                b.style.fontSize = '10px';
-                b.style.fontWeight = '800';
-            } else {
-                b.style.display = 'none';
-            }
-        }
-
-        function updateQty(uid, change) {
-            if (!cart[uid]) return;
-            cart[uid] += change;
-            if (cart[uid] <= 0) delete cart[uid];
-            updateCount();
-            renderCart();
-        }
-
-        function removeCartItem(uid) {
-            delete cart[uid];
-            updateCount();
-            renderCart();
-        }
-
-        // ===== VOUCHER LOGIC =====
-        function applyVoucher() {
-            const code = document.getElementById('voucher-input').value.trim().toUpperCase();
-            const feedback = document.getElementById('voucher-feedback');
-            
-            if (!code) {
-                appliedVoucher = null;
-                renderCart();
-                return;
-            }
-
-            const voucher = vouchers.find(v => v.code === code);
-            
-            if (!voucher) {
-                feedback.textContent = 'Kode voucher tidak ditemukan';
-                feedback.className = 'voucher-feedback error';
-                appliedVoucher = null;
-            } else if (!isVoucherActive(voucher.expiry)) {
-                feedback.textContent = 'Kode voucher sudah kadaluarsa';
-                feedback.className = 'voucher-feedback error';
-                appliedVoucher = null;
-            } else {
-                feedback.textContent = `Voucher berhasil digunakan! Diskon ${voucher.discount}%`;
-                feedback.className = 'voucher-feedback success';
-                appliedVoucher = voucher;
-            }
-            
-            // Re-render summary part only or entire cart
-            setTimeout(renderCart, 500); 
-        }
-
-        function removeVoucher() {
-            appliedVoucher = null;
-            renderCart();
-        }
-
-        // ===== CART RENDERING =====
-        function renderCart() {
-            const c = document.getElementById('cart-content');
-            const items = Object.entries(cart).filter(([_, q]) => q > 0);
-
-            if (!items.length) {
-                c.innerHTML = `
-                    <div class="cart-empty">
-                        ${ICONS.bag}
-                        <h3 style="color:var(--text);font-size:18px;margin-bottom:8px;">Keranjang Masih Kosong</h3>
-                        <p style="margin-bottom:20px;">Silakan pilih layanan yang Anda butuhkan di halaman toko.</p>
-                        <button class="add-to-cart-btn" style="margin:0 auto;" onclick="goPage('store')">Jelajahi Toko</button>
-                    </div>`;
-                return;
-            }
-
-            let subtotal = 0;
-            const itemsHtml = items.map(([uid, qty]) => {
-                const [pid, durIdx] = uid.split('_');
-                const p = PRODUCTS.find(x => x.id == pid);
-                const info = getPrice(p, parseInt(durIdx));
-                const itemSubtotal = info.price * qty;
-                subtotal += itemSubtotal;
-
-                return `
-                    <div class="cart-item">
-                        <div class="cart-item-icon">${ICONS[CAT_ICON[p.cat]]}</div>
-                        <div class="cart-item-info">
-                            <div class="cart-item-name">${p.name}</div>
-                            <div class="cart-item-meta">${CAT_NAME[p.cat]} ${info.label ? '— ' + info.label : ''}</div>
-                        </div>
-                        <div class="cart-item-actions">
-                            <button class="qty-btn" onclick="updateQty('${uid}', -1)">-</button>
-                            <span style="font-weight:700; width:24px; text-align:center">${qty}</span>
-                            <button class="qty-btn" onclick="updateQty('${uid}', 1)">+</button>
-                        </div>
-                        <div class="cart-item-price">${fmt(itemSubtotal)}</div>
-                        <button class="remove-btn" onclick="removeCartItem('${uid}')">${ICONS.trash}</button>
-                    </div>
-                `;
-            }).join('');
-
-            let discountAmount = 0;
-            let discountRow = '';
-            let voucherInputHtml = `
-                <div class="voucher-box">
-                    <label style="font-size: 11px; font-weight: 700; color: var(--text-soft); text-transform: uppercase;">Kode Voucher Promo</label>
-                    <div class="voucher-input-group">
-                        <input type="text" id="voucher-input" class="form-input" placeholder="Masukkan kode (opsional)" style="flex: 1;" value="">
-                        <button class="filter-btn active" onclick="applyVoucher()" style="border-radius: 10px;">Gunakan</button>
-                    </div>
-                    <div id="voucher-feedback" class="voucher-feedback"></div>
-                </div>
-            `;
-
-            if (appliedVoucher) {
-                discountAmount = (subtotal * appliedVoucher.discount) / 100;
-                discountRow = `
-                    <div class="summary-row">
-                        <span>Diskon (${appliedVoucher.code} - ${appliedVoucher.discount}%)</span>
-                        <span style="color:var(--success)">-${fmt(discountAmount)}</span>
-                    </div>
-                `;
-                voucherInputHtml = `
-                    <div class="voucher-box">
-                        <div style="display:flex; justify-content:space-between; align-items:center; background:rgba(16,185,129,0.1); padding:12px; border-radius:10px; border:1px solid rgba(16,185,129,0.3);">
-                            <div>
-                                <div style="font-size:11px; font-weight:700; color:var(--success); text-transform:uppercase;">Voucher Terpasang</div>
-                                <div style="font-weight:800; color:var(--text);">${appliedVoucher.code} (-${appliedVoucher.discount}%)</div>
-                            </div>
-                            <button class="btn-outline-danger" style="padding:6px 12px; font-size:11px;" onclick="removeVoucher()">Hapus</button>
-                        </div>
-                    </div>
-                `;
-            }
-
-            const grandTotal = subtotal - discountAmount;
-
-            c.innerHTML = `
-                <div class="cart-layout">
-                    <div class="cart-list">${itemsHtml}</div>
-                    <div class="cart-summary">
-                        <h3 style="font-size:16px;font-weight:800;margin-bottom:20px;color:var(--text)">Ringkasan Pembayaran</h3>
-                        <div class="summary-row">
-                            <span>Subtotal (${items.length} jenis)</span>
-                            <span style="color:var(--text)">${fmt(subtotal)}</span>
-                        </div>
-                        ${discountRow}
-                        <div class="summary-row total">
-                            <span>Total Pembayaran</span>
-                            <span class="value">${fmt(grandTotal)}</span>
-                        </div>
-                        
-                        ${voucherInputHtml}
-
-                        <div class="notes-group">
-                            <label for="cart-notes">Catatan Pesanan (Opsional)</label>
-                            <textarea id="cart-notes" class="notes-input" placeholder="Misal: Nomor yang didaftarkan 0812xxx, atau custom prefix bot...">${orderNotes}</textarea>
-                        </div>
-
-                        <button class="checkout-btn" onclick="saveNotesAndOpenModal()">
-                            Checkout Sekarang ${ICONS.bag}
-                        </button>
-                    </div>
-                </div>
-            `;
-        }
-
-        function saveNotesAndOpenModal() {
-            const notesEl = document.getElementById('cart-notes');
-            if (notesEl) orderNotes = notesEl.value.trim();
-            openModal();
-        }
-
-        // ===== CHECKOUT MODAL & WA =====
-        function openModal() {
-            const items = Object.entries(cart).filter(([_, qty]) => qty > 0);
-            if (!items.length) {
-                showToast('Keranjang belanja kosong', 'error');
-                return;
-            }
-
-            let subtotal = 0;
-            let msg = '';
-            items.forEach(([uid, qty]) => {
-                const [pid, durIdx] = uid.split('_');
-                const p = PRODUCTS.find(x => x.id == pid);
-                const info = getPrice(p, parseInt(durIdx));
-                const itemSubtotal = info.price * qty;
-                subtotal += itemSubtotal;
-                msg += `- ${p.name}${info.label ? ' (' + info.label + ')' : ''} x${qty} : ${fmt(itemSubtotal)}<br>`;
-            });
-
-            let discountAmount = 0;
-            if (appliedVoucher) {
-                discountAmount = (subtotal * appliedVoucher.discount) / 100;
-                msg += `<br>Diskon (${appliedVoucher.code}): -${fmt(discountAmount)}`;
-            }
-            
-            const grandTotal = subtotal - discountAmount;
-            msg += `<br><br><strong>Total Pembayaran: ${fmt(grandTotal)}</strong>`;
-
-            document.getElementById('modal-text').innerHTML = 'Anda akan diarahkan ke WhatsApp untuk menyelesaikan pembayaran dengan detail pesanan berikut:<br><br>' + msg;
-            document.getElementById('modal-overlay').classList.add('show');
-        }
-
-        function closeModal() {
-            document.getElementById('modal-overlay').classList.remove('show');
-        }
-
-        function goWA() {
-            const items = Object.entries(cart).filter(([_, qty]) => qty > 0);
-            if (!items.length) return;
-
-            let text = '*Halo SatzStore! Saya ingin memesan:*\n\n';
-            let subtotal = 0;
-
-            items.forEach(([uid, qty]) => {
-                const [pid, durIdx] = uid.split('_');
-                const p = PRODUCTS.find(x => x.id == pid);
-                const info = getPrice(p, parseInt(durIdx));
-                const itemSubtotal = info.price * qty;
-                subtotal += itemSubtotal;
-                
-                text += `▪ ${p.name}${info.label ? ' (' + info.label + ')' : ''}\n`;
-                text += `  Jumlah: ${qty}\n`;
-                text += `  Harga: ${fmt(itemSubtotal)}\n\n`;
-            });
-
-            let discountAmount = 0;
-            if (appliedVoucher) {
-                discountAmount = (subtotal * appliedVoucher.discount) / 100;
-                text += `*Diskon (${appliedVoucher.code}):* -${fmt(discountAmount)}\n`;
-            }
-            
-            const grandTotal = subtotal - discountAmount;
-            text += `*Total Pembayaran:* ${fmt(grandTotal)}\n`;
-
-            if (orderNotes) {
-                text += `\n*Catatan:* ${orderNotes}\n`;
-            }
-
-            if (currentUser) {
-                text += `\n*Detail Pemesan:*\n- Nama: ${currentUser.name}\n- No. HP: ${currentUser.phone}`;
-            }
-
-            const url = `https://wa.me/${WA}?text=${encodeURIComponent(text)}`;
-            window.open(url, '_blank');
-            closeModal();
-            
-            // Simulasi penambahan history setelah checkout
-            items.forEach(([uid, qty]) => {
-                const [pid, durIdx] = uid.split('_');
-                const p = PRODUCTS.find(x => x.id == pid);
-                const info = getPrice(p, parseInt(durIdx));
-                
-                historyData.unshift({
-                    id: Math.floor(Math.random() * 9000) + 1000,
-                    cat: p.cat,
-                    name: `${p.name} ${info.label ? '— ' + info.label : ''} ${qty > 1 ? 'x'+qty : ''}`,
-                    price: info.price * qty,
-                    date: new Date().toLocaleDateString('id-ID', {day: 'numeric', month: 'short', year: 'numeric'}),
-                    status: 'proses'
-                });
-            });
-
-            cart = {};
-            appliedVoucher = null;
-            orderNotes = '';
-            updateCount();
-            goPage('history');
-            showToast('Pesanan diteruskan ke WhatsApp!', 'success');
-        }
-
-        // ===== DASHBOARD & HISTORY =====
-        function renderDashboard() {
-            let totalVal = 0;
-            let successCount = 0;
-
-            historyData.forEach(h => {
-                if (h.status === 'sukses') {
-                    totalVal += h.price;
-                    successCount++;
-                }
-            });
-
-            document.getElementById('dash-total').textContent = successCount;
-            document.getElementById('dash-spent').textContent = fmt(totalVal);
-
-            const activeList = historyData.filter(h => h.status !== 'gagal').slice(0, 3);
-            const sList = document.getElementById('services-list');
-            
-            if(activeList.length === 0) {
-                sList.innerHTML = '<div style="padding:20px;text-align:center;color:var(--text-faint);background:var(--surface);border-radius:12px;border:1px solid var(--border);">Belum ada layanan aktif.</div>';
-                return;
-            }
-
-            sList.innerHTML = activeList.map(s => {
-                const isAktif = s.status === 'sukses';
-                const sColor = isAktif ? 'active' : 'pending';
-                const sLabel = isAktif ? 'AKTIF' : 'DIPROSES';
-
-                return `
-                    <div class="service-item">
-                        <div class="service-status ${sColor}"></div>
-                        <div class="service-info">
-                            <div class="service-name">${s.name}</div>
-                            <div class="service-meta">ID: #ORD${s.id} • Mulai: ${s.date}</div>
-                        </div>
-                        <div class="service-badge ${sColor}">${sLabel}</div>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        function renderHistory() {
-            const list = document.getElementById('hist-list');
-            
-            if(historyData.length === 0) {
-                list.innerHTML = '<div style="padding:40px 20px;text-align:center;color:var(--text-faint);background:var(--surface);border-radius:12px;border:1px solid var(--border);">Belum ada riwayat transaksi.</div>';
-                return;
-            }
-
-            list.innerHTML = `<div class="history-list">` + historyData.map(h => {
-                return `
-                    <div class="history-item">
-                        <div class="history-icon">${ICONS[CAT_ICON[h.cat]]}</div>
-                        <div class="history-content">
-                            <div class="history-name">${h.name}</div>
-                            <div class="history-meta">#ORD${h.id} • ${h.date}</div>
-                            <div class="history-footer">
-                                <div class="history-price">${fmt(h.price)}</div>
-                                <div class="history-status ${h.status}">${h.status}</div>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            }).join('') + `</div>`;
-        }
-
-        function initTicker() {
-            const t = document.getElementById('ticker-track');
-            const items = [
-                "🔥 Promo: Diskon 25% gunakan kode PROMOJUNI",
-                "🟢 Server SewaBot berjalan normal (Uptime 99.9%)",
-                "⚡ Stok Nokos WhatsApp premium tersedia",
-                "🚀 SMM Panel Auto Order diaktifkan",
-                "💬 Layanan CS online 24 Jam"
-            ];
-
-            let html = '';
-            for (let i = 0; i < 3; i++) {
-                items.forEach(text => {
-                    html += `
-                        <div class="ticker-item">
-                            <div class="ticker-dot"></div>
-                            ${text}
-                        </div>
-                    `;
-                });
-            }
-            t.innerHTML = html;
-        }
-
-        // INIT APP
-        window.onload = () => {
-            const savedUser = localStorage.getItem('satzstore_current_user');
-            if (savedUser) {
-                currentUser = JSON.parse(savedUser);
+        window.onload = ()=>{
+            const saved = localStorage.getItem('satz_user');
+            if (saved) {
+                currentUser = JSON.parse(saved);
                 goToApp();
-            } else {
-                goToLogin();
             }
-            initTicker();
-            window.scrollTo({
-    top: 0,
-    behavior: "smooth"
-});
         };
-
-        // Inject Mobile Button
-        const mobBtn = document.createElement('button');
-        mobBtn.className = 'mobile-toggle-btn';
-        mobBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="24" height="24"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>';
-        mobBtn.onclick = toggleMobileSidebar;
-        document.body.appendChild(mobBtn);
     </script>
 </body>
-
 </html>
