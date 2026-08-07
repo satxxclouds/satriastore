@@ -71,7 +71,7 @@
             position: relative;
         }
 
-        /* Ambient Glow Background Effects biar tidak membosankan */
+        /* Ambient Glow Background Effects */
         body::before {
             content: '';
             position: fixed;
@@ -126,6 +126,319 @@
             min-height: 100vh;
             position: relative;
             z-index: 1;
+        }
+
+        /* ===== AUTH PAGES ===== */
+        .auth-page {
+            display: none;
+            min-height: 100vh;
+            width: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 50;
+            animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .auth-page.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .auth-container {
+            display: flex;
+            width: 100%;
+            min-height: 100vh;
+        }
+
+        .auth-left {
+            flex: 1;
+            background: linear-gradient(135deg, var(--bg), var(--surface));
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .auth-left::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(56, 189, 248, 0.15) 0%, transparent 70%);
+            border-radius: 50%;
+            z-index: 0;
+        }
+
+        .auth-left-content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            max-width: 420px;
+        }
+
+        .auth-logo {
+            width: 80px;
+            height: 80px;
+            border-radius: 20px;
+            background: linear-gradient(135deg, var(--accent), #818cf8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #030712;
+            font-weight: 800;
+            font-size: 40px;
+            box-shadow: 0 12px 30px rgba(56, 189, 248, 0.3);
+            margin: 0 auto 24px;
+        }
+
+        .auth-left-content h2 {
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 12px;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, var(--text), var(--text-soft));
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.2;
+        }
+
+        .auth-left-content p {
+            font-size: 13px;
+            color: var(--text-soft);
+            line-height: 1.6;
+            margin-bottom: 28px;
+        }
+
+        .auth-features {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            text-align: left;
+        }
+
+        .auth-feature {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 10px;
+            background: rgba(56, 189, 248, 0.08);
+            border-radius: 10px;
+            border: 1px solid rgba(56, 189, 248, 0.2);
+        }
+
+        .auth-feature-icon {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: var(--accent-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent);
+            flex-shrink: 0;
+            font-weight: 700;
+            font-size: 11px;
+        }
+
+        .auth-feature-text {
+            font-size: 11px;
+            color: var(--text-soft);
+            font-weight: 600;
+            line-height: 1.4;
+        }
+
+        .auth-right {
+            flex: 1;
+            background: var(--surface);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 30px;
+            border-left: 1px solid var(--border);
+        }
+
+        .auth-card {
+            width: 100%;
+            max-width: 360px;
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .auth-header h3 {
+            font-size: 26px;
+            font-weight: 800;
+            margin-bottom: 8px;
+            color: var(--text);
+            letter-spacing: -0.01em;
+        }
+
+        .auth-header p {
+            font-size: 13px;
+            color: var(--text-soft);
+        }
+
+        .auth-form {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-group label {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-soft);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 14px 16px;
+            background: var(--surface-alt);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            color: var(--text);
+            font-family: inherit;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all var(--transition);
+        }
+
+        .form-input::placeholder {
+            color: var(--text-faint);
+        }
+
+        .form-input:focus {
+            border-color: var(--accent);
+            outline: none;
+            box-shadow: 0 0 0 3px var(--accent-light);
+            background: var(--surface);
+        }
+
+        .form-input.error {
+            border-color: var(--danger);
+            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+        }
+
+        .form-error {
+            font-size: 12px;
+            color: var(--danger);
+            font-weight: 600;
+            display: none;
+            margin-top: -4px;
+        }
+
+        .form-error.show {
+            display: block;
+        }
+
+        .btn-auth {
+            padding: 14px 20px;
+            background: var(--accent);
+            color: #030712;
+            border: none;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 6px 20px rgba(56, 189, 248, 0.3);
+            letter-spacing: -0.01em;
+            min-height: 48px;
+        }
+
+        .btn-auth:hover {
+            background: var(--accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(56, 189, 248, 0.4);
+        }
+
+        .btn-auth:active {
+            transform: translateY(0);
+        }
+
+        .btn-auth.loading {
+            opacity: 0.7;
+            pointer-events: none;
+        }
+
+        .auth-footer {
+            margin-top: 24px;
+            text-align: center;
+        }
+
+        .auth-footer p {
+            font-size: 13px;
+            color: var(--text-soft);
+        }
+
+        .auth-footer-link {
+            color: var(--accent);
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all var(--transition);
+        }
+
+        .auth-footer-link:hover {
+            color: var(--accent-hover);
+            text-decoration: underline;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--text-soft);
+            cursor: pointer;
+            transition: all var(--transition);
+            padding: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .password-toggle:hover {
+            color: var(--accent);
+        }
+
+        .form-group-password {
+            position: relative;
         }
 
         /* ===== SIDEBAR ===== */
@@ -231,6 +544,29 @@
         .sidebar-footer {
             padding: 20px;
             border-top: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .user-info {
+            background: var(--surface-alt);
+            border-radius: 12px;
+            padding: 12px;
+            border: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .user-info-name {
+            font-weight: 700;
+            font-size: 13px;
+            color: var(--text);
+            margin-bottom: 2px;
+        }
+
+        .user-info-phone {
+            font-size: 11px;
+            color: var(--text-soft);
         }
 
         .theme-toggle-btn {
@@ -259,6 +595,24 @@
             height: 16px;
         }
 
+        .logout-btn {
+            width: 100%;
+            padding: 10px;
+            background: rgba(239, 68, 68, 0.15);
+            color: var(--danger);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all var(--transition);
+        }
+
+        .logout-btn:hover {
+            background: var(--danger);
+            color: white;
+        }
+
         /* ===== MAIN CONTENT ===== */
         .main {
             flex: 1;
@@ -277,18 +631,6 @@
         .page.active {
             display: flex;
             flex-direction: column;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(8px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
         }
 
         .page-header {
@@ -365,13 +707,10 @@
         }
 
         @keyframes pulse {
-
-            0%,
-            100% {
+            0%, 100% {
                 opacity: 1;
                 transform: scale(1);
             }
-
             50% {
                 opacity: 0.4;
                 transform: scale(0.9);
@@ -473,7 +812,6 @@
             from {
                 transform: translateX(0);
             }
-
             to {
                 transform: translateX(-50%);
             }
@@ -774,40 +1112,6 @@
             gap: 16px;
             align-items: flex-end;
             margin-bottom: 24px;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            text-align: left;
-        }
-
-        .form-group label {
-            font-size: 11px;
-            font-weight: 700;
-            color: var(--text-soft);
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        .form-input {
-            width: 100%;
-            padding: 12px 16px;
-            background: var(--surface-alt);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            color: var(--text);
-            font-family: inherit;
-            font-size: 13px;
-            font-weight: 600;
-            transition: all var(--transition);
-        }
-
-        .form-input:focus {
-            border-color: var(--accent);
-            outline: none;
-            box-shadow: 0 0 0 3px var(--accent-light);
         }
 
         .btn-primary {
@@ -1566,6 +1870,23 @@
             transform: scale(0.92);
         }
 
+        @media (max-width: 1200px) {
+            .auth-container {
+                flex-direction: column;
+            }
+
+            .auth-left {
+                min-height: auto;
+                padding: 40px 20px;
+                border-bottom: 1px solid var(--border);
+            }
+
+            .auth-right {
+                border-left: none;
+                min-height: auto;
+            }
+        }
+
         @media (max-width: 900px) {
             .sidebar {
                 transform: translateX(-100%);
@@ -1609,20 +1930,181 @@
                 grid-template-columns: 1fr;
             }
         }
+
+        @media (max-width: 640px) {
+            .auth-left {
+                padding: 20px;
+            }
+
+            .auth-left-content h2 {
+                font-size: 24px;
+            }
+
+            .auth-right {
+                padding: 20px;
+            }
+
+            .auth-card {
+                max-width: 100%;
+            }
+
+            .auth-header h3 {
+                font-size: 20px;
+            }
+
+            .product-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .auth-features {
+                display: none;
+            }
+        }
     </style>
 </head>
 
 <body>
-    <!-- Tombol Menu Khusus HP -->
-    <button class="mobile-toggle-btn" onclick="toggleMobileSidebar()" id="mobile-menu-btn">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="24" height="24">
-            <line x1="3" y1="12" x2="21" y2="12"></line>
-            <line x1="3" y1="6" x2="21" y2="6"></line>
-            <line x1="3" y1="18" x2="21" y2="18"></line>
-        </svg>
-    </button>
+    <!-- AUTH PAGES -->
+    <!-- LOGIN PAGE -->
+    <div class="auth-page active" id="auth-login">
+        <div class="auth-container">
+            <div class="auth-left">
+                <div class="auth-left-content">
+                    <div class="auth-logo">S</div>
+                    <h2>Selamat Datang di SatzStore</h2>
+                    <p>Platform terpercaya untuk semua kebutuhan digital services Anda. Bot WhatsApp, API Key, Nokos, dan SMM Panel dalam satu tempat.</p>
+                    <div class="auth-features">
+                        <div class="auth-feature">
+                            <div class="auth-feature-icon">✓</div>
+                            <div class="auth-feature-text">5000+ Pelanggan Puas</div>
+                        </div>
+                        <div class="auth-feature">
+                            <div class="auth-feature-icon">✓</div>
+                            <div class="auth-feature-text">99% Uptime Guaranteed</div>
+                        </div>
+                        <div class="auth-feature">
+                            <div class="auth-feature-icon">✓</div>
+                            <div class="auth-feature-text">24/7 Support Ready</div>
+                        </div>
+                        <div class="auth-feature">
+                            <div class="auth-feature-icon">✓</div>
+                            <div class="auth-feature-text">Pembayaran Aman & Mudah</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="auth-right">
+                <div class="auth-card">
+                    <div class="auth-header">
+                        <h3>Masuk Akun</h3>
+                        <p>Gunakan nomor telepon atau username Anda</p>
+                    </div>
+                    <form class="auth-form" onsubmit="handleLogin(event)">
+                        <div class="form-group">
+                            <label for="login-phone">Nomor Telepon / Username</label>
+                            <input type="text" id="login-phone" class="form-input" placeholder="Contoh: 08123456789 atau username">
+                            <div class="form-error" id="login-phone-error"></div>
+                        </div>
+                        <div class="form-group form-group-password">
+                            <label for="login-pass">Password</label>
+                            <input type="password" id="login-pass" class="form-input" placeholder="Masukkan password">
+                            <button type="button" class="password-toggle" onclick="togglePassword('login-pass')">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                                    <circle cx="12" cy="12" r="3"/>
+                                </svg>
+                            </button>
+                            <div class="form-error" id="login-pass-error"></div>
+                        </div>
+                        <button type="submit" class="btn-auth" id="login-btn">Masuk Sekarang</button>
+                    </form>
+                    <div class="auth-footer">
+                        <p>Belum punya akun? <span class="auth-footer-link" onclick="goToRegister()">Daftar di sini</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    <div class="container">
+    <!-- REGISTER PAGE -->
+    <div class="auth-page" id="auth-register">
+        <div class="auth-container">
+            <div class="auth-left">
+                <div class="auth-left-content">
+                    <div class="auth-logo">S</div>
+                    <h2>Bergabung dengan SatzStore</h2>
+                    <p>Daftar sekarang dan nikmati akses penuh ke semua layanan digital premium kami. Proses cepat, aman, dan mudah hanya dalam beberapa menit.</p>
+                    <div class="auth-features">
+                        <div class="auth-feature">
+                            <div class="auth-feature-icon">1</div>
+                            <div class="auth-feature-text">Isi data diri Anda dengan lengkap</div>
+                        </div>
+                        <div class="auth-feature">
+                            <div class="auth-feature-icon">2</div>
+                            <div class="auth-feature-text">Buat password yang kuat</div>
+                        </div>
+                        <div class="auth-feature">
+                            <div class="auth-feature-icon">3</div>
+                            <div class="auth-feature-text">Akun siap digunakan langsung</div>
+                        </div>
+                        <div class="auth-feature">
+                            <div class="auth-feature-icon">✓</div>
+                            <div class="auth-feature-text">Nikmati semua fitur premium</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="auth-right">
+                <div class="auth-card">
+                    <div class="auth-header">
+                        <h3>Daftar Akun Baru</h3>
+                        <p>Siapkan data diri Anda untuk memulai</p>
+                    </div>
+                    <form class="auth-form" onsubmit="handleRegister(event)">
+                        <div class="form-group">
+                            <label for="reg-name">Nama Lengkap</label>
+                            <input type="text" id="reg-name" class="form-input" placeholder="Contoh: Budi Santoso">
+                            <div class="form-error" id="reg-name-error"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="reg-phone">Nomor Telepon</label>
+                            <input type="tel" id="reg-phone" class="form-input" placeholder="Contoh: 08123456789">
+                            <div class="form-error" id="reg-phone-error"></div>
+                        </div>
+                        <div class="form-group form-group-password">
+                            <label for="reg-pass">Password</label>
+                            <input type="password" id="reg-pass" class="form-input" placeholder="Min. 6 karakter">
+                            <button type="button" class="password-toggle" onclick="togglePassword('reg-pass')">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                                    <circle cx="12" cy="12" r="3"/>
+                                </svg>
+                            </button>
+                            <div class="form-error" id="reg-pass-error"></div>
+                        </div>
+                        <div class="form-group form-group-password">
+                            <label for="reg-confirm">Konfirmasi Password</label>
+                            <input type="password" id="reg-confirm" class="form-input" placeholder="Ulangi password">
+                            <button type="button" class="password-toggle" onclick="togglePassword('reg-confirm')">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                                    <circle cx="12" cy="12" r="3"/>
+                                </svg>
+                            </button>
+                            <div class="form-error" id="reg-confirm-error"></div>
+                        </div>
+                        <button type="submit" class="btn-auth" id="register-btn">Daftar Sekarang</button>
+                    </form>
+                    <div class="auth-footer">
+                        <p>Sudah punya akun? <span class="auth-footer-link" onclick="goToLogin()">Masuk di sini</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN APP -->
+    <div class="container" id="main-app" style="display: none;">
         <!-- SIDEBAR -->
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">
@@ -1664,7 +2146,6 @@
                     <span>Riwayat Pesanan</span>
                 </button>
 
-                <!-- MENU KHUSUS ADMIN -->
                 <div class="menu-divider">Restricted</div>
                 <button class="menu-item" onclick="goPage('admin')" id="menu-admin">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -1674,6 +2155,10 @@
                 </button>
             </nav>
             <div class="sidebar-footer">
+                <div class="user-info">
+                    <div class="user-info-name" id="sidebar-user-name">-</div>
+                    <div class="user-info-phone" id="sidebar-user-phone">-</div>
+                </div>
                 <button class="theme-toggle-btn" onclick="toggleTheme()">
                     <span id="theme-text">Mode Terang</span>
                     <svg id="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -1682,6 +2167,7 @@
                             d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72 1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
                     </svg>
                 </button>
+                <button class="logout-btn" onclick="handleLogout()">Logout</button>
             </div>
         </aside>
 
@@ -1907,10 +2393,13 @@
     </div>
 
     <script>
+        // AUTH STATE
+        let currentUser = null;
         const ADMIN_USER = 'satz';
         const ADMIN_PASS = 'satz123';
         let isAdminLoggedIn = false;
 
+        // ICONS
         const ICONS = {
             bag: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/></svg>',
             bot: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="8" height="14" x="2" y="5" rx="1"/><path d="M11 6h3a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-3"/><circle cx="18" cy="12" r="1"/></svg>',
@@ -1927,6 +2416,7 @@
         const CAT_NAME = { sewabot: 'SewaBot', jadibot: 'JadiBot', nokos: 'Nokos', smm: 'SMM Panel', apikey: 'API Key' };
         const WA = '6285111612909';
 
+        // PRODUCTS DATA
         const DURASI_SEWABOT = [
             { label: '1 Menit', price: 500 },
             { label: '1 Jam', price: 2000 },
@@ -1954,6 +2444,7 @@
             { id: 10, cat: 'apikey', badge: 'new', name: 'API Key WA Multi', desc: 'Multi-device API key. Hubungkan hingga 10 device WA.', type: 'fixed', price: 150000, period: '/ bulan' }
         ];
 
+        // APP STATE
         let selDur = {};
         PRODUCTS.forEach(p => { if (p.type === 'durasi') selDur[p.id] = 0; });
 
@@ -1973,412 +2464,527 @@
             { id: 903, cat: 'nokos', name: 'Nokos Premium x3', price: 24000, date: '10 Jun 2026', status: 'sukses' }
         ];
 
+        // ===== AUTH FUNCTIONS =====
+        function togglePassword(inputId) {
+            const input = document.getElementById(inputId);
+            input.type = input.type === 'password' ? 'text' : 'password';
+        }
+
+        function clearAuthErrors() {
+            document.querySelectorAll('.form-error').forEach(el => {
+                el.classList.remove('show');
+                el.textContent = '';
+            });
+            document.querySelectorAll('.form-input').forEach(el => {
+                el.classList.remove('error');
+            });
+        }
+
+        function showAuthError(fieldId, message) {
+            const input = document.getElementById(fieldId);
+            const error = document.getElementById(`${fieldId}-error`);
+            input.classList.add('error');
+            error.textContent = message;
+            error.classList.add('show');
+        }
+
+        function goToLogin() {
+            clearAuthErrors();
+            document.getElementById('auth-register').classList.remove('active');
+            document.getElementById('auth-login').classList.add('active');
+            setTimeout(() => document.getElementById('login-phone').focus(), 100);
+        }
+
+        function goToRegister() {
+            clearAuthErrors();
+            document.getElementById('auth-login').classList.remove('active');
+            document.getElementById('auth-register').classList.add('active');
+            setTimeout(() => document.getElementById('reg-name').focus(), 100);
+        }
+
+        function handleLogin(e) {
+            e.preventDefault();
+            clearAuthErrors();
+            const phone = document.getElementById('login-phone').value.trim();
+            const pass = document.getElementById('login-pass').value.trim();
+            let hasError = false;
+
+            if (!phone) {
+                showAuthError('login-phone', 'Nomor telepon / username wajib diisi');
+                hasError = true;
+            }
+            if (!pass) {
+                showAuthError('login-pass', 'Password wajib diisi');
+                hasError = true;
+            }
+            if (hasError) return;
+
+            const btn = document.getElementById('login-btn');
+            btn.classList.add('loading');
+            btn.innerHTML = 'Sedang masuk...';
+
+            setTimeout(() => {
+                currentUser = {
+                    name: phone === 'satz' ? 'Admin SatzStore' : 'User ' + phone.substring(0, 4) + '...',
+                    phone: phone
+                };
+                localStorage.setItem('satzstore_current_user', JSON.stringify(currentUser));
+                showToast('Login berhasil! Selamat datang.', 'success');
+                goToApp();
+            }, 800);
+        }
+
+        function handleRegister(e) {
+            e.preventDefault();
+            clearAuthErrors();
+            const name = document.getElementById('reg-name').value.trim();
+            const phone = document.getElementById('reg-phone').value.trim();
+            const pass = document.getElementById('reg-pass').value.trim();
+            const confirm = document.getElementById('reg-confirm').value.trim();
+            let hasError = false;
+
+            if (!name) { showAuthError('reg-name', 'Nama lengkap wajib diisi'); hasError = true; }
+            if (!phone) { showAuthError('reg-phone', 'Nomor telepon wajib diisi'); hasError = true; }
+            if (pass.length < 6) { showAuthError('reg-pass', 'Password minimal 6 karakter'); hasError = true; }
+            if (pass !== confirm) { showAuthError('reg-confirm', 'Password tidak cocok'); hasError = true; }
+            if (hasError) return;
+
+            const btn = document.getElementById('register-btn');
+            btn.classList.add('loading');
+            btn.innerHTML = 'Memproses...';
+
+            setTimeout(() => {
+                currentUser = { name, phone };
+                localStorage.setItem('satzstore_current_user', JSON.stringify(currentUser));
+                showToast('Registrasi berhasil!', 'success');
+                goToApp();
+            }, 800);
+        }
+
+        function handleLogout() {
+            currentUser = null;
+            isAdminLoggedIn = false;
+            localStorage.removeItem('satzstore_current_user');
+            
+            document.getElementById('main-app').style.display = 'none';
+            const authLogin = document.getElementById('auth-login');
+            authLogin.style.display = 'flex';
+            
+            setTimeout(() => {
+                authLogin.classList.add('active');
+                const btn = document.getElementById('login-btn');
+                btn.classList.remove('loading');
+                btn.innerHTML = 'Masuk Sekarang';
+                document.getElementById('login-phone').value = '';
+                document.getElementById('login-pass').value = '';
+            }, 50);
+        }
+
+        function goToApp() {
+            document.querySelectorAll('.auth-page').forEach(el => el.classList.remove('active'));
+            setTimeout(() => {
+                document.querySelectorAll('.auth-page').forEach(el => el.style.display = 'none');
+                document.getElementById('main-app').style.display = 'flex';
+                
+                document.getElementById('sidebar-user-name').textContent = currentUser.name;
+                document.getElementById('sidebar-user-phone').textContent = currentUser.phone;
+                
+                if(currentUser.phone === 'satz' || currentUser.name.toLowerCase().includes('admin')) {
+                    document.getElementById('menu-admin').style.display = 'flex';
+                    document.querySelector('.menu-divider').style.display = 'block';
+                } else {
+                    document.getElementById('menu-admin').style.display = 'none';
+                    document.querySelector('.menu-divider').style.display = 'none';
+                }
+                
+                renderProducts();
+                goPage('store');
+            }, 300);
+        }
+
+        // ===== ADMIN FUNCTIONS =====
+        function handleAdminLogin() {
+            const u = document.getElementById('admin-user').value;
+            const p = document.getElementById('admin-pass').value;
+            if (u === ADMIN_USER && p === ADMIN_PASS) {
+                isAdminLoggedIn = true;
+                showToast('Login Admin Berhasil', 'success');
+                document.getElementById('admin-login-view').style.display = 'none';
+                document.getElementById('admin-panel-view').style.display = 'block';
+                renderAdminVouchers();
+            } else {
+                showToast('Username atau password admin salah!', 'error');
+            }
+        }
+
+        function handleAdminLogout() {
+            isAdminLoggedIn = false;
+            document.getElementById('admin-pass').value = '';
+            document.getElementById('admin-panel-view').style.display = 'none';
+            document.getElementById('admin-login-view').style.display = 'block';
+            showToast('Sesi Admin Diakhiri', 'success');
+        }
+
+        function isVoucherActive(expDate) {
+            return new Date(expDate) >= new Date(new Date().setHours(0,0,0,0));
+        }
+
+        function renderAdminVouchers() {
+            const tbody = document.getElementById('voucher-table-body');
+            if (vouchers.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--text-faint);">Belum ada data voucher</td></tr>';
+                return;
+            }
+
+            let html = '';
+            vouchers.forEach((v, idx) => {
+                const active = isVoucherActive(v.expiry);
+                const badge = active 
+                    ? '<span class="badge-status badge-active">Aktif</span>'
+                    : '<span class="badge-status badge-expired">Expired</span>';
+                
+                html += `
+                    <tr>
+                        <td style="font-family: monospace; font-size: 14px; font-weight: 800; color: var(--accent);">${v.code}</td>
+                        <td>${v.discount}%</td>
+                        <td>${v.expiry}</td>
+                        <td>${badge}</td>
+                        <td>
+                            <button class="btn-icon-danger" onclick="deleteVoucher(${idx})" title="Hapus">
+                                ${ICONS.trash}
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            });
+            tbody.innerHTML = html;
+        }
+
+        function addNewVoucher() {
+            const code = document.getElementById('new-code').value.trim().toUpperCase();
+            const disc = parseInt(document.getElementById('new-discount').value);
+            const exp = document.getElementById('new-expiry').value;
+
+            if (!code || !disc || !exp) {
+                showToast('Lengkapi semua data voucher!', 'error');
+                return;
+            }
+            if (vouchers.find(v => v.code === code)) {
+                showToast('Kode voucher sudah ada!', 'error');
+                return;
+            }
+
+            vouchers.unshift({ code: code, discount: disc, expiry: exp });
+            document.getElementById('new-code').value = '';
+            document.getElementById('new-discount').value = '';
+            document.getElementById('new-expiry').value = '';
+            renderAdminVouchers();
+            showToast('Voucher berhasil ditambahkan!', 'success');
+        }
+
+        function deleteVoucher(idx) {
+            vouchers.splice(idx, 1);
+            renderAdminVouchers();
+            showToast('Voucher dihapus', 'success');
+        }
+
+        // ===== UTILS =====
         function fmt(n) { return 'Rp ' + n.toLocaleString('id-ID'); }
 
         function showToast(msg, type = 'success') {
-            const t = document.getElementById('toast');
-            const colors = { success: '#10b981', error: '#ef4444', default: '#38bdf8' };
-            t.innerHTML = `<span style="color:${colors[type] || colors.default}">●</span> ${msg}`;
-            t.className = 'toast show';
-            setTimeout(() => { t.className = 'toast'; }, 2500);
+            const toast = document.getElementById('toast');
+            const icon = type === 'success'
+                ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="20" height="20" style="color:var(--success)"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>'
+                : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="20" height="20" style="color:var(--danger)"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>';
+
+            toast.innerHTML = icon + msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        // ===== NAVIGATION =====
+        function goPage(pageId) {
+            document.querySelectorAll('.page').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.menu-item').forEach(el => el.classList.remove('active'));
+
+            document.getElementById('page-' + pageId).classList.add('active');
+            document.getElementById('menu-' + pageId).classList.add('active');
+
+            if (window.innerWidth <= 900) {
+                document.getElementById('sidebar').classList.remove('mobile-open');
+            }
+
+            if (pageId === 'cart') renderCart();
+            if (pageId === 'dashboard') renderDashboard();
+            if (pageId === 'history') renderHistory();
+            if (pageId === 'admin') {
+                if (isAdminLoggedIn) renderAdminVouchers();
+            }
         }
 
         function toggleMobileSidebar() {
             document.getElementById('sidebar').classList.toggle('mobile-open');
         }
 
-        function goPage(name) {
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            document.getElementById('page-' + name).classList.add('active');
-            document.querySelectorAll('.menu-item').forEach(m => m.classList.remove('active'));
-            document.getElementById('menu-' + name).classList.add('active');
-            document.getElementById('sidebar').classList.remove('mobile-open');
-
-            if (name === 'cart') renderCart();
-            if (name === 'history') renderHistory();
-            if (name === 'dashboard') updateDash();
-            if (name === 'admin') renderAdminViewState();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+        function toggleTheme() {
+            const isLight = document.body.parentElement.getAttribute('data-theme') === 'light';
+            document.body.parentElement.setAttribute('data-theme', isLight ? 'dark' : 'light');
+            document.getElementById('theme-text').textContent = isLight ? 'Mode Terang' : 'Mode Gelap';
         }
 
-        function setFilter(cat, btn) {
+        // ===== STORE =====
+        function getPrice(p, idx) {
+            if (p.type === 'fixed') return { price: p.price, label: '' };
+            return p.durasi[idx];
+        }
+
+        function setFilter(cat, btnElement) {
             activeFilter = cat;
             document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
+            btnElement.classList.add('active');
             renderProducts();
         }
 
-        function getPrice(p, durIdx = undefined) {
-            if (p.type === 'durasi') {
-                const idx = durIdx !== undefined ? durIdx : selDur[p.id];
-                const d = p.durasi[idx];
-                return { price: d.price, period: '/ ' + d.label.toLowerCase(), label: d.label };
-            }
-            return { price: p.price, period: p.period, label: '' };
-        }
-
-        function toggleTheme() {
-            const html = document.documentElement;
-            const isLight = html.getAttribute('data-theme') === 'light';
-            if (isLight) {
-                html.removeAttribute('data-theme');
-                document.getElementById('theme-text').textContent = 'Mode Terang';
-                document.getElementById('theme-icon').innerHTML = '<circle cx="12" cy="12" r="5"/><path d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72 1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>';
-            } else {
-                html.setAttribute('data-theme', 'light');
-                document.getElementById('theme-text').textContent = 'Mode Gelap';
-                document.getElementById('theme-icon').innerHTML = '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>';
-            }
-        }
-
-        function initTicker() {
-            const items = ['SewaBot Premium', 'JadiBot Custom', 'Nokos (Nomor Kosong)', 'SMM All Sosmed', 'API Key WhatsApp', 'Voucher Diskon Tersedia', 'Garansi 100%'];
-            const html = [...items, ...items].map(t => `<span class="ticker-item"><span class="ticker-dot"></span>${t}</span>`).join('');
-            document.getElementById('ticker-track').innerHTML = html;
-        }
-
-        function renderProducts() {
-            const grid = document.getElementById('prod-grid');
-            const list = activeFilter === 'all' ? PRODUCTS : PRODUCTS.filter(p => p.cat === activeFilter);
-            document.getElementById('prod-count').textContent = list.length + ' layanan';
-
-            let html = '';
-            list.forEach(p => {
-                const info = getPrice(p);
-                const uid = p.id + '_' + (p.type === 'durasi' ? selDur[p.id] : 0);
-                const qty = cart[uid] || 0;
-                const badge = p.badge === 'hot' ? '<span class="product-badge hot">Hot</span>' :
-                    p.badge === 'new' ? '<span class="product-badge new">New</span>' :
-                        p.badge === 'best' ? '<span class="product-badge best">Best</span>' : '';
-
-                let durHtml = '';
-                if (p.type === 'durasi') {
-                    durHtml = '<div class="duration-options">';
-                    p.durasi.forEach((d, i) => {
-                        durHtml += `<button class="duration-btn${selDur[p.id] === i ? ' selected' : ''}" onclick="pickDur(${p.id},${i})">${d.label}</button>`;
-                    });
-                    durHtml += '</div>';
-                }
-
-                html += `<div class="product-card">
-                    ${badge}
-                    <div class="product-icon">${ICONS[CAT_ICON[p.cat]]}</div>
-                    <div class="product-category">${CAT_NAME[p.cat]}</div>
-                    <div class="product-name">${p.name}</div>
-                    <div class="product-desc">${p.desc}</div>
-                    ${durHtml}
-                    <div class="product-footer">
-                        <div class="product-price">${fmt(info.price)}</div>
-                        <button class="add-to-cart-btn" onclick="addCart(${p.id})">
-                            ${ICONS.plus}
-                            ${qty > 0 ? qty : 'Beli'}
-                        </button>
-                    </div>
-                </div>`;
-            });
-            grid.innerHTML = html;
-        }
-
-        function pickDur(pid, idx) {
+        function selectDur(pid, idx) {
             selDur[pid] = idx;
             renderProducts();
         }
 
-        function addCart(pid) {
-            const p = PRODUCTS.find(x => x.id === pid);
-            if (!p) return;
-            const durIdx = p.type === 'durasi' ? selDur[pid] : 0;
-            const uid = pid + '_' + durIdx;
+        function renderProducts() {
+            const grid = document.getElementById('prod-grid');
+            const filtered = activeFilter === 'all' ? PRODUCTS : PRODUCTS.filter(p => p.cat === activeFilter);
+            
+            document.getElementById('prod-count').textContent = `${filtered.length} layanan`;
 
-            if (!cart[uid]) cart[uid] = 0;
-            cart[uid]++;
+            grid.innerHTML = filtered.map(p => {
+                const isFixed = p.type === 'fixed';
+                const sIdx = isFixed ? 0 : selDur[p.id];
+                const info = getPrice(p, sIdx);
 
-            showToast(`${p.name} berhasil ditambahkan!`, 'success');
+                let badgeHtml = '';
+                if (p.badge) {
+                    badgeHtml = `<div class="product-badge ${p.badge}">${p.badge}</div>`;
+                }
+
+                let durHtml = '';
+                if (!isFixed) {
+                    durHtml = '<div class="duration-options">';
+                    durHtml += p.durasi.map((d, i) => `
+                        <button class="duration-btn ${i === sIdx ? 'selected' : ''}" onclick="selectDur(${p.id}, ${i})">${d.label}</button>
+                    `).join('');
+                    durHtml += '</div>';
+                }
+
+                return `
+                    <div class="product-card">
+                        ${badgeHtml}
+                        <div class="product-icon">${ICONS[CAT_ICON[p.cat]]}</div>
+                        <div class="product-category">${CAT_NAME[p.cat]}</div>
+                        <div class="product-name">${p.name}</div>
+                        <div class="product-desc">${p.desc}</div>
+                        ${durHtml}
+                        <div class="product-footer">
+                            <div class="product-price">${fmt(info.price)}<span style="font-size:11px;color:var(--text-faint);font-weight:600">${isFixed ? p.period : ''}</span></div>
+                            <button class="add-to-cart-btn" onclick="addCart(${p.id}, ${sIdx})">
+                                ${ICONS.plus} Beli
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function addCart(pid, durIdx) {
+            const uid = `${pid}_${durIdx}`;
+            cart[uid] = (cart[uid] || 0) + 1;
             updateCount();
-            renderProducts();
+            showToast('Berhasil ditambahkan ke keranjang');
         }
 
         function updateCount() {
-            const total = Object.values(cart).reduce((a, b) => a + b, 0);
-            const badge = document.getElementById('cart-count-badge');
-            badge.textContent = total > 0 ? ` (${total})` : '';
-        }
-
-        function renderAdminViewState() {
-            const loginView = document.getElementById('admin-login-view');
-            const panelView = document.getElementById('admin-panel-view');
-
-            if (isAdminLoggedIn) {
-                loginView.style.display = 'none';
-                panelView.style.display = 'block';
-                renderVouchersTable();
+            const totalItems = Object.values(cart).reduce((a, b) => a + b, 0);
+            const b = document.getElementById('cart-count-badge');
+            
+            if (totalItems > 0) {
+                b.textContent = totalItems;
+                b.style.display = 'inline-flex';
+                b.style.marginLeft = '8px';
+                b.style.background = 'var(--accent)';
+                b.style.color = '#030712';
+                b.style.borderRadius = '30px';
+                b.style.padding = '2px 8px';
+                b.style.fontSize = '10px';
+                b.style.fontWeight = '800';
             } else {
-                loginView.style.display = 'block';
-                panelView.style.display = 'none';
+                b.style.display = 'none';
             }
         }
 
-        function handleAdminLogin() {
-            const user = document.getElementById('admin-user').value.trim();
-            const pass = document.getElementById('admin-pass').value.trim();
-
-            if (user === ADMIN_USER && pass === ADMIN_PASS) {
-                isAdminLoggedIn = true;
-                document.getElementById('admin-user').value = '';
-                document.getElementById('admin-pass').value = '';
-                renderAdminViewState();
-                showToast('Login Admin Berhasil!', 'success');
-            } else {
-                showToast('Username atau Password salah!', 'error');
-            }
+        function updateQty(uid, change) {
+            if (!cart[uid]) return;
+            cart[uid] += change;
+            if (cart[uid] <= 0) delete cart[uid];
+            updateCount();
+            renderCart();
         }
 
-        function handleAdminLogout() {
-            isAdminLoggedIn = false;
-            renderAdminViewState();
-            showToast('Berhasil Logout Admin', 'error');
+        function removeCartItem(uid) {
+            delete cart[uid];
+            updateCount();
+            renderCart();
         }
 
-        function addNewVoucher() {
-            const codeInput = document.getElementById('new-code');
-            const discInput = document.getElementById('new-discount');
-            const expInput = document.getElementById('new-expiry');
-
-            const code = codeInput.value.trim().toUpperCase();
-            const discount = parseInt(discInput.value);
-            const expiry = expInput.value;
-
-            if (!code || !discount || !expiry) {
-                showToast('Mohon lengkapi semua data voucher!', 'error');
-                return;
-            }
-
-            if (vouchers.some(v => v.code === code)) {
-                showToast('Kode voucher sudah ada!', 'error');
-                return;
-            }
-
-            vouchers.push({ code, discount, expiry });
-            codeInput.value = '';
-            discInput.value = '';
-            expInput.value = '';
-
-            renderVouchersTable();
-            showToast(`Voucher ${code} berhasil dibuat!`, 'success');
-        }
-
-        function deleteVoucher(code) {
-            vouchers = vouchers.filter(v => v.code !== code);
-            if (appliedVoucher && appliedVoucher.code === code) {
-                appliedVoucher = null;
-            }
-            renderVouchersTable();
-            showToast('Voucher dihapus', 'error');
-        }
-
-        function renderVouchersTable() {
-            const tbody = document.getElementById('voucher-table-body');
-            if (!tbody) return;
-
-            if (!vouchers.length) {
-                tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;color:var(--text-faint);padding:20px;">Belum ada voucher aktif</td></tr>`;
-                return;
-            }
-
-            const today = new Date().toISOString().split('T')[0];
-            let html = '';
-            vouchers.forEach(v => {
-                const isExpired = v.expiry < today;
-                html += `<tr>
-                    <td><strong>${v.code}</strong></td>
-                    <td><span style="color:var(--accent)">${v.discount}%</span></td>
-                    <td>${v.expiry}</td>
-                    <td><span class="badge-status ${isExpired ? 'badge-expired' : 'badge-active'}">${isExpired ? 'Expired' : 'Aktif'}</span></td>
-                    <td>
-                        <button class="btn-icon-danger" onclick="deleteVoucher('${v.code}')">${ICONS.trash}</button>
-                    </td>
-                </tr>`;
-            });
-            tbody.innerHTML = html;
-        }
-
-        function applyVoucherCode() {
-            const input = document.getElementById('cart-voucher-input');
-            const code = input.value.trim().toUpperCase();
+        // ===== VOUCHER LOGIC =====
+        function applyVoucher() {
+            const code = document.getElementById('voucher-input').value.trim().toUpperCase();
             const feedback = document.getElementById('voucher-feedback');
-
+            
             if (!code) {
                 appliedVoucher = null;
-                feedback.textContent = '';
                 renderCart();
                 return;
             }
 
-            const found = vouchers.find(v => v.code === code);
-            const today = new Date().toISOString().split('T')[0];
-
-            if (!found) {
-                appliedVoucher = null;
-                feedback.textContent = 'Kode voucher tidak valid!';
+            const voucher = vouchers.find(v => v.code === code);
+            
+            if (!voucher) {
+                feedback.textContent = 'Kode voucher tidak ditemukan';
                 feedback.className = 'voucher-feedback error';
-                renderCart();
-                return;
-            }
-
-            if (found.expiry < today) {
                 appliedVoucher = null;
-                feedback.textContent = 'Kode voucher sudah kedaluwarsa!';
+            } else if (!isVoucherActive(voucher.expiry)) {
+                feedback.textContent = 'Kode voucher sudah kadaluarsa';
                 feedback.className = 'voucher-feedback error';
-                renderCart();
-                return;
+                appliedVoucher = null;
+            } else {
+                feedback.textContent = `Voucher berhasil digunakan! Diskon ${voucher.discount}%`;
+                feedback.className = 'voucher-feedback success';
+                appliedVoucher = voucher;
             }
-
-            appliedVoucher = { code: found.code, discount: found.discount };
-            feedback.textContent = `Berhasil! Diskon ${found.discount}% diterapkan.`;
-            feedback.className = 'voucher-feedback success';
-            renderCart();
-            showToast(`Voucher ${found.code} diterapkan!`, 'success');
+            
+            // Re-render summary part only or entire cart
+            setTimeout(renderCart, 500); 
         }
 
+        function removeVoucher() {
+            appliedVoucher = null;
+            renderCart();
+        }
+
+        // ===== CART RENDERING =====
         function renderCart() {
-            const el = document.getElementById('cart-content');
-            const items = Object.entries(cart).filter(([_, qty]) => qty > 0);
+            const c = document.getElementById('cart-content');
+            const items = Object.entries(cart).filter(([_, q]) => q > 0);
 
             if (!items.length) {
-                el.innerHTML = `<div class="cart-empty">
-                    ${ICONS.bag}
-                    <div style="font-size:18px;font-weight:800;margin-bottom:8px;color:var(--text)">Keranjang Belanja Kosong</div>
-                    <div style="font-size:13px;">Silakan pilih produk layanan digital kami terlebih dahulu.</div>
-                </div>`;
+                c.innerHTML = `
+                    <div class="cart-empty">
+                        ${ICONS.bag}
+                        <h3 style="color:var(--text);font-size:18px;margin-bottom:8px;">Keranjang Masih Kosong</h3>
+                        <p style="margin-bottom:20px;">Silakan pilih layanan yang Anda butuhkan di halaman toko.</p>
+                        <button class="add-to-cart-btn" style="margin:0 auto;" onclick="goPage('store')">Jelajahi Toko</button>
+                    </div>`;
                 return;
             }
 
             let subtotal = 0;
-            let itemsHtml = '';
-            items.forEach(([uid, qty]) => {
+            const itemsHtml = items.map(([uid, qty]) => {
                 const [pid, durIdx] = uid.split('_');
                 const p = PRODUCTS.find(x => x.id == pid);
                 const info = getPrice(p, parseInt(durIdx));
                 const itemSubtotal = info.price * qty;
                 subtotal += itemSubtotal;
 
-                itemsHtml += `<div class="cart-item">
-                    <div class="cart-item-icon">${ICONS[CAT_ICON[p.cat]]}</div>
-                    <div class="cart-item-info">
-                        <div class="cart-item-name">${p.name}${info.label ? ' — ' + info.label : ''}</div>
-                        <div class="cart-item-meta">${CAT_NAME[p.cat]}</div>
+                return `
+                    <div class="cart-item">
+                        <div class="cart-item-icon">${ICONS[CAT_ICON[p.cat]]}</div>
+                        <div class="cart-item-info">
+                            <div class="cart-item-name">${p.name}</div>
+                            <div class="cart-item-meta">${CAT_NAME[p.cat]} ${info.label ? '— ' + info.label : ''}</div>
+                        </div>
+                        <div class="cart-item-actions">
+                            <button class="qty-btn" onclick="updateQty('${uid}', -1)">-</button>
+                            <span style="font-weight:700; width:24px; text-align:center">${qty}</span>
+                            <button class="qty-btn" onclick="updateQty('${uid}', 1)">+</button>
+                        </div>
+                        <div class="cart-item-price">${fmt(itemSubtotal)}</div>
+                        <button class="remove-btn" onclick="removeCartItem('${uid}')">${ICONS.trash}</button>
                     </div>
-                    <div class="cart-item-actions">
-                        <button class="qty-btn" onclick="updateQty('${uid}', -1)">−</button>
-                        <span style="width:32px;text-align:center;font-weight:700;">${qty}</span>
-                        <button class="qty-btn" onclick="updateQty('${uid}', 1)">+</button>
-                    </div>
-                    <div class="cart-item-price">${fmt(itemSubtotal)}</div>
-                    <button class="remove-btn" onclick="removeCart('${uid}')">${ICONS.trash}</button>
-                </div>`;
-            });
+                `;
+            }).join('');
 
             let discountAmount = 0;
+            let discountRow = '';
+            let voucherInputHtml = `
+                <div class="voucher-box">
+                    <label style="font-size: 11px; font-weight: 700; color: var(--text-soft); text-transform: uppercase;">Kode Voucher Promo</label>
+                    <div class="voucher-input-group">
+                        <input type="text" id="voucher-input" class="form-input" placeholder="Masukkan kode (opsional)" style="flex: 1;" value="">
+                        <button class="filter-btn active" onclick="applyVoucher()" style="border-radius: 10px;">Gunakan</button>
+                    </div>
+                    <div id="voucher-feedback" class="voucher-feedback"></div>
+                </div>
+            `;
+
             if (appliedVoucher) {
                 discountAmount = (subtotal * appliedVoucher.discount) / 100;
+                discountRow = `
+                    <div class="summary-row">
+                        <span>Diskon (${appliedVoucher.code} - ${appliedVoucher.discount}%)</span>
+                        <span style="color:var(--success)">-${fmt(discountAmount)}</span>
+                    </div>
+                `;
+                voucherInputHtml = `
+                    <div class="voucher-box">
+                        <div style="display:flex; justify-content:space-between; align-items:center; background:rgba(16,185,129,0.1); padding:12px; border-radius:10px; border:1px solid rgba(16,185,129,0.3);">
+                            <div>
+                                <div style="font-size:11px; font-weight:700; color:var(--success); text-transform:uppercase;">Voucher Terpasang</div>
+                                <div style="font-weight:800; color:var(--text);">${appliedVoucher.code} (-${appliedVoucher.discount}%)</div>
+                            </div>
+                            <button class="btn-outline-danger" style="padding:6px 12px; font-size:11px;" onclick="removeVoucher()">Hapus</button>
+                        </div>
+                    </div>
+                `;
             }
+
             const grandTotal = subtotal - discountAmount;
 
-            el.innerHTML = `<div class="cart-layout">
-                <div class="cart-list">${itemsHtml}</div>
-                <div>
+            c.innerHTML = `
+                <div class="cart-layout">
+                    <div class="cart-list">${itemsHtml}</div>
                     <div class="cart-summary">
-                        <div class="summary-row"><span>Subtotal (${items.length} item)</span><span>${fmt(subtotal)}</span></div>
-                        ${appliedVoucher ? `<div class="summary-row" style="color:var(--success)"><span>Diskon (${appliedVoucher.code} - ${appliedVoucher.discount}%)</span><span>-${fmt(discountAmount)}</span></div>` : ''}
-                        <div class="summary-row"><span>Biaya Admin</span><span style="color:var(--success)">Gratis</span></div>
-                        <div class="summary-row total"><span>Total Pembayaran</span><span class="value">${fmt(grandTotal)}</span></div>
-                        
-                        <div class="voucher-box">
-                            <label style="font-size:11px;font-weight:700;color:var(--text-soft);text-transform:uppercase;letter-spacing:0.05em;">Punya Kode Voucher?</label>
-                            <div class="voucher-input-group">
-                                <input type="text" id="cart-voucher-input" class="form-input" placeholder="Masukkan kode" value="${appliedVoucher ? appliedVoucher.code : ''}">
-                                <button class="btn-primary" style="height:42px;padding:0 16px;" onclick="applyVoucherCode()">Pakai</button>
-                            </div>
-                            <div id="voucher-feedback" class="voucher-feedback ${appliedVoucher ? 'success' : ''}">${appliedVoucher ? `Berhasil! Diskon ${appliedVoucher.discount}% diterapkan.` : ''}</div>
+                        <h3 style="font-size:16px;font-weight:800;margin-bottom:20px;color:var(--text)">Ringkasan Pembayaran</h3>
+                        <div class="summary-row">
+                            <span>Subtotal (${items.length} jenis)</span>
+                            <span style="color:var(--text)">${fmt(subtotal)}</span>
                         </div>
+                        ${discountRow}
+                        <div class="summary-row total">
+                            <span>Total Pembayaran</span>
+                            <span class="value">${fmt(grandTotal)}</span>
+                        </div>
+                        
+                        ${voucherInputHtml}
 
                         <div class="notes-group">
-                            <label for="order-notes">Catatan Tambahan (Opsional)</label>
-                            <textarea id="order-notes" class="notes-input" placeholder="Nomor WhatsApp tujuan bot atau keterangan khusus..." oninput="orderNotes = this.value">${orderNotes}</textarea>
+                            <label for="cart-notes">Catatan Pesanan (Opsional)</label>
+                            <textarea id="cart-notes" class="notes-input" placeholder="Misal: Nomor yang didaftarkan 0812xxx, atau custom prefix bot...">${orderNotes}</textarea>
                         </div>
 
-                        <button class="checkout-btn" onclick="openModal()">${ICONS['chart']} Checkout via WhatsApp</button>
+                        <button class="checkout-btn" onclick="saveNotesAndOpenModal()">
+                            Checkout Sekarang ${ICONS.bag}
+                        </button>
                     </div>
                 </div>
-            </div>`;
+            `;
         }
 
-        function updateQty(uid, delta) {
-            if (!cart[uid]) cart[uid] = 0;
-            cart[uid] += delta;
-            if (cart[uid] <= 0) {
-                delete cart[uid];
-                showToast('Item dihapus dari keranjang', 'error');
-            }
-            updateCount();
-            renderCart();
+        function saveNotesAndOpenModal() {
+            const notesEl = document.getElementById('cart-notes');
+            if (notesEl) orderNotes = notesEl.value.trim();
+            openModal();
         }
 
-        function removeCart(uid) {
-            delete cart[uid];
-            updateCount();
-            renderCart();
-            showToast('Item dihapus dari keranjang', 'error');
-        }
-
-        function updateDash() {
-            const spent = historyData.filter(h => h.status === 'sukses').reduce((a, h) => a + h.price, 0);
-            document.getElementById('dash-total').textContent = historyData.length;
-            document.getElementById('dash-spent').textContent = fmt(spent);
-            renderServices();
-        }
-
-        function renderServices() {
-            const services = [
-                { name: 'SewaBot Premium — 1 Bulan', meta: 'Aktif berjalan (Auto-reply ON)', status: 'active' },
-                { name: 'API Key WA Bot — 1 Minggu', meta: 'Aktif berjalan (Low latency)', status: 'active' },
-                { name: 'Nokos Premium — 1 Hari', meta: 'Menunggu verifikasi sistem', status: 'pending' }
-            ];
-
-            const html = services.map(s => `<div class="service-item">
-                <span class="service-status ${s.status}"></span>
-                <div class="service-info">
-                    <div class="service-name">${s.name}</div>
-                    <div class="service-meta">${s.meta}</div>
-                </div>
-                <span class="service-badge ${s.status}">${s.status === 'active' ? 'Aktif' : 'Pending'}</span>
-            </div>`).join('');
-
-            document.getElementById('services-list').innerHTML = html;
-        }
-
-        function renderHistory() {
-            const el = document.getElementById('hist-list');
-            if (!historyData.length) {
-                el.innerHTML = `<div class="cart-empty">${ICONS.clock} <div>Belum ada riwayat transaksi</div></div>`;
-                return;
-            }
-
-            const html = historyData.map(h => `<div class="history-item">
-                <div class="history-icon">${ICONS[CAT_ICON[h.cat]]}</div>
-                <div class="history-content">
-                    <div class="history-name">${h.name}</div>
-                    <div class="history-meta">${CAT_NAME[h.cat]} · ${h.date}</div>
-                </div>
-                <div class="history-footer">
-                    <div class="history-price">${fmt(h.price)}</div>
-                    <span class="history-status ${h.status}">${h.status === 'sukses' ? '✓ Sukses' : '⏱ Proses'}</span>
-                </div>
-            </div>`).join('');
-
-            el.innerHTML = html;
-        }
-
+        // ===== CHECKOUT MODAL & WA =====
         function openModal() {
             const items = Object.entries(cart).filter(([_, qty]) => qty > 0);
             if (!items.length) {
@@ -2394,23 +3000,19 @@
                 const info = getPrice(p, parseInt(durIdx));
                 const itemSubtotal = info.price * qty;
                 subtotal += itemSubtotal;
-                msg += `• ${p.name}${info.label ? ' — ' + info.label : ''} x${qty} = ${fmt(itemSubtotal)}\n`;
+                msg += `- ${p.name}${info.label ? ' (' + info.label + ')' : ''} x${qty} : ${fmt(itemSubtotal)}<br>`;
             });
 
             let discountAmount = 0;
             if (appliedVoucher) {
                 discountAmount = (subtotal * appliedVoucher.discount) / 100;
-                msg += `\nVoucher Digunakan: ${appliedVoucher.code} (${appliedVoucher.discount}% Diskon)\n`;
+                msg += `<br>Diskon (${appliedVoucher.code}): -${fmt(discountAmount)}`;
             }
+            
             const grandTotal = subtotal - discountAmount;
+            msg += `<br><br><strong>Total Pembayaran: ${fmt(grandTotal)}</strong>`;
 
-            if (orderNotes.trim()) {
-                msg += `\nCatatan: ${orderNotes}\n`;
-            }
-
-            document.getElementById('modal-text').textContent = `Total akhir ${fmt(grandTotal)} untuk ${items.length} item akan diproses dan dikirim langsung ke WhatsApp admin.`;
-
-            window.waMsg = `Halo Admin SatzStore!%0A%0ASaya ingin memesan layanan berikut:%0A%0A${encodeURIComponent(msg)}%0ATotal Pembayaran: ${encodeURIComponent(fmt(grandTotal))}%0A%0AMohon konfirmasinya, terima kasih!`;
+            document.getElementById('modal-text').innerHTML = 'Anda akan diarahkan ke WhatsApp untuk menyelesaikan pembayaran dengan detail pesanan berikut:<br><br>' + msg;
             document.getElementById('modal-overlay').classList.add('show');
         }
 
@@ -2419,48 +3021,177 @@
         }
 
         function goWA() {
-            const now = new Date();
-            const date = now.toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
             const items = Object.entries(cart).filter(([_, qty]) => qty > 0);
+            if (!items.length) return;
 
+            let text = '*Halo SatzStore! Saya ingin memesan:*\n\n';
             let subtotal = 0;
+
             items.forEach(([uid, qty]) => {
                 const [pid, durIdx] = uid.split('_');
                 const p = PRODUCTS.find(x => x.id == pid);
                 const info = getPrice(p, parseInt(durIdx));
-                subtotal += info.price * qty;
+                const itemSubtotal = info.price * qty;
+                subtotal += itemSubtotal;
+                
+                text += `▪ ${p.name}${info.label ? ' (' + info.label + ')' : ''}\n`;
+                text += `  Jumlah: ${qty}\n`;
+                text += `  Harga: ${fmt(itemSubtotal)}\n\n`;
             });
 
             let discountAmount = 0;
             if (appliedVoucher) {
                 discountAmount = (subtotal * appliedVoucher.discount) / 100;
+                text += `*Diskon (${appliedVoucher.code}):* -${fmt(discountAmount)}\n`;
             }
+            
             const grandTotal = subtotal - discountAmount;
+            text += `*Total Pembayaran:* ${fmt(grandTotal)}\n`;
 
-            historyData.unshift({
-                id: Date.now(),
-                name: items.length > 1 ? `Paket Bundling (${items.length} Layanan)` : PRODUCTS.find(x => x.id == items[0][0].split('_')[0]).name,
-                cat: 'sewabot',
-                price: grandTotal,
-                date: date,
-                status: 'proses'
+            if (orderNotes) {
+                text += `\n*Catatan:* ${orderNotes}\n`;
+            }
+
+            if (currentUser) {
+                text += `\n*Detail Pemesan:*\n- Nama: ${currentUser.name}\n- No. HP: ${currentUser.phone}`;
+            }
+
+            const url = `https://wa.me/${WA}?text=${encodeURIComponent(text)}`;
+            window.open(url, '_blank');
+            closeModal();
+            
+            // Simulasi penambahan history setelah checkout
+            items.forEach(([uid, qty]) => {
+                const [pid, durIdx] = uid.split('_');
+                const p = PRODUCTS.find(x => x.id == pid);
+                const info = getPrice(p, parseInt(durIdx));
+                
+                historyData.unshift({
+                    id: Math.floor(Math.random() * 9000) + 1000,
+                    cat: p.cat,
+                    name: `${p.name} ${info.label ? '— ' + info.label : ''} ${qty > 1 ? 'x'+qty : ''}`,
+                    price: info.price * qty,
+                    date: new Date().toLocaleDateString('id-ID', {day: 'numeric', month: 'short', year: 'numeric'}),
+                    status: 'proses'
+                });
             });
 
             cart = {};
             appliedVoucher = null;
             orderNotes = '';
-            closeModal();
             updateCount();
-            renderProducts();
-            window.open('https://wa.me/' + WA + '?text=' + window.waMsg, '_blank');
-            showToast('Pesanan berhasil dibuat!', 'success');
             goPage('history');
+            showToast('Pesanan diteruskan ke WhatsApp!', 'success');
         }
 
-        initTicker();
-        renderProducts();
-        updateCount();
-        updateDash();
+        // ===== DASHBOARD & HISTORY =====
+        function renderDashboard() {
+            let totalVal = 0;
+            let successCount = 0;
+
+            historyData.forEach(h => {
+                if (h.status === 'sukses') {
+                    totalVal += h.price;
+                    successCount++;
+                }
+            });
+
+            document.getElementById('dash-total').textContent = successCount;
+            document.getElementById('dash-spent').textContent = fmt(totalVal);
+
+            const activeList = historyData.filter(h => h.status !== 'gagal').slice(0, 3);
+            const sList = document.getElementById('services-list');
+            
+            if(activeList.length === 0) {
+                sList.innerHTML = '<div style="padding:20px;text-align:center;color:var(--text-faint);background:var(--surface);border-radius:12px;border:1px solid var(--border);">Belum ada layanan aktif.</div>';
+                return;
+            }
+
+            sList.innerHTML = activeList.map(s => {
+                const isAktif = s.status === 'sukses';
+                const sColor = isAktif ? 'active' : 'pending';
+                const sLabel = isAktif ? 'AKTIF' : 'DIPROSES';
+
+                return `
+                    <div class="service-item">
+                        <div class="service-status ${sColor}"></div>
+                        <div class="service-info">
+                            <div class="service-name">${s.name}</div>
+                            <div class="service-meta">ID: #ORD${s.id} • Mulai: ${s.date}</div>
+                        </div>
+                        <div class="service-badge ${sColor}">${sLabel}</div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function renderHistory() {
+            const list = document.getElementById('hist-list');
+            
+            if(historyData.length === 0) {
+                list.innerHTML = '<div style="padding:40px 20px;text-align:center;color:var(--text-faint);background:var(--surface);border-radius:12px;border:1px solid var(--border);">Belum ada riwayat transaksi.</div>';
+                return;
+            }
+
+            list.innerHTML = `<div class="history-list">` + historyData.map(h => {
+                return `
+                    <div class="history-item">
+                        <div class="history-icon">${ICONS[CAT_ICON[h.cat]]}</div>
+                        <div class="history-content">
+                            <div class="history-name">${h.name}</div>
+                            <div class="history-meta">#ORD${h.id} • ${h.date}</div>
+                            <div class="history-footer">
+                                <div class="history-price">${fmt(h.price)}</div>
+                                <div class="history-status ${h.status}">${h.status}</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('') + `</div>`;
+        }
+
+        function initTicker() {
+            const t = document.getElementById('ticker-track');
+            const items = [
+                "🔥 Promo: Diskon 25% gunakan kode PROMOJUNI",
+                "🟢 Server SewaBot berjalan normal (Uptime 99.9%)",
+                "⚡ Stok Nokos WhatsApp premium tersedia",
+                "🚀 SMM Panel Auto Order diaktifkan",
+                "💬 Layanan CS online 24 Jam"
+            ];
+
+            let html = '';
+            for (let i = 0; i < 3; i++) {
+                items.forEach(text => {
+                    html += `
+                        <div class="ticker-item">
+                            <div class="ticker-dot"></div>
+                            ${text}
+                        </div>
+                    `;
+                });
+            }
+            t.innerHTML = html;
+        }
+
+        // INIT APP
+        window.onload = () => {
+            const savedUser = localStorage.getItem('satzstore_current_user');
+            if (savedUser) {
+                currentUser = JSON.parse(savedUser);
+                goToApp();
+            } else {
+                goToLogin();
+            }
+            initTicker();
+        };
+
+        // Inject Mobile Button
+        const mobBtn = document.createElement('button');
+        mobBtn.className = 'mobile-toggle-btn';
+        mobBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="24" height="24"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>';
+        mobBtn.onclick = toggleMobileSidebar;
+        document.body.appendChild(mobBtn);
     </script>
 </body>
 
