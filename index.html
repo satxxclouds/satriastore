@@ -129,31 +129,31 @@
         }
 
         /* ===== AUTH PAGES ===== */
-        .auth-page {
-            display: none;
-            min-height: 100vh;
-            width: 100%;
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 50;
-            animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-        }
+       .auth-page {
+    position: fixed;
+    inset: 0;
+    display: flex;
 
-        .auth-page.active {
-            display: flex;
-        }
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
 
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(8px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+    transform: translateY(20px);
+    transition:
+        opacity .45s ease,
+        transform .45s ease,
+        visibility .45s;
+}
+
+.auth-page.active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+
+    transform: translateY(0);
+}
+
+       
 
         .auth-container {
             display: flex;
@@ -418,20 +418,26 @@
         }
 
         .password-toggle {
-            position: absolute;
-            right: 16px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: none;
-            border: none;
-            color: var(--text-soft);
-            cursor: pointer;
-            transition: all var(--transition);
-            padding: 4px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+    position: absolute;
+    top: 50%;
+    right: 14px;
+
+    width: 42px;
+    height: 42px;
+
+    transform: translateY(-50%);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: var(--text-soft);
+    padding: 0;
+    line-height: 1;
+}
 
         .password-toggle:hover {
             color: var(--accent);
@@ -440,7 +446,10 @@
         .form-group-password {
             position: relative;
         }
-
+.password-toggle svg{
+    width:20px;
+    height:20px;
+}
         /* ===== SIDEBAR ===== */
         .sidebar {
             width: 280px;
@@ -625,7 +634,6 @@
         .page {
             display: none;
             flex: 1;
-            animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .page.active {
@@ -2489,18 +2497,36 @@
         }
 
         function goToLogin() {
-            clearAuthErrors();
-            document.getElementById('auth-register').classList.remove('active');
-            document.getElementById('auth-login').classList.add('active');
-            setTimeout(() => document.getElementById('login-phone').focus(), 100);
-        }
+    clearAuthErrors();
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+
+    document.getElementById('auth-register').classList.remove('active');
+    document.getElementById('auth-login').classList.add('active');
+
+    setTimeout(() => {
+        document.getElementById('login-phone').focus();
+    }, 100);
+}
 
         function goToRegister() {
-            clearAuthErrors();
-            document.getElementById('auth-login').classList.remove('active');
-            document.getElementById('auth-register').classList.add('active');
-            setTimeout(() => document.getElementById('reg-name').focus(), 100);
-        }
+    clearAuthErrors();
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+
+    document.getElementById('auth-login').classList.remove('active');
+    document.getElementById('auth-register').classList.add('active');
+
+    setTimeout(() => {
+        document.getElementById('reg-name').focus();
+    }, 100);
+}
 
         function handleLogin(e) {
             e.preventDefault();
@@ -2568,10 +2594,9 @@
             
             document.getElementById('main-app').style.display = 'none';
             const authLogin = document.getElementById('auth-login');
-            authLogin.style.display = 'flex';
+authLogin.classList.add('active');
             
             setTimeout(() => {
-                authLogin.classList.add('active');
                 const btn = document.getElementById('login-btn');
                 btn.classList.remove('loading');
                 btn.innerHTML = 'Masuk Sekarang';
@@ -2583,8 +2608,7 @@
         function goToApp() {
             document.querySelectorAll('.auth-page').forEach(el => el.classList.remove('active'));
             setTimeout(() => {
-                document.querySelectorAll('.auth-page').forEach(el => el.style.display = 'none');
-                document.getElementById('main-app').style.display = 'flex';
+    document.getElementById('main-app').style.display = 'flex';
                 
                 document.getElementById('sidebar-user-name').textContent = currentUser.name;
                 document.getElementById('sidebar-user-phone').textContent = currentUser.phone;
@@ -3184,6 +3208,10 @@
                 goToLogin();
             }
             initTicker();
+            window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+});
         };
 
         // Inject Mobile Button
