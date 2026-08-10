@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Warung Satria — Limited Edition</title>
     <link
         href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
+        rel="stylesheet" />
     <style>
+        /* ===== RESET & ROOT ===== */
         :root {
             --cream: #FAF7F2;
             --cream-dark: #F0EBE3;
@@ -36,11 +36,9 @@
             padding: 0;
             box-sizing: border-box;
         }
-
         html {
             scroll-behavior: smooth;
         }
-
         body {
             font-family: 'Inter', sans-serif;
             background: var(--cream);
@@ -52,21 +50,18 @@
         ::-webkit-scrollbar {
             width: 8px;
         }
-
         ::-webkit-scrollbar-track {
             background: var(--cream);
         }
-
         ::-webkit-scrollbar-thumb {
             background: var(--warm-gold);
             border-radius: 4px;
         }
-
         ::-webkit-scrollbar-thumb:hover {
             background: var(--gold-bright);
         }
 
-        /* ===== LIMITED EDITION MARQUEE ===== */
+        /* ===== MARQUEE ===== */
         .top-marquee {
             position: fixed;
             top: 0;
@@ -80,7 +75,6 @@
             align-items: center;
             border-bottom: 1px solid rgba(201, 162, 39, 0.3);
         }
-
         .marquee-track {
             display: flex;
             gap: 48px;
@@ -88,7 +82,6 @@
             animation: marqueeScroll 26s linear infinite;
             padding-left: 48px;
         }
-
         .marquee-track span {
             font-size: 11px;
             letter-spacing: 2px;
@@ -99,10 +92,13 @@
             align-items: center;
             gap: 10px;
         }
-
         @keyframes marqueeScroll {
-            from { transform: translateX(0); }
-            to { transform: translateX(-50%); }
+            from {
+                transform: translateX(0);
+            }
+            to {
+                transform: translateX(-50%);
+            }
         }
 
         /* ===== NAVBAR ===== */
@@ -121,12 +117,10 @@
             border-bottom: 1px solid var(--border);
             transition: all 0.3s ease;
         }
-
         .navbar.scrolled {
             padding: 12px 48px;
             box-shadow: 0 2px 20px var(--shadow-soft);
         }
-
         .logo {
             font-family: 'Playfair Display', serif;
             font-size: 28px;
@@ -137,7 +131,6 @@
             align-items: center;
             gap: 10px;
         }
-
         .logo-icon {
             width: 40px;
             height: 40px;
@@ -149,14 +142,12 @@
             font-size: 20px;
             box-shadow: 0 4px 14px rgba(201, 162, 39, 0.35);
         }
-
         .nav-links {
             display: flex;
             gap: 36px;
             list-style: none;
             align-items: center;
         }
-
         .nav-links a {
             text-decoration: none;
             color: var(--text-light);
@@ -166,7 +157,6 @@
             transition: color 0.3s ease;
             position: relative;
         }
-
         .nav-links a::after {
             content: '';
             position: absolute;
@@ -177,17 +167,14 @@
             background: var(--gold-gradient);
             transition: width 0.3s ease;
         }
-
         .nav-links a:hover,
         .nav-links a.active {
             color: var(--charcoal);
         }
-
         .nav-links a:hover::after,
         .nav-links a.active::after {
             width: 100%;
         }
-
         .nav-cart {
             position: relative;
             cursor: pointer;
@@ -203,13 +190,11 @@
             gap: 6px;
             transition: all 0.3s ease;
         }
-
         .nav-cart:hover {
             background: var(--gold-gradient);
             transform: translateY(-2px);
             box-shadow: 0 8px 20px rgba(201, 162, 39, 0.3);
         }
-
         .cart-count {
             position: absolute;
             top: -8px;
@@ -225,7 +210,6 @@
             align-items: center;
             justify-content: center;
         }
-
         .menu-toggle {
             display: none;
             flex-direction: column;
@@ -235,7 +219,6 @@
             border: none;
             padding: 8px;
         }
-
         .menu-toggle span {
             display: block;
             width: 24px;
@@ -253,25 +236,21 @@
             position: relative;
             overflow: hidden;
         }
-
         .hero-bg-pattern {
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background-image:
-                radial-gradient(circle at 20% 50%, rgba(201, 162, 39, 0.08) 0%, transparent 50%),
+            background-image: radial-gradient(circle at 20% 50%, rgba(201, 162, 39, 0.08) 0%, transparent 50%),
                 radial-gradient(circle at 80% 20%, rgba(201, 162, 39, 0.06) 0%, transparent 50%);
         }
-
         #sparkle-canvas {
             position: absolute;
             inset: 0;
             z-index: 1;
             pointer-events: none;
         }
-
         .hero-content {
             max-width: 1400px;
             margin: 0 auto;
@@ -283,12 +262,10 @@
             position: relative;
             z-index: 2;
         }
-
         .hero-text {
             position: relative;
             z-index: 2;
         }
-
         .hero-badge {
             display: inline-flex;
             align-items: center;
@@ -305,17 +282,19 @@
             margin-bottom: 28px;
             box-shadow: 0 6px 18px rgba(201, 162, 39, 0.12);
         }
-
         .hero-badge .diamond {
             color: var(--warm-gold);
             animation: twinkleGold 1.8s ease-in-out infinite;
         }
-
         @keyframes twinkleGold {
-            0%, 100% { opacity: 1; }
-            50% { opacity: .3; }
+            0%,
+            100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.3;
+            }
         }
-
         .hero h1 {
             font-family: 'Playfair Display', serif;
             font-size: clamp(42px, 5vw, 64px);
@@ -324,7 +303,6 @@
             color: var(--charcoal);
             margin-bottom: 24px;
         }
-
         .hero h1 span {
             font-style: italic;
             background: var(--gold-gradient);
@@ -334,11 +312,11 @@
             -webkit-text-fill-color: transparent;
             animation: goldShimmer 4s linear infinite;
         }
-
         @keyframes goldShimmer {
-            to { background-position: 200% center; }
+            to {
+                background-position: 200% center;
+            }
         }
-
         .hero-desc {
             font-size: 17px;
             color: var(--text-light);
@@ -346,13 +324,11 @@
             margin-bottom: 36px;
             line-height: 1.8;
         }
-
         .hero-buttons {
             display: flex;
             gap: 16px;
             flex-wrap: wrap;
         }
-
         .btn-primary {
             position: relative;
             padding: 14px 32px;
@@ -370,27 +346,23 @@
             gap: 8px;
             overflow: hidden;
         }
-
         .btn-primary::before {
             content: '';
             position: absolute;
             inset: 0;
-            background: linear-gradient(120deg, transparent, rgba(255,255,255,0.25), transparent);
+            background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.25), transparent);
             transform: translateX(-130%);
-            transition: transform .6s ease;
+            transition: transform 0.6s ease;
         }
-
         .btn-primary:hover::before {
             transform: translateX(130%);
         }
-
         .btn-primary:hover {
             background: var(--gold-gradient);
             color: var(--onyx);
             transform: translateY(-2px);
             box-shadow: 0 10px 28px rgba(201, 162, 39, 0.4);
         }
-
         .btn-secondary {
             padding: 14px 32px;
             background: transparent;
@@ -406,20 +378,17 @@
             align-items: center;
             gap: 8px;
         }
-
         .btn-secondary:hover {
             border-color: var(--warm-gold);
             color: var(--warm-gold);
             transform: translateY(-2px);
         }
-
         .hero-images {
             position: relative;
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 16px;
         }
-
         .hero-img {
             border-radius: 20px;
             overflow: hidden;
@@ -427,24 +396,20 @@
             transition: all 0.4s ease;
             border: 2px solid transparent;
         }
-
         .hero-img:hover {
             transform: translateY(-8px);
             box-shadow: 0 30px 60px var(--shadow-strong);
             border-color: var(--warm-gold-light);
         }
-
         .hero-img img {
             width: 100%;
             height: 280px;
             object-fit: cover;
             display: block;
         }
-
         .hero-img:nth-child(2) {
             margin-top: 40px;
         }
-
         .hero-img:nth-child(3) {
             margin-top: -40px;
         }
@@ -455,12 +420,10 @@
             max-width: 1400px;
             margin: 0 auto;
         }
-
         .section-header {
             text-align: center;
             margin-bottom: 60px;
         }
-
         .section-tag {
             font-size: 12px;
             font-weight: 700;
@@ -469,7 +432,6 @@
             text-transform: uppercase;
             margin-bottom: 12px;
         }
-
         .section-title {
             font-family: 'Playfair Display', serif;
             font-size: clamp(32px, 4vw, 48px);
@@ -477,7 +439,6 @@
             color: var(--charcoal);
             margin-bottom: 16px;
         }
-
         .gold-divider {
             width: 64px;
             height: 2px;
@@ -485,7 +446,6 @@
             background: var(--gold-gradient);
             position: relative;
         }
-
         .gold-divider::before {
             content: '◆';
             position: absolute;
@@ -497,7 +457,6 @@
             background: var(--cream);
             padding: 0 8px;
         }
-
         .section-desc {
             font-size: 16px;
             color: var(--text-light);
@@ -506,7 +465,7 @@
             line-height: 1.7;
         }
 
-        /* ===== MENU TABS ===== */
+        /* ===== MENU ===== */
         .menu-tabs {
             display: flex;
             justify-content: center;
@@ -514,7 +473,6 @@
             margin-bottom: 48px;
             flex-wrap: wrap;
         }
-
         .menu-tab {
             padding: 12px 28px;
             background: var(--white);
@@ -527,12 +485,10 @@
             transition: all 0.3s ease;
             font-family: 'Inter', sans-serif;
         }
-
         .menu-tab:hover {
             border-color: var(--warm-gold);
             color: var(--warm-gold);
         }
-
         .menu-tab.active {
             background: var(--gold-gradient);
             color: var(--onyx);
@@ -540,14 +496,11 @@
             font-weight: 700;
             box-shadow: 0 8px 20px rgba(201, 162, 39, 0.28);
         }
-
-        /* ===== MENU GRID ===== */
         .menu-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
             gap: 28px;
         }
-
         .menu-card {
             background: var(--white);
             border: 1px solid var(--border);
@@ -556,30 +509,25 @@
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
         }
-
         .menu-card:hover {
             transform: translateY(-6px);
             box-shadow: 0 26px 54px rgba(201, 162, 39, 0.18);
             border-color: var(--warm-gold);
         }
-
         .menu-card-img {
             position: relative;
             height: 220px;
             overflow: hidden;
         }
-
         .menu-card-img img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             transition: transform 0.6s ease;
         }
-
         .menu-card:hover .menu-card-img img {
             transform: scale(1.08);
         }
-
         .menu-card-badge {
             position: absolute;
             top: 16px;
@@ -593,15 +541,12 @@
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
-
         .menu-card-badge.bestseller {
             background: var(--charcoal);
         }
-
         .menu-card-badge.new {
             background: var(--success);
         }
-
         .menu-card-badge.limited {
             background: var(--gold-gradient);
             color: var(--onyx);
@@ -610,25 +555,21 @@
             gap: 5px;
             box-shadow: 0 4px 14px rgba(201, 162, 39, 0.4);
         }
-
         .menu-card-content {
             padding: 24px;
         }
-
         .menu-card-header {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
             margin-bottom: 10px;
         }
-
         .menu-card-title {
             font-family: 'Playfair Display', serif;
             font-size: 20px;
             font-weight: 600;
             color: var(--charcoal);
         }
-
         .menu-card-price {
             font-size: 18px;
             font-weight: 700;
@@ -639,20 +580,17 @@
             font-family: 'Playfair Display', serif;
             flex-shrink: 0;
         }
-
         .menu-card-desc {
             font-size: 14px;
             color: var(--text-light);
             line-height: 1.6;
             margin-bottom: 16px;
         }
-
         .menu-card-footer {
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-
         .menu-card-rating {
             display: flex;
             align-items: center;
@@ -660,11 +598,9 @@
             font-size: 13px;
             color: var(--text-muted);
         }
-
         .stars {
             color: var(--warm-gold);
         }
-
         .btn-add {
             position: relative;
             padding: 10px 20px;
@@ -681,26 +617,23 @@
             gap: 6px;
             overflow: hidden;
         }
-
         .btn-add:hover {
             background: var(--gold-gradient);
             color: var(--onyx);
             transform: scale(1.05);
         }
-
         .btn-add.added {
             background: var(--success);
             color: var(--white);
         }
 
-        /* ===== ABOUT SECTION ===== */
+        /* ===== ABOUT ===== */
         .about-section {
             background: var(--onyx);
             color: var(--white);
             padding: 100px 48px;
             position: relative;
         }
-
         .about-container {
             max-width: 1400px;
             margin: 0 auto;
@@ -709,45 +642,37 @@
             gap: 80px;
             align-items: center;
         }
-
         .about-img {
             border-radius: 24px;
             overflow: hidden;
             box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
             border: 1px solid rgba(201, 162, 39, 0.25);
         }
-
         .about-img img {
             width: 100%;
             height: 500px;
             object-fit: cover;
             display: block;
         }
-
         .about-text .section-tag {
             color: var(--gold-bright);
         }
-
         .about-text .section-title {
             color: var(--white);
             text-align: left;
         }
-
         .about-text .gold-divider {
             margin: 0 0 20px;
         }
-
         .about-text .gold-divider::before {
             background: var(--onyx);
         }
-
         .about-text p {
             color: rgba(255, 255, 255, 0.65);
             font-size: 16px;
             line-height: 1.8;
             margin-bottom: 20px;
         }
-
         .about-stats {
             display: flex;
             gap: 40px;
@@ -755,7 +680,6 @@
             padding-top: 40px;
             border-top: 1px solid rgba(201, 162, 39, 0.2);
         }
-
         .about-stat h4 {
             font-family: 'Playfair Display', serif;
             font-size: 36px;
@@ -765,7 +689,6 @@
             -webkit-text-fill-color: transparent;
             margin-bottom: 4px;
         }
-
         .about-stat span {
             font-size: 13px;
             color: rgba(255, 255, 255, 0.5);
@@ -779,7 +702,6 @@
             grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
             gap: 24px;
         }
-
         .testimonial-card {
             background: var(--white);
             border: 1px solid var(--border);
@@ -788,7 +710,6 @@
             transition: all 0.3s ease;
             position: relative;
         }
-
         .testimonial-card::before {
             content: '"';
             position: absolute;
@@ -799,19 +720,16 @@
             color: var(--warm-gold-light);
             line-height: 1;
         }
-
         .testimonial-card:hover {
             box-shadow: 0 18px 36px rgba(201, 162, 39, 0.14);
             transform: translateY(-4px);
             border-color: var(--warm-gold-light);
         }
-
         .testimonial-stars {
             color: var(--warm-gold);
             font-size: 18px;
             margin-bottom: 16px;
         }
-
         .testimonial-text {
             font-size: 15px;
             color: var(--text-light);
@@ -821,13 +739,11 @@
             position: relative;
             z-index: 1;
         }
-
         .testimonial-author {
             display: flex;
             align-items: center;
             gap: 14px;
         }
-
         .testimonial-avatar {
             width: 48px;
             height: 48px;
@@ -838,13 +754,11 @@
             justify-content: center;
             font-size: 20px;
         }
-
         .testimonial-name {
             font-weight: 600;
             color: var(--charcoal);
             font-size: 14px;
         }
-
         .testimonial-role {
             font-size: 12px;
             color: var(--text-muted);
@@ -857,7 +771,6 @@
             padding: 60px 48px 30px;
             border-top: 1px solid rgba(201, 162, 39, 0.2);
         }
-
         .footer-container {
             max-width: 1400px;
             margin: 0 auto;
@@ -865,19 +778,16 @@
             grid-template-columns: 2fr 1fr 1fr 1fr;
             gap: 48px;
         }
-
         .footer-brand .logo {
             color: var(--white);
             margin-bottom: 16px;
         }
-
         .footer-brand p {
             color: rgba(255, 255, 255, 0.55);
             font-size: 14px;
             line-height: 1.7;
             max-width: 300px;
         }
-
         .footer-title {
             font-size: 14px;
             font-weight: 600;
@@ -886,26 +796,21 @@
             letter-spacing: 1px;
             margin-bottom: 20px;
         }
-
         .footer-links {
             list-style: none;
         }
-
         .footer-links li {
             margin-bottom: 12px;
         }
-
         .footer-links a {
             color: rgba(255, 255, 255, 0.55);
             text-decoration: none;
             font-size: 14px;
             transition: color 0.3s ease;
         }
-
         .footer-links a:hover {
             color: var(--gold-bright);
         }
-
         .footer-bottom {
             max-width: 1400px;
             margin: 40px auto 0;
@@ -915,13 +820,12 @@
             justify-content: space-between;
             align-items: center;
         }
-
         .footer-bottom p {
             color: rgba(255, 255, 255, 0.35);
             font-size: 13px;
         }
 
-        /* ===== CART SIDEBAR ===== */
+        /* ===== CART ===== */
         .cart-overlay {
             position: fixed;
             top: 0;
@@ -935,12 +839,10 @@
             visibility: hidden;
             transition: all 0.3s ease;
         }
-
         .cart-overlay.active {
             opacity: 1;
             visibility: visible;
         }
-
         .cart-sidebar {
             position: fixed;
             top: 0;
@@ -955,11 +857,9 @@
             display: flex;
             flex-direction: column;
         }
-
         .cart-sidebar.active {
             transform: translateX(0);
         }
-
         .cart-header {
             padding: 24px;
             border-bottom: 1px solid var(--border);
@@ -968,12 +868,10 @@
             align-items: center;
             background: linear-gradient(180deg, var(--cream), var(--white));
         }
-
         .cart-header h3 {
             font-family: 'Playfair Display', serif;
             font-size: 22px;
         }
-
         .cart-close {
             width: 36px;
             height: 36px;
@@ -984,29 +882,24 @@
             font-size: 18px;
             transition: all 0.3s ease;
         }
-
         .cart-close:hover {
             background: var(--gold-gradient);
             color: var(--onyx);
         }
-
         .cart-items {
             flex: 1;
             overflow-y: auto;
             padding: 20px;
         }
-
         .cart-empty {
             text-align: center;
             padding: 60px 20px;
             color: var(--text-muted);
         }
-
         .cart-empty-icon {
             font-size: 48px;
             margin-bottom: 16px;
         }
-
         .cart-item {
             display: flex;
             gap: 16px;
@@ -1016,36 +909,30 @@
             margin-bottom: 12px;
             align-items: center;
         }
-
         .cart-item-img {
             width: 64px;
             height: 64px;
             border-radius: 10px;
             object-fit: cover;
         }
-
         .cart-item-info {
             flex: 1;
         }
-
         .cart-item-name {
             font-weight: 600;
             font-size: 14px;
             margin-bottom: 4px;
         }
-
         .cart-item-price {
             color: var(--warm-gold);
             font-weight: 700;
             font-size: 14px;
         }
-
         .cart-item-qty {
             display: flex;
             align-items: center;
             gap: 8px;
         }
-
         .qty-btn {
             width: 28px;
             height: 28px;
@@ -1056,12 +943,10 @@
             font-size: 14px;
             transition: all 0.2s ease;
         }
-
         .qty-btn:hover {
             background: var(--charcoal);
             color: var(--white);
         }
-
         .cart-item-remove {
             background: none;
             border: none;
@@ -1070,23 +955,19 @@
             font-size: 18px;
             transition: color 0.2s ease;
         }
-
         .cart-item-remove:hover {
             color: #C0392B;
         }
-
         .cart-footer {
             padding: 24px;
             border-top: 1px solid var(--border);
         }
-
         .cart-total {
             display: flex;
             justify-content: space-between;
             margin-bottom: 8px;
             font-size: 14px;
         }
-
         .cart-total.grand {
             font-size: 18px;
             font-weight: 700;
@@ -1094,7 +975,6 @@
             border-top: 1px solid var(--border);
             margin-top: 12px;
         }
-
         .cart-total.grand span:last-child {
             background: var(--gold-gradient);
             -webkit-background-clip: text;
@@ -1102,7 +982,6 @@
             -webkit-text-fill-color: transparent;
             font-family: 'Playfair Display', serif;
         }
-
         .btn-checkout {
             position: relative;
             width: 100%;
@@ -1118,14 +997,13 @@
             transition: all 0.3s ease;
             overflow: hidden;
         }
-
         .btn-checkout:hover {
             background: var(--gold-gradient);
             color: var(--onyx);
             box-shadow: 0 12px 28px rgba(201, 162, 39, 0.35);
         }
 
-        /* ===== TOAST NOTIFICATION ===== */
+        /* ===== TOAST ===== */
         .toast {
             position: fixed;
             bottom: 32px;
@@ -1145,10 +1023,78 @@
             gap: 10px;
             border: 1px solid rgba(201, 162, 39, 0.3);
         }
-
         .toast.show {
             transform: translateX(-50%) translateY(0);
             opacity: 1;
+        }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .animate-in {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+        .hidden {
+            display: none !important;
+        }
+
+        /* ===== MAINTENANCE OVERLAY — SIMPLE VERSION (seperti gambar) ===== */
+        #maintenanceOverlay {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: #0a0a0f;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            font-family: 'Inter', sans-serif;
+            text-align: center;
+            color: #fff;
+            padding: 24px;
+        }
+        #maintenanceOverlay .maintenance-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+            opacity: 0.6;
+        }
+        #maintenanceOverlay h2 {
+            font-family: 'Inter', sans-serif;
+            font-size: 22px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+        #maintenanceOverlay p {
+            font-size: 15px;
+            color: rgba(255, 255, 255, 0.4);
+            margin-bottom: 0;
+        }
+        #maintenanceOverlay .shortcut-hint {
+            margin-top: 32px;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.12);
+            letter-spacing: 0.5px;
+        }
+        #maintenanceOverlay .shortcut-hint kbd {
+            display: inline-block;
+            padding: 2px 10px;
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 4px;
+            font-family: inherit;
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            margin: 0 2px;
         }
 
         /* ===== RESPONSIVE ===== */
@@ -1157,44 +1103,35 @@
                 grid-template-columns: 1fr;
                 text-align: center;
             }
-
             .hero-text {
                 order: 2;
             }
-
             .hero-images {
                 order: 1;
                 max-width: 600px;
                 margin: 0 auto;
             }
-
             .hero-desc {
                 margin: 0 auto 36px;
             }
-
             .hero-buttons {
                 justify-content: center;
             }
-
             .about-container {
                 grid-template-columns: 1fr;
                 gap: 48px;
             }
-
             .footer-container {
                 grid-template-columns: 1fr 1fr;
             }
         }
-
         @media (max-width: 768px) {
             .navbar {
                 padding: 16px 20px;
             }
-
             .menu-toggle {
                 display: flex;
             }
-
             .nav-links {
                 position: fixed;
                 top: 104px;
@@ -1208,100 +1145,75 @@
                 transform: translateY(-150%);
                 transition: transform 0.3s ease;
             }
-
             .nav-links.active {
                 transform: translateY(0);
             }
-
             .section {
                 padding: 60px 20px;
             }
-
             .hero {
                 padding: 130px 20px 40px;
             }
-
             .hero-images {
                 grid-template-columns: 1fr;
             }
-
             .hero-img:nth-child(2),
             .hero-img:nth-child(3) {
                 margin-top: 0;
             }
-
             .menu-grid {
                 grid-template-columns: 1fr;
             }
-
             .about-section {
                 padding: 60px 20px;
             }
-
             .about-stats {
                 flex-direction: column;
                 gap: 24px;
             }
-
             .footer-container {
                 grid-template-columns: 1fr;
             }
-
             .footer-bottom {
                 flex-direction: column;
                 gap: 12px;
                 text-align: center;
             }
-
             .cart-sidebar {
                 width: 100%;
             }
-
             .marquee-track span {
                 font-size: 10px;
             }
         }
-
-        /* ===== ANIMATIONS ===== */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .animate-in {
-            animation: fadeInUp 0.6s ease forwards;
-        }
-
-        .hidden {
-            display: none !important;
-        }
     </style>
-<base target="_blank">
+    <base target="_blank" />
 </head>
 
 <body>
-    <!-- Limited Edition Marquee -->
+
+    <!-- ===== MAINTENANCE OVERLAY (SIMPLE seperti gambar) ===== -->
+    <div id="maintenanceOverlay">
+        <div class="maintenance-icon">🔧</div>
+        <h2>Server Sedang Maintenance</h2>
+        <p>Kami akan kembali segera</p>
+        <div class="shortcut-hint">
+        </div>
+    </div>
+
+    <!-- ===== MARQUEE ===== -->
     <div class="top-marquee">
         <div class="marquee-track" id="marqueeTrack"></div>
     </div>
 
-    <!-- Navbar -->
+    <!-- ===== NAVBAR ===== -->
     <nav class="navbar" id="navbar">
         <a href="#home" class="logo">
             <div class="logo-icon">🍽️</div>
             Warung Satria
         </a>
         <button class="menu-toggle" id="menuToggle" onclick="toggleMenu()">
-            <span></span>
-            <span></span>
-            <span></span>
+            <span></span><span></span><span></span>
         </button>
         <ul class="nav-links" id="navLinks">
             <li><a href="#home" class="active">Beranda</a></li>
@@ -1318,7 +1230,7 @@
         </ul>
     </nav>
 
-    <!-- Hero -->
+    <!-- ===== HERO ===== -->
     <section class="hero" id="home">
         <div class="hero-bg-pattern"></div>
         <canvas id="sparkle-canvas"></canvas>
@@ -1326,8 +1238,7 @@
             <div class="hero-text">
                 <div class="hero-badge"><span class="diamond">◆</span> Limited Edition · Sejak 2018 <span class="diamond">◆</span></div>
                 <h1>Cita Rasa <span>Nusantara</span> yang Autentik</h1>
-                <p class="hero-desc">Nikmati kelezatan masakan tradisional Indonesia dengan sentuhan modern. Dari Nasi
-                    Goreng hingga Rendang, setiap hidangan dibuat dengan cinta dan bahan-bahan pilihan.</p>
+                <p class="hero-desc">Nikmati kelezatan masakan tradisional Indonesia dengan sentuhan modern. Dari Nasi Goreng hingga Rendang, setiap hidangan dibuat dengan cinta dan bahan-bahan pilihan.</p>
                 <div class="hero-buttons">
                     <a href="#menu" class="btn-primary">📖 Lihat Menu</a>
                     <a href="#about" class="btn-secondary">ℹ️ Tentang Kami</a>
@@ -1335,81 +1246,60 @@
             </div>
             <div class="hero-images">
                 <div class="hero-img animate-in">
-                    <img src="https://kimi-web-img.moonshot.cn/img/www.recipetineats.com/cd04cb8651d830bff9e634f621085ebf2cab0217.jpg"
-                        alt="Nasi Goreng">
+                    <img src="https://kimi-web-img.moonshot.cn/img/www.recipetineats.com/cd04cb8651d830bff9e634f621085ebf2cab0217.jpg" alt="Nasi Goreng" />
                 </div>
-                <div class="hero-img animate-in" style="animation-delay: 0.15s">
-                    <img src="https://kimi-web-img.moonshot.cn/img/soyummyrecipes.com/c2710a6b79fb3416080abe349932bef67ae9f2ee.jpg"
-                        alt="Rendang">
+                <div class="hero-img animate-in" style="animation-delay:0.15s">
+                    <img src="https://kimi-web-img.moonshot.cn/img/soyummyrecipes.com/c2710a6b79fb3416080abe349932bef67ae9f2ee.jpg" alt="Rendang" />
                 </div>
-                <div class="hero-img animate-in" style="animation-delay: 0.3s">
-                    <img src="https://kimi-web-img.moonshot.cn/img/monicaisinthekitchen.wordpress.com/409d592dfffb3b2d2ab2e06dbbf11c2b7bb3b7f6.jpg"
-                        alt="Sate Ayam">
+                <div class="hero-img animate-in" style="animation-delay:0.3s">
+                    <img src="https://kimi-web-img.moonshot.cn/img/monicaisinthekitchen.wordpress.com/409d592dfffb3b2d2ab2e06dbbf11c2b7bb3b7f6.jpg" alt="Sate Ayam" />
                 </div>
-                <div class="hero-img animate-in" style="animation-delay: 0.45s">
-                    <img src="https://kimi-web-img.moonshot.cn/img/www.recipetineats.com/20cb2b0747eb0a80e74602652992034d12b7e76c.jpg"
-                        alt="Gado-Gado">
+                <div class="hero-img animate-in" style="animation-delay:0.45s">
+                    <img src="https://kimi-web-img.moonshot.cn/img/www.recipetineats.com/20cb2b0747eb0a80e74602652992034d12b7e76c.jpg" alt="Gado-Gado" />
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Menu Section -->
+    <!-- ===== MENU ===== -->
     <section class="section" id="menu">
         <div class="section-header">
             <div class="section-tag">Menu Kami</div>
             <h2 class="section-title">Pilihan Hidangan Lezat</h2>
             <div class="gold-divider"></div>
-            <p class="section-desc">Dari makanan berat hingga camilan dan minuman segar, semua dibuat dengan bahan-bahan
-                segar dan berkualitas.</p>
+            <p class="section-desc">Dari makanan berat hingga camilan dan minuman segar, semua dibuat dengan bahan-bahan segar dan berkualitas.</p>
         </div>
-
         <div class="menu-tabs">
             <button class="menu-tab active" data-category="all" onclick="filterMenu('all')">Semua</button>
             <button class="menu-tab" data-category="makanan" onclick="filterMenu('makanan')">🍛 Makanan Utama</button>
             <button class="menu-tab" data-category="minuman" onclick="filterMenu('minuman')">🥤 Minuman</button>
             <button class="menu-tab" data-category="camilan" onclick="filterMenu('camilan')">🍩 Camilan</button>
         </div>
-
         <div class="menu-grid" id="menuGrid"></div>
     </section>
 
-    <!-- About Section -->
+    <!-- ===== ABOUT ===== -->
     <section class="about-section" id="about">
         <div class="about-container">
             <div class="about-img">
-                <img src="https://kimi-web-img.moonshot.cn/img/www.cookmeindonesian.com/bcf64dbce489b9ca25ea5bb7825023208b7aceb6.jpg"
-                    alt="Warung Satria">
+                <img src="https://kimi-web-img.moonshot.cn/img/www.cookmeindonesian.com/bcf64dbce489b9ca25ea5bb7825023208b7aceb6.jpg" alt="Warung Satria" />
             </div>
             <div class="about-text">
                 <div class="section-tag">Tentang Kami</div>
                 <h2 class="section-title">Kisah Warung Satria</h2>
                 <div class="gold-divider"></div>
-                <p>Warung Satria didirikan pada tahun 2018 dengan misi sederhana: menyajikan masakan Indonesia yang
-                    autentik dengan harga terjangkau. Berawal dari sebuah warung kecil di pinggir jalan, kini kami telah
-                    menjadi destinasi kuliner favorit bagi pecinta makanan Nusantara.</p>
-                <p>Setiap hidangan kami dibuat menggunakan resep turun-temurun yang telah disempurnakan selama
-                    bertahun-tahun. Kami hanya menggunakan bahan-bahan segar dan rempah-rempah pilihan untuk memastikan
-                    setiap suapan memberikan pengalaman rasa yang tak terlupakan.</p>
+                <p>Warung Satria didirikan pada tahun 2018 dengan misi sederhana: menyajikan masakan Indonesia yang autentik dengan harga terjangkau. Berawal dari sebuah warung kecil di pinggir jalan, kini kami telah menjadi destinasi kuliner favorit bagi pecinta makanan Nusantara.</p>
+                <p>Setiap hidangan kami dibuat menggunakan resep turun-temurun yang telah disempurnakan selama bertahun-tahun. Kami hanya menggunakan bahan-bahan segar dan rempah-rempah pilihan untuk memastikan setiap suapan memberikan pengalaman rasa yang tak terlupakan.</p>
                 <div class="about-stats">
-                    <div class="about-stat">
-                        <h4>9+</h4>
-                        <span>Tahun Berdiri</span>
-                    </div>
-                    <div class="about-stat">
-                        <h4>50K+</h4>
-                        <span>Pelanggan Puas</span>
-                    </div>
-                    <div class="about-stat">
-                        <h4>20+</h4>
-                        <span>Menu Andalan</span>
-                    </div>
+                    <div class="about-stat"><h4>9+</h4><span>Tahun Berdiri</span></div>
+                    <div class="about-stat"><h4>50K+</h4><span>Pelanggan Puas</span></div>
+                    <div class="about-stat"><h4>20+</h4><span>Menu Andalan</span></div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Testimonials -->
+    <!-- ===== TESTIMONIALS ===== -->
     <section class="section" id="testimonials">
         <div class="section-header">
             <div class="section-tag">Testimoni</div>
@@ -1420,54 +1310,37 @@
         <div class="testimonials-grid">
             <div class="testimonial-card animate-in">
                 <div class="testimonial-stars">★★★★★</div>
-                <p class="testimonial-text">"Nasi Goreng Satria jadi favorit saya! Rasa kecap manisnya pas, ayamnya
-                    empuk, dan porsinya sangat mengenyangkan. Harganya juga sangat terjangkau untuk kualitas sebaik
-                    ini."</p>
+                <p class="testimonial-text">"Nasi Goreng Satria jadi favorit saya! Rasa kecap manisnya pas, ayamnya empuk, dan porsinya sangat mengenyangkan. Harganya juga sangat terjangkau untuk kualitas sebaik ini."</p>
                 <div class="testimonial-author">
                     <div class="testimonial-avatar">👨</div>
-                    <div>
-                        <div class="testimonial-name">Budi Santoso</div>
-                        <div class="testimonial-role">Pelanggan Setia</div>
-                    </div>
+                    <div><div class="testimonial-name">Budi Santoso</div><div class="testimonial-role">Pelanggan Setia</div></div>
                 </div>
             </div>
-            <div class="testimonial-card animate-in" style="animation-delay: 0.1s">
+            <div class="testimonial-card animate-in" style="animation-delay:0.1s">
                 <div class="testimonial-stars">★★★★★</div>
-                <p class="testimonial-text">"Rendangnya bener-bener autentik! Dagingnya empuk dan bumbunya meresap
-                    sempurna. Saya yang asli Padang aja bilang ini enak banget. Recommended!"</p>
+                <p class="testimonial-text">"Rendangnya bener-bener autentik! Dagingnya empuk dan bumbunya meresap sempurna. Saya yang asli Padang aja bilang ini enak banget. Recommended!"</p>
                 <div class="testimonial-author">
                     <div class="testimonial-avatar">👩</div>
-                    <div>
-                        <div class="testimonial-name">Dewi Anggraini</div>
-                        <div class="testimonial-role">Food Blogger</div>
-                    </div>
+                    <div><div class="testimonial-name">Dewi Anggraini</div><div class="testimonial-role">Food Blogger</div></div>
                 </div>
             </div>
-            <div class="testimonial-card animate-in" style="animation-delay: 0.2s">
+            <div class="testimonial-card animate-in" style="animation-delay:0.2s">
                 <div class="testimonial-stars">★★★★★</div>
-                <p class="testimonial-text">"Es Cendolnya segar banget! Cocok buat diminum siang-siang. Pelayanannya
-                    juga cepat dan ramah. Warung Satria memang juara!"</p>
+                <p class="testimonial-text">"Es Cendolnya segar banget! Cocok buat diminum siang-siang. Pelayanannya juga cepat dan ramah. Warung Satria memang juara!"</p>
                 <div class="testimonial-author">
                     <div class="testimonial-avatar">👨</div>
-                    <div>
-                        <div class="testimonial-name">Ahmad Rizky</div>
-                        <div class="testimonial-role">Mahasiswa</div>
-                    </div>
+                    <div><div class="testimonial-name">Ahmad Rizky</div><div class="testimonial-role">Mahasiswa</div></div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Contact / Footer -->
+    <!-- ===== FOOTER ===== -->
     <footer class="footer" id="contact">
         <div class="footer-container">
             <div class="footer-brand">
-                <a href="#home" class="logo">
-                    <div class="logo-icon">🍽️</div>
-                    Warung Satria
-                </a>
-                <p>Menyajikan kelezatan masakan Nusantara dengan cinta dan dedikasi sejak 2015. Setiap hidangan adalah
-                    perjalanan rasa yang tak terlupakan.</p>
+                <a href="#home" class="logo"><div class="logo-icon">🍽️</div>Warung Satria</a>
+                <p>Menyajikan kelezatan masakan Nusantara dengan cinta dan dedikasi sejak 2015. Setiap hidangan adalah perjalanan rasa yang tak terlupakan.</p>
             </div>
             <div>
                 <h4 class="footer-title">Menu</h4>
@@ -1499,7 +1372,7 @@
         </div>
     </footer>
 
-    <!-- Cart Sidebar -->
+    <!-- ===== CART ===== -->
     <div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
     <div class="cart-sidebar" id="cartSidebar">
         <div class="cart-header">
@@ -1510,61 +1383,136 @@
             <div class="cart-empty">
                 <div class="cart-empty-icon">🛒</div>
                 <p>Keranjang masih kosong</p>
-                <p style="font-size: 13px; margin-top: 8px;">Tambahkan menu favoritmu!</p>
+                <p style="font-size:13px; margin-top:8px;">Tambahkan menu favoritmu!</p>
             </div>
         </div>
-        <div class="cart-footer" id="cartFooter" style="display: none;">
-            <div class="cart-total">
-                <span>Subtotal</span>
-                <span id="subtotalPrice">Rp 0</span>
-            </div>
-            <div class="cart-total">
-                <span>PPN (10%)</span>
-                <span id="taxPrice">Rp 0</span>
-            </div>
-            <div class="cart-total grand">
-                <span>Total</span>
-                <span id="grandTotal">Rp 0</span>
-            </div>
+        <div class="cart-footer" id="cartFooter" style="display:none;">
+            <div class="cart-total"><span>Subtotal</span><span id="subtotalPrice">Rp 0</span></div>
+            <div class="cart-total"><span>PPN (10%)</span><span id="taxPrice">Rp 0</span></div>
+            <div class="cart-total grand"><span>Total</span><span id="grandTotal">Rp 0</span></div>
             <button class="btn-checkout" onclick="checkout()">💳 Pesan Sekarang</button>
         </div>
     </div>
 
-    <!-- Toast -->
+    <!-- ===== TOAST ===== -->
     <div class="toast" id="toast">
         <span id="toastIcon">✅</span>
         <span id="toastMessage">Item ditambahkan ke keranjang!</span>
     </div>
 
+    <!-- ============================================================ -->
+    <!-- ===== JAVASCRIPT ===== -->
+    <!-- ============================================================ -->
     <script>
-        // ===== MARQUEE TEXT =====
-        (function () {
-            var msgs = ['✦ EDISI TERBATAS', 'RESEP RAHASIA SEJAK 2015', 'BAHAN PILIHAN PREMIUM', 'RESERVASI VIP TERSEDIA', '50.000+ PELANGGAN PUAS ✦'];
-            var html = msgs.concat(msgs).concat(msgs).map(function (t) { return '<span>' + t + '</span>'; }).join('');
+        // ================================================================
+        // MAINTENANCE MODE — SIMPLE VERSION (seperti gambar)
+        // ================================================================
+        (function() {
+            const STORAGE_KEY = 'warung_satria_maintenance';
+            const ADMIN_PASSWORD = 'satria2026';
+            const overlay = document.getElementById('maintenanceOverlay');
+            let isOn = false;
+
+            function load() {
+                const stored = localStorage.getItem(STORAGE_KEY);
+                isOn = stored === 'true';
+                return isOn;
+            }
+
+            function save(status) {
+                localStorage.setItem(STORAGE_KEY, String(status));
+                isOn = status;
+            }
+
+            function updateUI() {
+                if (isOn) {
+                    overlay.style.display = 'flex';
+                    document.body.style.overflow = 'hidden';
+                } else {
+                    overlay.style.display = 'none';
+                    document.body.style.overflow = '';
+                }
+            }
+
+            // Toggle dengan password (via prompt)
+            function toggleWithPrompt() {
+                const pwd = prompt('Masukkan password admin untuk toggle maintenance:');
+                if (pwd === null) return;
+                if (pwd === ADMIN_PASSWORD) {
+                    const newStatus = !isOn;
+                    save(newStatus);
+                    updateUI();
+                    alert(newStatus ? '🔒 Maintenance mode AKTIF' : '🔓 Maintenance mode NONAKTIF');
+                } else {
+                    alert('❌ Password salah!');
+                }
+            }
+
+            // Shortcut: Ctrl + Shift + M
+            document.addEventListener('keydown', function(e) {
+                if (e.ctrlKey && e.shiftKey && (e.key === 'm' || e.key === 'M')) {
+                    e.preventDefault();
+                    const msg = isOn ?
+                        'Maintenance sedang AKTIF. Ingin menonaktifkan?' :
+                        'Maintenance sedang NONAKTIF. Ingin mengaktifkan?';
+                    if (confirm(msg + '\nKlik OK untuk melanjutkan.')) {
+                        toggleWithPrompt();
+                    }
+                }
+            });
+
+            // Inisialisasi
+            load();
+            updateUI();
+
+            // Ekspos ke global
+            window.toggleMaintenance = toggleWithPrompt;
+            window.getMaintenanceStatus = function() { return isOn; };
+        })();
+
+
+        // ================================================================
+        // MARQUEE
+        // ================================================================
+        (function() {
+            const msgs = ['✦ EDISI TERBATAS', 'RESEP RAHASIA SEJAK 2015', 'BAHAN PILIHAN PREMIUM', 'RESERVASI VIP TERSEDIA',
+                '50.000+ PELANGGAN PUAS ✦'
+            ];
+            const html = msgs.concat(msgs).concat(msgs).map(function(t) { return '<span>' + t + '</span>'; }).join('');
             document.getElementById('marqueeTrack').innerHTML = html;
         })();
 
-        // ===== SPARKLE CANVAS (hero) =====
-        (function () {
-            var cv = document.getElementById('sparkle-canvas'), cx = cv.getContext('2d');
+
+        // ================================================================
+        // SPARKLE CANVAS
+        // ================================================================
+        (function() {
+            var cv = document.getElementById('sparkle-canvas'),
+                cx = cv.getContext('2d');
             var hero = document.querySelector('.hero');
-            function resize() { cv.width = hero.offsetWidth; cv.height = hero.offsetHeight; }
-            resize(); window.addEventListener('resize', resize);
+
+            function resize() { cv.width = hero.offsetWidth;
+                cv.height = hero.offsetHeight; }
+            resize();
+            window.addEventListener('resize', resize);
+
             var dots = [];
             for (var i = 0; i < 30; i++) {
                 dots.push({
                     x: Math.random() * cv.width,
                     y: Math.random() * cv.height,
-                    r: Math.random() * 1.4 + .4,
-                    vy: -(Math.random() * .25 + .05),
-                    a: Math.random() * .5 + .15
+                    r: Math.random() * 1.4 + 0.4,
+                    vy: -(Math.random() * 0.25 + 0.05),
+                    a: Math.random() * 0.5 + 0.15
                 });
             }
+
             function draw() {
                 cx.clearRect(0, 0, cv.width, cv.height);
-                dots.forEach(function (d) {
+                dots.forEach(function(d) {
                     d.y += d.vy;
-                    if (d.y < -10) { d.y = cv.height + 10; d.x = Math.random() * cv.width; }
+                    if (d.y < -10) { d.y = cv.height + 10;
+                        d.x = Math.random() * cv.width; }
                     cx.beginPath();
                     cx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
                     cx.fillStyle = 'rgba(201,162,39,' + d.a + ')';
@@ -1577,695 +1525,602 @@
             draw();
         })();
 
-        // ===== MENU DATA =====
-        const menuItems = [
-            {
-                id: 1,
-                name: "Nasi Goreng Spesial",
-                desc: "Nasi goreng dengan ayam, telur mata sapi, sayuran segar, dan sambal terasi homemade. Porsi besar dan mengenyangkan.",
-                price: 25000,
-                category: "makanan",
-                image: "https://kimi-web-img.moonshot.cn/img/www.recipetineats.com/cd04cb8651d830bff9e634f621085ebf2cab0217.jpg",
-                badge: "bestseller",
-                badgeText: "Best Seller",
-                rating: 4.9,
-                reviews: 328
-            },
-            {
-                id: 2,
-                name: "Rendang Sapi",
-                desc: "Daging sapi dimasak perlahan dengan santan dan rempah-rempah khas Padang selama 8 jam. Empuk dan bumbu meresap sempurna.",
-                price: 35000,
-                category: "makanan",
-                image: "https://kimi-web-img.moonshot.cn/img/soyummyrecipes.com/c2710a6b79fb3416080abe349932bef67ae9f2ee.jpg",
-                badge: "limited",
-                badgeText: "✦ Limited",
-                rating: 4.9,
-                reviews: 256
-            },
-            {
-                id: 3,
-                name: "Sate Ayam Madura",
-                desc: "Sate ayam panggang dengan bumbu kacang khas Madura, disajikan dengan lontong dan acar timun.",
-                price: 28000,
-                category: "makanan",
-                image: "https://kimi-web-img.moonshot.cn/img/monicaisinthekitchen.wordpress.com/409d592dfffb3b2d2ab2e06dbbf11c2b7bb3b7f6.jpg",
-                badge: "",
-                badgeText: "",
-                rating: 4.8,
-                reviews: 189
-            },
-            {
-                id: 4,
-                name: "Gado-Gado",
-                desc: "Sayuran segar rebus dengan tahu, tempe, telur, dan kentang, disiram saus kacang yang gurih dan manis.",
-                price: 22000,
-                category: "makanan",
-                image: "https://kimi-web-img.moonshot.cn/img/www.recipetineats.com/20cb2b0747eb0a80e74602652992034d12b7e76c.jpg",
-                badge: "new",
-                badgeText: "Baru",
-                rating: 4.7,
-                reviews: 142
-            },
-            {
-                id: 5,
-                name: "Mie Ayam Bakso",
-                desc: "Mie kuning dengan ayam cincang, bakso sapi, sawi hijau, dan kuah kaldu ayam yang gurih.",
-                price: 20000,
-                category: "makanan",
-                image: "https://kimi-web-img.moonshot.cn/img/i0.wp.com/f125cfb7ec59864dfe57944bb198f9ad57ee7ec1.jpg",
-                badge: "",
-                badgeText: "",
-                rating: 4.7,
-                reviews: 198
-            },
-            {
-                id: 6,
-                name: "Ayam Goreng Kremes",
-                desc: "Ayam kampung goreng dengan bumbu lengkuas, disajikan dengan kremesan renyah dan sambal terasi.",
-                price: 27000,
-                category: "makanan",
-                image: "https://kimi-web-img.moonshot.cn/img/piquantpost.com/5aa05d93cd97f2f6ed9d707480abd39fec6cd594.jpg",
-                badge: "bestseller",
-                badgeText: "Best Seller",
-                rating: 4.8,
-                reviews: 267
-            },
-            {
-                id: 7,
-                name: "Soto Ayam Lamongan",
-                desc: "Soto ayam khas Lamongan dengan kuah kuning, suun, telur, koya, dan perasan jeruk nipis.",
-                price: 23000,
-                category: "makanan",
-                image: "https://kimi-web-img.moonshot.cn/img/cdn.pickuplimes.com/f0621d1b896d9b5ae725a819161ba6252fd4e46f.jpg",
-                badge: "",
-                badgeText: "",
-                rating: 4.8,
-                reviews: 156
-            },
-            {
-                id: 8,
-                name: "Es Teh Manis",
-                desc: "Teh hitam pilihan dengan gula aren asli dan es batu. Segar dan menyegarkan tenggorokan.",
-                price: 8000,
-                category: "minuman",
-                image: "https://kimi-web-img.moonshot.cn/img/asset.kompas.com/06503962bca0737edcee9c96b80fef0a9e180959.jpg",
-                badge: "bestseller",
-                badgeText: "Best Seller",
-                rating: 4.9,
-                reviews: 412
-            },
-            {
-                id: 9,
-                name: "Es Jeruk Segar",
-                desc: "Perasan jeruk nipis dan jeruk manis asli dengan madu dan es batu. Vitamin C alami yang menyegarkan.",
-                price: 12000,
-                category: "minuman",
-                image: "https://kimi-web-img.moonshot.cn/img/www.cookmeindonesian.com/5e7d2923a60de94022e20246db6601024255c7b6.jpg",
-                badge: "new",
-                badgeText: "Baru",
-                rating: 4.7,
-                reviews: 98
-            },
-            {
-                id: 10,
-                name: "Es Cendol",
-                desc: "Cendol pandan dengan santan kental, gula merah cair, dan es serut. Minuman tradisional yang selalu dicari.",
-                price: 15000,
-                category: "minuman",
-                image: "https://kimi-web-img.moonshot.cn/img/whattocooktoday.com/55dd2a7af458cf14364b1dc95fc0af053748faae.jpg",
-                badge: "limited",
-                badgeText: "✦ Limited",
-                rating: 4.9,
-                reviews: 345
-            },
-            {
-                id: 11,
-                name: "Pisang Goreng",
-                desc: "Pisang tanduk goreng dengan tepung renyah, disajikan dengan taburan keju dan coklat meses.",
-                price: 12000,
-                category: "camilan",
-                image: "https://kimi-web-img.moonshot.cn/img/asianinspirations.com.au/77426de42e329e0cbf15f52ac15d44e49c266c6c.jpg",
-                badge: "bestseller",
-                badgeText: "Best Seller",
-                rating: 4.8,
-                reviews: 289
-            },
-            {
-                id: 12,
-                name: "Martabak Manis",
-                desc: "Martabak tebal dengan topping coklat, keju, kacang, dan susu kental manis. Manis dan lembut.",
-                price: 18000,
-                category: "camilan",
-                image: "https://kimi-web-img.moonshot.cn/img/www.chocolatesandchai.com/a56f2bd9df6236b50f09c29d5d300c507583fa82.jpg",
-                badge: "",
-                badgeText: "",
-                rating: 4.8,
-                reviews: 234
-            },
-            {
-                id: 13,
-                name: "Bakwan Sayur",
-                desc: "Gorengan sayuran dengan wortel, kol, dan tauge dalam balutan tepung renyah. 3 pcs per porsi.",
-                price: 10000,
-                category: "camilan",
-                image: "https://kimi-web-img.moonshot.cn/img/soyummyrecipes.com/cebc2e9a443421a7fa34b5ef0b51eb03f018349d.jpg",
-                badge: "",
-                badgeText: "",
-                rating: 4.6,
-                reviews: 167
-            },
-            {
-                id: 14,
-                name: "Es Kopi Susu",
-                desc: "Kopi tubruk strong dengan susu segar dan gula aren. Perfect blend of bitter and sweet.",
-                price: 15000,
-                category: "minuman",
-                image: "https://kimi-web-img.moonshot.cn/img/www.cookmeindonesian.com/66310f5b68f162ae80b27329d8d275f4178914a9.jpg",
-                badge: "new",
-                badgeText: "Baru",
-                rating: 4.8,
-                reviews: 178
-            },
-            {
-                id: 15,
-                name: "Nasi Uduk Komplit",
-                desc: "Nasi uduk dengan ayam goreng, telur balado, tempe orek, sambal, dan lalapan.",
-                price: 28000,
-                category: "makanan",
-                image: "https://kimi-web-img.moonshot.cn/img/www.cookmeindonesian.com/bcf64dbce489b9ca25ea5bb7825023208b7aceb6.jpg",
-                badge: "",
-                badgeText: "",
-                rating: 4.7,
-                reviews: 145
-            },
-            {
-                id: 16,
-                name: "Nasi Padang Komplit",
-                desc: "Nasi dengan rendang, gulai nangka, sambal ijo, dan kerupuk. Cita rasa Padang yang otentik.",
-                price: 32000,
-                category: "makanan",
-                image: "https://kimi-web-img.moonshot.cn/img/awsimages.detik.net.id/6d244e2311bd1d319bc9b2d0735b6fe2e84201c2.png",
-                badge: "bestseller",
-                badgeText: "Best Seller",
-                rating: 4.8,
-                reviews: 201
-            },
-            {
-                id: 17,
-                name: "Ayam Bakar Taliwang",
-                desc: "Ayam bakar khas Lombok dengan bumbu pedas manis dan sambal terasi mentah yang menggugah selera.",
-                price: 30000,
-                category: "makanan",
-                image: "https://kimi-web-img.moonshot.cn/img/img-global.cpcdn.com/0bebca21085bc621e85a635b4f0b01e69b54a90e.jpg",
-                badge: "limited",
-                badgeText: "✦ Limited",
-                rating: 4.9,
-                reviews: 176
-            },
-            {
-                id: 18,
-                name: "Nasi Liwet Solo",
-                desc: "Nasi gurih santan dengan suwiran ayam, telur pindang, dan sayur labu siam khas Solo.",
-                price: 24000,
-                category: "makanan",
-                image: "https://kimi-web-img.moonshot.cn/img/i0.wp.com/239665644b7b9e096117f1ad0555e7fd8d180d48.jpg",
-                badge: "",
-                badgeText: "",
-                rating: 4.6,
-                reviews: 88
-            },
-            {
-                id: 19,
-                name: "Nasi Campur Bali",
-                desc: "Nasi dengan sate lilit, ayam sisit, lawar, dan sambal matah khas Bali. Kaya rempah dan segar.",
-                price: 29000,
-                category: "makanan",
-                image: "https://kimi-web-img.moonshot.cn/img/i0.wp.com/f2a7496fb1d3f535c474d0979e9258b7f6e37fbd.jpg",
-                badge: "new",
-                badgeText: "Baru",
-                rating: 4.8,
-                reviews: 112
-            },
-            {
-                id: 20,
-                name: "Gudeg Yogya",
-                desc: "Gudeg nangka muda manis dengan krecek pedas, telur, dan ayam kampung. Resep asli Yogyakarta.",
-                price: 26000,
-                category: "makanan",
-                image: "https://kimi-web-img.moonshot.cn/img/upload.wikimedia.org/c322a66c539f486db78813f182e5389769e7c1f1.jpg",
-                badge: "",
-                badgeText: "",
-                rating: 4.7,
-                reviews: 134
-            },
-            {
-                id: 21,
-                name: "Rawon Daging",
-                desc: "Sup daging hitam khas Jawa Timur dengan kluwek, disajikan dengan tauge dan sambal.",
-                price: 27000,
-                category: "makanan",
-                image: "https://kimi-web-img.moonshot.cn/img/cdn1-production-images-kly.akamaized.net/58dba6896eaab539f83ca7559f47768359d1c0ca.jpg",
-                badge: "",
-                badgeText: "",
-                rating: 4.7,
-                reviews: 121
-            },
-            {
-                id: 22,
-                name: "Soto Betawi",
-                desc: "Soto daging dengan kuah santan kental, kentang, dan tomat. Gurih dan creamy khas Betawi.",
-                price: 26000,
-                category: "makanan",
-                image: "https://kimi-web-img.moonshot.cn/img/www.chocolatesandchai.com/5184068a209fcce1ca4a760ef003ee221077fdf7.jpg",
-                badge: "bestseller",
-                badgeText: "Best Seller",
-                rating: 4.8,
-                reviews: 187
-            },
-            {
-                id: 23,
-                name: "Pecel Lele",
-                desc: "Lele goreng renyah dengan sambal bawang pedas, lalapan segar, dan nasi hangat.",
-                price: 19000,
-                category: "makanan",
-                image: "https://kimi-web-img.moonshot.cn/img/www.cookmeindonesian.com/517bff91de1c6e50c0578531825f70136213a68b.jpg",
-                badge: "",
-                badgeText: "",
-                rating: 4.6,
-                reviews: 143
-            },
-            {
-                id: 24,
-                name: "Ikan Bakar Kecap",
-                desc: "Ikan gurame bakar bumbu kecap manis dengan lalapan dan sambal dabu-dabu segar.",
-                price: 33000,
-                category: "makanan",
-                image: "https://kimi-web-img.moonshot.cn/img/monicaisinthekitchen.wordpress.com/3ddd1d9eead93055fb2208e74cd9af3e4e99a890.jpg",
-                badge: "limited",
-                badgeText: "✦ Limited",
-                rating: 4.9,
-                reviews: 97
-            },
-            {
-                id: 25,
-                name: "Nasi Kuning Komplit",
-                desc: "Nasi kuning gurih dengan ayam suwir, telur, orek tempe, dan kering kentang.",
-                price: 24000,
-                category: "makanan",
-                image: "https://kimi-web-img.moonshot.cn/img/awsimages.detik.net.id/6d244e2311bd1d319bc9b2d0735b6fe2e84201c2.png",
-                badge: "",
-                badgeText: "",
-                rating: 4.6,
-                reviews: 76
-            },
-            {
-                id: 26,
-                name: "Sop Buntut",
-                desc: "Sop buntut sapi dengan kuah bening kaya rempah, wortel, dan kentang. Empuk dan gurih.",
-                price: 38000,
-                category: "makanan",
-                image: "https://kimi-web-img.moonshot.cn/img/www.cookmeindonesian.com/69586b12ed15b0cd059ab9110eaef6fd73e68448.jpg",
-                badge: "new",
-                badgeText: "Baru",
-                rating: 4.9,
-                reviews: 65
-            },
-            {
-                id: 27,
-                name: "Bebek Goreng Sambal Korek",
-                desc: "Bebek goreng renyah dengan sambal korek super pedas dan lalapan segar.",
-                price: 34000,
-                category: "makanan",
-                image: "https://kimi-web-img.moonshot.cn/img/asset.kompas.com/0f84682776e3132e40dbcd18e63a68d782409c5c.jpg",
-                badge: "",
-                badgeText: "",
-                rating: 4.7,
-                reviews: 103
-            },
-            {
-                id: 28,
-                name: "Es Teh Tawar",
-                desc: "Teh hitam segar tanpa gula, cocok untuk yang suka minuman ringan dan sehat.",
-                price: 6000,
-                category: "minuman",
-                image: "https://kimi-web-img.moonshot.cn/img/www.nadiftourbatam.com/7241ecfda167f0c9c01d76dcdf9e82755c3139f6.jpg",
-                badge: "",
-                badgeText: "",
-                rating: 4.5,
-                reviews: 87
-            },
-            {
-                id: 29,
-                name: "Jus Alpukat",
-                desc: "Jus alpukat kental dengan susu kental manis dan sedikit coklat. Creamy dan mengenyangkan.",
-                price: 16000,
-                category: "minuman",
-                image: "https://kimi-web-img.moonshot.cn/img/www.seriouseats.com/09a4d50369ccd2a9c22f15c7949da324305e4695.jpg",
-                badge: "bestseller",
-                badgeText: "Best Seller",
-                rating: 4.8,
-                reviews: 223
-            },
-            {
-                id: 30,
-                name: "Jus Mangga",
-                desc: "Jus mangga segar dari mangga harum manis pilihan, tanpa bahan pengawet.",
-                price: 15000,
-                category: "minuman",
-                image: "https://kimi-web-img.moonshot.cn/img/d1vbn70lmn1nqe.cloudfront.net/2690613d221e34a6c5c0ca93e2342becc40f6dec.jpg",
-                badge: "",
-                badgeText: "",
-                rating: 4.7,
-                reviews: 132
-            },
-            {
-                id: 31,
-                name: "Wedang Jahe",
-                desc: "Minuman jahe hangat dengan gula merah dan serai. Cocok untuk menghangatkan badan.",
-                price: 10000,
-                category: "minuman",
-                image: "https://kimi-web-img.moonshot.cn/img/images.alodokter.com/4fb04900eb1d1bd88b978755932d6d633168a981.jpg",
-                badge: "",
-                badgeText: "",
-                rating: 4.6,
-                reviews: 94
-            },
-            {
-                id: 32,
-                name: "Bandrek Susu",
-                desc: "Wedang bandrek khas Sunda dengan tambahan susu, rempah hangat, dan gula aren.",
-                price: 13000,
-                category: "minuman",
-                image: "https://kimi-web-img.moonshot.cn/img/awsimages.detik.net.id/3d56c89c1144e017007c81733a601da459e490f2.jpeg",
-                badge: "new",
-                badgeText: "Baru",
-                rating: 4.7,
-                reviews: 58
-            },
-            {
-                id: 33,
-                name: "Es Timun Serut",
-                desc: "Timun serut dengan sirup dan perasan jeruk nipis. Sangat segar untuk cuaca panas.",
-                price: 11000,
-                category: "minuman",
-                image: "https://kimi-web-img.moonshot.cn/img/i0.wp.com/3ce60dbb06ba78056568dd795032292da87d5e53.jpg",
-                badge: "",
-                badgeText: "",
-                rating: 4.6,
-                reviews: 71
-            },
-            {
-                id: 34,
-                name: "Teh Tarik",
-                desc: "Teh susu ala Malaysia yang ditarik hingga berbusa lembut. Manis dan creamy.",
-                price: 14000,
-                category: "minuman",
-                image: "https://kimi-web-img.moonshot.cn/img/www.tripsavvy.com/0f303158cece634f71a4d30f6eb01b969118b2e5.jpg",
-                badge: "bestseller",
-                badgeText: "Best Seller",
-                rating: 4.8,
-                reviews: 165
-            },
-            {
-                id: 35,
-                name: "STMJ (Susu Telur Madu Jahe)",
-                desc: "Minuman tradisional penambah stamina, hangat dan menyehatkan.",
-                price: 15000,
-                category: "minuman",
-                image: "https://kimi-web-img.moonshot.cn/img/cdn.hellosehat.com/4b2769a9a8174488ec4078d8df84cd530c627445.jpg",
-                badge: "limited",
-                badgeText: "✦ Limited",
-                rating: 4.7,
-                reviews: 44
-            },
-            {
-                id: 36,
-                name: "Es Doger",
-                desc: "Es campur khas Sunda dengan tape, ketan hitam, alpukat, dan susu kental manis.",
-                price: 17000,
-                category: "minuman",
-                image: "https://kimi-web-img.moonshot.cn/img/www.gastronomiac.com/0b817352d8dc1be1a6dcfe4a96e64929c4fda02e.jpg",
-                badge: "",
-                badgeText: "",
-                rating: 4.7,
-                reviews: 118
-            },
-            {
-                id: 37,
-                name: "Kelapa Muda Segar",
-                desc: "Air kelapa muda asli dengan daging kelapa dan sirup gula aren.",
-                price: 15000,
-                category: "minuman",
-                image: "https://kimi-web-img.moonshot.cn/img/cdn.hellosehat.com/b5089b9fcbdbe37b66c74905e23db1e3daa12a67.jpg",
-                badge: "",
-                badgeText: "",
-                rating: 4.8,
-                reviews: 152
-            },
-            {
-                id: 38,
-                name: "Kopi Hitam Tubruk",
-                desc: "Kopi robusta pilihan diseduh cara tradisional, kental dan aromatik.",
-                price: 10000,
-                category: "minuman",
-                image: "https://kimi-web-img.moonshot.cn/img/www.static-src.com/2dedf5a461bb424a5b61243adae9b82579e25f72.jpg",
-                badge: "",
-                badgeText: "",
-                rating: 4.6,
-                reviews: 99
-            },
-            {
-                id: 39,
-                name: "Milkshake Coklat",
-                desc: "Milkshake coklat creamy dengan whipped cream dan choco chips di atasnya.",
-                price: 20000,
-                category: "minuman",
-                image: "https://kimi-web-img.moonshot.cn/img/iambaker.net/82990b408b3b2568475ec13dd8f5308920006cf7.jpg",
-                badge: "new",
-                badgeText: "Baru",
-                rating: 4.8,
-                reviews: 76
-            },
-            {
-                id: 40,
-                name: "Tahu Isi Sayur",
-                desc: "Tahu goreng isi sayuran renyah dengan cabai rawit segar. Camilan favorit sore hari.",
-                price: 9000,
-                category: "camilan",
-                image: "https://kimi-web-img.moonshot.cn/img/img-global.cpcdn.com/b9155f7fb96d2fafb5487cca6d5e3638b8c4f9f5.jpg",
-                badge: "",
-                badgeText: "",
-                rating: 4.6,
-                reviews: 88
-            },
-            {
-                id: 41,
-                name: "Tempe Mendoan",
-                desc: "Tempe goreng tepung khas Banyumas, tebal dan gurih, disajikan dengan sambal kecap.",
-                price: 10000,
-                category: "camilan",
-                image: "https://kimi-web-img.moonshot.cn/img/img-global.cpcdn.com/451af45f31abde1e38a6b467d5f27de11665e48a.jpg",
-                badge: "bestseller",
-                badgeText: "Best Seller",
-                rating: 4.8,
-                reviews: 176
-            },
-            {
-                id: 42,
-                name: "Risoles Ragout",
-                desc: "Risoles isi ragout ayam dan sayuran, dibalut tepung roti renyah. 3 pcs per porsi.",
-                price: 13000,
-                category: "camilan",
-                image: "https://kimi-web-img.moonshot.cn/img/monicaisinthekitchen.wordpress.com/f82f8f52b46e112993419f777650b78973637d55.jpg",
-                badge: "",
-                badgeText: "",
-                rating: 4.7,
-                reviews: 92
-            },
-            {
-                id: 43,
-                name: "Lumpia Semarang",
-                desc: "Lumpia basah khas Semarang isi rebung dan ayam, digoreng renyah sempurna.",
-                price: 14000,
-                category: "camilan",
-                image: "https://kimi-web-img.moonshot.cn/img/img-global.cpcdn.com/bafc46000a86741b58ce0f37ab59e47578d1f7b4.jpg",
-                badge: "limited",
-                badgeText: "✦ Limited",
-                rating: 4.9,
-                reviews: 67
-            },
-            {
-                id: 44,
-                name: "Klepon",
-                desc: "Kue tradisional isi gula merah cair berbalut kelapa parut. Manis legit khas Nusantara.",
-                price: 8000,
-                category: "camilan",
-                image: "https://kimi-web-img.moonshot.cn/img/static.uc.ac.id/39e7f171013c31868aa036ce06454af6ed808828.jpeg",
-                badge: "",
-                badgeText: "",
-                rating: 4.7,
-                reviews: 105
-            }
-        ];
 
-        // ===== STATE =====
+        // ================================================================
+        // MENU DATA (44 items)
+        // ================================================================
+        const menuItems = [{
+            id: 1,
+            name: "Nasi Goreng Spesial",
+            desc: "Nasi goreng dengan ayam, telur mata sapi, sayuran segar, dan sambal terasi homemade. Porsi besar dan mengenyangkan.",
+            price: 25000,
+            category: "makanan",
+            image: "https://kimi-web-img.moonshot.cn/img/www.recipetineats.com/cd04cb8651d830bff9e634f621085ebf2cab0217.jpg",
+            badge: "bestseller",
+            badgeText: "Best Seller",
+            rating: 4.9,
+            reviews: 328
+        }, {
+            id: 2,
+            name: "Rendang Sapi",
+            desc: "Daging sapi dimasak perlahan dengan santan dan rempah-rempah khas Padang selama 8 jam. Empuk dan bumbu meresap sempurna.",
+            price: 35000,
+            category: "makanan",
+            image: "https://kimi-web-img.moonshot.cn/img/soyummyrecipes.com/c2710a6b79fb3416080abe349932bef67ae9f2ee.jpg",
+            badge: "limited",
+            badgeText: "✦ Limited",
+            rating: 4.9,
+            reviews: 256
+        }, {
+            id: 3,
+            name: "Sate Ayam Madura",
+            desc: "Sate ayam panggang dengan bumbu kacang khas Madura, disajikan dengan lontong dan acar timun.",
+            price: 28000,
+            category: "makanan",
+            image: "https://kimi-web-img.moonshot.cn/img/monicaisinthekitchen.wordpress.com/409d592dfffb3b2d2ab2e06dbbf11c2b7bb3b7f6.jpg",
+            badge: "",
+            badgeText: "",
+            rating: 4.8,
+            reviews: 189
+        }, {
+            id: 4,
+            name: "Gado-Gado",
+            desc: "Sayuran segar rebus dengan tahu, tempe, telur, dan kentang, disiram saus kacang yang gurih dan manis.",
+            price: 22000,
+            category: "makanan",
+            image: "https://kimi-web-img.moonshot.cn/img/www.recipetineats.com/20cb2b0747eb0a80e74602652992034d12b7e76c.jpg",
+            badge: "new",
+            badgeText: "Baru",
+            rating: 4.7,
+            reviews: 142
+        }, {
+            id: 5,
+            name: "Mie Ayam Bakso",
+            desc: "Mie kuning dengan ayam cincang, bakso sapi, sawi hijau, dan kuah kaldu ayam yang gurih.",
+            price: 20000,
+            category: "makanan",
+            image: "https://kimi-web-img.moonshot.cn/img/i0.wp.com/f125cfb7ec59864dfe57944bb198f9ad57ee7ec1.jpg",
+            badge: "",
+            badgeText: "",
+            rating: 4.7,
+            reviews: 198
+        }, {
+            id: 6,
+            name: "Ayam Goreng Kremes",
+            desc: "Ayam kampung goreng dengan bumbu lengkuas, disajikan dengan kremesan renyah dan sambal terasi.",
+            price: 27000,
+            category: "makanan",
+            image: "https://kimi-web-img.moonshot.cn/img/piquantpost.com/5aa05d93cd97f2f6ed9d707480abd39fec6cd594.jpg",
+            badge: "bestseller",
+            badgeText: "Best Seller",
+            rating: 4.8,
+            reviews: 267
+        }, {
+            id: 7,
+            name: "Soto Ayam Lamongan",
+            desc: "Soto ayam khas Lamongan dengan kuah kuning, suun, telur, koya, dan perasan jeruk nipis.",
+            price: 23000,
+            category: "makanan",
+            image: "https://kimi-web-img.moonshot.cn/img/cdn.pickuplimes.com/f0621d1b896d9b5ae725a819161ba6252fd4e46f.jpg",
+            badge: "",
+            badgeText: "",
+            rating: 4.8,
+            reviews: 156
+        }, {
+            id: 8,
+            name: "Es Teh Manis",
+            desc: "Teh hitam pilihan dengan gula aren asli dan es batu. Segar dan menyegarkan tenggorokan.",
+            price: 8000,
+            category: "minuman",
+            image: "https://kimi-web-img.moonshot.cn/img/asset.kompas.com/06503962bca0737edcee9c96b80fef0a9e180959.jpg",
+            badge: "bestseller",
+            badgeText: "Best Seller",
+            rating: 4.9,
+            reviews: 412
+        }, {
+            id: 9,
+            name: "Es Jeruk Segar",
+            desc: "Perasan jeruk nipis dan jeruk manis asli dengan madu dan es batu. Vitamin C alami yang menyegarkan.",
+            price: 12000,
+            category: "minuman",
+            image: "https://kimi-web-img.moonshot.cn/img/www.cookmeindonesian.com/5e7d2923a60de94022e20246db6601024255c7b6.jpg",
+            badge: "new",
+            badgeText: "Baru",
+            rating: 4.7,
+            reviews: 98
+        }, {
+            id: 10,
+            name: "Es Cendol",
+            desc: "Cendol pandan dengan santan kental, gula merah cair, dan es serut. Minuman tradisional yang selalu dicari.",
+            price: 15000,
+            category: "minuman",
+            image: "https://kimi-web-img.moonshot.cn/img/whattocooktoday.com/55dd2a7af458cf14364b1dc95fc0af053748faae.jpg",
+            badge: "limited",
+            badgeText: "✦ Limited",
+            rating: 4.9,
+            reviews: 345
+        }, {
+            id: 11,
+            name: "Pisang Goreng",
+            desc: "Pisang tanduk goreng dengan tepung renyah, disajikan dengan taburan keju dan coklat meses.",
+            price: 12000,
+            category: "camilan",
+            image: "https://kimi-web-img.moonshot.cn/img/asianinspirations.com.au/77426de42e329e0cbf15f52ac15d44e49c266c6c.jpg",
+            badge: "bestseller",
+            badgeText: "Best Seller",
+            rating: 4.8,
+            reviews: 289
+        }, {
+            id: 12,
+            name: "Martabak Manis",
+            desc: "Martabak tebal dengan topping coklat, keju, kacang, dan susu kental manis. Manis dan lembut.",
+            price: 18000,
+            category: "camilan",
+            image: "https://kimi-web-img.moonshot.cn/img/www.chocolatesandchai.com/a56f2bd9df6236b50f09c29d5d300c507583fa82.jpg",
+            badge: "",
+            badgeText: "",
+            rating: 4.8,
+            reviews: 234
+        }, {
+            id: 13,
+            name: "Bakwan Sayur",
+            desc: "Gorengan sayuran dengan wortel, kol, dan tauge dalam balutan tepung renyah. 3 pcs per porsi.",
+            price: 10000,
+            category: "camilan",
+            image: "https://kimi-web-img.moonshot.cn/img/soyummyrecipes.com/cebc2e9a443421a7fa34b5ef0b51eb03f018349d.jpg",
+            badge: "",
+            badgeText: "",
+            rating: 4.6,
+            reviews: 167
+        }, {
+            id: 14,
+            name: "Es Kopi Susu",
+            desc: "Kopi tubruk strong dengan susu segar dan gula aren. Perfect blend of bitter and sweet.",
+            price: 15000,
+            category: "minuman",
+            image: "https://kimi-web-img.moonshot.cn/img/www.cookmeindonesian.com/66310f5b68f162ae80b27329d8d275f4178914a9.jpg",
+            badge: "new",
+            badgeText: "Baru",
+            rating: 4.8,
+            reviews: 178
+        }, {
+            id: 15,
+            name: "Nasi Uduk Komplit",
+            desc: "Nasi uduk dengan ayam goreng, telur balado, tempe orek, sambal, dan lalapan.",
+            price: 28000,
+            category: "makanan",
+            image: "https://kimi-web-img.moonshot.cn/img/www.cookmeindonesian.com/bcf64dbce489b9ca25ea5bb7825023208b7aceb6.jpg",
+            badge: "",
+            badgeText: "",
+            rating: 4.7,
+            reviews: 145
+        }, {
+            id: 16,
+            name: "Nasi Padang Komplit",
+            desc: "Nasi dengan rendang, gulai nangka, sambal ijo, dan kerupuk. Cita rasa Padang yang otentik.",
+            price: 32000,
+            category: "makanan",
+            image: "https://kimi-web-img.moonshot.cn/img/awsimages.detik.net.id/6d244e2311bd1d319bc9b2d0735b6fe2e84201c2.png",
+            badge: "bestseller",
+            badgeText: "Best Seller",
+            rating: 4.8,
+            reviews: 201
+        }, {
+            id: 17,
+            name: "Ayam Bakar Taliwang",
+            desc: "Ayam bakar khas Lombok dengan bumbu pedas manis dan sambal terasi mentah yang menggugah selera.",
+            price: 30000,
+            category: "makanan",
+            image: "https://kimi-web-img.moonshot.cn/img/img-global.cpcdn.com/0bebca21085bc621e85a635b4f0b01e69b54a90e.jpg",
+            badge: "limited",
+            badgeText: "✦ Limited",
+            rating: 4.9,
+            reviews: 176
+        }, {
+            id: 18,
+            name: "Nasi Liwet Solo",
+            desc: "Nasi gurih santan dengan suwiran ayam, telur pindang, dan sayur labu siam khas Solo.",
+            price: 24000,
+            category: "makanan",
+            image: "https://kimi-web-img.moonshot.cn/img/i0.wp.com/239665644b7b9e096117f1ad0555e7fd8d180d48.jpg",
+            badge: "",
+            badgeText: "",
+            rating: 4.6,
+            reviews: 88
+        }, {
+            id: 19,
+            name: "Nasi Campur Bali",
+            desc: "Nasi dengan sate lilit, ayam sisit, lawar, dan sambal matah khas Bali. Kaya rempah dan segar.",
+            price: 29000,
+            category: "makanan",
+            image: "https://kimi-web-img.moonshot.cn/img/i0.wp.com/f2a7496fb1d3f535c474d0979e9258b7f6e37fbd.jpg",
+            badge: "new",
+            badgeText: "Baru",
+            rating: 4.8,
+            reviews: 112
+        }, {
+            id: 20,
+            name: "Gudeg Yogya",
+            desc: "Gudeg nangka muda manis dengan krecek pedas, telur, dan ayam kampung. Resep asli Yogyakarta.",
+            price: 26000,
+            category: "makanan",
+            image: "https://kimi-web-img.moonshot.cn/img/upload.wikimedia.org/c322a66c539f486db78813f182e5389769e7c1f1.jpg",
+            badge: "",
+            badgeText: "",
+            rating: 4.7,
+            reviews: 134
+        }, {
+            id: 21,
+            name: "Rawon Daging",
+            desc: "Sup daging hitam khas Jawa Timur dengan kluwek, disajikan dengan tauge dan sambal.",
+            price: 27000,
+            category: "makanan",
+            image: "https://kimi-web-img.moonshot.cn/img/cdn1-production-images-kly.akamaized.net/58dba6896eaab539f83ca7559f47768359d1c0ca.jpg",
+            badge: "",
+            badgeText: "",
+            rating: 4.7,
+            reviews: 121
+        }, {
+            id: 22,
+            name: "Soto Betawi",
+            desc: "Soto daging dengan kuah santan kental, kentang, dan tomat. Gurih dan creamy khas Betawi.",
+            price: 26000,
+            category: "makanan",
+            image: "https://kimi-web-img.moonshot.cn/img/www.chocolatesandchai.com/5184068a209fcce1ca4a760ef003ee221077fdf7.jpg",
+            badge: "bestseller",
+            badgeText: "Best Seller",
+            rating: 4.8,
+            reviews: 187
+        }, {
+            id: 23,
+            name: "Pecel Lele",
+            desc: "Lele goreng renyah dengan sambal bawang pedas, lalapan segar, dan nasi hangat.",
+            price: 19000,
+            category: "makanan",
+            image: "https://kimi-web-img.moonshot.cn/img/www.cookmeindonesian.com/517bff91de1c6e50c0578531825f70136213a68b.jpg",
+            badge: "",
+            badgeText: "",
+            rating: 4.6,
+            reviews: 143
+        }, {
+            id: 24,
+            name: "Ikan Bakar Kecap",
+            desc: "Ikan gurame bakar bumbu kecap manis dengan lalapan dan sambal dabu-dabu segar.",
+            price: 33000,
+            category: "makanan",
+            image: "https://kimi-web-img.moonshot.cn/img/monicaisinthekitchen.wordpress.com/3ddd1d9eead93055fb2208e74cd9af3e4e99a890.jpg",
+            badge: "limited",
+            badgeText: "✦ Limited",
+            rating: 4.9,
+            reviews: 97
+        }, {
+            id: 25,
+            name: "Nasi Kuning Komplit",
+            desc: "Nasi kuning gurih dengan ayam suwir, telur, orek tempe, dan kering kentang.",
+            price: 24000,
+            category: "makanan",
+            image: "https://kimi-web-img.moonshot.cn/img/awsimages.detik.net.id/6d244e2311bd1d319bc9b2d0735b6fe2e84201c2.png",
+            badge: "",
+            badgeText: "",
+            rating: 4.6,
+            reviews: 76
+        }, {
+            id: 26,
+            name: "Sop Buntut",
+            desc: "Sop buntut sapi dengan kuah bening kaya rempah, wortel, dan kentang. Empuk dan gurih.",
+            price: 38000,
+            category: "makanan",
+            image: "https://kimi-web-img.moonshot.cn/img/www.cookmeindonesian.com/69586b12ed15b0cd059ab9110eaef6fd73e68448.jpg",
+            badge: "new",
+            badgeText: "Baru",
+            rating: 4.9,
+            reviews: 65
+        }, {
+            id: 27,
+            name: "Bebek Goreng Sambal Korek",
+            desc: "Bebek goreng renyah dengan sambal korek super pedas dan lalapan segar.",
+            price: 34000,
+            category: "makanan",
+            image: "https://kimi-web-img.moonshot.cn/img/asset.kompas.com/0f84682776e3132e40dbcd18e63a68d782409c5c.jpg",
+            badge: "",
+            badgeText: "",
+            rating: 4.7,
+            reviews: 103
+        }, {
+            id: 28,
+            name: "Es Teh Tawar",
+            desc: "Teh hitam segar tanpa gula, cocok untuk yang suka minuman ringan dan sehat.",
+            price: 6000,
+            category: "minuman",
+            image: "https://kimi-web-img.moonshot.cn/img/www.nadiftourbatam.com/7241ecfda167f0c9c01d76dcdf9e82755c3139f6.jpg",
+            badge: "",
+            badgeText: "",
+            rating: 4.5,
+            reviews: 87
+        }, {
+            id: 29,
+            name: "Jus Alpukat",
+            desc: "Jus alpukat kental dengan susu kental manis dan sedikit coklat. Creamy dan mengenyangkan.",
+            price: 16000,
+            category: "minuman",
+            image: "https://kimi-web-img.moonshot.cn/img/www.seriouseats.com/09a4d50369ccd2a9c22f15c7949da324305e4695.jpg",
+            badge: "bestseller",
+            badgeText: "Best Seller",
+            rating: 4.8,
+            reviews: 223
+        }, {
+            id: 30,
+            name: "Jus Mangga",
+            desc: "Jus mangga segar dari mangga harum manis pilihan, tanpa bahan pengawet.",
+            price: 15000,
+            category: "minuman",
+            image: "https://kimi-web-img.moonshot.cn/img/d1vbn70lmn1nqe.cloudfront.net/2690613d221e34a6c5c0ca93e2342becc40f6dec.jpg",
+            badge: "",
+            badgeText: "",
+            rating: 4.7,
+            reviews: 132
+        }, {
+            id: 31,
+            name: "Wedang Jahe",
+            desc: "Minuman jahe hangat dengan gula merah dan serai. Cocok untuk menghangatkan badan.",
+            price: 10000,
+            category: "minuman",
+            image: "https://kimi-web-img.moonshot.cn/img/images.alodokter.com/4fb04900eb1d1bd88b978755932d6d633168a981.jpg",
+            badge: "",
+            badgeText: "",
+            rating: 4.6,
+            reviews: 94
+        }, {
+            id: 32,
+            name: "Bandrek Susu",
+            desc: "Wedang bandrek khas Sunda dengan tambahan susu, rempah hangat, dan gula aren.",
+            price: 13000,
+            category: "minuman",
+            image: "https://kimi-web-img.moonshot.cn/img/awsimages.detik.net.id/3d56c89c1144e017007c81733a601da459e490f2.jpeg",
+            badge: "new",
+            badgeText: "Baru",
+            rating: 4.7,
+            reviews: 58
+        }, {
+            id: 33,
+            name: "Es Timun Serut",
+            desc: "Timun serut dengan sirup dan perasan jeruk nipis. Sangat segar untuk cuaca panas.",
+            price: 11000,
+            category: "minuman",
+            image: "https://kimi-web-img.moonshot.cn/img/i0.wp.com/3ce60dbb06ba78056568dd795032292da87d5e53.jpg",
+            badge: "",
+            badgeText: "",
+            rating: 4.6,
+            reviews: 71
+        }, {
+            id: 34,
+            name: "Teh Tarik",
+            desc: "Teh susu ala Malaysia yang ditarik hingga berbusa lembut. Manis dan creamy.",
+            price: 14000,
+            category: "minuman",
+            image: "https://kimi-web-img.moonshot.cn/img/www.tripsavvy.com/0f303158cece634f71a4d30f6eb01b969118b2e5.jpg",
+            badge: "bestseller",
+            badgeText: "Best Seller",
+            rating: 4.8,
+            reviews: 165
+        }, {
+            id: 35,
+            name: "STMJ (Susu Telur Madu Jahe)",
+            desc: "Minuman tradisional penambah stamina, hangat dan menyehatkan.",
+            price: 15000,
+            category: "minuman",
+            image: "https://kimi-web-img.moonshot.cn/img/cdn.hellosehat.com/4b2769a9a8174488ec4078d8df84cd530c627445.jpg",
+            badge: "limited",
+            badgeText: "✦ Limited",
+            rating: 4.7,
+            reviews: 44
+        }, {
+            id: 36,
+            name: "Es Doger",
+            desc: "Es campur khas Sunda dengan tape, ketan hitam, alpukat, dan susu kental manis.",
+            price: 17000,
+            category: "minuman",
+            image: "https://kimi-web-img.moonshot.cn/img/www.gastronomiac.com/0b817352d8dc1be1a6dcfe4a96e64929c4fda02e.jpg",
+            badge: "",
+            badgeText: "",
+            rating: 4.7,
+            reviews: 118
+        }, {
+            id: 37,
+            name: "Kelapa Muda Segar",
+            desc: "Air kelapa muda asli dengan daging kelapa dan sirup gula aren.",
+            price: 15000,
+            category: "minuman",
+            image: "https://kimi-web-img.moonshot.cn/img/cdn.hellosehat.com/b5089b9fcbdbe37b66c74905e23db1e3daa12a67.jpg",
+            badge: "",
+            badgeText: "",
+            rating: 4.8,
+            reviews: 152
+        }, {
+            id: 38,
+            name: "Kopi Hitam Tubruk",
+            desc: "Kopi robusta pilihan diseduh cara tradisional, kental dan aromatik.",
+            price: 10000,
+            category: "minuman",
+            image: "https://kimi-web-img.moonshot.cn/img/www.static-src.com/2dedf5a461bb424a5b61243adae9b82579e25f72.jpg",
+            badge: "",
+            badgeText: "",
+            rating: 4.6,
+            reviews: 99
+        }, {
+            id: 39,
+            name: "Milkshake Coklat",
+            desc: "Milkshake coklat creamy dengan whipped cream dan choco chips di atasnya.",
+            price: 20000,
+            category: "minuman",
+            image: "https://kimi-web-img.moonshot.cn/img/iambaker.net/82990b408b3b2568475ec13dd8f5308920006cf7.jpg",
+            badge: "new",
+            badgeText: "Baru",
+            rating: 4.8,
+            reviews: 76
+        }, {
+            id: 40,
+            name: "Tahu Isi Sayur",
+            desc: "Tahu goreng isi sayuran renyah dengan cabai rawit segar. Camilan favorit sore hari.",
+            price: 9000,
+            category: "camilan",
+            image: "https://kimi-web-img.moonshot.cn/img/img-global.cpcdn.com/b9155f7fb96d2fafb5487cca6d5e3638b8c4f9f5.jpg",
+            badge: "",
+            badgeText: "",
+            rating: 4.6,
+            reviews: 88
+        }, {
+            id: 41,
+            name: "Tempe Mendoan",
+            desc: "Tempe goreng tepung khas Banyumas, tebal dan gurih, disajikan dengan sambal kecap.",
+            price: 10000,
+            category: "camilan",
+            image: "https://kimi-web-img.moonshot.cn/img/img-global.cpcdn.com/451af45f31abde1e38a6b467d5f27de11665e48a.jpg",
+            badge: "bestseller",
+            badgeText: "Best Seller",
+            rating: 4.8,
+            reviews: 176
+        }, {
+            id: 42,
+            name: "Risoles Ragout",
+            desc: "Risoles isi ragout ayam dan sayuran, dibalut tepung roti renyah. 3 pcs per porsi.",
+            price: 13000,
+            category: "camilan",
+            image: "https://kimi-web-img.moonshot.cn/img/monicaisinthekitchen.wordpress.com/f82f8f52b46e112993419f777650b78973637d55.jpg",
+            badge: "",
+            badgeText: "",
+            rating: 4.7,
+            reviews: 92
+        }, {
+            id: 43,
+            name: "Lumpia Semarang",
+            desc: "Lumpia basah khas Semarang isi rebung dan ayam, digoreng renyah sempurna.",
+            price: 14000,
+            category: "camilan",
+            image: "https://kimi-web-img.moonshot.cn/img/img-global.cpcdn.com/bafc46000a86741b58ce0f37ab59e47578d1f7b4.jpg",
+            badge: "limited",
+            badgeText: "✦ Limited",
+            rating: 4.9,
+            reviews: 67
+        }, {
+            id: 44,
+            name: "Klepon",
+            desc: "Kue tradisional isi gula merah cair berbalut kelapa parut. Manis legit khas Nusantara.",
+            price: 8000,
+            category: "camilan",
+            image: "https://kimi-web-img.moonshot.cn/img/static.uc.ac.id/39e7f171013c31868aa036ce06454af6ed808828.jpeg",
+            badge: "",
+            badgeText: "",
+            rating: 4.7,
+            reviews: 105
+        }];
+
+
+        // ================================================================
+        // CART & UI
+        // ================================================================
         let cart = [];
         let currentCategory = 'all';
 
-        // ===== FORMAT PRICE =====
         function formatPrice(price) {
             return 'Rp ' + price.toLocaleString('id-ID');
         }
 
-        // ===== RENDER MENU =====
-        function renderMenu(category = 'all') {
+        function renderMenu(category) {
+            category = category || 'all';
             const grid = document.getElementById('menuGrid');
             grid.innerHTML = '';
-
-            const filtered = category === 'all'
-                ? menuItems
-                : menuItems.filter(item => item.category === category);
-
-            filtered.forEach((item, index) => {
-                const card = document.createElement('div');
+            const filtered = category === 'all' ? menuItems : menuItems.filter(function(item) { return item
+                    .category === category; });
+            filtered.forEach(function(item, index) {
+                var card = document.createElement('div');
                 card.className = 'menu-card animate-in';
-                card.style.animationDelay = `${index * 0.06}s`;
-                card.dataset.category = item.category;
-
-                const badgeHtml = item.badge
-                    ? `<div class="menu-card-badge ${item.badge}">${item.badgeText}</div>`
-                    : '';
-
-                card.innerHTML = `
-                    <div class="menu-card-img">
-                        ${badgeHtml}
-                        <img src="${item.image}" alt="${item.name}" loading="lazy">
-                    </div>
-                    <div class="menu-card-content">
-                        <div class="menu-card-header">
-                            <h3 class="menu-card-title">${item.name}</h3>
-                            <span class="menu-card-price">${formatPrice(item.price)}</span>
-                        </div>
-                        <p class="menu-card-desc">${item.desc}</p>
-                        <div class="menu-card-footer">
-                            <div class="menu-card-rating">
-                                <span class="stars">★</span>
-                                <span>${item.rating}</span>
-                                <span style="color: var(--text-muted);">(${item.reviews})</span>
-                            </div>
-                            <button class="btn-add" onclick="addToCart(${item.id})" id="btn-${item.id}">
-                                + Tambah
-                            </button>
-                        </div>
-                    </div>
-                `;
+                card.style.animationDelay = (index * 0.06) + 's';
+                var badgeHtml = item.badge ? '<div class="menu-card-badge ' + item.badge + '">' + item
+                    .badgeText + '</div>' : '';
+                card.innerHTML =
+                    '<div class="menu-card-img">' + badgeHtml +
+                    '<img src="' + item.image + '" alt="' + item.name + '" loading="lazy"></div>' +
+                    '<div class="menu-card-content">' +
+                    '<div class="menu-card-header"><h3 class="menu-card-title">' + item.name +
+                    '</h3><span class="menu-card-price">' + formatPrice(item.price) + '</span></div>' +
+                    '<p class="menu-card-desc">' + item.desc + '</p>' +
+                    '<div class="menu-card-footer">' +
+                    '<div class="menu-card-rating"><span class="stars">★</span><span>' + item.rating +
+                    '</span><span style="color:var(--text-muted);">(' + item.reviews + ')</span></div>' +
+                    '<button class="btn-add" onclick="addToCart(' + item.id + ')" id="btn-' + item.id +
+                    '">+ Tambah</button>' +
+                    '</div></div>';
                 grid.appendChild(card);
             });
         }
 
-        // ===== FILTER MENU =====
         function filterMenu(category) {
             currentCategory = category;
-
-            document.querySelectorAll('.menu-tab').forEach(tab => {
+            document.querySelectorAll('.menu-tab').forEach(function(tab) {
                 tab.classList.toggle('active', tab.dataset.category === category);
             });
-
             renderMenu(category);
         }
 
-        // ===== CART FUNCTIONS =====
         function addToCart(itemId) {
-            const item = menuItems.find(i => i.id === itemId);
+            var item = menuItems.find(function(i) { return i.id === itemId; });
             if (!item) return;
-
-            const existing = cart.find(c => c.id === itemId);
-            if (existing) {
-                existing.qty++;
-            } else {
-                cart.push({ ...item, qty: 1 });
-            }
-
+            var existing = cart.find(function(c) { return c.id === itemId; });
+            if (existing) { existing.qty++; } else { cart.push({ id: item.id, name: item.name, price: item.price,
+                    image: item.image, qty: 1 }); }
             updateCart();
-            showToast(`✅ ${item.name} ditambahkan!`);
-
-            const btn = document.getElementById(`btn-${itemId}`);
-            if (btn) {
-                btn.classList.add('added');
+            showToast('✅ ' + item.name + ' ditambahkan!');
+            var btn = document.getElementById('btn-' + itemId);
+            if (btn) { btn.classList.add('added');
                 btn.textContent = '✓ Ditambah';
-                setTimeout(() => {
-                    btn.classList.remove('added');
-                    btn.textContent = '+ Tambah';
-                }, 1500);
-            }
+                setTimeout(function() { btn.classList.remove('added');
+                    btn.textContent = '+ Tambah'; }, 1500); }
         }
 
         function removeFromCart(itemId) {
-            cart = cart.filter(c => c.id !== itemId);
+            cart = cart.filter(function(c) { return c.id !== itemId; });
             updateCart();
         }
 
         function updateQty(itemId, delta) {
-            const item = cart.find(c => c.id === itemId);
+            var item = cart.find(function(c) { return c.id === itemId; });
             if (!item) return;
-
             item.qty += delta;
-            if (item.qty <= 0) {
-                removeFromCart(itemId);
-            } else {
-                updateCart();
-            }
+            if (item.qty <= 0) { removeFromCart(itemId); } else { updateCart(); }
         }
 
         function updateCart() {
-            const count = cart.reduce((sum, item) => sum + item.qty, 0);
+            var count = cart.reduce(function(sum, item) { return sum + item.qty; }, 0);
             document.getElementById('cartCount').textContent = count;
-
-            const cartItems = document.getElementById('cartItems');
-            const cartFooter = document.getElementById('cartFooter');
-
+            var cartItems = document.getElementById('cartItems');
+            var cartFooter = document.getElementById('cartFooter');
             if (cart.length === 0) {
-                cartItems.innerHTML = `
-                    <div class="cart-empty">
-                        <div class="cart-empty-icon">🛒</div>
-                        <p>Keranjang masih kosong</p>
-                        <p style="font-size: 13px; margin-top: 8px;">Tambahkan menu favoritmu!</p>
-                    </div>
-                `;
+                cartItems.innerHTML =
+                    '<div class="cart-empty"><div class="cart-empty-icon">🛒</div><p>Keranjang masih kosong</p><p style="font-size:13px;margin-top:8px;">Tambahkan menu favoritmu!</p></div>';
                 cartFooter.style.display = 'none';
                 return;
             }
-
             cartFooter.style.display = 'block';
-
-            let html = '';
-            let subtotal = 0;
-
-            cart.forEach(item => {
+            var html = '';
+            var subtotal = 0;
+            cart.forEach(function(item) {
                 subtotal += item.price * item.qty;
-                html += `
-                    <div class="cart-item">
-                        <img src="${item.image}" alt="${item.name}" class="cart-item-img">
-                        <div class="cart-item-info">
-                            <div class="cart-item-name">${item.name}</div>
-                            <div class="cart-item-price">${formatPrice(item.price)}</div>
-                        </div>
-                        <div class="cart-item-qty">
-                            <button class="qty-btn" onclick="updateQty(${item.id}, -1)">−</button>
-                            <span>${item.qty}</span>
-                            <button class="qty-btn" onclick="updateQty(${item.id}, 1)">+</button>
-                        </div>
-                        <button class="cart-item-remove" onclick="removeFromCart(${item.id})">🗑️</button>
-                    </div>
-                `;
+                html += '<div class="cart-item">' +
+                    '<img src="' + item.image + '" alt="' + item.name + '" class="cart-item-img">' +
+                    '<div class="cart-item-info"><div class="cart-item-name">' + item.name +
+                    '</div><div class="cart-item-price">' + formatPrice(item.price) + '</div></div>' +
+                    '<div class="cart-item-qty">' +
+                    '<button class="qty-btn" onclick="updateQty(' + item.id + ',-1)">−</button>' +
+                    '<span>' + item.qty + '</span>' +
+                    '<button class="qty-btn" onclick="updateQty(' + item.id + ',1)">+</button>' +
+                    '</div>' +
+                    '<button class="cart-item-remove" onclick="removeFromCart(' + item.id + ')">🗑️</button>' +
+                    '</div>';
             });
-
             cartItems.innerHTML = html;
-
-            const tax = Math.round(subtotal * 0.1);
-            const total = subtotal + tax;
-
+            var tax = Math.round(subtotal * 0.1);
+            var total = subtotal + tax;
             document.getElementById('subtotalPrice').textContent = formatPrice(subtotal);
             document.getElementById('taxPrice').textContent = formatPrice(tax);
             document.getElementById('grandTotal').textContent = formatPrice(total);
@@ -2274,59 +2129,56 @@
         function toggleCart() {
             document.getElementById('cartOverlay').classList.toggle('active');
             document.getElementById('cartSidebar').classList.toggle('active');
-            document.body.style.overflow = document.getElementById('cartSidebar').classList.contains('active') ? 'hidden' : '';
+            document.body.style.overflow = document.getElementById('cartSidebar').classList.contains('active') ? 'hidden' :
+                '';
         }
 
         function checkout() {
             if (cart.length === 0) return;
-
-            const total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
-            const tax = Math.round(total * 0.1);
-            const grandTotal = total + tax;
-
-            showToast(` Pesanan berhasil! Total: ${formatPrice(grandTotal)}`);
+            var total = cart.reduce(function(sum, item) { return sum + item.price * item.qty; }, 0);
+            var tax = Math.round(total * 0.1);
+            var grandTotal = total + tax;
+            showToast('🎉 Pesanan berhasil! Total: ' + formatPrice(grandTotal));
             cart = [];
             updateCart();
             setTimeout(toggleCart, 1500);
         }
 
-        // ===== TOAST =====
-        function showToast(message) {
-            const toast = document.getElementById('toast');
-            document.getElementById('toastMessage').textContent = message;
+        function showToast(msg) {
+            var toast = document.getElementById('toast');
+            document.getElementById('toastMessage').textContent = msg;
             toast.classList.add('show');
-            setTimeout(() => toast.classList.remove('show'), 3000);
+            clearTimeout(toast._timer);
+            toast._timer = setTimeout(function() { toast.classList.remove('show'); }, 3000);
         }
 
-        // ===== MOBILE MENU =====
         function toggleMenu() {
             document.getElementById('navLinks').classList.toggle('active');
         }
 
-        // ===== NAVBAR SCROLL =====
-        window.addEventListener('scroll', () => {
-            const navbar = document.getElementById('navbar');
+        // ===== NAVBAR SCROLL & ACTIVE LINK =====
+        window.addEventListener('scroll', function() {
+            var navbar = document.getElementById('navbar');
             navbar.classList.toggle('scrolled', window.scrollY > 50);
-
-            const sections = ['home', 'menu', 'about', 'testimonials', 'contact'];
-            const scrollPos = window.scrollY + 100;
-
-            sections.forEach(id => {
-                const section = document.getElementById(id);
-                const link = document.querySelector(`a[href="#${id}"]`);
+            var sections = ['home', 'menu', 'about', 'testimonials', 'contact'];
+            var scrollPos = window.scrollY + 100;
+            sections.forEach(function(id) {
+                var section = document.getElementById(id);
+                var link = document.querySelector('a[href="#' + id + '"]');
                 if (section && link) {
-                    const top = section.offsetTop;
-                    const bottom = top + section.offsetHeight;
+                    var top = section.offsetTop;
+                    var bottom = top + section.offsetHeight;
                     if (scrollPos >= top && scrollPos < bottom) {
-                        document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+                        document.querySelectorAll('.nav-links a').forEach(function(a) { a.classList.remove(
+                                'active'); });
                         link.classList.add('active');
                     }
                 }
             });
         });
 
-        document.querySelectorAll('.nav-links a').forEach(link => {
-            link.addEventListener('click', () => {
+        document.querySelectorAll('.nav-links a').forEach(function(link) {
+            link.addEventListener('click', function() {
                 document.getElementById('navLinks').classList.remove('active');
             });
         });

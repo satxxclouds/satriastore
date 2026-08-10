@@ -11,6 +11,52 @@
 
 <style>
   /* ═══════════════════════════════════════════
+     MAINTENANCE MODE
+     ═══════════════════════════════════════════ */
+  .maintenance-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+  }
+
+  .maintenance-overlay.hidden {
+    display: none;
+  }
+
+  .maintenance-box {
+    text-align: center;
+    padding: 40px 20px;
+    max-width: 400px;
+  }
+
+  .maintenance-icon {
+    font-size: 64px;
+    margin-bottom: 24px;
+  }
+
+  .maintenance-box h1 {
+    font-family: 'Nunito', sans-serif;
+    font-size: 32px;
+    font-weight: 400;
+    color: #332F3A;
+    margin-bottom: 8px;
+    letter-spacing: -0.02em;
+  }
+
+  .maintenance-box p {
+    color: #635F69;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  /* ═══════════════════════════════════════════
      CLAYMORPHISM SYSTEM
      ═══════════════════════════════════════════ */
   :root {
@@ -197,207 +243,63 @@
   /* Badges */
   .badge { display: inline-flex; align-items: center; gap: 4px; padding: 4px 8px; border-radius: 20px; font-size: 10px; font-weight: 800; text-transform: uppercase; }
   .badge::before { content:''; width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
-  .badge-success { background: rgba(16, 185, 129, 0.15); color: var(--accent-success); }
-  .badge-process { background: rgba(14, 165, 233, 0.15); color: var(--accent-info); }
-  .badge-pending { background: rgba(245, 158, 11, 0.15); color: var(--accent-warning); }
-  .badge-failed { background: rgba(239, 68, 68, 0.15); color: var(--accent-danger); }
+  .badge-success { background: rgba(16, 185, 129, 0.2); color: var(--accent-success); }
+  .badge-process { background: rgba(168, 85, 247, 0.2); color: var(--accent-primary); }
+  .badge-pending { background: rgba(245, 158, 11, 0.2); color: var(--accent-warning); }
+  .badge-failed { background: rgba(239, 68, 68, 0.2); color: var(--accent-danger); }
 
   /* Pills */
-  .pill-row { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; margin-bottom: 16px; }
-  .pill { padding: 8px 16px; border-radius: 50px; background: var(--bg-card); font-weight: 700; font-size: 12px; color: var(--text-secondary); white-space: nowrap; box-shadow: var(--shadow-clay-card); transition: all 0.3s; border: none; cursor: pointer; }
-  .pill.active { background: var(--grad-primary); color: white; box-shadow: 0 4px 10px rgba(124, 58, 237, 0.3); }
+  .pill { display: inline-flex; align-items: center; justify-content: center; padding: 8px 14px; border-radius: 20px; font-size: 12px; font-weight: 700; background: rgba(0,0,0,0.06); color: var(--text-secondary); transition: all 0.3s; cursor: pointer; }
+  .pill.active { background: var(--grad-primary); color: white; }
+  body.dark-mode .pill { background: rgba(255,255,255,0.08); }
 
-  /* Summary */
-  .summary-box { background: var(--shadow-input-bg); border-radius: var(--radius-md); padding: 16px; margin-top: 16px; box-shadow: var(--shadow-clay-pressed); transition: all 0.3s; }
-  .sum-row { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 13px; color: var(--text-secondary); }
-  .sum-total { border-top: 1px dashed var(--divider); padding-top: 12px; margin-top: 12px; display: flex; justify-content: space-between; align-items: center; }
-  .sum-val { font-size: 20px; font-weight: 900; color: var(--accent-primary); font-family: 'Nunito'; }
+  /* Toggles */
+  .toggle-switch { position: relative; display: inline-block; width: 48px; height: 28px; }
+  .toggle-switch input { opacity: 0; width: 0; height: 0; }
+  .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; border-radius: 28px; }
+  .slider::before { position: absolute; content: ""; height: 22px; width: 22px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
+  input:checked + .slider { background-color: var(--accent-primary); }
+  input:checked + .slider::before { transform: translateX(20px); }
+
+  /* FAQ */
+  .faq-item { margin-bottom: 12px; }
+  .faq-header { padding: 14px; background: var(--bg-card); border-radius: var(--radius-md); box-shadow: var(--shadow-clay-card); cursor: pointer; display: flex; justify-content: space-between; align-items: center; user-select: none; transition: all 0.3s; }
+  .faq-header:active { transform: scale(0.98); }
+  .faq-icon { font-size: 18px; transition: transform 0.3s; }
+  .faq-item.open .faq-icon { transform: rotate(180deg); }
+  .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; padding: 0 14px; }
+  .faq-item.open .faq-answer { max-height: 500px; padding: 14px; }
+  .faq-answer p { color: var(--text-secondary); font-size: 13px; line-height: 1.6; }
+
+  /* Nav */
+  .nav-bar { position: fixed; bottom: 0; left: 0; right: 0; background: var(--bg-card-trans); backdrop-filter: blur(20px); height: var(--nav-height); display: flex; align-items: center; justify-content: center; gap: 0; border-top: 1px solid var(--divider); z-index: 100; }
+  .nav-items { position: relative; display: flex; gap: 0; align-items: center; width: 100%; height: 100%; max-width: 600px; }
+  .nav-item { flex: 1; text-align: center; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; color: var(--text-muted); cursor: pointer; transition: color 0.3s; }
+  .nav-item.active { color: var(--accent-primary); }
+  .nav-icon { font-size: 20px; }
+  .nav-label { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+  .limelight { position: absolute; bottom: 0; height: 3px; background: var(--accent-primary); border-radius: 3px 3px 0 0; transition: left 0.3s, width 0.3s; visibility: hidden; }
+  .limelight.visible { visibility: visible; }
 
   /* Pages */
-  .page { display: none; animation: fadeIn 0.3s ease-out; }
-  .page.active { display: block; }
-  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  .page { display: none; opacity: 0; transition: opacity 0.3s; }
+  .page.active { display: block; opacity: 1; }
 
-  /* Typewriter */
-  .typewriter-container { text-align: center; padding: 30px 0 20px; }
-  .typewriter-text { font-family: 'Nunito', sans-serif; font-size: 22px; font-weight: 900; color: var(--accent-primary); min-height: 28px; display: inline-block; }
-  .cursor { display: inline-block; width: 3px; height: 22px; background-color: var(--accent-primary); margin-left: 3px; vertical-align: middle; animation: blink 1s infinite; }
-  .typewriter-sub { font-size: 13px; color: var(--text-secondary); margin-top: 8px; font-weight: 500; }
-  @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
-
-  /* Section Headers */
-  .section-title { display: flex; align-items: center; gap: 8px; margin: 24px 4px 14px; }
-  .section-title h2 { font-size: 17px; font-weight: 900; }
-  .section-title .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent-primary); }
-
-  /* ═══ HOW IT WORKS ═══ */
-  .steps-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
-  .step-card {
-    background: var(--bg-card);
-    border-radius: var(--radius-md);
-    padding: 16px;
-    box-shadow: var(--shadow-clay-card);
-    display: flex;
-    gap: 14px;
-    align-items: center;
-    transition: all 0.3s;
+  @media (max-width: 400px) {
+    .grid-4 { grid-template-columns: repeat(2, 1fr); }
   }
-  .step-num {
-    width: 44px; height: 44px; flex-shrink: 0;
-    border-radius: 14px;
-    background: var(--grad-primary);
-    color: white;
-    font-family: 'Nunito'; font-weight: 900; font-size: 18px;
-    display: flex; align-items: center; justify-content: center;
-    box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
-  }
-  .step-card:nth-child(2) .step-num { background: var(--grad-pink); box-shadow: 0 4px 12px rgba(219, 39, 119, 0.3); }
-  .step-card:nth-child(3) .step-num { background: var(--grad-green); box-shadow: 0 4px 12px rgba(5, 150, 105, 0.3); }
-  .step-body h3 { font-size: 14px; font-weight: 800; margin-bottom: 3px; }
-  .step-body p { font-size: 12px; color: var(--text-secondary); line-height: 1.5; }
-
-  /* ═══ BENEFITS GRID ═══ */
-  .benefits-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  .benefit-card {
-    background: var(--bg-card);
-    border-radius: var(--radius-md);
-    padding: 14px;
-    box-shadow: var(--shadow-clay-card);
-    text-align: center;
-    transition: transform 0.3s;
-  }
-  .benefit-card:active { transform: scale(0.97); }
-  .benefit-icon {
-    width: 42px; height: 42px; border-radius: 12px;
-    margin: 0 auto 10px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 20px;
-    box-shadow: var(--shadow-clay-pressed);
-  }
-  .benefit-card h4 { font-size: 13px; font-weight: 800; margin-bottom: 4px; }
-  .benefit-card p { font-size: 11px; color: var(--text-secondary); line-height: 1.4; }
-
-  /* ═══ FAQ ═══ */
-  .faq-list { display: flex; flex-direction: column; gap: 10px; }
-  .faq-item {
-    background: var(--bg-card);
-    border-radius: var(--radius-md);
-    padding: 14px 16px;
-    box-shadow: var(--shadow-clay-card);
-    cursor: pointer;
-    transition: all 0.3s;
-    overflow: hidden;
-  }
-  .faq-q {
-    display: flex; justify-content: space-between; align-items: center; gap: 10px;
-    font-size: 13px; font-weight: 700; color: var(--text-primary);
-  }
-  .faq-q-icon {
-    width: 24px; height: 24px; flex-shrink: 0;
-    border-radius: 8px;
-    background: var(--shadow-input-bg);
-    display: flex; align-items: center; justify-content: center;
-    color: var(--accent-primary);
-    font-weight: 900; font-size: 14px;
-    box-shadow: var(--shadow-clay-pressed);
-    transition: all 0.3s;
-  }
-  .faq-item.open .faq-q-icon { background: var(--grad-primary); color: white; transform: rotate(45deg); }
-  .faq-a {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.4s ease, margin-top 0.3s;
-  }
-  .faq-item.open .faq-a { max-height: 200px; margin-top: 10px; }
-  .faq-a p { font-size: 12px; color: var(--text-secondary); line-height: 1.6; padding-top: 10px; border-top: 1px solid var(--divider); }
-
-  /* ═══ SALDO CARD (Profile) ═══ */
-  .saldo-hero {
-    background: var(--grad-primary);
-    border-radius: var(--radius-lg);
-    padding: 24px;
-    color: white;
-    margin-bottom: 16px;
-    box-shadow: 0 10px 30px rgba(124, 58, 237, 0.3);
-    position: relative;
-    overflow: hidden;
-  }
-  .saldo-hero::before {
-    content: '';
-    position: absolute;
-    top: -50%; right: -30%;
-    width: 200px; height: 200px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 50%;
-  }
-  .saldo-hero::after {
-    content: '';
-    position: absolute;
-    bottom: -40%; left: -20%;
-    width: 150px; height: 150px;
-    background: rgba(255, 255, 255, 0.08);
-    border-radius: 50%;
-  }
-  .saldo-label { font-size: 12px; font-weight: 600; opacity: 0.85; margin-bottom: 8px; position: relative; z-index: 1; }
-  .saldo-amount { font-size: 32px; font-weight: 900; font-family: 'Nunito'; margin-bottom: 16px; position: relative; z-index: 1; }
-  .saldo-actions { display: flex; gap: 8px; position: relative; z-index: 1; }
-  .saldo-btn {
-    flex: 1; padding: 10px;
-    background: rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(10px);
-    border-radius: 12px;
-    font-weight: 800; font-size: 12px; color: white;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.2s;
-    border: none;
-  }
-  .saldo-btn:active { transform: scale(0.95); background: rgba(255, 255, 255, 0.3); }
-
-  /* Toggle Switch */
-  .setting-row {
-    display: flex; justify-content: space-between; align-items: center;
-    padding: 12px 0;
-    border-bottom: 1px solid var(--divider);
-  }
-  .setting-row:last-child { border-bottom: none; }
-  .setting-info { flex: 1; }
-  .setting-info h4 { font-size: 14px; font-weight: 700; margin-bottom: 2px; }
-  .setting-info p { font-size: 11px; color: var(--text-muted); }
-  
-  .toggle-switch { position: relative; display: inline-block; width: 52px; height: 30px; flex-shrink: 0; }
-  .toggle-switch input { opacity: 0; width: 0; height: 0; }
-  .slider-toggle {
-    position: absolute; cursor: pointer; inset: 0;
-    background: var(--shadow-input-bg);
-    border-radius: 34px;
-    box-shadow: var(--shadow-clay-pressed);
-    transition: all 0.3s;
-  }
-  .slider-toggle:before {
-    position: absolute; content: "";
-    height: 22px; width: 22px; left: 4px; bottom: 4px;
-    background-color: var(--text-secondary);
-    border-radius: 50%;
-    transition: all 0.3s;
-  }
-  input:checked + .slider-toggle { background: var(--grad-primary); box-shadow: 0 4px 10px rgba(124, 58, 237, 0.3); }
-  input:checked + .slider-toggle:before { transform: translateX(22px); background-color: white; }
-
-  /* Bottom Nav */
-  .bottom-nav-wrapper { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: 92%; max-width: 400px; z-index: 100; }
-  .bottom-nav { position: relative; display: flex; justify-content: space-around; align-items: center; height: 64px; background: var(--bg-card); border-radius: 32px; box-shadow: var(--shadow-clay-card); padding: 0 10px; transition: all 0.4s; }
-  .nav-item { position: relative; z-index: 2; flex: 1; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; color: var(--text-muted); transition: color 0.3s; }
-  .nav-item svg { width: 22px; height: 22px; stroke-width: 2.5px; transition: transform 0.2s; }
-  .nav-item.active { color: var(--accent-primary); }
-  .nav-item.active svg { transform: translateY(-2px); }
-  .limelight { position: absolute; top: -6px; height: 6px; width: 40px; background: var(--accent-primary); border-radius: 10px; box-shadow: 0 0 15px var(--accent-primary); transition: left 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); z-index: 1; left: 0; opacity: 0; }
-  .limelight.visible { opacity: 1; }
-  .content-spacer { height: 100px; }
-
 </style>
 </head>
 <body>
+
+<!-- MAINTENANCE OVERLAY -->
+<div class="maintenance-overlay" id="maintenanceOverlay">
+  <div class="maintenance-box">
+    <div class="maintenance-icon">🔧</div>
+    <h1>Server Sedang<br>Maintenance</h1>
+    <p>Kami akan kembali segera</p>
+  </div>
+</div>
 
 <div class="ambient-blobs">
   <div class="blob blob-1"></div>
@@ -405,178 +307,96 @@
 </div>
 
 <div class="container">
-  
-  <!-- HEADER (Tanpa Saldo) -->
-  <header class="top-header">
+  <!-- HEADER -->
+  <div class="top-header">
     <div class="user-welcome">
-      <h1>Halo, Ganzz 👋</h1>
-      <p>Siap boost sosmed hari ini?</p>
+      <h1 id="typing-text"></h1>
+      <p>Suntikin Mobile Panel</p>
     </div>
-    <button class="header-action" onclick="switchTab('profile')" title="Profil">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.6-4 5-6 8-6s6.4 2 8 6"/></svg>
-    </button>
-  </header>
+    <button class="header-action">⚙️</button>
+  </div>
 
-  <!-- ═══════════════════════════════════════════
-       DASHBOARD PAGE (Educational Content)
-       ═══════════════════════════════════════════ -->
-  <section class="page active" id="page-dashboard">
-    
-    <!-- Typewriter Welcome -->
-    <div class="typewriter-container">
-      <div><span class="typewriter-text" id="typing-text"></span><span class="cursor"></span></div>
-      <p class="typewriter-sub">Platform suntik sosmed terpercaya & termurah 🚀</p>
+  <!-- STATS -->
+  <div class="grid-4">
+    <div class="stat-card">
+      <div class="stat-icon" style="background: var(--grad-primary);">📊</div>
+      <div class="stat-val">1.2K</div>
+      <div class="stat-lbl">Saldo</div>
     </div>
+    <div class="stat-card">
+      <div class="stat-icon" style="background: var(--grad-pink);">✨</div>
+      <div class="stat-val">24</div>
+      <div class="stat-lbl">Order</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon" style="background: var(--grad-blue);">📈</div>
+      <div class="stat-val">89%</div>
+      <div class="stat-lbl">Rating</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon" style="background: var(--grad-green);">🏆</div>
+      <div class="stat-val">VIP</div>
+      <div class="stat-lbl">Status</div>
+    </div>
+  </div>
 
-    <!-- CARA ORDER -->
-    <div class="section-title">
-      <div class="dot"></div>
-      <h2>Cara Order</h2>
-    </div>
-    
-    <div class="steps-grid">
-      <div class="step-card">
-        <div class="step-num">1</div>
-        <div class="step-body">
-          <h3>Pilih Layanan</h3>
-          <p>Buka tab "Buat Pesanan", pilih kategori sosmed dan jenis layanan yang kamu butuhkan.</p>
-        </div>
+  <!-- NAVIGATION -->
+  <div style="position: relative; margin-bottom: 20px;">
+    <div class="nav-items" id="navItems" style="max-width: 100%; justify-content: space-around; position: static; height: auto; gap: 12px;">
+      <div class="nav-item active" data-page="dashboard">
+        <div class="nav-icon">📱</div>
+        <div class="nav-label">Dashboard</div>
       </div>
-      
-      <div class="step-card">
-        <div class="step-num">2</div>
-        <div class="step-body">
-          <h3>Isi Data & Jumlah</h3>
-          <p>Masukkan username atau link target, lalu tentukan jumlah yang ingin di-boost.</p>
-        </div>
+      <div class="nav-item" data-page="order">
+        <div class="nav-icon">📦</div>
+        <div class="nav-label">Order</div>
       </div>
-      
-      <div class="step-card">
-        <div class="step-num">3</div>
-        <div class="step-body">
-          <h3>Kirim via WhatsApp</h3>
-          <p>Klik tombol pesan, order otomatis terkirim ke admin. Proses cepat dalam hitungan menit!</p>
-        </div>
+      <div class="nav-item" data-page="services">
+        <div class="nav-icon">🛍️</div>
+        <div class="nav-label">Services</div>
+      </div>
+      <div class="nav-item" data-page="history">
+        <div class="nav-icon">📋</div>
+        <div class="nav-label">History</div>
+      </div>
+      <div class="nav-item" data-page="faq">
+        <div class="nav-icon">❓</div>
+        <div class="nav-label">FAQ</div>
       </div>
     </div>
+  </div>
 
-    <!-- KENAPA SUNTIKIN? -->
-    <div class="section-title">
-      <div class="dot"></div>
-      <h2>Kenapa Suntikin?</h2>
-    </div>
-    
-    <div class="benefits-grid">
-      <div class="benefit-card">
-        <div class="benefit-icon" style="background: rgba(16, 185, 129, 0.15);">🛡️</div>
-        <h4>100% Aman</h4>
-        <p>Akun real, tidak kena banned atau shadow ban.</p>
-      </div>
-      
-      <div class="benefit-card">
-        <div class="benefit-icon" style="background: rgba(14, 165, 233, 0.15);">⚡</div>
-        <h4>Proses Instan</h4>
-        <p>Rata-rata selesai dalam 5-30 menit saja.</p>
-      </div>
-      
-      <div class="benefit-card">
-        <div class="benefit-icon" style="background: rgba(245, 158, 11, 0.15);">💰</div>
-        <h4>Harga Termurah</h4>
-        <p>Mulai Rp 2.500 per 1.000 followers/views.</p>
-      </div>
-      
-      <div class="benefit-card">
-        <div class="benefit-icon" style="background: rgba(219, 39, 119, 0.15);">🎁</div>
-        <h4>Garansi Refill</h4>
-        <p>Gratis isi ulang jika ada penurunan.</p>
-      </div>
-    </div>
+  <!-- PAGES -->
 
-    <!-- FAQ -->
-    <div class="section-title">
-      <div class="dot"></div>
-      <h2>Pertanyaan Umum</h2>
-    </div>
-    
-    <div class="faq-list">
-      <div class="faq-item" onclick="toggleFaq(this)">
-        <div class="faq-q">
-          <span>Apakah followers yang diberikan asli?</span>
-          <div class="faq-q-icon">+</div>
-        </div>
-        <div class="faq-a">
-          <p>Ya, kami menggunakan akun real dan aktif. Bukan bot, sehingga aman untuk akun kamu dan tidak berisiko kena banned.</p>
-        </div>
-      </div>
-      
-      <div class="faq-item" onclick="toggleFaq(this)">
-        <div class="faq-q">
-          <span>Berapa lama proses setelah order?</span>
-          <div class="faq-q-icon">+</div>
-        </div>
-        <div class="faq-a">
-          <p>Rata-rata 5-30 menit untuk layanan standar, tergantung volume dan platform. Layanan premium bisa selesai instan.</p>
-        </div>
-      </div>
-      
-      <div class="faq-item" onclick="toggleFaq(this)">
-        <div class="faq-q">
-          <span>Akun saya harus public atau private?</span>
-          <div class="faq-q-icon">+</div>
-        </div>
-        <div class="faq-a">
-          <p>Untuk followers, akun harus public selama proses berlangsung. Untuk likes/views pada postingan, postingan harus bisa diakses publik.</p>
-        </div>
-      </div>
-      
-      <div class="faq-item" onclick="toggleFaq(this)">
-        <div class="faq-q">
-          <span>Metode pembayaran apa saja?</span>
-          <div class="faq-q-icon">+</div>
-        </div>
-        <div class="faq-a">
-          <p>Kami menerima transfer bank (BCA, Mandiri, BNI, BRI), e-wallet (GoPay, OVO, Dana, ShopeePay), dan QRIS. Bisa juga via saldo deposit.</p>
-        </div>
-      </div>
-      
-      <div class="faq-item" onclick="toggleFaq(this)">
-        <div class="faq-q">
-          <span>Bagaimana jika followers berkurang?</span>
-          <div class="faq-q-icon">+</div>
-        </div>
-        <div class="faq-a">
-          <p>Kami menyediakan garansi refill 30 hari. Jika ada penurunan, tinggal hubungi admin untuk diisi ulang gratis.</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- PESANAN TERBARU -->
-    <div class="section-title">
-      <div class="dot"></div>
-      <h2>Pesanan Terbaru</h2>
-    </div>
-    
+  <!-- DASHBOARD PAGE -->
+  <div class="page active" id="page-dashboard">
     <div class="card">
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>ID</th><th>Layanan</th><th>Status</th></tr></thead>
-          <tbody>
-            <tr><td class="mono">#1042</td><td>Followers IG</td><td><span class="badge badge-success">Sukses</span></td></tr>
-            <tr><td class="mono">#1041</td><td>Views TikTok</td><td><span class="badge badge-process">Proses</span></td></tr>
-            <tr><td class="mono">#1040</td><td>Likes IG</td><td><span class="badge badge-success">Sukses</span></td></tr>
-          </tbody>
-        </table>
+      <h2 style="font-size: 16px; margin-bottom: 12px;">📌 Panduan Singkat</h2>
+      <p style="font-size: 12px; color: var(--text-secondary); line-height: 1.6;">
+        Selamat datang di Suntikin! Pilih layanan yang ingin Anda order, isi target, dan kirim pesanan via WhatsApp. Tim kami siap membantu 24/7.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2 style="font-size: 16px; margin-bottom: 12px;">🎯 Promo Bulan Ini</h2>
+      <div class="grid-2" style="gap: 10px;">
+        <div style="background: var(--grad-pink); padding: 12px; border-radius: 12px; color: white; font-size: 12px; font-weight: 700;">
+          Instagram +20%
+        </div>
+        <div style="background: var(--grad-blue); padding: 12px; border-radius: 12px; color: white; font-size: 12px; font-weight: 700;">
+          TikTok +15%
+        </div>
       </div>
     </div>
-  </section>
+  </div>
 
   <!-- ORDER PAGE -->
-  <section class="page" id="page-order">
+  <div class="page" id="page-order">
     <div class="card">
-      <h3 style="font-size:18px;margin-bottom:16px;">Buat Pesanan</h3>
+      <h2 style="font-size: 16px; margin-bottom: 16px;">Buat Pesanan</h2>
       
       <div class="field">
-        <label>Kategori</label>
+        <label>Pilih Platform</label>
         <div class="select-wrapper">
           <select id="ordCategory">
             <option value="ig">Instagram</option>
@@ -588,167 +408,184 @@
       </div>
 
       <div class="field">
-        <label>Layanan</label>
+        <label>Pilih Layanan</label>
         <div class="select-wrapper">
           <select id="ordService"></select>
         </div>
-        <div class="hint" id="ordHint">Min 100 · Max 50k</div>
-      </div>
-
-      <div class="field">
-        <label>Target (Link / Username)</label>
-        <input class="input" id="ordTarget" placeholder="@username atau link postingan">
       </div>
 
       <div class="field">
         <label>Jumlah</label>
-        <input class="input" id="ordQty" type="number" value="1000">
+        <input type="number" id="ordQty" class="input" value="100" min="1">
       </div>
 
-      <div class="summary-box">
-        <div class="sum-row"><span>Total Bayar</span><span class="sum-val mono" id="sumTotal">Rp 0</span></div>
+      <div class="field">
+        <label>Target (Link/Username)</label>
+        <input type="text" id="ordTarget" class="input" placeholder="Contoh: @username atau link">
       </div>
 
-      <button class="btn btn-primary btn-block" style="margin-top:16px;" onclick="sendToWA()">
-        <svg viewBox="0 0 24 24" fill="currentColor" style="width:18px;height:18px"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-        Pesan via WhatsApp
-      </button>
+      <div class="card" style="background: var(--grad-primary); color: white; text-align: center; margin: 16px 0 0 0;">
+        <div style="font-size: 12px; margin-bottom: 4px;">Total</div>
+        <div id="sumTotal" style="font-size: 20px; font-weight: 900;">Rp 0</div>
+      </div>
+
+      <button class="btn btn-primary btn-block" style="margin-top: 16px;" onclick="sendToWA()">Pesan via WhatsApp</button>
     </div>
-  </section>
+  </div>
 
   <!-- SERVICES PAGE -->
-  <section class="page" id="page-services">
-    <div class="pill-row" id="svcPills">
-      <button class="pill active" data-cat="all">Semua</button>
-      <button class="pill" data-cat="ig">Instagram</button>
-      <button class="pill" data-cat="tiktok">TikTok</button>
-      <button class="pill" data-cat="yt">YouTube</button>
-    </div>
+  <div class="page" id="page-services">
     <div class="card">
+      <h2 style="font-size: 16px; margin-bottom: 12px;">Daftar Layanan</h2>
+      <div id="svcPills" style="display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap;">
+        <div class="pill active" data-cat="all">Semua</div>
+        <div class="pill" data-cat="ig">Instagram</div>
+        <div class="pill" data-cat="tiktok">TikTok</div>
+        <div class="pill" data-cat="yt">YouTube</div>
+        <div class="pill" data-cat="fb">Facebook</div>
+      </div>
       <div class="table-wrap">
         <table>
-          <thead><tr><th>ID</th><th>Nama Layanan</th><th>Harga/1k</th></tr></thead>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Layanan</th>
+              <th>Harga</th>
+            </tr>
+          </thead>
           <tbody id="svcTableBody"></tbody>
         </table>
       </div>
     </div>
-  </section>
+  </div>
 
   <!-- HISTORY PAGE -->
-  <section class="page" id="page-history">
-    <div class="card" style="padding:12px;margin-bottom:12px;">
-      <input class="input" id="histSearch" placeholder="Cari ID atau Target..." style="padding:10px 14px;font-size:13px;">
-    </div>
+  <div class="page" id="page-history">
     <div class="card">
-      <div class="table-wrap">
+      <h2 style="font-size: 16px; margin-bottom: 12px;">Riwayat Pesanan</h2>
+      <input type="text" id="histSearch" class="input" placeholder="Cari order atau service...">
+      <div class="table-wrap" style="margin-top: 12px;">
         <table>
-          <thead><tr><th>ID</th><th>Layanan</th><th>Status</th><th>Tgl</th></tr></thead>
+          <thead>
+            <tr>
+              <th>Order ID</th>
+              <th>Layanan</th>
+              <th>Status</th>
+              <th>Tgl</th>
+            </tr>
+          </thead>
           <tbody id="histTableBody"></tbody>
         </table>
       </div>
     </div>
-  </section>
+  </div>
 
-  <!-- ═══════════════════════════════════════════
-       PROFILE PAGE (Dengan Saldo)
-       ═══════════════════════════════════════════ -->
-  <section class="page" id="page-profile">
-    
-    <!-- Saldo Hero Card -->
-    <div class="saldo-hero">
-      <div class="saldo-label">💳 Saldo Akun Kamu</div>
-      <div class="saldo-amount">Rp 1.250.000</div>
-      <div class="saldo-actions">
-        <button class="saldo-btn" onclick="switchTab('deposit')">+ Top Up</button>
-        <button class="saldo-btn" onclick="switchTab('order')">Pesan Baru</button>
-      </div>
-    </div>
-
-    <!-- Profile Info -->
-    <div class="card" style="text-align:center;padding:20px;">
-      <div style="width:64px;height:64px;border-radius:20px;background:var(--grad-primary);margin:0 auto 12px;display:flex;align-items:center;justify-content:center;color:white;font-weight:900;font-size:24px;">BS</div>
-      <h3 style="font-size:17px;">Budi Santoso</h3>
-      <p style="font-size:12px;color:var(--text-secondary);margin-bottom:12px;">Reseller Pro · Member sejak 2025</p>
-    </div>
-    
-    <!-- Settings -->
+  <!-- FAQ PAGE -->
+  <div class="page" id="page-faq">
     <div class="card">
-      <h3 style="font-size:15px;margin-bottom:10px;">Pengaturan</h3>
+      <h2 style="font-size: 16px; margin-bottom: 16px;">Pertanyaan Umum</h2>
       
-      <div class="setting-row">
-        <div class="setting-info">
-          <h4>🌙 Mode Gelap</h4>
-          <p>Nyaman di mata saat malam hari</p>
+      <div class="faq-item">
+        <div class="faq-header" onclick="toggleFaq(this.parentElement)">
+          <span style="font-weight: 700;">Bagaimana cara order?</span>
+          <span class="faq-icon">▼</span>
         </div>
-        <label class="toggle-switch">
-          <input type="checkbox" id="darkModeToggle">
-          <span class="slider-toggle"></span>
-        </label>
+        <div class="faq-answer"><p>Klik tab Order, pilih platform dan layanan, isi target, lalu kirim via WhatsApp.</p></div>
       </div>
-      
-      <div class="setting-row">
-        <div class="setting-info">
-          <h4>🔔 Notifikasi</h4>
-          <p>Terima update pesanan</p>
+
+      <div class="faq-item">
+        <div class="faq-header" onclick="toggleFaq(this.parentElement)">
+          <span style="font-weight: 700;">Berapa lama proses?</span>
+          <span class="faq-icon">▼</span>
         </div>
-        <label class="toggle-switch">
-          <input type="checkbox" checked>
-          <span class="slider-toggle"></span>
-        </label>
+        <div class="faq-answer"><p>Rata-rata 1-24 jam tergantung layanan. Real followers bisa lebih lama.</p></div>
       </div>
-      
-      <div class="setting-row">
-        <div class="setting-info">
-          <h4>🌐 Bahasa</h4>
-          <p>Indonesia</p>
+
+      <div class="faq-item">
+        <div class="faq-header" onclick="toggleFaq(this.parentElement)">
+          <span style="font-weight: 700;">Apa garansi Anda?</span>
+          <span class="faq-icon">▼</span>
         </div>
-        <div style="font-size:12px;color:var(--text-muted);">ID ▾</div>
+        <div class="faq-answer"><p>Garansi pengganti jika order tidak selesai dalam waktu yang dijanjikan.</p></div>
       </div>
     </div>
+  </div>
 
-    <!-- API Key -->
-    <div class="card">
-      <h3 style="font-size:15px;margin-bottom:12px;">API Key Reseller</h3>
-      <div style="display:flex;gap:8px;">
-        <input class="input" value="sk_live_9f2a7c4e8b1d" readonly style="font-size:11px;padding:10px;">
-        <button class="btn btn-primary" style="padding:0 16px;font-size:12px;">Copy</button>
-      </div>
-    </div>
-    
-    <button class="btn btn-primary btn-block" style="margin-top:10px;background:linear-gradient(135deg, #EF4444, #DC2626);">Keluar dari Akun</button>
-  </section>
-
-  <div class="content-spacer"></div>
 </div>
 
 <!-- BOTTOM NAV -->
-<div class="bottom-nav-wrapper">
-  <nav class="bottom-nav">
+<div class="nav-bar">
+  <div class="nav-items" id="navItems">
     <div class="limelight" id="limelight"></div>
-    
     <div class="nav-item active" data-page="dashboard">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>
+      <div class="nav-icon">📱</div>
+      <div class="nav-label">Dashboard</div>
     </div>
-    
     <div class="nav-item" data-page="order">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+      <div class="nav-icon">📦</div>
+      <div class="nav-label">Order</div>
     </div>
-    
     <div class="nav-item" data-page="services">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="4" rx="1"/><rect x="3" y="10" width="18" height="4" rx="1"/><rect x="3" y="16" width="18" height="4" rx="1"/></svg>
+      <div class="nav-icon">🛍️</div>
+      <div class="nav-label">Services</div>
     </div>
-    
     <div class="nav-item" data-page="history">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/><path d="M12 8v4l3 3"/></svg>
+      <div class="nav-icon">📋</div>
+      <div class="nav-label">History</div>
     </div>
-    
-    <div class="nav-item" data-page="profile">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.6-4 5-6 8-6s6.4 2 8 6"/></svg>
+    <div class="nav-item" data-page="faq">
+      <div class="nav-icon">❓</div>
+      <div class="nav-label">FAQ</div>
     </div>
-  </nav>
+  </div>
 </div>
 
 <script>
+  // ═══════════════════════════════════════════
+  // MAINTENANCE MODE SYSTEM
+  // ═══════════════════════════════════════════
+  
+  // Check maintenance status saat load
+  function checkMaintenance() {
+    const isMaintenanceOn = localStorage.getItem('maintenanceMode') === 'true';
+    const maintenanceOverlay = document.getElementById('maintenanceOverlay');
+    
+    if (isMaintenanceOn) {
+      maintenanceOverlay.classList.remove('hidden');
+      // Disable all content behind
+      document.body.style.overflow = 'hidden';
+    } else {
+      maintenanceOverlay.classList.add('hidden');
+      document.body.style.overflow = 'auto';
+    }
+  }
+  
+  // Panggil saat halaman load
+  window.addEventListener('load', checkMaintenance);
+  
+  // Admin Panel - Tekan Ctrl+Shift+M untuk buka panel
+  document.addEventListener('keydown', (e) => {
+    if (e.ctrlKey && e.shiftKey && e.key === 'M') {
+      e.preventDefault();
+      
+      const password = prompt('🔐 Masukkan password admin:');
+      if (password === 'satria2026') {
+        const isOn = localStorage.getItem('maintenanceMode') === 'true';
+        const newState = !isOn;
+        localStorage.setItem('maintenanceMode', newState ? 'true' : 'false');
+        
+        alert(newState ? '✅ Maintenance DIAKTIFKAN' : '✅ Maintenance DIMATIKAN');
+        checkMaintenance();
+      } else {
+        alert('❌ Password salah!');
+      }
+    }
+  });
+
+  // ═══════════════════════════════════════════
+  // EXISTING CODE
+  // ═══════════════════════════════════════════
+  
   // --- DATA ---
   const SERVICES = [
     {id:'SR101', cat:'ig', name:'Followers Instagram Real', price:18000},
@@ -911,37 +748,34 @@
     el.classList.toggle('open');
   }
 
-  // --- DARK MODE (FIXED) ---
+  // --- DARK MODE ---
   const darkModeToggle = document.getElementById('darkModeToggle');
   
-  // Load saved preference on startup
   function applyTheme(theme) {
     if (theme === 'dark') {
       document.body.classList.add('dark-mode');
-      darkModeToggle.checked = true;
+      if (darkModeToggle) darkModeToggle.checked = true;
     } else {
       document.body.classList.remove('dark-mode');
-      darkModeToggle.checked = false;
+      if (darkModeToggle) darkModeToggle.checked = false;
     }
   }
   
-  // Check localStorage on load
   const savedTheme = localStorage.getItem('theme') || 'light';
   applyTheme(savedTheme);
 
-  // Event listener with explicit state handling
-  darkModeToggle.addEventListener('change', function(e) {
-    if (e.target.checked) {
-      document.body.classList.add('dark-mode');
-      localStorage.setItem('theme', 'dark');
-      console.log('Dark mode ON');
-    } else {
-      document.body.classList.remove('dark-mode');
-      localStorage.setItem('theme', 'light');
-      console.log('Dark mode OFF');
-    }
-  });
-
+  if (darkModeToggle) {
+    darkModeToggle.addEventListener('change', function(e) {
+      if (e.target.checked) {
+        document.body.classList.add('dark-mode');
+        localStorage.setItem('theme', 'dark');
+      } else {
+        document.body.classList.remove('dark-mode');
+        localStorage.setItem('theme', 'light');
+      }
+    });
+  }
 </script>
+
 </body>
 </html>
