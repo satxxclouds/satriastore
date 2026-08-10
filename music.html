@@ -477,6 +477,111 @@
     .control-buttons { gap: 16px; }
     .ctrl-btn.play { width: 48px; height: 48px; font-size: 20px; }
   }
+  #maintenanceScreen {
+    position: fixed;
+    inset: 0;
+    z-index: 999999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    text-align: center;
+
+    background:
+        radial-gradient(
+            circle at 20% 20%,
+            rgba(201, 162, 39, 0.15),
+            transparent 35%
+        ),
+        radial-gradient(
+            circle at 80% 80%,
+            rgba(201, 162, 39, 0.10),
+            transparent 35%
+        ),
+        #0f0f0f;
+
+    color: white;
+}
+
+.maintenance-box {
+    width: 100%;
+    max-width: 550px;
+    padding: 50px 35px;
+    border-radius: 24px;
+
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(201,162,39,0.3);
+
+    backdrop-filter: blur(20px);
+
+    box-shadow:
+        0 30px 80px rgba(0,0,0,0.5);
+}
+
+.maintenance-icon {
+    width: 80px;
+    height: 80px;
+
+    margin: 0 auto 25px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: linear-gradient(
+        135deg,
+        #c9a227,
+        #f5d76e
+    );
+
+    font-size: 38px;
+
+    box-shadow:
+        0 10px 30px rgba(201,162,39,0.3);
+}
+
+.maintenance-box h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 38px;
+    margin-bottom: 15px;
+}
+
+.maintenance-box p {
+    color: rgba(255,255,255,0.65);
+    line-height: 1.8;
+    margin-bottom: 25px;
+}
+
+.maintenance-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    padding: 9px 16px;
+
+    border-radius: 50px;
+
+    background: rgba(201,162,39,0.1);
+    border: 1px solid rgba(201,162,39,0.25);
+
+    color: #f5d76e;
+
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.maintenance-status span {
+    width: 8px;
+    height: 8px;
+
+    border-radius: 50%;
+
+    background: #f5d76e;
+
+    box-shadow: 0 0 10px #f5d76e;
+}
 </style>
 <base target="_blank">
 </head>
@@ -825,6 +930,29 @@
   console.log('%c SATRIA MUSIC ', 'background: linear-gradient(135deg, #a855f7, #e879f9); color: #fff; font-size: 20px; font-weight: bold; padding: 10px 20px; border-radius: 10px;');
   console.log('%c Upload lagu & enjoy the visualizer! ', 'color: #e879f9; font-size: 14px;');
 </script>
+<div id="maintenanceScreen">
+    <div class="maintenance-box">
+        <div class="maintenance-icon">🛠️</div>
 
+        <h1>Website Sedang Maintenance</h1>
+
+        <p>
+            Kami sedang melakukan perbaikan dan peningkatan
+            pada website. Silakan kembali lagi nanti.
+        </p>
+
+        <div class="maintenance-status">
+            <span></span>
+            Sistem Dalam Perbaikan
+        </div>
+    </div>
+</div>
+<script>
+    const MAINTENANCE_MODE = true;
+
+    if (MAINTENANCE_MODE) {
+        document.body.style.overflow = 'hidden';
+    }
+</script>
 </body>
 </html>
