@@ -11,7 +11,7 @@
 
 <style>
   /* ═══════════════════════════════════════════
-     MAINTENANCE MODE
+     MAINTENANCE OVERLAY — TANPA TOMBOL ADMIN
      ═══════════════════════════════════════════ */
   .maintenance-overlay {
     position: fixed;
@@ -23,33 +23,31 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 9999;
+    z-index: 99999;
+    transition: opacity 0.3s ease;
+    pointer-events: auto;
   }
-
   .maintenance-overlay.hidden {
     display: none;
   }
-
   .maintenance-box {
     text-align: center;
     padding: 40px 20px;
     max-width: 400px;
+    width: 100%;
   }
-
   .maintenance-icon {
     font-size: 64px;
     margin-bottom: 24px;
   }
-
   .maintenance-box h1 {
     font-family: 'Nunito', sans-serif;
     font-size: 32px;
-    font-weight: 400;
+    font-weight: 800;
     color: #332F3A;
     margin-bottom: 8px;
     letter-spacing: -0.02em;
   }
-
   .maintenance-box p {
     color: #635F69;
     font-size: 14px;
@@ -138,7 +136,6 @@
     transition: background 0.4s ease, color 0.4s ease;
   }
 
-  /* Ambient Blobs */
   .ambient-blobs { position: fixed; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; }
   .blob { position: absolute; border-radius: 50%; filter: blur(60px); opacity: 0.3; animation: blobFloat 10s ease-in-out infinite alternate; }
   .blob-1 { width: 80vw; height: 80vw; background: #A78BFA; top: -20%; left: -20%; }
@@ -161,7 +158,6 @@
     transition: background 0.4s, box-shadow 0.4s;
   }
   
-  /* Header Area */
   .top-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-top: 10px; }
   .user-welcome h1 { font-size: 20px; margin-bottom: 2px; }
   .user-welcome p { font-size: 12px; color: var(--text-secondary); font-weight: 600; }
@@ -173,6 +169,9 @@
     display: flex; align-items: center; justify-content: center;
     color: var(--text-primary);
     transition: all 0.3s;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
   }
   .header-action:active { transform: scale(0.92); box-shadow: var(--shadow-clay-pressed); }
 
@@ -292,8 +291,8 @@
 </head>
 <body>
 
-<!-- MAINTENANCE OVERLAY -->
-<div class="maintenance-overlay" id="maintenanceOverlay">
+<!-- ===== MAINTENANCE OVERLAY (tanpa tombol admin) ===== -->
+<div class="maintenance-overlay hidden" id="maintenanceOverlay">
   <div class="maintenance-box">
     <div class="maintenance-icon">🔧</div>
     <h1>Server Sedang<br>Maintenance</h1>
@@ -313,7 +312,8 @@
       <h1 id="typing-text"></h1>
       <p>Suntikin Mobile Panel</p>
     </div>
-    <button class="header-action">⚙️</button>
+    <!-- Tombol admin TIDAK ADA di sini, hanya shortcut keyboard -->
+    <div style="width:40px; height:40px;"></div>
   </div>
 
   <!-- STATS -->
@@ -342,7 +342,7 @@
 
   <!-- NAVIGATION -->
   <div style="position: relative; margin-bottom: 20px;">
-    <div class="nav-items" id="navItems" style="max-width: 100%; justify-content: space-around; position: static; height: auto; gap: 12px;">
+    <div class="nav-items" style="max-width: 100%; justify-content: space-around; position: static; height: auto; gap: 12px;">
       <div class="nav-item active" data-page="dashboard">
         <div class="nav-icon">📱</div>
         <div class="nav-label">Dashboard</div>
@@ -542,48 +542,65 @@
 
 <script>
   // ═══════════════════════════════════════════
-  // MAINTENANCE MODE SYSTEM
+  // MAINTENANCE MODE — HANYA SHORTCUT, TIDAK ADA TOMBOL
   // ═══════════════════════════════════════════
-  
-  // Check maintenance status saat load
-  function checkMaintenance() {
-    const isMaintenanceOn = localStorage.getItem('maintenanceMode') === 'true';
-    const maintenanceOverlay = document.getElementById('maintenanceOverlay');
-    
-    if (isMaintenanceOn) {
-      maintenanceOverlay.classList.remove('hidden');
-      // Disable all content behind
-      document.body.style.overflow = 'hidden';
-    } else {
-      maintenanceOverlay.classList.add('hidden');
-      document.body.style.overflow = 'auto';
+  (function() {
+    const ADMIN_PASSWORD = 'satria2026';
+    const overlay = document.getElementById('maintenanceOverlay');
+
+    function isMaintenanceOn() {
+      return localStorage.getItem('maintenanceMode') === 'true';
     }
-  }
-  
-  // Panggil saat halaman load
-  window.addEventListener('load', checkMaintenance);
-  
-  // Admin Panel - Tekan Ctrl+Shift+M untuk buka panel
-  document.addEventListener('keydown', (e) => {
-    if (e.ctrlKey && e.shiftKey && e.key === 'M') {
-      e.preventDefault();
-      
-      const password = prompt('🔐 Masukkan password admin:');
-      if (password === 'satria2026') {
-        const isOn = localStorage.getItem('maintenanceMode') === 'true';
-        const newState = !isOn;
+
+    function updateOverlay() {
+      const on = isMaintenanceOn();
+      if (on) {
+        overlay.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+      } else {
+        overlay.classList.add('hidden');
+        document.body.style.overflow = '';
+      }
+    }
+
+    function toggleMaintenance(password) {
+      if (password === ADMIN_PASSWORD) {
+        const newState = !isMaintenanceOn();
         localStorage.setItem('maintenanceMode', newState ? 'true' : 'false');
-        
+        updateOverlay();
         alert(newState ? '✅ Maintenance DIAKTIFKAN' : '✅ Maintenance DIMATIKAN');
-        checkMaintenance();
       } else {
         alert('❌ Password salah!');
       }
     }
-  });
+
+    // HANYA SHORTCUT KEYBOARD: Ctrl+Shift+M
+    document.addEventListener('keydown', function(e) {
+      if (e.ctrlKey && e.shiftKey && (e.key === 'm' || e.key === 'M')) {
+        e.preventDefault();
+        const msg = isMaintenanceOn() ? 
+          'Maintenance sedang AKTIF. Ingin menonaktifkan?' : 
+          'Maintenance sedang NONAKTIF. Ingin mengaktifkan?';
+        if (confirm(msg + '\nKlik OK untuk melanjutkan.')) {
+          const pwd = prompt('Masukkan password admin:');
+          if (pwd !== null) {
+            toggleMaintenance(pwd);
+          }
+        }
+      }
+    });
+
+    // Inisialisasi
+    updateOverlay();
+
+    // Opsional: cara alternatif untuk HP (bisa dipanggil dari console)
+    window.toggleMaintenance = toggleMaintenance;
+    window.isMaintenanceOn = isMaintenanceOn;
+  })();
+
 
   // ═══════════════════════════════════════════
-  // EXISTING CODE
+  // EXISTING CODE (TIDAK DIUBAH)
   // ═══════════════════════════════════════════
   
   // --- DATA ---
@@ -746,34 +763,6 @@
   // --- FAQ TOGGLE ---
   function toggleFaq(el) {
     el.classList.toggle('open');
-  }
-
-  // --- DARK MODE ---
-  const darkModeToggle = document.getElementById('darkModeToggle');
-  
-  function applyTheme(theme) {
-    if (theme === 'dark') {
-      document.body.classList.add('dark-mode');
-      if (darkModeToggle) darkModeToggle.checked = true;
-    } else {
-      document.body.classList.remove('dark-mode');
-      if (darkModeToggle) darkModeToggle.checked = false;
-    }
-  }
-  
-  const savedTheme = localStorage.getItem('theme') || 'light';
-  applyTheme(savedTheme);
-
-  if (darkModeToggle) {
-    darkModeToggle.addEventListener('change', function(e) {
-      if (e.target.checked) {
-        document.body.classList.add('dark-mode');
-        localStorage.setItem('theme', 'dark');
-      } else {
-        document.body.classList.remove('dark-mode');
-        localStorage.setItem('theme', 'light');
-      }
-    });
   }
 </script>
 

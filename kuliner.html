@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>Warung Satria — Limited Edition</title>
     <link
         href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap"
@@ -130,6 +130,7 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            cursor: pointer;
         }
         .logo-icon {
             width: 40px;
@@ -1046,20 +1047,30 @@
             display: none !important;
         }
 
-        /* ===== MAINTENANCE OVERLAY — SIMPLE VERSION (seperti gambar) ===== */
+        /* ================================================================
+           MAINTENANCE OVERLAY — FIX UNTUK SEMUA DEVICE
+           ================================================================ */
         #maintenanceOverlay {
-            position: fixed;
-            inset: 0;
-            z-index: 9999;
-            background: #0a0a0f;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            font-family: 'Inter', sans-serif;
-            text-align: center;
-            color: #fff;
-            padding: 24px;
+            position: fixed !important;
+            inset: 0 !important;
+            width: 100vw !important;
+            height: 100vh !important;
+            z-index: 999999 !important;
+            background: #0a0a0f !important;
+            display: none !important;
+            align-items: center !important;
+            justify-content: center !important;
+            flex-direction: column !important;
+            font-family: 'Inter', sans-serif !important;
+            text-align: center !important;
+            color: #fff !important;
+            padding: 24px !important;
+            pointer-events: auto !important;
+            -webkit-backdrop-filter: blur(0px) !important;
+            backdrop-filter: blur(0px) !important;
+        }
+        #maintenanceOverlay.active {
+            display: flex !important;
         }
         #maintenanceOverlay .maintenance-icon {
             font-size: 48px;
@@ -1192,12 +1203,13 @@
 
 <body>
 
-    <!-- ===== MAINTENANCE OVERLAY (SIMPLE seperti gambar) ===== -->
+    <!-- ===== MAINTENANCE OVERLAY ===== -->
     <div id="maintenanceOverlay">
         <div class="maintenance-icon">🔧</div>
         <h2>Server Sedang Maintenance</h2>
         <p>Kami akan kembali segera</p>
         <div class="shortcut-hint">
+            
         </div>
     </div>
 
@@ -1208,7 +1220,7 @@
 
     <!-- ===== NAVBAR ===== -->
     <nav class="navbar" id="navbar">
-        <a href="#home" class="logo">
+        <a href="#home" class="logo" id="logoTrigger">
             <div class="logo-icon">🍽️</div>
             Warung Satria
         </a>
@@ -1405,7 +1417,7 @@
     <!-- ============================================================ -->
     <script>
         // ================================================================
-        // MAINTENANCE MODE — SIMPLE VERSION (seperti gambar)
+        // MAINTENANCE MODE — FIX UNTUK SEMUA DEVICE
         // ================================================================
         (function() {
             const STORAGE_KEY = 'warung_satria_maintenance';
@@ -1426,15 +1438,28 @@
 
             function updateUI() {
                 if (isOn) {
-                    overlay.style.display = 'flex';
+                    overlay.classList.add('active');
+                    overlay.style.display = 'flex !important';
+                    document.documentElement.style.overflow = 'hidden';
                     document.body.style.overflow = 'hidden';
+                    document.body.style.position = 'fixed';
+                    document.body.style.width = '100%';
+                    document.body.style.height = '100%';
+                    document.body.style.top = '0';
+                    document.body.style.left = '0';
                 } else {
-                    overlay.style.display = 'none';
+                    overlay.classList.remove('active');
+                    overlay.style.display = 'none !important';
+                    document.documentElement.style.overflow = '';
                     document.body.style.overflow = '';
+                    document.body.style.position = '';
+                    document.body.style.width = '';
+                    document.body.style.height = '';
+                    document.body.style.top = '';
+                    document.body.style.left = '';
                 }
             }
 
-            // Toggle dengan password (via prompt)
             function toggleWithPrompt() {
                 const pwd = prompt('Masukkan password admin untuk toggle maintenance:');
                 if (pwd === null) return;
@@ -1460,6 +1485,33 @@
                     }
                 }
             });
+
+            // Fallback: klik logo 3x (untuk HP)
+            var logoClickCount = 0;
+            var logoClickTimer = null;
+            var logoEl = document.getElementById('logoTrigger');
+            if (logoEl) {
+                logoEl.addEventListener('click', function(e) {
+                    // Jangan override link ke #home
+                    if (e.target.closest('a')) return;
+                    logoClickCount++;
+                    if (logoClickCount === 3) {
+                        logoClickCount = 0;
+                        clearTimeout(logoClickTimer);
+                        const msg = isOn ?
+                            'Maintenance sedang AKTIF. Ingin menonaktifkan?' :
+                            'Maintenance sedang NONAKTIF. Ingin mengaktifkan?';
+                        if (confirm(msg + '\nKlik OK untuk melanjutkan.')) {
+                            toggleWithPrompt();
+                        }
+                    } else {
+                        clearTimeout(logoClickTimer);
+                        logoClickTimer = setTimeout(function() {
+                            logoClickCount = 0;
+                        }, 1000);
+                    }
+                });
+            }
 
             // Inisialisasi
             load();
