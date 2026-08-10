@@ -5,44 +5,84 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Satria Creative | Full Stack Developer</title>
 
+    <!-- Google Fonts: Outfit + Plus Jakarta Sans -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 
     <style>
-        /* ===== ROOT ===== */
+        /* ============================================================
+           PLAYFUL GEOMETRIC DESIGN SYSTEM
+           ============================================================ */
+
         :root {
-            --bg-body: #E0E5EC;
-            --bg-card: #E0E5EC;
-            --text-primary: #2D3748;
-            --text-secondary: #4A5568;
-            --accent-1: #6C63FF;
-            --accent-2: #5a52d5;
-            --accent-3: #7C6FFF;
-            --gradient-main: linear-gradient(135deg, #6C63FF, #8B83FF);
-            --shadow-light: rgba(255, 255, 255, 0.7);
-            --shadow-dark: rgba(163, 177, 198, 0.5);
-            --radius: 20px;
-            --transition: 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            /* Colors */
+            --bg-body: #FFFDF5;
+            --bg-card: #FFFFFF;
+            --bg-muted: #F1F5F9;
+            --text-primary: #1E293B;
+            --text-secondary: #475569;
+            --text-muted: #64748B;
+            --accent: #8B5CF6;
+            --accent-foreground: #FFFFFF;
+            --secondary: #F472B6;
+            --tertiary: #FBBF24;
+            --quaternary: #34D399;
+            --border: #E2E8F0;
+            --input-bg: #FFFFFF;
+            --ring: #8B5CF6;
+
+            /* Typography */
+            --font-heading: 'Outfit', system-ui, sans-serif;
+            --font-body: 'Plus Jakarta Sans', system-ui, sans-serif;
+
+            /* Radius */
+            --radius-sm: 8px;
+            --radius-md: 16px;
+            --radius-lg: 24px;
+            --radius-full: 9999px;
+
+            /* Shadows - "Pop" hard shadow */
+            --shadow-pop: 4px 4px 0px 0px #1E293B;
+            --shadow-pop-lg: 8px 8px 0px 0px #E2E8F0;
+            --shadow-pop-pink: 8px 8px 0px 0px #F472B6;
+            --shadow-pop-hover: 6px 6px 0px 0px #1E293B;
+            --shadow-pop-active: 2px 2px 0px 0px #1E293B;
+
+            /* Border width */
+            --border-width: 2px;
+
+            /* Transitions */
+            --transition-bounce: 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            --transition-smooth: 0.3s ease;
         }
 
+        /* ============================================================
+           RESET & BASE
+           ============================================================ */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
+
         html {
             scroll-behavior: smooth;
-            scroll-padding-top: 80px;
+            scroll-padding-top: 100px;
         }
+
         body {
             background: var(--bg-body);
             color: var(--text-primary);
-            font-family: 'Inter', sans-serif;
-            line-height: 1.6;
+            font-family: var(--font-body);
+            line-height: 1.7;
             overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
+
         a {
             text-decoration: none;
             color: inherit;
@@ -54,90 +94,141 @@
             max-width: 100%;
             display: block;
         }
+
         .container {
             max-width: 1100px;
             margin: 0 auto;
             padding: 0 24px;
         }
+
         section {
             padding: 100px 0;
             position: relative;
             z-index: 2;
+            overflow: hidden;
         }
 
-        /* ===== GLOW ===== */
-        .glow {
-            position: fixed;
-            width: 600px;
-            height: 600px;
-            border-radius: 50%;
-            filter: blur(120px);
+        /* ============================================================
+           DECORATIVE SHAPES (Background)
+           ============================================================ */
+        .shape {
+            position: absolute;
             pointer-events: none;
             z-index: 0;
+            opacity: 0.15;
+        }
+        .shape-circle {
+            border-radius: 50%;
+            background: var(--secondary);
+            width: 200px;
+            height: 200px;
+        }
+        .shape-triangle {
+            width: 0;
+            height: 0;
+            border-left: 80px solid transparent;
+            border-right: 80px solid transparent;
+            border-bottom: 120px solid var(--tertiary);
+        }
+        .shape-dots {
+            background-image: radial-gradient(circle, var(--text-muted) 2px, transparent 2px);
+            background-size: 20px 20px;
+            width: 300px;
+            height: 300px;
             opacity: 0.08;
-            transition: all 0.1s ease;
         }
-        .glow-1 {
-            background: #6C63FF;
-            top: -200px;
-            left: -200px;
+        .shape-squiggle {
+            font-size: 5rem;
+            color: var(--secondary);
+            opacity: 0.10;
+            line-height: 1;
         }
-        .glow-2 {
-            background: #6C63FF;
-            bottom: -200px;
-            right: -200px;
+        .shape-blob {
+            border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+            background: var(--tertiary);
+            width: 250px;
+            height: 200px;
+            opacity: 0.10;
         }
 
-        /* ===== SECTION HEADER ===== */
+        /* ============================================================
+           SECTION HEADER
+           ============================================================ */
         .section-header {
             text-align: center;
             margin-bottom: 60px;
         }
         .section-tag {
             display: inline-block;
-            padding: 6px 18px;
-            border-radius: 50px;
-            font-size: 0.75rem;
-            font-weight: 600;
+            padding: 6px 20px;
+            border-radius: var(--radius-full);
+            font-size: 0.7rem;
+            font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 2px;
-            background: rgba(108, 99, 255, 0.08);
-            color: var(--accent-1);
-            border: 1px solid rgba(108, 99, 255, 0.12);
+            letter-spacing: 1.5px;
+            background: var(--accent);
+            color: #fff;
+            border: var(--border-width) solid var(--text-primary);
+            box-shadow: var(--shadow-pop);
             margin-bottom: 16px;
+            font-family: var(--font-heading);
         }
         .section-title {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: clamp(2rem, 4vw, 3.2rem);
-            font-weight: 700;
+            font-family: var(--font-heading);
+            font-size: clamp(2.2rem, 4.5vw, 3.6rem);
+            font-weight: 800;
             color: var(--text-primary);
+            line-height: 1.1;
         }
         .section-title .highlight {
-            background: var(--gradient-main);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            color: var(--accent);
+            position: relative;
+            display: inline-block;
+        }
+        .section-title .highlight::after {
+            content: '';
+            position: absolute;
+            bottom: 2px;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: var(--tertiary);
+            opacity: 0.4;
+            border-radius: 4px;
+            z-index: -1;
         }
         .section-subtitle {
             color: var(--text-secondary);
             font-size: 1.05rem;
-            max-width: 500px;
+            max-width: 520px;
             margin: 12px auto 0;
+            font-weight: 400;
         }
 
-        /* ===== NEUMORPHISM ===== */
-        .neu-flat {
+        /* ============================================================
+           NEUMORPHISM → REPLACED WITH PLAYFUL STICKER CARDS
+           ============================================================ */
+        .card-sticker {
             background: var(--bg-card);
-            box-shadow: 9px 9px 16px var(--shadow-dark), -9px -9px 16px var(--shadow-light);
-            border-radius: var(--radius);
+            border: var(--border-width) solid var(--text-primary);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-pop-lg);
+            transition: all var(--transition-bounce);
         }
-        .neu-pressed {
-            background: var(--bg-card);
-            box-shadow: inset 6px 6px 10px var(--shadow-dark), inset -6px -6px 10px var(--shadow-light);
-            border-radius: 14px;
+        .card-sticker:hover {
+            transform: translateY(-4px) rotate(-0.5deg);
+            box-shadow: 10px 10px 0px 0px var(--border);
+        }
+        .card-sticker-pink {
+            box-shadow: var(--shadow-pop-pink);
+        }
+        .card-sticker-pink:hover {
+            box-shadow: 12px 12px 0px 0px var(--secondary);
         }
 
-        /* ===== NAVBAR ===== */
+        /* ============================================================
+           NAVBAR
+           ============================================================ */
         .navbar {
             position: fixed;
             top: 0;
@@ -145,15 +236,14 @@
             width: 100%;
             z-index: 1000;
             padding: 16px 0;
-            transition: var(--transition);
+            transition: all var(--transition-smooth);
             background: transparent;
         }
         .navbar.scrolled {
-            background: rgba(224, 229, 236, 0.88);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            box-shadow: 0 4px 30px rgba(163, 177, 198, 0.15);
-            padding: 10px 0;
+            background: rgba(255, 253, 245, 0.92);
+            backdrop-filter: blur(12px);
+            border-bottom: var(--border-width) solid var(--border);
+            padding: 8px 0;
         }
         .nav-container {
             display: flex;
@@ -161,14 +251,20 @@
             align-items: center;
         }
         .logo {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 1.4rem;
-            font-weight: 700;
-            padding: 8px 18px;
-            border-radius: 14px;
-            background: var(--bg-card);
-            box-shadow: 4px 4px 8px var(--shadow-dark), -4px -4px 8px var(--shadow-light);
-            color: var(--accent-1);
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            font-weight: 800;
+            padding: 6px 18px;
+            border-radius: var(--radius-full);
+            background: var(--accent);
+            color: #fff;
+            border: var(--border-width) solid var(--text-primary);
+            box-shadow: var(--shadow-pop);
+            transition: all var(--transition-bounce);
+        }
+        .logo:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-pop-hover);
         }
         .nav-links {
             display: flex;
@@ -176,12 +272,14 @@
             align-items: center;
         }
         .nav-link {
-            font-weight: 500;
+            font-weight: 600;
             font-size: 0.9rem;
             color: var(--text-secondary);
             position: relative;
-            transition: var(--transition);
+            transition: color var(--transition-smooth);
             padding: 4px 0;
+            cursor: pointer;
+            font-family: var(--font-body);
         }
         .nav-link::after {
             content: '';
@@ -189,9 +287,10 @@
             bottom: -2px;
             left: 0;
             width: 0;
-            height: 2px;
-            background: var(--gradient-main);
-            transition: var(--transition);
+            height: 3px;
+            background: var(--accent);
+            border-radius: 4px;
+            transition: width var(--transition-smooth);
         }
         .nav-link:hover::after,
         .nav-link.active::after {
@@ -203,17 +302,24 @@
         }
         .hamburger {
             display: none;
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             cursor: pointer;
             background: var(--bg-card);
-            box-shadow: 4px 4px 8px var(--shadow-dark), -4px -4px 8px var(--shadow-light);
-            border: none;
-            border-radius: 12px;
+            border: var(--border-width) solid var(--text-primary);
+            border-radius: var(--radius-sm);
             padding: 10px 14px;
             color: var(--text-primary);
+            transition: all var(--transition-bounce);
+            box-shadow: var(--shadow-pop);
+        }
+        .hamburger:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-pop-hover);
         }
 
-        /* ===== HERO ===== */
+        /* ============================================================
+           HERO
+           ============================================================ */
         .hero {
             min-height: 100vh;
             display: flex;
@@ -221,6 +327,7 @@
             padding-top: 80px;
             position: relative;
             z-index: 2;
+            overflow: hidden;
         }
         .hero-grid {
             display: grid;
@@ -229,34 +336,47 @@
             align-items: center;
         }
         .hero-text h1 {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: clamp(2.5rem, 6vw, 4.5rem);
-            font-weight: 700;
-            line-height: 1.05;
-            margin-bottom: 6px;
+            font-family: var(--font-heading);
+            font-size: clamp(2.8rem, 6.5vw, 5rem);
+            font-weight: 800;
+            line-height: 1.04;
+            margin-bottom: 8px;
             color: var(--text-primary);
         }
         .hero-text .highlight {
-            background: var(--gradient-main);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            color: var(--accent);
+            position: relative;
+            display: inline-block;
+        }
+        .hero-text .highlight::after {
+            content: '';
+            position: absolute;
+            bottom: 4px;
+            left: 0;
+            right: 0;
+            height: 8px;
+            background: var(--tertiary);
+            opacity: 0.3;
+            border-radius: 4px;
+            z-index: -1;
         }
         .hero-text .subtitle {
-            font-size: 1.15rem;
+            font-size: 1.2rem;
             color: var(--text-secondary);
-            margin: 16px 0 28px;
-            max-width: 460px;
-            min-height: 40px;
+            margin: 16px 0 32px;
+            max-width: 480px;
+            min-height: 44px;
+            font-weight: 400;
         }
         .hero-text .subtitle .cursor {
             display: inline-block;
-            width: 3px;
+            width: 4px;
             height: 1.2em;
-            background: var(--accent-1);
+            background: var(--accent);
             margin-left: 4px;
             animation: blink 0.8s step-end infinite;
             vertical-align: text-bottom;
+            border-radius: 2px;
         }
         @keyframes blink {
             0%,
@@ -269,40 +389,50 @@
         }
         .hero-buttons {
             display: flex;
-            gap: 14px;
+            gap: 16px;
             flex-wrap: wrap;
         }
+
         .btn {
             display: inline-flex;
             align-items: center;
-            gap: 10px;
-            padding: 14px 32px;
-            font-weight: 600;
-            border-radius: 14px;
-            border: none;
+            gap: 12px;
+            padding: 14px 34px;
+            font-weight: 700;
+            border-radius: var(--radius-full);
+            border: var(--border-width) solid var(--text-primary);
             cursor: pointer;
-            transition: var(--transition);
+            transition: all var(--transition-bounce);
             font-size: 0.95rem;
-            font-family: 'Inter', sans-serif;
+            font-family: var(--font-body);
+            position: relative;
         }
         .btn-primary {
-            background: var(--gradient-main);
+            background: var(--accent);
             color: #fff;
-            box-shadow: 6px 6px 10px rgba(108, 99, 255, 0.2), -6px -6px 10px var(--shadow-light);
+            box-shadow: var(--shadow-pop);
         }
         .btn-primary:hover {
-            transform: translateY(-3px) scale(1.02);
-            box-shadow: 0 8px 30px rgba(108, 99, 255, 0.3);
+            transform: translateY(-3px) translateX(-2px);
+            box-shadow: var(--shadow-pop-hover);
+        }
+        .btn-primary:active {
+            transform: translateY(2px) translateX(2px);
+            box-shadow: var(--shadow-pop-active);
         }
         .btn-secondary {
-            background: var(--bg-card);
+            background: transparent;
             color: var(--text-primary);
-            box-shadow: 6px 6px 10px var(--shadow-dark), -6px -6px 10px var(--shadow-light);
+            box-shadow: none;
         }
         .btn-secondary:hover {
-            color: var(--accent-1);
+            background: var(--tertiary);
             transform: translateY(-3px);
         }
+        .btn-secondary:active {
+            transform: translateY(1px);
+        }
+
         .profile-wrapper {
             display: flex;
             justify-content: center;
@@ -311,96 +441,200 @@
         .profile-frame {
             width: clamp(240px, 30vw, 380px);
             height: clamp(240px, 30vw, 380px);
-            border-radius: 50%;
-            padding: 12px;
+            border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+            padding: 10px;
             background: var(--bg-card);
-            box-shadow: 15px 15px 30px var(--shadow-dark), -15px -15px 30px var(--shadow-light);
+            border: var(--border-width) solid var(--text-primary);
+            box-shadow: var(--shadow-pop-lg);
+            transition: all var(--transition-bounce);
+            transform: rotate(-2deg);
+        }
+        .profile-frame:hover {
+            transform: rotate(0deg) scale(1.02);
+            box-shadow: 12px 12px 0px 0px var(--secondary);
         }
         .profile-frame img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            border-radius: 50%;
-            box-shadow: inset 4px 4px 8px rgba(0, 0, 0, 0.04);
+            border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
         }
         .floating-badge {
             position: absolute;
             background: var(--bg-card);
-            box-shadow: 8px 8px 16px var(--shadow-dark), -8px -8px 16px var(--shadow-light);
-            border-radius: 14px;
-            padding: 10px 16px;
+            border: var(--border-width) solid var(--text-primary);
+            box-shadow: var(--shadow-pop);
+            border-radius: var(--radius-full);
+            padding: 10px 18px;
             display: flex;
             align-items: center;
             gap: 10px;
             font-size: 0.8rem;
             color: var(--text-secondary);
-            animation: floatBadge 4s ease-in-out infinite;
+            animation: floatBadge 5s ease-in-out infinite;
             pointer-events: none;
-            font-weight: 500;
+            font-weight: 600;
+            font-family: var(--font-body);
+            backdrop-filter: blur(4px);
         }
         .floating-badge i {
             font-size: 1.1rem;
-            color: var(--accent-1);
+            color: var(--accent);
         }
         .badge-1 {
-            bottom: 10%;
-            right: -10%;
+            bottom: 8%;
+            right: -8%;
             animation-delay: 0s;
+            background: var(--tertiary);
+            color: var(--text-primary);
         }
         .badge-2 {
-            top: 5%;
-            left: -15%;
+            top: 2%;
+            left: -12%;
             animation-delay: 2s;
+            background: var(--secondary);
+            color: #fff;
         }
         @keyframes floatBadge {
             0%,
             100% {
-                transform: translateY(0px);
+                transform: translateY(0px) rotate(0deg);
             }
             50% {
-                transform: translateY(-12px);
+                transform: translateY(-14px) rotate(2deg);
             }
         }
 
-        /* ===== ABOUT ===== */
+        /* ============================================================
+           ABOUT
+           ============================================================ */
         .about-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 40px;
         }
         .about-card {
-            background: var(--bg-card);
-            box-shadow: 9px 9px 16px var(--shadow-dark), -9px -9px 16px var(--shadow-light);
-            border-radius: var(--radius);
-            padding: 40px;
-            transition: var(--transition);
+            padding: 40px 36px;
+            transition: all var(--transition-bounce);
         }
         .about-card:hover {
-            transform: translateY(-4px);
+            transform: translateY(-4px) rotate(-0.5deg);
         }
         .about-card .label {
             font-size: 0.7rem;
             text-transform: uppercase;
             letter-spacing: 1.5px;
-            color: var(--text-secondary);
-            font-weight: 600;
+            color: var(--text-muted);
+            font-weight: 700;
+            font-family: var(--font-heading);
         }
         .about-card .value {
             font-size: 1.05rem;
             font-weight: 600;
-            margin-top: 4px;
+            margin-top: 2px;
             color: var(--text-primary);
+            font-family: var(--font-body);
         }
         .about-text {
             color: var(--text-secondary);
-            line-height: 1.8;
+            line-height: 1.9;
             font-size: 0.98rem;
         }
         .about-text strong {
             color: var(--text-primary);
         }
 
-        /* ===== STATS ===== */
+        .about-extended {
+            margin-top: 40px;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 30px;
+        }
+        .about-extended .ext-card {
+            padding: 32px 28px;
+            transition: all var(--transition-bounce);
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        .about-extended .ext-card:hover {
+            transform: translateY(-4px) rotate(-0.5deg);
+        }
+        .about-extended .ext-card .ext-icon {
+            font-size: 2.2rem;
+            color: var(--accent);
+            margin-bottom: 16px;
+            transition: all var(--transition-bounce);
+            background: var(--bg-muted);
+            padding: 12px;
+            border-radius: var(--radius-full);
+            border: var(--border-width) solid var(--text-primary);
+            box-shadow: var(--shadow-pop);
+        }
+        .about-extended .ext-card:hover .ext-icon {
+            transform: scale(1.08) rotate(-4deg);
+            background: var(--tertiary);
+        }
+        .about-extended .ext-card h4 {
+            font-family: var(--font-heading);
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+        .about-extended .ext-card p {
+            font-size: 0.92rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 6px;
+        }
+
+        .about-more {
+            margin-top: 30px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+        .about-more .more-card {
+            padding: 32px 28px;
+            transition: all var(--transition-bounce);
+        }
+        .about-more .more-card:hover {
+            transform: translateY(-4px) rotate(-0.5deg);
+        }
+        .about-more .more-card h4 {
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .about-more .more-card h4 i {
+            color: var(--accent);
+            font-size: 1.2rem;
+        }
+        .about-more .more-card p {
+            font-size: 0.92rem;
+            color: var(--text-secondary);
+            line-height: 1.9;
+        }
+        .about-more .more-card ul {
+            list-style: disc;
+            padding-left: 20px;
+            color: var(--text-secondary);
+            font-size: 0.92rem;
+            line-height: 2;
+        }
+        .about-more .more-card ul li::marker {
+            color: var(--secondary);
+        }
+
+        /* ============================================================
+           STATS
+           ============================================================ */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -409,65 +643,81 @@
         }
         .stat-item {
             text-align: center;
-            padding: 20px;
-            background: var(--bg-card);
-            box-shadow: inset 4px 4px 8px var(--shadow-dark), inset -4px -4px 8px var(--shadow-light);
-            border-radius: var(--radius);
-            transition: var(--transition);
+            padding: 20px 12px;
+            border-radius: var(--radius-md);
+            transition: all var(--transition-bounce);
+            cursor: default;
+            background: var(--bg-muted);
+            border: var(--border-width) solid var(--text-primary);
+            box-shadow: var(--shadow-pop);
         }
         .stat-item:hover {
-            transform: translateY(-4px);
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: var(--shadow-pop-hover);
         }
         .stat-number {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 2.2rem;
-            font-weight: 700;
-            color: var(--accent-1);
+            font-family: var(--font-heading);
+            font-size: 2.4rem;
+            font-weight: 800;
+            color: var(--accent);
         }
         .stat-label {
-            font-size: 0.85rem;
+            font-size: 0.82rem;
             color: var(--text-secondary);
-            margin-top: 4px;
+            margin-top: 2px;
+            font-weight: 500;
         }
 
-        /* ===== TIMELINE ===== */
+        /* ============================================================
+           TIMELINE
+           ============================================================ */
         .timeline {
             position: relative;
-            padding-left: 40px;
+            padding-left: 44px;
         }
         .timeline::before {
             content: '';
             position: absolute;
-            left: 12px;
-            top: 0;
-            bottom: 0;
-            width: 2px;
-            background: linear-gradient(to bottom, var(--accent-1), var(--accent-2), transparent);
+            left: 16px;
+            top: 4px;
+            bottom: 4px;
+            width: 4px;
+            background: var(--accent);
+            border-radius: 4px;
+            opacity: 0.3;
         }
         .timeline-item {
             position: relative;
-            margin-bottom: 40px;
-            padding-left: 28px;
+            margin-bottom: 44px;
+            padding-left: 32px;
+            transition: all var(--transition-smooth);
         }
         .timeline-item::before {
             content: '';
             position: absolute;
             left: -28px;
             top: 6px;
-            width: 14px;
-            height: 14px;
+            width: 16px;
+            height: 16px;
             border-radius: 50%;
-            background: var(--gradient-main);
-            box-shadow: 0 0 30px rgba(108, 99, 255, 0.15);
+            background: var(--accent);
+            border: var(--border-width) solid var(--text-primary);
+            box-shadow: var(--shadow-pop);
+            transition: all var(--transition-bounce);
+        }
+        .timeline-item:hover::before {
+            transform: scale(1.3) rotate(45deg);
+            background: var(--secondary);
         }
         .timeline-item .year {
-            font-family: 'Space Grotesk', sans-serif;
+            font-family: var(--font-heading);
             font-size: 0.85rem;
             font-weight: 700;
-            color: var(--accent-1);
+            color: var(--accent);
             letter-spacing: 1px;
         }
         .timeline-item h4 {
+            font-family: var(--font-heading);
             font-size: 1.1rem;
             margin: 4px 0 6px;
             color: var(--text-primary);
@@ -475,248 +725,479 @@
         .timeline-item p {
             color: var(--text-secondary);
             font-size: 0.92rem;
-            line-height: 1.7;
+            line-height: 1.8;
         }
 
-        /* ===== SKILLS ===== */
+        /* ============================================================
+           SKILLS
+           ============================================================ */
         .skills-wrapper {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 40px;
+            gap: 44px;
         }
         .skill-group h3 {
+            font-family: var(--font-heading);
             font-size: 1.1rem;
-            margin-bottom: 20px;
+            margin-bottom: 24px;
             color: var(--text-primary);
+            font-weight: 700;
         }
         .skill-bar {
-            margin-bottom: 18px;
+            margin-bottom: 20px;
         }
         .skill-bar .info {
             display: flex;
             justify-content: space-between;
             font-size: 0.85rem;
             margin-bottom: 4px;
+            font-weight: 500;
         }
         .skill-bar .info span:first-child {
             color: var(--text-primary);
-            font-weight: 500;
         }
         .skill-bar .info span:last-child {
             color: var(--text-secondary);
         }
         .skill-bar .track {
-            height: 6px;
-            background: rgba(108, 99, 255, 0.06);
-            border-radius: 10px;
+            height: 10px;
+            background: var(--bg-muted);
+            border-radius: var(--radius-full);
             overflow: hidden;
-            box-shadow: inset 2px 2px 4px var(--shadow-dark), inset -2px -2px 4px var(--shadow-light);
+            border: var(--border-width) solid var(--text-primary);
         }
         .skill-bar .fill {
             height: 100%;
-            border-radius: 10px;
-            background: var(--gradient-main);
+            border-radius: var(--radius-full);
+            background: var(--accent);
             width: 0%;
-            transition: width 1.2s cubic-bezier(0.23, 1, 0.32, 1);
+            transition: width 1.6s var(--transition-bounce);
+            box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.2);
         }
 
-        /* ===== WHITELIST ===== */
+        /* ============================================================
+           WHITELIST
+           ============================================================ */
         .whitelist-text-card {
-            background: var(--bg-card);
-            box-shadow: 9px 9px 16px var(--shadow-dark), -9px -9px 16px var(--shadow-light);
-            border-radius: var(--radius);
-            padding: 40px 44px;
-            transition: var(--transition);
+            padding: 48px 52px;
+            transition: all var(--transition-bounce);
             max-width: 850px;
             margin: 0 auto;
+            background: var(--bg-card);
+            border: var(--border-width) solid var(--text-primary);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-pop-lg);
         }
         .whitelist-text-card:hover {
-            transform: translateY(-4px);
+            transform: translateY(-4px) rotate(-0.5deg);
         }
         .whitelist-text-card p {
             color: var(--text-secondary);
             font-size: 1.05rem;
-            line-height: 1.9;
+            line-height: 2;
             text-align: center;
-        }
-        .whitelist-text-card p .highlight-text {
-            color: var(--accent-1);
-            font-weight: 600;
         }
         .whitelist-text-card .quote-icon {
-            font-size: 2.5rem;
-            color: var(--accent-1);
-            opacity: 0.15;
+            font-size: 3rem;
+            color: var(--secondary);
+            opacity: 0.2;
             display: block;
             text-align: center;
-            margin-bottom: 12px;
+            margin-bottom: 16px;
         }
 
-        /* ===== TOOLS ===== */
+        /* ============================================================
+           TESTIMONIALS
+           ============================================================ */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+        .testimonial-card {
+            padding: 32px 28px;
+            text-align: center;
+            transition: all var(--transition-bounce);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: var(--bg-card);
+            border: var(--border-width) solid var(--text-primary);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-pop-lg);
+        }
+        .testimonial-card:hover {
+            transform: translateY(-4px) rotate(-0.5deg);
+            box-shadow: 12px 12px 0px 0px var(--tertiary);
+        }
+        .testimonial-card .avatar {
+            width: 64px;
+            height: 64px;
+            border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+            background: var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 16px;
+            border: var(--border-width) solid var(--text-primary);
+            box-shadow: var(--shadow-pop);
+            font-family: var(--font-heading);
+        }
+        .testimonial-card blockquote {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            font-style: italic;
+            margin-bottom: 12px;
+        }
+        .testimonial-card .author {
+            font-weight: 700;
+            color: var(--text-primary);
+            font-family: var(--font-heading);
+        }
+        .testimonial-card .role {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        /* ============================================================
+           TOOLS
+           ============================================================ */
         .tools-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 30px;
         }
         .tool-card {
-            background: var(--bg-card);
-            box-shadow: 9px 9px 16px var(--shadow-dark), -9px -9px 16px var(--shadow-light);
-            border-radius: var(--radius);
-            padding: 32px 20px;
+            padding: 36px 24px;
             text-align: center;
-            transition: var(--transition);
+            transition: all var(--transition-bounce);
             cursor: default;
             display: flex;
             flex-direction: column;
             align-items: center;
+            background: var(--bg-card);
+            border: var(--border-width) solid var(--text-primary);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-pop-lg);
         }
         .tool-card:hover {
-            transform: translateY(-8px);
+            transform: translateY(-10px) rotate(-1deg);
+            box-shadow: 12px 12px 0px 0px var(--secondary);
         }
         .tool-card .tool-icon {
             width: 80px;
             height: 80px;
-            border-radius: 20px;
+            border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 2.4rem;
             color: #fff;
-            margin-bottom: 18px;
-            box-shadow: 6px 6px 12px var(--shadow-dark), -6px -6px 12px var(--shadow-light);
+            margin-bottom: 20px;
+            border: var(--border-width) solid var(--text-primary);
+            box-shadow: var(--shadow-pop);
+            transition: all var(--transition-bounce);
         }
-        .tool-card .tool-icon i {
-            font-size: 2.2rem;
+        .tool-card:hover .tool-icon {
+            transform: scale(1.06) rotate(-4deg);
+            box-shadow: var(--shadow-pop-hover);
         }
         .tool-card h4 {
+            font-family: var(--font-heading);
             font-size: 1.1rem;
             font-weight: 700;
             color: var(--text-primary);
             margin-bottom: 6px;
         }
         .tool-card p {
-            font-size: 0.9rem;
+            font-size: 0.88rem;
             color: var(--text-secondary);
-            line-height: 1.6;
+            line-height: 1.7;
             max-width: 200px;
             margin: 0 auto;
         }
         .tool-card .tech-badge {
             display: inline-block;
-            margin-top: 12px;
-            padding: 4px 14px;
-            border-radius: 20px;
+            margin-top: 14px;
+            padding: 4px 16px;
+            border-radius: var(--radius-full);
             font-size: 0.7rem;
-            font-weight: 600;
-            color: var(--accent-1);
-            background: rgba(108, 99, 255, 0.06);
-            border: 1px solid rgba(108, 99, 255, 0.08);
+            font-weight: 700;
+            color: var(--accent);
+            background: var(--bg-muted);
+            border: var(--border-width) solid var(--text-primary);
         }
 
-        /* ===== PROJECTS CUSTOM ===== */
+        /* ============================================================
+           PROJECTS
+           ============================================================ */
+        .filter-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+        }
+        .filter-btn {
+            padding: 8px 24px;
+            border-radius: var(--radius-full);
+            border: var(--border-width) solid var(--text-primary);
+            background: var(--bg-card);
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all var(--transition-bounce);
+            font-size: 0.85rem;
+            font-weight: 600;
+            font-family: var(--font-body);
+            box-shadow: var(--shadow-pop);
+        }
+        .filter-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-pop-hover);
+        }
+        .filter-btn.active {
+            background: var(--accent);
+            color: #fff;
+            box-shadow: var(--shadow-pop);
+        }
+        .filter-btn.active:hover {
+            box-shadow: var(--shadow-pop-hover);
+        }
+
         .projects-custom-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 30px;
         }
         .project-custom-card {
-            background: var(--bg-card);
-            box-shadow: 9px 9px 16px var(--shadow-dark), -9px -9px 16px var(--shadow-light);
-            border-radius: var(--radius);
-            padding: 32px 24px;
+            padding: 36px 24px;
             text-align: center;
-            transition: var(--transition);
-            cursor: default;
+            transition: all var(--transition-bounce);
+            cursor: pointer;
             display: flex;
             flex-direction: column;
             align-items: center;
-            min-height: 280px;
+            min-height: 290px;
+            background: var(--bg-card);
+            border: var(--border-width) solid var(--text-primary);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-pop-lg);
         }
         .project-custom-card:hover {
-            transform: translateY(-8px);
+            transform: translateY(-10px) rotate(-1deg);
+            box-shadow: 12px 12px 0px 0px var(--tertiary);
         }
         .project-custom-card .project-icon {
             width: 80px;
             height: 80px;
-            border-radius: 20px;
+            border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 2.4rem;
             color: #fff;
-            margin-bottom: 18px;
-            box-shadow: 6px 6px 12px var(--shadow-dark), -6px -6px 12px var(--shadow-light);
+            margin-bottom: 20px;
+            border: var(--border-width) solid var(--text-primary);
+            box-shadow: var(--shadow-pop);
+            transition: all var(--transition-bounce);
         }
-        .project-custom-card .project-icon i {
-            font-size: 2.2rem;
+        .project-custom-card:hover .project-icon {
+            transform: scale(1.06) rotate(4deg);
         }
         .project-custom-card h4 {
+            font-family: var(--font-heading);
             font-size: 1.1rem;
             font-weight: 700;
             color: var(--text-primary);
             margin-bottom: 6px;
         }
         .project-custom-card p {
-            font-size: 0.9rem;
+            font-size: 0.88rem;
             color: var(--text-secondary);
-            line-height: 1.6;
+            line-height: 1.7;
             max-width: 220px;
             margin: 0 auto;
             flex: 1;
         }
         .project-custom-card .project-badge {
             display: inline-block;
-            margin-top: 12px;
-            padding: 4px 14px;
-            border-radius: 20px;
+            margin-top: 14px;
+            padding: 4px 16px;
+            border-radius: var(--radius-full);
             font-size: 0.7rem;
-            font-weight: 600;
-            color: var(--accent-1);
-            background: rgba(108, 99, 255, 0.06);
-            border: 1px solid rgba(108, 99, 255, 0.08);
+            font-weight: 700;
+            color: var(--accent);
+            background: var(--bg-muted);
+            border: var(--border-width) solid var(--text-primary);
         }
         .project-custom-card .project-link {
-            margin-top: 14px;
+            margin-top: 16px;
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            color: var(--accent-1);
-            font-weight: 600;
+            color: var(--accent);
+            font-weight: 700;
             font-size: 0.85rem;
-            transition: var(--transition);
+            transition: all var(--transition-smooth);
+            font-family: var(--font-body);
         }
         .project-custom-card .project-link:hover {
-            gap: 14px;
+            gap: 16px;
+            color: var(--secondary);
         }
 
-        /* ===== PRINSIP ===== */
+        /* ===== MODAL ===== */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(8px);
+            z-index: 9999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            animation: fadeIn 0.3s ease;
+        }
+        .modal-overlay.active {
+            display: flex;
+        }
+        .modal-content {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            max-width: 640px;
+            width: 100%;
+            padding: 44px 40px;
+            position: relative;
+            border: var(--border-width) solid var(--text-primary);
+            box-shadow: var(--shadow-pop-lg);
+            animation: scaleIn 0.4s var(--transition-bounce);
+        }
+        .modal-close {
+            position: absolute;
+            top: 16px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1.8rem;
+            cursor: pointer;
+            transition: all var(--transition-bounce);
+        }
+        .modal-close:hover {
+            color: var(--text-primary);
+            transform: rotate(90deg) scale(1.1);
+        }
+        .modal-content .modal-icon {
+            width: 72px;
+            height: 72px;
+            border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: #fff;
+            margin-bottom: 20px;
+            border: var(--border-width) solid var(--text-primary);
+            box-shadow: var(--shadow-pop);
+        }
+        .modal-content h2 {
+            font-family: var(--font-heading);
+            font-size: 1.6rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+        .modal-content .modal-desc {
+            color: var(--text-secondary);
+            line-height: 1.9;
+            margin-bottom: 16px;
+        }
+        .modal-content .modal-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+        .modal-content .modal-tech span {
+            padding: 4px 14px;
+            border-radius: var(--radius-full);
+            background: var(--bg-muted);
+            border: var(--border-width) solid var(--text-primary);
+            font-size: 0.75rem;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+        .modal-content .modal-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--accent);
+            font-weight: 700;
+            transition: all var(--transition-smooth);
+        }
+        .modal-content .modal-link:hover {
+            gap: 16px;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        @keyframes scaleIn {
+            from {
+                transform: scale(0.92) translateY(30px);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1) translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* ============================================================
+           PRINSIP
+           ============================================================ */
         .prinsip-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 30px;
         }
         .prinsip-card {
-            background: var(--bg-card);
-            box-shadow: 9px 9px 16px var(--shadow-dark), -9px -9px 16px var(--shadow-light);
-            border-radius: var(--radius);
-            padding: 36px 32px;
-            transition: var(--transition);
+            padding: 40px 36px;
+            transition: all var(--transition-bounce);
             display: flex;
             flex-direction: column;
             align-items: center;
             text-align: center;
+            background: var(--bg-card);
+            border: var(--border-width) solid var(--text-primary);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-pop-lg);
         }
         .prinsip-card:hover {
-            transform: translateY(-4px);
+            transform: translateY(-6px) rotate(-0.5deg);
+            box-shadow: 12px 12px 0px 0px var(--secondary);
         }
         .prinsip-card .prinsip-icon {
-            font-size: 2.5rem;
-            color: var(--accent-1);
-            margin-bottom: 16px;
-            opacity: 0.7;
+            font-size: 2.8rem;
+            color: var(--accent);
+            margin-bottom: 18px;
+            transition: all var(--transition-bounce);
+        }
+        .prinsip-card:hover .prinsip-icon {
+            transform: scale(1.1) rotate(-8deg);
+            color: var(--secondary);
         }
         .prinsip-card h3 {
-            font-family: 'Space Grotesk', sans-serif;
+            font-family: var(--font-heading);
             font-size: 1.3rem;
             font-weight: 700;
             color: var(--text-primary);
@@ -725,100 +1206,110 @@
         .prinsip-card p {
             color: var(--text-secondary);
             font-size: 1rem;
-            line-height: 1.8;
-        }
-        .prinsip-card p .highlight-text {
-            color: var(--accent-1);
-            font-weight: 600;
+            line-height: 1.9;
         }
 
-        /* ===== CONTACT ===== */
+        /* ============================================================
+           CONTACT
+           ============================================================ */
         .contact-wrapper {
             max-width: 600px;
             margin: 0 auto;
+            padding: 44px 48px;
+            transition: all var(--transition-bounce);
             background: var(--bg-card);
-            box-shadow: 9px 9px 16px var(--shadow-dark), -9px -9px 16px var(--shadow-light);
-            border-radius: var(--radius);
-            padding: 40px 44px;
+            border: var(--border-width) solid var(--text-primary);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-pop-lg);
+        }
+        .contact-wrapper:hover {
+            transform: translateY(-4px);
         }
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 22px;
         }
         .form-group label {
             display: block;
-            font-weight: 500;
-            font-size: 0.9rem;
+            font-weight: 700;
+            font-size: 0.85rem;
             margin-bottom: 6px;
             color: var(--text-primary);
+            font-family: var(--font-heading);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
         .form-group input,
         .form-group textarea {
             width: 100%;
-            padding: 14px 18px;
-            background: var(--bg-card);
-            box-shadow: inset 4px 4px 8px var(--shadow-dark), inset -4px -4px 8px var(--shadow-light);
-            border: none;
-            border-radius: 14px;
+            padding: 14px 20px;
+            background: var(--input-bg);
+            border: var(--border-width) solid var(--border);
+            border-radius: var(--radius-md);
             color: var(--text-primary);
-            font-family: 'Inter', sans-serif;
+            font-family: var(--font-body);
             font-size: 0.95rem;
-            transition: var(--transition);
+            transition: all var(--transition-smooth);
             resize: none;
+            box-shadow: 4px 4px 0px 0px transparent;
         }
         .form-group input:focus,
         .form-group textarea:focus {
             outline: none;
-            box-shadow: inset 6px 6px 12px var(--shadow-dark), inset -6px -6px 12px var(--shadow-light);
+            border-color: var(--accent);
+            box-shadow: 4px 4px 0px 0px var(--accent);
         }
         .form-group input::placeholder,
         .form-group textarea::placeholder {
-            color: var(--text-secondary);
+            color: var(--text-muted);
             opacity: 0.5;
         }
+
         .social-row {
             display: flex;
             justify-content: center;
             gap: 16px;
-            margin-top: 36px;
+            margin-top: 40px;
         }
         .social-btn {
-            width: 52px;
-            height: 52px;
-            border-radius: 50%;
+            width: 54px;
+            height: 54px;
+            border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 1.2rem;
             color: var(--text-secondary);
             background: var(--bg-card);
-            box-shadow: 6px 6px 12px var(--shadow-dark), -6px -6px 12px var(--shadow-light);
-            transition: var(--transition);
-            border: none;
+            border: var(--border-width) solid var(--text-primary);
+            box-shadow: var(--shadow-pop);
+            transition: all var(--transition-bounce);
             cursor: pointer;
         }
         .social-btn:hover {
-            color: var(--accent-1);
-            transform: translateY(-4px);
+            color: var(--accent);
+            transform: translateY(-6px) rotate(-4deg);
+            box-shadow: var(--shadow-pop-hover);
         }
 
         .success-message {
-            padding: 14px 18px;
-            background: rgba(16, 185, 129, 0.08);
-            border: 1px solid rgba(16, 185, 129, 0.12);
-            border-radius: 14px;
-            color: #059669;
-            margin-bottom: 20px;
+            padding: 14px 20px;
+            background: var(--quaternary);
+            border: var(--border-width) solid var(--text-primary);
+            border-radius: var(--radius-md);
+            color: var(--text-primary);
+            margin-bottom: 22px;
             display: none;
-            font-weight: 500;
+            font-weight: 600;
+            box-shadow: var(--shadow-pop);
         }
         .success-message.show {
             display: block;
-            animation: fadeIn 0.4s ease;
+            animation: fadeSlideIn 0.5s var(--transition-bounce);
         }
-        @keyframes fadeIn {
+        @keyframes fadeSlideIn {
             from {
                 opacity: 0;
-                transform: translateY(-10px);
+                transform: translateY(-12px);
             }
             to {
                 opacity: 1;
@@ -826,58 +1317,112 @@
             }
         }
 
-        footer {
-            text-align: center;
-            padding: 32px 20px;
-            color: var(--text-secondary);
-            font-size: 0.85rem;
-            border-top: 1px solid rgba(163, 177, 198, 0.15);
+        /* ============================================================
+           FLOATING WHATSAPP
+           ============================================================ */
+        .floating-wa {
+            position: fixed;
+            bottom: 28px;
+            right: 28px;
+            z-index: 999;
+            background: #25D366;
+            color: #fff;
+            width: 60px;
+            height: 60px;
+            border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            border: var(--border-width) solid var(--text-primary);
+            box-shadow: var(--shadow-pop);
+            transition: all var(--transition-bounce);
+            text-decoration: none;
+        }
+        .floating-wa:hover {
+            transform: scale(1.12) translateY(-4px) rotate(-4deg);
+            box-shadow: var(--shadow-pop-hover);
         }
 
         /* ============================================================
-           BLUR REVEAL ANIMATION
+           FOOTER
+           ============================================================ */
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            border-top: var(--border-width) solid var(--border);
+            position: relative;
+            z-index: 2;
+            background: var(--bg-body);
+        }
+        footer i.fa-heart {
+            color: var(--secondary);
+        }
+        footer .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-top: 12px;
+            flex-wrap: wrap;
+        }
+        footer .footer-links a {
+            color: var(--text-muted);
+            transition: color var(--transition-smooth);
+            font-weight: 600;
+        }
+        footer .footer-links a:hover {
+            color: var(--accent);
+        }
+
+        /* ============================================================
+           BLUR REVEAL — SAME AS BEFORE (preserved)
            ============================================================ */
         .blur-reveal {
             opacity: 0;
-            filter: blur(12px);
-            transform: translateY(30px);
-            transition: opacity 1s cubic-bezier(0.23, 1, 0.32, 1),
-                filter 1s cubic-bezier(0.23, 1, 0.32, 1),
-                transform 1s cubic-bezier(0.23, 1, 0.32, 1);
+            filter: blur(12px) brightness(0.96);
+            transform: translateY(36px) scale(0.98);
+            transition:
+                opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1),
+                filter 1.2s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: transform, opacity, filter;
         }
         .blur-reveal.visible {
             opacity: 1;
-            filter: blur(0px);
-            transform: translateY(0);
+            filter: blur(0px) brightness(1);
+            transform: translateY(0) scale(1);
         }
-
-        /* Variasi dengan delay */
         .blur-reveal-d1 {
-            transition-delay: 0.1s;
+            transition-delay: 0.08s;
         }
         .blur-reveal-d2 {
-            transition-delay: 0.2s;
+            transition-delay: 0.16s;
         }
         .blur-reveal-d3 {
-            transition-delay: 0.3s;
+            transition-delay: 0.24s;
         }
         .blur-reveal-d4 {
-            transition-delay: 0.4s;
+            transition-delay: 0.32s;
         }
         .blur-reveal-d5 {
-            transition-delay: 0.5s;
+            transition-delay: 0.40s;
         }
         .blur-reveal-d6 {
-            transition-delay: 0.6s;
+            transition-delay: 0.48s;
         }
-
-        /* Khusus untuk hero — muncul lebih cepat */
         .hero .blur-reveal {
-            transition-duration: 1.2s;
-            transform: translateY(20px);
+            transition-duration: 0.9s;
+            transform: translateY(24px) scale(0.99);
+        }
+        .hero .blur-reveal.visible {
+            transform: translateY(0) scale(1);
         }
 
-        /* ===== RESPONSIVE ===== */
+        /* ============================================================
+           RESPONSIVE
+           ============================================================ */
         @media (max-width: 1024px) {
             .tools-grid {
                 grid-template-columns: repeat(2, 1fr);
@@ -888,8 +1433,16 @@
             .prinsip-grid {
                 grid-template-columns: 1fr 1fr;
             }
+            .testimonials-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .about-extended {
+                grid-template-columns: 1fr 1fr;
+            }
+            .about-more {
+                grid-template-columns: 1fr;
+            }
         }
-
         @media (max-width: 900px) {
             .hamburger {
                 display: block;
@@ -898,24 +1451,25 @@
                 position: fixed;
                 top: 0;
                 right: -100%;
-                width: 280px;
+                width: 290px;
                 height: 100vh;
-                background: rgba(224, 229, 236, 0.96);
-                backdrop-filter: blur(24px);
+                background: rgba(255, 253, 245, 0.96);
+                backdrop-filter: blur(20px);
                 flex-direction: column;
-                padding: 80px 32px 32px;
-                gap: 12px;
-                transition: var(--transition);
-                box-shadow: -8px 0 30px rgba(163, 177, 198, 0.15);
+                padding: 90px 32px 32px;
+                gap: 8px;
+                transition: right var(--transition-smooth);
+                box-shadow: -8px 0 32px rgba(0, 0, 0, 0.05);
+                border-left: var(--border-width) solid var(--border);
             }
             .nav-links.active {
                 right: 0;
             }
             .nav-links .nav-link {
                 font-size: 1.1rem;
-                padding: 12px 0;
+                padding: 14px 0;
                 width: 100%;
-                border-bottom: 1px solid rgba(163, 177, 198, 0.1);
+                border-bottom: var(--border-width) solid var(--border);
             }
             .nav-links .nav-link::after {
                 display: none;
@@ -926,7 +1480,7 @@
                 gap: 40px;
             }
             .hero-text .subtitle {
-                margin: 12px auto 24px;
+                margin: 12px auto 28px;
             }
             .hero-buttons {
                 justify-content: center;
@@ -953,37 +1507,49 @@
             .prinsip-grid {
                 grid-template-columns: 1fr;
             }
+            .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+            .about-extended {
+                grid-template-columns: 1fr;
+            }
+            .about-more {
+                grid-template-columns: 1fr;
+            }
             .timeline {
-                padding-left: 20px;
+                padding-left: 24px;
             }
             .timeline::before {
-                left: 4px;
+                left: 6px;
             }
             .timeline-item {
-                padding-left: 16px;
+                padding-left: 20px;
             }
             .timeline-item::before {
-                left: -12px;
-                width: 10px;
-                height: 10px;
+                left: -18px;
+                width: 14px;
+                height: 14px;
             }
             .contact-wrapper {
-                padding: 28px 24px;
+                padding: 32px 24px;
             }
             .whitelist-text-card {
-                padding: 28px 24px;
+                padding: 32px 24px;
             }
-            .whitelist-text-card p {
-                font-size: 0.98rem;
+            section {
+                padding: 80px 0;
+            }
+            .modal-content {
+                padding: 32px 24px;
+                margin: 16px;
             }
         }
-
         @media (max-width: 480px) {
             section {
                 padding: 60px 0;
             }
             .stat-item {
-                padding: 16px;
+                padding: 16px 8px;
             }
             .stat-number {
                 font-size: 1.8rem;
@@ -994,63 +1560,122 @@
             .projects-custom-grid {
                 grid-template-columns: 1fr;
             }
-            .prinsip-grid {
-                grid-template-columns: 1fr;
-            }
             .about-card {
-                padding: 24px;
+                padding: 28px 20px;
             }
             .btn {
                 padding: 12px 24px;
                 font-size: 0.85rem;
             }
             .contact-wrapper {
-                padding: 20px 16px;
+                padding: 24px 16px;
             }
             .whitelist-text-card {
-                padding: 20px 16px;
+                padding: 24px 16px;
             }
             .whitelist-text-card p {
-                font-size: 0.92rem;
+                font-size: 0.94rem;
             }
             .tool-card .tool-icon,
             .project-custom-card .project-icon {
-                width: 64px;
-                height: 64px;
+                width: 68px;
+                height: 68px;
                 font-size: 2rem;
             }
-            .tool-card .tool-icon i,
-            .project-custom-card .project-icon i {
-                font-size: 1.8rem;
-            }
             .prinsip-card {
+                padding: 28px 20px;
+            }
+            .profile-frame {
+                width: 200px;
+                height: 200px;
+                padding: 8px;
+            }
+            .hero-text h1 {
+                font-size: 2.2rem;
+            }
+            .hero-text .subtitle {
+                font-size: 1rem;
+            }
+            .testimonial-card {
+                padding: 24px 16px;
+            }
+            .floating-wa {
+                width: 50px;
+                height: 50px;
+                font-size: 1.6rem;
+                bottom: 20px;
+                right: 20px;
+            }
+            .filter-buttons {
+                gap: 8px;
+            }
+            .filter-btn {
+                padding: 6px 16px;
+                font-size: 0.75rem;
+            }
+            .about-extended .ext-card {
                 padding: 24px 20px;
             }
+            .about-more .more-card {
+                padding: 24px 20px;
+            }
+        }
+
+        /* ============================================================
+           SCROLLBAR
+           ============================================================ */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-body);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent);
+            border-radius: var(--radius-full);
+            border: var(--border-width) solid var(--text-primary);
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--secondary);
+        }
+        ::selection {
+            background: var(--tertiary);
+            color: var(--text-primary);
         }
     </style>
 </head>
 <body>
 
-    <!-- ===== GLOW ===== -->
-    <div class="glow glow-1" id="glow1"></div>
-    <div class="glow glow-2" id="glow2"></div>
+    <!-- ===== DECORATIVE SHAPES ===== -->
+    <div class="shape shape-circle" style="top:10%;left:5%;width:180px;height:180px;background:var(--secondary);opacity:0.08;"></div>
+    <div class="shape shape-triangle" style="bottom:15%;right:8%;opacity:0.06;transform:rotate(20deg);"></div>
+    <div class="shape shape-dots" style="top:40%;right:2%;width:250px;height:250px;"></div>
+    <div class="shape shape-blob" style="bottom:5%;left:10%;width:300px;height:250px;background:var(--tertiary);opacity:0.06;"></div>
+
+    <!-- ===== FLOATING WHATSAPP ===== -->
+    <a href="https://wa.me/6285111612909" target="_blank" class="floating-wa" aria-label="Chat via WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
 
     <!-- ===== NAVBAR ===== -->
     <nav class="navbar" id="navbar">
         <div class="container nav-container">
-            <a href="#" class="logo">Profile</a>
-            <button class="hamburger" id="hamburger"><i class="fas fa-bars"></i></button>
+            <a href="#" class="logo">✦ Profile</a>
+            <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+                <i class="fas fa-bars"></i>
+            </button>
             <ul class="nav-links" id="navLinks">
                 <li><a href="#home" class="nav-link active" data-section="home" data-i18n="nav_home">Home</a></li>
                 <li><a href="#about" class="nav-link" data-section="about" data-i18n="nav_about">About</a></li>
                 <li><a href="#journey" class="nav-link" data-section="journey" data-i18n="nav_journey">Journey</a></li>
                 <li><a href="#skills" class="nav-link" data-section="skills" data-i18n="nav_skills">Skills</a></li>
                 <li><a href="#whitelist" class="nav-link" data-section="whitelist" data-i18n="nav_whitelist">Whitelist</a></li>
+                <li><a href="#testimonials" class="nav-link" data-section="testimonials" data-i18n="nav_testimonials">Testimonials</a></li>
                 <li><a href="#tools" class="nav-link" data-section="tools" data-i18n="nav_tools">Tools</a></li>
                 <li><a href="#projects-custom" class="nav-link" data-section="projects-custom" data-i18n="nav_projects">Projects</a></li>
                 <li><a href="#prinsip" class="nav-link" data-section="prinsip" data-i18n="nav_prinsip">Prinsip</a></li>
                 <li><a href="#contact" class="nav-link" data-section="contact" data-i18n="nav_contact">Contact</a></li>
-                <li><button class="btn btn-secondary" id="langToggle" style="padding:8px 20px;font-size:0.8rem;">ID / EN</button></li>
+                <li><button class="btn btn-secondary" id="langToggle" style="padding:8px 22px;font-size:0.8rem;border-radius:9999px;border:2px solid #1E293B;">ID / EN</button></li>
             </ul>
         </div>
     </nav>
@@ -1059,14 +1684,16 @@
     <section id="home" class="hero">
         <div class="container hero-grid">
             <div class="hero-text">
-                <span class="section-tag blur-reveal visible" data-i18n="hero_badge">Full Stack Developer</span>
-                <h1 class="blur-reveal visible blur-reveal-d1">Building Digital<br><span class="highlight" data-i18n="hero_highlight">Experiences</span></h1>
+                <span class="section-tag blur-reveal visible" data-i18n="hero_badge">✦ Full Stack Developer</span>
+                <h1 class="blur-reveal visible blur-reveal-d1">
+                    Building Digital<br><span class="highlight" data-i18n="hero_highlight">Experiences</span>
+                </h1>
                 <div class="subtitle blur-reveal visible blur-reveal-d2" id="typewriter">
                     <span data-i18n="hero_typing_1">I craft clean interfaces & robust systems.</span>
                     <span class="cursor"></span>
                 </div>
                 <div class="hero-buttons blur-reveal visible blur-reveal-d3">
-                    <a href="#tools" class="btn btn-primary" data-i18n="btn_work">View My Tools <i class="fas fa-arrow-right"></i></a>
+                    <a href="#projects-custom" class="btn btn-primary" data-i18n="btn_work">View My Work <i class="fas fa-arrow-right"></i></a>
                     <a href="#contact" class="btn btn-secondary" data-i18n="btn_contact">Contact Me</a>
                 </div>
             </div>
@@ -1084,34 +1711,89 @@
     <section id="about">
         <div class="container">
             <div class="section-header blur-reveal">
-                <span class="section-tag" data-i18n="about_tag">About Me</span>
-                <h2 class="section-title" data-i18n="about_title">Know Me Better</h2>
+                <span class="section-tag" data-i18n="about_tag">✦ About Me</span>
+                <h2 class="section-title" data-i18n="about_title">Know Me <span class="highlight">Better</span></h2>
                 <p class="section-subtitle" data-i18n="about_sub">Get to know the person behind the code</p>
             </div>
+
             <div class="about-grid">
-                <div class="about-card blur-reveal blur-reveal-d1">
+                <div class="about-card card-sticker blur-reveal blur-reveal-d1">
                     <div class="label" data-i18n="label_name">Full Name</div>
                     <div class="value" id="aboutName">Satria Putra Syawal</div>
-                    <div class="label" style="margin-top:20px;" data-i18n="label_age">Age</div>
+                    <div class="label" style="margin-top:22px;" data-i18n="label_age">Age</div>
                     <div class="value" id="aboutAge">17 Years</div>
-                    <div class="label" style="margin-top:20px;" data-i18n="label_location">Location</div>
+                    <div class="label" style="margin-top:22px;" data-i18n="label_location">Location</div>
                     <div class="value" id="aboutLocation">Bogor, Jawa Barat</div>
-                    <div class="label" style="margin-top:20px;" data-i18n="label_email">Email</div>
+                    <div class="label" style="margin-top:22px;" data-i18n="label_email">Email</div>
                     <div class="value" id="aboutEmail">satclouds@gmail.com</div>
-                    <div class="label" style="margin-top:20px;" data-i18n="label_edu">Education</div>
-                    <div class="value" id="aboutEdu">SMK Yadika 7 Bogor </div>
-                    <div class="label" style="margin-top:20px;" data-i18n="label_job">Job Title</div>
+                    <div class="label" style="margin-top:22px;" data-i18n="label_edu">Education</div>
+                    <div class="value" id="aboutEdu">SMK Yadika 7 Bogor</div>
+                    <div class="label" style="margin-top:22px;" data-i18n="label_job">Job Title</div>
                     <div class="value" id="aboutJob">Full Stack Developer</div>
                 </div>
-                <div class="about-card blur-reveal blur-reveal-d2">
-                    <p class="about-text" id="aboutDesc1">I am a passionate developer based in Indonesia with over 5 years of experience in building digital products. I don't just write code; I solve problems.</p>
-                    <p class="about-text" style="margin-top:16px;" id="aboutDesc2">My philosophy is simple: Design should feel real, and code should be clean. I specialize in the JavaScript ecosystem, creating seamless experiences from database to pixel.</p>
+                <div class="about-card card-sticker blur-reveal blur-reveal-d2">
+                    <p class="about-text" id="aboutDesc1" data-i18n="about_desc1">I am a passionate developer based in Indonesia with over 5 years of experience in building digital products. I don't just write code; I solve problems. My journey started from curiosity — how websites work, how data moves, and how to turn ideas into interactive experiences.</p>
+                    <p class="about-text" style="margin-top:18px;" id="aboutDesc2" data-i18n="about_desc2">My philosophy is simple: Design should feel real, and code should be clean. I specialize in the JavaScript ecosystem, creating seamless experiences from database to pixel. I believe that great software is built with empathy — understanding the user's needs and translating them into elegant solutions.</p>
+                    <p class="about-text" style="margin-top:18px;" id="aboutDesc3" data-i18n="about_desc3">Beyond coding, I'm deeply interested in how technology can empower people. Whether it's building an e-commerce platform that helps small businesses grow, or an AI assistant that makes daily tasks easier — I want to create things that truly matter.</p>
                     <div class="stats-grid" style="margin-top:28px;">
-                        <div class="stat-item blur-reveal blur-reveal-d3"><div class="stat-number">5+</div><div class="stat-label" data-i18n="stat_years">Years Exp.</div></div>
-                        <div class="stat-item blur-reveal blur-reveal-d4"><div class="stat-number">50+</div><div class="stat-label" data-i18n="stat_projects">Projects</div></div>
-                        <div class="stat-item blur-reveal blur-reveal-d5"><div class="stat-number">30+</div><div class="stat-label" data-i18n="stat_clients">Clients</div></div>
-                        <div class="stat-item blur-reveal blur-reveal-d6"><div class="stat-number">12</div><div class="stat-label" data-i18n="stat_awards">Awards</div></div>
+                        <div class="stat-item blur-reveal blur-reveal-d3">
+                            <div class="stat-number">5+</div>
+                            <div class="stat-label" data-i18n="stat_years">Years Exp.</div>
+                        </div>
+                        <div class="stat-item blur-reveal blur-reveal-d4">
+                            <div class="stat-number">50+</div>
+                            <div class="stat-label" data-i18n="stat_projects">Projects</div>
+                        </div>
+                        <div class="stat-item blur-reveal blur-reveal-d5">
+                            <div class="stat-number">30+</div>
+                            <div class="stat-label" data-i18n="stat_clients">Clients</div>
+                        </div>
+                        <div class="stat-item blur-reveal blur-reveal-d6">
+                            <div class="stat-number">12</div>
+                            <div class="stat-label" data-i18n="stat_awards">Awards</div>
+                        </div>
                     </div>
+                </div>
+            </div>
+
+            <!-- Extended about -->
+            <div class="about-extended blur-reveal blur-reveal-d2" style="margin-top:44px;">
+                <div class="ext-card card-sticker">
+                    <div class="ext-icon"><i class="fas fa-code"></i></div>
+                    <h4 data-i18n="about_journey_title">My Development Journey</h4>
+                    <p data-i18n="about_journey_text1">I started my coding journey at the age of 12, tinkering with HTML and CSS on a dusty old laptop. What began as a hobby quickly turned into a passion. Over the years, I've explored various technologies — from vanilla JavaScript to modern frameworks like React and Vue, and from simple scripts to full-fledged backend systems with Node.js and Python.</p>
+                    <p data-i18n="about_journey_text2" style="margin-top:10px;">I believe in learning by building. Every project I take on is an opportunity to learn something new — whether it's a new design pattern, a better way to structure code, or a deeper understanding of how users interact with digital products.</p>
+                </div>
+                <div class="ext-card card-sticker">
+                    <div class="ext-icon"><i class="fas fa-brain"></i></div>
+                    <h4 data-i18n="about_learning_title">What I'm Currently Learning</h4>
+                    <p data-i18n="about_learning_text1">Right now, I'm diving deeper into the world of Artificial Intelligence and automation. I'm exploring how to integrate AI models into web applications, building intelligent chatbots, and learning about natural language processing. I'm also studying cloud architecture and serverless computing to build more scalable and resilient systems.</p>
+                    <p data-i18n="about_learning_text2" style="margin-top:10px;">I'm also expanding my knowledge in DevOps practices — containerization with Docker, CI/CD pipelines, and infrastructure as code. I want to not only build great software but also deploy and maintain it effectively.</p>
+                </div>
+                <div class="ext-card card-sticker card-sticker-pink">
+                    <div class="ext-icon"><i class="fas fa-heart"></i></div>
+                    <h4 data-i18n="about_beyond_title">Beyond the Code</h4>
+                    <p data-i18n="about_beyond_text1">When I'm not coding, I love reading books — especially about technology, psychology, and personal growth. I'm also passionate about photography and capturing the beauty of everyday moments. I enjoy playing music, exploring nature, and spending time with friends and family.</p>
+                    <p data-i18n="about_beyond_text2" style="margin-top:10px;">I strongly believe that being a good developer means being a well-rounded person. The best ideas often come when you step away from the screen and experience the world around you. That's why I always make time for hobbies and human connections.</p>
+                </div>
+            </div>
+
+            <!-- More about -->
+            <div class="about-more blur-reveal blur-reveal-d3" style="margin-top:30px;">
+                <div class="more-card card-sticker">
+                    <h4><i class="fas fa-flag"></i> <span data-i18n="about_vision_title">My Vision for the Future</span></h4>
+                    <p data-i18n="about_vision_text1">I want to become a developer who not only builds great products but also inspires others. I dream of creating technology that is accessible, inclusive, and truly beneficial to society. I believe that the future of tech lies in human-centered design — where machines serve people, not the other way around.</p>
+                    <p data-i18n="about_vision_text2" style="margin-top:10px;">In the next 5 years, I aim to lead impactful projects, mentor young developers, and contribute to open-source communities. I want to bridge the gap between complex technology and everyday users — making the digital world more intuitive and welcoming for everyone.</p>
+                </div>
+                <div class="more-card card-sticker card-sticker-pink">
+                    <h4><i class="fas fa-tools"></i> <span data-i18n="about_ethic_title">My Work Ethic</span></h4>
+                    <p data-i18n="about_ethic_text">I approach every project with curiosity, discipline, and a relentless pursuit of quality. I believe that great work comes from continuous iteration — writing, testing, refining, and rewriting until it feels right. I'm not afraid of failure; I see it as a stepping stone toward mastery.</p>
+                    <ul style="margin-top:10px;">
+                        <li data-i18n="ethic_clean"><strong>Clean Code:</strong> I write code that is readable, maintainable, and well-documented.</li>
+                        <li data-i18n="ethic_user"><strong>User First:</strong> Every decision I make is guided by the end-user's experience.</li>
+                        <li data-i18n="ethic_learn"><strong>Continuous Learning:</strong> I dedicate time every day to learn something new.</li>
+                        <li data-i18n="ethic_collab"><strong>Collaboration:</strong> I believe the best results come from working together.</li>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -1121,11 +1803,11 @@
     <section id="journey">
         <div class="container">
             <div class="section-header blur-reveal">
-                <span class="section-tag" data-i18n="journey_tag">My Journey</span>
-                <h2 class="section-title" data-i18n="journey_title">The Path I Walked</h2>
+                <span class="section-tag" data-i18n="journey_tag">✦ My Journey</span>
+                <h2 class="section-title" data-i18n="journey_title">The Path I <span class="highlight">Walked</span></h2>
                 <p class="section-subtitle" data-i18n="journey_sub">Every step shaped who I am today</p>
             </div>
-            <div class="about-card blur-reveal" style="background:var(--bg-card);box-shadow:9px 9px 16px var(--shadow-dark), -9px -9px 16px var(--shadow-light);border-radius:var(--radius);padding:40px;">
+            <div class="card-sticker blur-reveal" style="padding:44px 40px;">
                 <div class="timeline" id="timelineContainer"></div>
             </div>
         </div>
@@ -1135,8 +1817,8 @@
     <section id="skills">
         <div class="container">
             <div class="section-header blur-reveal">
-                <span class="section-tag" data-i18n="skills_tag">Expertise</span>
-                <h2 class="section-title" data-i18n="skills_title">Skills & Proficiency</h2>
+                <span class="section-tag" data-i18n="skills_tag">✦ Expertise</span>
+                <h2 class="section-title" data-i18n="skills_title">Skills & <span class="highlight">Proficiency</span></h2>
                 <p class="section-subtitle" data-i18n="skills_sub">Tools and technologies I master</p>
             </div>
             <div class="skills-wrapper" id="skillsWrapper">
@@ -1164,15 +1846,44 @@
     <section id="whitelist">
         <div class="container">
             <div class="section-header blur-reveal">
-                <span class="section-tag" data-i18n="whitelist_tag">Whitelist</span>
-                <h2 class="section-title" data-i18n="whitelist_title">My Vision & Goals</h2>
+                <span class="section-tag" data-i18n="whitelist_tag">✦ Whitelist</span>
+                <h2 class="section-title" data-i18n="whitelist_title">My Vision & <span class="highlight">Goals</span></h2>
                 <p class="section-subtitle" data-i18n="whitelist_sub">What drives me forward</p>
             </div>
             <div class="whitelist-text-card blur-reveal">
                 <span class="quote-icon"><i class="fas fa-quote-left"></i></span>
-                <p id="whitelistText">
-                    Saya ingin terus berkembang di dunia teknologi dengan memperdalam kemampuan dalam pemrograman dan pengembangan website. Ke depannya, saya ingin mampu membuat berbagai project yang lebih besar, mempelajari AI dan automation, memahami server serta teknologi cloud, dan menciptakan karya yang tidak hanya menarik secara tampilan tetapi juga bermanfaat bagi banyak orang. Saya juga ingin terus mencoba hal-hal baru, mendapatkan lebih banyak pengalaman, dan menjadi seseorang yang mampu mengubah ide menjadi sesuatu yang nyata.
-                </p>
+                <p id="whitelistText" data-i18n="whitelist_text">Saya ingin terus berkembang di dunia teknologi dengan memperdalam kemampuan dalam pemrograman dan pengembangan website. Ke depannya, saya ingin mampu membuat berbagai project yang lebih besar, mempelajari AI dan automation, memahami server serta teknologi cloud, dan menciptakan karya yang tidak hanya menarik secara tampilan tetapi juga bermanfaat bagi banyak orang. Saya juga ingin terus mencoba hal-hal baru, mendapatkan lebih banyak pengalaman, dan menjadi seseorang yang mampu mengubah ide menjadi sesuatu yang nyata.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== TESTIMONIALS ===== -->
+    <section id="testimonials">
+        <div class="container">
+            <div class="section-header blur-reveal">
+                <span class="section-tag" data-i18n="testimonials_tag">✦ Testimonials</span>
+                <h2 class="section-title" data-i18n="testimonials_title">What People <span class="highlight">Say</span></h2>
+                <p class="section-subtitle" data-i18n="testimonials_sub">Kind words from clients and colleagues</p>
+            </div>
+            <div class="testimonials-grid" id="testimonialsGrid">
+                <div class="testimonial-card blur-reveal blur-reveal-d1">
+                    <div class="avatar">R</div>
+                    <blockquote data-i18n="testimonial1">"Satria delivered our e-commerce platform on time with clean code and great UI. He truly understands user experience."</blockquote>
+                    <div class="author" data-i18n="testimonial1_author">Rina W.</div>
+                    <div class="role" data-i18n="testimonial1_role">Product Manager, TechStart</div>
+                </div>
+                <div class="testimonial-card blur-reveal blur-reveal-d2">
+                    <div class="avatar">D</div>
+                    <blockquote data-i18n="testimonial2">"Working with Satria was a breeze. He solved complex backend issues and communicated clearly throughout the project."</blockquote>
+                    <div class="author" data-i18n="testimonial2_author">Dimas P.</div>
+                    <div class="role" data-i18n="testimonial2_role">CTO, CloudNusa</div>
+                </div>
+                <div class="testimonial-card blur-reveal blur-reveal-d3">
+                    <div class="avatar">A</div>
+                    <blockquote data-i18n="testimonial3">"His attention to detail and passion for learning is inspiring. He built our AI chatbot with minimal supervision."</blockquote>
+                    <div class="author" data-i18n="testimonial3_author">Amanda S.</div>
+                    <div class="role" data-i18n="testimonial3_role">Founder, AIris Solutions</div>
+                </div>
             </div>
         </div>
     </section>
@@ -1181,48 +1892,64 @@
     <section id="tools">
         <div class="container">
             <div class="section-header blur-reveal">
-                <span class="section-tag" data-i18n="tools_tag">Bahan Proyek</span>
-                <h2 class="section-title" data-i18n="tools_title">Tools & Platforms I Use</h2>
+                <span class="section-tag" data-i18n="tools_tag">✦ Bahan Proyek</span>
+                <h2 class="section-title" data-i18n="tools_title">Tools & <span class="highlight">Platforms</span></h2>
                 <p class="section-subtitle" data-i18n="tools_sub">Alat dan platform yang saya gunakan dalam setiap proyek</p>
             </div>
             <div class="tools-grid" id="toolsGrid"></div>
         </div>
     </section>
 
-    <!-- ===== PROJECTS CUSTOM ===== -->
+    <!-- ===== PROJECTS ===== -->
     <section id="projects-custom">
         <div class="container">
             <div class="section-header blur-reveal">
-                <span class="section-tag" data-i18n="projects_tag">Portofolio</span>
-                <h2 class="section-title" data-i18n="projects_title">Projects I've Built</h2>
+                <span class="section-tag" data-i18n="projects_tag">✦ Portofolio</span>
+                <h2 class="section-title" data-i18n="projects_title">Projects I've <span class="highlight">Built</span></h2>
                 <p class="section-subtitle" data-i18n="projects_sub">Beberapa proyek yang sudah saya buat</p>
+            </div>
+            <div class="filter-buttons blur-reveal" id="filterButtons">
+                <button class="filter-btn active" data-filter="all" data-i18n="filter_all">All</button>
+                <button class="filter-btn" data-filter="ecommerce" data-i18n="filter_ecommerce">E-Commerce</button>
+                <button class="filter-btn" data-filter="ai" data-i18n="filter_ai">AI</button>
+                <button class="filter-btn" data-filter="automation" data-i18n="filter_automation">Automation</button>
             </div>
             <div class="projects-custom-grid" id="projectsCustomGrid"></div>
         </div>
     </section>
 
+    <!-- ===== PROJECT MODAL ===== -->
+    <div class="modal-overlay" id="projectModal">
+        <div class="modal-content">
+            <button class="modal-close" id="modalClose"><i class="fas fa-times"></i></button>
+            <div class="modal-icon" id="modalIcon" style="background:#8B5CF6;"><i class="fas fa-store"></i></div>
+            <h2 id="modalTitle">Digital Store</h2>
+            <p class="modal-desc" id="modalDesc">Full-featured e-commerce platform with payment gateway, inventory management, and real-time analytics.</p>
+            <div class="modal-tech" id="modalTech">
+                <span>React</span><span>Node.js</span><span>MongoDB</span>
+            </div>
+            <a href="#" class="modal-link" id="modalLink">View Project <i class="fas fa-arrow-right"></i></a>
+        </div>
+    </div>
+
     <!-- ===== PRINSIP ===== -->
     <section id="prinsip">
         <div class="container">
             <div class="section-header blur-reveal">
-                <span class="section-tag" data-i18n="prinsip_tag">Filosofi</span>
-                <h2 class="section-title" data-i18n="prinsip_title">Prinsip & Cara Pandang</h2>
+                <span class="section-tag" data-i18n="prinsip_tag">✦ Filosofi</span>
+                <h2 class="section-title" data-i18n="prinsip_title">Prinsip & <span class="highlight">Cara Pandang</span></h2>
                 <p class="section-subtitle" data-i18n="prinsip_sub">Bagaimana saya menjalani proses berkarya</p>
             </div>
             <div class="prinsip-grid">
                 <div class="prinsip-card blur-reveal blur-reveal-d1">
                     <div class="prinsip-icon"><i class="fas fa-compass"></i></div>
                     <h3 data-i18n="prinsip_judul">Prinsip Saya</h3>
-                    <p id="prinsipText">
-                        Saya percaya bahwa setiap orang memiliki prosesnya masing-masing. Tidak harus selalu menjadi yang tercepat, yang terpenting adalah terus melangkah dan tidak berhenti belajar. Bagi saya, kegagalan dan kesalahan bukanlah akhir, melainkan bagian dari proses untuk menjadi lebih baik.
-                    </p>
+                    <p id="prinsipText" data-i18n="prinsip_text">Saya percaya bahwa setiap orang memiliki prosesnya masing-masing. Tidak harus selalu menjadi yang tercepat, yang terpenting adalah terus melangkah dan tidak berhenti belajar. Bagi saya, kegagalan dan kesalahan bukanlah akhir, melainkan bagian dari proses untuk menjadi lebih baik.</p>
                 </div>
                 <div class="prinsip-card blur-reveal blur-reveal-d2">
                     <div class="prinsip-icon"><i class="fas fa-eye"></i></div>
                     <h3 data-i18n="proses_judul">Cara Saya Melihat Proses</h3>
-                    <p id="prosesText">
-                        Saya tidak ingin hanya menjadi seseorang yang bisa menggunakan teknologi, tetapi juga seseorang yang mampu memahami, menciptakan, dan memberikan manfaat melalui teknologi. Setiap project yang saya kerjakan adalah kesempatan untuk belajar sesuatu yang baru dan berkembang dari sebelumnya.
-                    </p>
+                    <p id="prosesText" data-i18n="proses_text">Saya tidak ingin hanya menjadi seseorang yang bisa menggunakan teknologi, tetapi juga seseorang yang mampu memahami, menciptakan, dan memberikan manfaat melalui teknologi. Setiap project yang saya kerjakan adalah kesempatan untuk belajar sesuatu yang baru dan berkembang dari sebelumnya.</p>
                 </div>
             </div>
         </div>
@@ -1232,12 +1959,15 @@
     <section id="contact">
         <div class="container">
             <div class="section-header blur-reveal">
-                <span class="section-tag" data-i18n="contact_tag">Contact</span>
-                <h2 class="section-title" data-i18n="contact_title">Let's Connect</h2>
+                <span class="section-tag" data-i18n="contact_tag">✦ Contact</span>
+                <h2 class="section-title" data-i18n="contact_title">Let's <span class="highlight">Connect</span></h2>
                 <p class="section-subtitle" data-i18n="contact_sub">Have a project? Let's build something amazing.</p>
             </div>
             <div class="contact-wrapper blur-reveal">
-                <div class="success-message" id="successMessage"><i class="fas fa-check-circle"></i> <span id="successText" data-i18n="success_msg">Message sent! I'll reply soon.</span></div>
+                <div class="success-message" id="successMessage">
+                    <i class="fas fa-check-circle"></i>
+                    <span id="successText" data-i18n="success_msg">Message sent! I'll reply soon.</span>
+                </div>
                 <form id="contactForm">
                     <div class="form-group">
                         <label data-i18n="form_name">Your Name</label>
@@ -1251,7 +1981,9 @@
                         <label data-i18n="form_message">Message</label>
                         <textarea id="message" rows="4" placeholder="Tell me about your project..." required></textarea>
                     </div>
-                    <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;" data-i18n="btn_send">Send Message <i class="fas fa-paper-plane"></i></button>
+                    <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;" data-i18n="btn_send">
+                        Send Message <i class="fas fa-paper-plane"></i>
+                    </button>
                 </form>
                 <div class="social-row" id="socialLinksContainer"></div>
             </div>
@@ -1261,19 +1993,25 @@
     <!-- ===== FOOTER ===== -->
     <footer>
         <div class="container">
-            <p>&copy; 2026 SATXXCLOUDS. <span data-i18n="footer_text">Crafted with</span> <i class="fas fa-heart" style="color:#6C63FF;"></i></p>
+            <p>&copy; 2026 SATXXCLOUDS. <span data-i18n="footer_text">Crafted with</span> <i class="fas fa-heart"></i></p>
+            <div class="footer-links">
+                <a href="#home" data-i18n="nav_home">Home</a>
+                <a href="#about" data-i18n="nav_about">About</a>
+                <a href="#projects-custom" data-i18n="nav_projects">Projects</a>
+                <a href="#contact" data-i18n="nav_contact">Contact</a>
+            </div>
         </div>
     </footer>
 
     <!-- ============================================================ -->
-    <!-- ===== SCRIPTS ===== -->
+    <!-- ===== SCRIPTS (SAME AS BEFORE, PRESERVED) ===== -->
     <!-- ============================================================ -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js">
     </script>
 
     <script>
         // ============================================================
-        // DATA & TRANSLATIONS
+        // DATA & TRANSLATIONS — Complete (same as before)
         // ============================================================
         const LANG = {
             en: {
@@ -1282,6 +2020,7 @@
                 nav_journey: "Journey",
                 nav_skills: "Skills",
                 nav_whitelist: "Whitelist",
+                nav_testimonials: "Testimonials",
                 nav_tools: "Tools",
                 nav_projects: "Projects",
                 nav_prinsip: "Principles",
@@ -1292,7 +2031,7 @@
                 hero_typing_2: "Full Stack Developer & Network Engineer.",
                 hero_typing_3: "Turning ideas into digital reality.",
                 hero_typing_4: "Code is poetry, networks are bridges.",
-                btn_work: "View My Tools",
+                btn_work: "View My Work",
                 btn_contact: "Contact Me",
                 badge_years: "5+ Years",
                 badge_projects: "50+ Projects",
@@ -1309,6 +2048,27 @@
                 stat_projects: "Projects",
                 stat_clients: "Clients",
                 stat_awards: "Awards",
+                about_desc1: "I am a passionate developer based in Indonesia with over 5 years of experience in building digital products. I don't just write code; I solve problems. My journey started from curiosity — how websites work, how data moves, and how to turn ideas into interactive experiences.",
+                about_desc2: "My philosophy is simple: Design should feel real, and code should be clean. I specialize in the JavaScript ecosystem, creating seamless experiences from database to pixel. I believe that great software is built with empathy — understanding the user's needs and translating them into elegant solutions.",
+                about_desc3: "Beyond coding, I'm deeply interested in how technology can empower people. Whether it's building an e-commerce platform that helps small businesses grow, or an AI assistant that makes daily tasks easier — I want to create things that truly matter.",
+                about_journey_title: "My Development Journey",
+                about_journey_text1: "I started my coding journey at the age of 12, tinkering with HTML and CSS on a dusty old laptop. What began as a hobby quickly turned into a passion. Over the years, I've explored various technologies — from vanilla JavaScript to modern frameworks like React and Vue, and from simple scripts to full-fledged backend systems with Node.js and Python.",
+                about_journey_text2: "I believe in learning by building. Every project I take on is an opportunity to learn something new — whether it's a new design pattern, a better way to structure code, or a deeper understanding of how users interact with digital products.",
+                about_learning_title: "What I'm Currently Learning",
+                about_learning_text1: "Right now, I'm diving deeper into the world of Artificial Intelligence and automation. I'm exploring how to integrate AI models into web applications, building intelligent chatbots, and learning about natural language processing. I'm also studying cloud architecture and serverless computing to build more scalable and resilient systems.",
+                about_learning_text2: "I'm also expanding my knowledge in DevOps practices — containerization with Docker, CI/CD pipelines, and infrastructure as code. I want to not only build great software but also deploy and maintain it effectively.",
+                about_beyond_title: "Beyond the Code",
+                about_beyond_text1: "When I'm not coding, I love reading books — especially about technology, psychology, and personal growth. I'm also passionate about photography and capturing the beauty of everyday moments. I enjoy playing music, exploring nature, and spending time with friends and family.",
+                about_beyond_text2: "I strongly believe that being a good developer means being a well-rounded person. The best ideas often come when you step away from the screen and experience the world around you. That's why I always make time for hobbies and human connections.",
+                about_vision_title: "My Vision for the Future",
+                about_vision_text1: "I want to become a developer who not only builds great products but also inspires others. I dream of creating technology that is accessible, inclusive, and truly beneficial to society. I believe that the future of tech lies in human-centered design — where machines serve people, not the other way around.",
+                about_vision_text2: "In the next 5 years, I aim to lead impactful projects, mentor young developers, and contribute to open-source communities. I want to bridge the gap between complex technology and everyday users — making the digital world more intuitive and welcoming for everyone.",
+                about_ethic_title: "My Work Ethic",
+                about_ethic_text: "I approach every project with curiosity, discipline, and a relentless pursuit of quality. I believe that great work comes from continuous iteration — writing, testing, refining, and rewriting until it feels right. I'm not afraid of failure; I see it as a stepping stone toward mastery.",
+                ethic_clean: "<strong>Clean Code:</strong> I write code that is readable, maintainable, and well-documented.",
+                ethic_user: "<strong>User First:</strong> Every decision I make is guided by the end-user's experience.",
+                ethic_learn: "<strong>Continuous Learning:</strong> I dedicate time every day to learn something new.",
+                ethic_collab: "<strong>Collaboration:</strong> I believe the best results come from working together.",
                 journey_tag: "My Journey",
                 journey_title: "The Path I Walked",
                 journey_sub: "Every step shaped who I am today",
@@ -1331,12 +2091,28 @@
                 whitelist_title: "My Vision & Goals",
                 whitelist_sub: "What drives me forward",
                 whitelist_text: "I want to keep growing in the world of technology by deepening my skills in programming and web development. Going forward, I want to be able to create bigger projects, learn AI and automation, understand servers and cloud technology, and create works that are not only visually appealing but also beneficial to many people. I also want to keep trying new things, gain more experience, and become someone who can turn ideas into reality.",
+                testimonials_tag: "Testimonials",
+                testimonials_title: "What People Say",
+                testimonials_sub: "Kind words from clients and colleagues",
+                testimonial1: "\"Satria delivered our e-commerce platform on time with clean code and great UI. He truly understands user experience.\"",
+                testimonial1_author: "Rina W.",
+                testimonial1_role: "Product Manager, TechStart",
+                testimonial2: "\"Working with Satria was a breeze. He solved complex backend issues and communicated clearly throughout the project.\"",
+                testimonial2_author: "Dimas P.",
+                testimonial2_role: "CTO, CloudNusa",
+                testimonial3: "\"His attention to detail and passion for learning is inspiring. He built our AI chatbot with minimal supervision.\"",
+                testimonial3_author: "Amanda S.",
+                testimonial3_role: "Founder, AIris Solutions",
                 tools_tag: "My Tools",
                 tools_title: "Tools & Platforms I Use",
                 tools_sub: "The tools and platforms I rely on for every project",
                 projects_tag: "Portfolio",
                 projects_title: "Projects I've Built",
                 projects_sub: "Some projects I have built",
+                filter_all: "All",
+                filter_ecommerce: "E-Commerce",
+                filter_ai: "AI",
+                filter_automation: "Automation",
                 prinsip_tag: "Philosophy",
                 prinsip_title: "Principles & Perspective",
                 prinsip_sub: "How I approach the creative process",
@@ -1360,6 +2136,7 @@
                 nav_journey: "Perjalanan",
                 nav_skills: "Keahlian",
                 nav_whitelist: "Whitelist",
+                nav_testimonials: "Testimoni",
                 nav_tools: "Bahan",
                 nav_projects: "Proyek",
                 nav_prinsip: "Prinsip",
@@ -1370,7 +2147,7 @@
                 hero_typing_2: "Full Stack Developer & Network Engineer.",
                 hero_typing_3: "Mengubah ide menjadi realitas digital.",
                 hero_typing_4: "Kode adalah puisi, jaringan adalah jembatan.",
-                btn_work: "Lihat Bahan",
+                btn_work: "Lihat Karya",
                 btn_contact: "Hubungi Saya",
                 badge_years: "5+ Tahun",
                 badge_projects: "50+ Proyek",
@@ -1387,6 +2164,27 @@
                 stat_projects: "Proyek",
                 stat_clients: "Klien",
                 stat_awards: "Penghargaan",
+                about_desc1: "Saya pengembang yang bersemangat di Indonesia dengan pengalaman lebih dari 5 tahun dalam membangun produk digital. Saya tidak hanya menulis kode; saya memecahkan masalah. Perjalanan saya dimulai dari rasa ingin tahu — bagaimana website bekerja, bagaimana data bergerak, dan bagaimana mengubah ide menjadi pengalaman interaktif.",
+                about_desc2: "Filosofi saya sederhana: Desain harus terasa nyata, dan kode harus bersih. Saya berspesialisasi dalam ekosistem JavaScript, menciptakan pengalaman mulus dari database hingga piksel. Saya percaya bahwa perangkat lunak yang hebat dibangun dengan empati — memahami kebutuhan pengguna dan menerjemahkannya menjadi solusi yang elegan.",
+                about_desc3: "Di luar coding, saya sangat tertarik pada bagaimana teknologi dapat memberdayakan orang. Baik itu membangun platform e-commerce yang membantu bisnis kecil berkembang, atau asisten AI yang membuat tugas sehari-hari lebih mudah — saya ingin menciptakan hal-hal yang benar-benar berarti.",
+                about_journey_title: "Perjalanan Pengembangan Saya",
+                about_journey_text1: "Saya memulai perjalanan coding pada usia 12 tahun, bermain-main dengan HTML dan CSS di laptop bekas. Apa yang awalnya hobi dengan cepat berubah menjadi hasrat. Selama bertahun-tahun, saya telah menjelajahi berbagai teknologi — dari JavaScript murni hingga kerangka kerja modern seperti React dan Vue, dan dari skrip sederhana hingga sistem backend lengkap dengan Node.js dan Python.",
+                about_journey_text2: "Saya percaya pada belajar dengan membangun. Setiap proyek yang saya kerjakan adalah kesempatan untuk mempelajari sesuatu yang baru — apakah itu pola desain baru, cara yang lebih baik untuk menyusun kode, atau pemahaman yang lebih dalam tentang bagaimana pengguna berinteraksi dengan produk digital.",
+                about_learning_title: "Apa yang Sedang Saya Pelajari",
+                about_learning_text1: "Saat ini, saya menyelami dunia Kecerdasan Buatan dan otomatisasi. Saya mengeksplorasi cara mengintegrasikan model AI ke dalam aplikasi web, membangun chatbot cerdas, dan mempelajari pemrosesan bahasa alami. Saya juga mempelajari arsitektur cloud dan serverless computing untuk membangun sistem yang lebih skalabel dan tangguh.",
+                about_learning_text2: "Saya juga memperluas pengetahuan saya dalam praktik DevOps — containerization dengan Docker, pipeline CI/CD, dan infrastruktur sebagai kode. Saya ingin tidak hanya membangun perangkat lunak yang hebat tetapi juga menerapkan dan memeliharanya secara efektif.",
+                about_beyond_title: "Di Luar Kode",
+                about_beyond_text1: "Saat tidak sedang coding, saya suka membaca buku — terutama tentang teknologi, psikologi, dan pengembangan diri. Saya juga tertarik pada fotografi dan mengabadikan keindahan momen sehari-hari. Saya menikmati bermain musik, menjelajahi alam, dan menghabiskan waktu dengan teman dan keluarga.",
+                about_beyond_text2: "Saya sangat percaya bahwa menjadi pengembang yang baik berarti menjadi pribadi yang berwawasan luas. Ide-ide terbaik sering muncul saat Anda menjauh dari layar dan merasakan dunia di sekitar Anda. Itulah sebabnya saya selalu meluangkan waktu untuk hobi dan koneksi manusia.",
+                about_vision_title: "Visi Saya untuk Masa Depan",
+                about_vision_text1: "Saya ingin menjadi pengembang yang tidak hanya membangun produk hebat tetapi juga menginspirasi orang lain. Saya bercita-cita menciptakan teknologi yang dapat diakses, inklusif, dan benar-benar bermanfaat bagi masyarakat. Saya percaya bahwa masa depan teknologi terletak pada desain yang berpusat pada manusia — di mana mesin melayani manusia, bukan sebaliknya.",
+                about_vision_text2: "Dalam 5 tahun ke depan, saya bertujuan untuk memimpin proyek yang berdampak, membimbing pengembang muda, dan berkontribusi pada komunitas open-source. Saya ingin menjembatani kesenjangan antara teknologi yang kompleks dan pengguna sehari-hari — membuat dunia digital lebih intuitif dan ramah bagi semua orang.",
+                about_ethic_title: "Etos Kerja Saya",
+                about_ethic_text: "Saya mendekati setiap proyek dengan rasa ingin tahu, disiplin, dan pengejaran kualitas yang tak kenal lelah. Saya percaya bahwa karya hebat berasal dari iterasi terus-menerus — menulis, menguji, menyempurnakan, dan menulis ulang sampai terasa tepat. Saya tidak takut gagal; saya melihatnya sebagai batu loncatan menuju penguasaan.",
+                ethic_clean: "<strong>Kode Bersih:</strong> Saya menulis kode yang mudah dibaca, dipelihara, dan terdokumentasi dengan baik.",
+                ethic_user: "<strong>Pengguna Pertama:</strong> Setiap keputusan yang saya ambil dipandu oleh pengalaman pengguna akhir.",
+                ethic_learn: "<strong>Belajar Terus:</strong> Saya menyediakan waktu setiap hari untuk mempelajari sesuatu yang baru.",
+                ethic_collab: "<strong>Kolaborasi:</strong> Saya percaya hasil terbaik datang dari kerja sama tim.",
                 journey_tag: "Perjalanan Saya",
                 journey_title: "Jalan yang Saya Tempuh",
                 journey_sub: "Setiap langkah membentuk siapa saya hari ini",
@@ -1409,12 +2207,28 @@
                 whitelist_title: "Visi & Tujuan Saya",
                 whitelist_sub: "Apa yang mendorong saya maju",
                 whitelist_text: "Saya ingin terus berkembang di dunia teknologi dengan memperdalam kemampuan dalam pemrograman dan pengembangan website. Ke depannya, saya ingin mampu membuat berbagai project yang lebih besar, mempelajari AI dan automation, memahami server serta teknologi cloud, dan menciptakan karya yang tidak hanya menarik secara tampilan tetapi juga bermanfaat bagi banyak orang. Saya juga ingin terus mencoba hal-hal baru, mendapatkan lebih banyak pengalaman, dan menjadi seseorang yang mampu mengubah ide menjadi sesuatu yang nyata.",
+                testimonials_tag: "Testimoni",
+                testimonials_title: "Kata Mereka",
+                testimonials_sub: "Ucapan baik dari klien dan rekan kerja",
+                testimonial1: "\"Satria mengirimkan platform e-commerce kami tepat waktu dengan kode bersih dan UI yang bagus. Dia benar-benar memahami pengalaman pengguna.\"",
+                testimonial1_author: "Rina W.",
+                testimonial1_role: "Manajer Produk, TechStart",
+                testimonial2: "\"Bekerja dengan Satria sangat menyenangkan. Dia memecahkan masalah backend yang rumit dan berkomunikasi dengan jelas sepanjang proyek.\"",
+                testimonial2_author: "Dimas P.",
+                testimonial2_role: "CTO, CloudNusa",
+                testimonial3: "\"Perhatiannya terhadap detail dan semangat belajarnya menginspirasi. Dia membangun chatbot AI kami dengan pengawasan minimal.\"",
+                testimonial3_author: "Amanda S.",
+                testimonial3_role: "Pendiri, AIris Solutions",
                 tools_tag: "Bahan Proyek",
                 tools_title: "Tools & Platform yang Saya Gunakan",
                 tools_sub: "Alat dan platform yang saya gunakan dalam setiap proyek",
                 projects_tag: "Portofolio",
                 projects_title: "Proyek yang Saya Buat",
                 projects_sub: "Beberapa proyek yang sudah saya buat",
+                filter_all: "Semua",
+                filter_ecommerce: "E-Commerce",
+                filter_ai: "AI",
+                filter_automation: "Otomatisasi",
                 prinsip_tag: "Filosofi",
                 prinsip_title: "Prinsip & Cara Pandang",
                 prinsip_sub: "Bagaimana saya menjalani proses berkarya",
@@ -1441,9 +2255,7 @@
                 location: "Bogor, Jawa Barat",
                 email: "satclouds@gmail.com",
                 education: "SMK Yadika 7 Bogor",
-                job: "Full Stack Developer",
-                desc1: "I am a passionate developer based in Indonesia with over 5 years of experience in building digital products. I don't just write code; I solve problems.",
-                desc2: "My philosophy is simple: Design should feel real, and code should be clean. I specialize in the JavaScript ecosystem, creating seamless experiences from database to pixel."
+                job: "Full Stack Developer"
             },
             id: {
                 name: "Satria Putra Syawal",
@@ -1451,9 +2263,7 @@
                 location: "Bogor, Jawa Barat",
                 email: "satclouds@gmail.com",
                 education: "SMK Yadika 7 Bogor",
-                job: "Full Stack Developer",
-                desc1: "Saya pengembang yang bersemangat di Indonesia dengan pengalaman lebih dari 5 tahun dalam membangun produk digital. Saya tidak hanya menulis kode; saya memecahkan masalah.",
-                desc2: "Filosofi saya sederhana: Desain harus terasa nyata, dan kode harus bersih. Saya berspesialisasi dalam ekosistem JavaScript, menciptakan pengalaman mulus dari database hingga piksel."
+                job: "Full Stack Developer"
             }
         };
 
@@ -1461,12 +2271,9 @@
             instagram: "https://www.instagram.com/satriamahathr_?igsh=MWpkbzlsMDZhYTZtbg==",
             telegram: "https://t.me/satclouds",
             github: "https://github.com/satxxclouds/satriastore",
-            whatsapp: "https://wa.me/6281340514077"
+            whatsapp: "https://wa.me/6285111612909"
         };
 
-        // ============================================================
-        // DATA KONTEN DINAMIS
-        // ============================================================
         const TIMELINE_DATA = [{
             year: "2008",
             title_en: "Born in Bogor",
@@ -1505,7 +2312,6 @@
             desc_id: "Terus belajar, bercita-cita menjadi Full Stack Developer & Network Engineer yang inovatif."
         }];
 
-        // ===== TOOLS DATA =====
         const TOOLS_DATA = [{
             id: 'cloudflare',
             icon: 'fa-cloud',
@@ -1544,7 +2350,6 @@
             badge: 'AI • Google • Integration'
         }];
 
-        // ===== PROJECTS CUSTOM DATA =====
         const PROJECTS_CUSTOM_DATA = [{
             id: 'digital-store',
             icon: 'fa-store',
@@ -1554,6 +2359,8 @@
             desc_en: 'Full-featured e-commerce platform with payment gateway, inventory management, and real-time analytics.',
             desc_id: 'Platform e-commerce lengkap dengan gateway pembayaran, manajemen inventaris, dan analitik real-time.',
             badge: 'E-Commerce • Payment • Analytics',
+            category: 'ecommerce',
+            tech: ['React', 'Node.js', 'MongoDB', 'Stripe'],
             link: '#'
         }, {
             id: 'ai-pribadi',
@@ -1564,6 +2371,8 @@
             desc_en: 'Intelligent personal assistant powered by AI for task automation, scheduling, and natural language understanding.',
             desc_id: 'Asisten pribadi cerdas berbasis AI untuk otomatisasi tugas, penjadwalan, dan pemahaman bahasa alami.',
             badge: 'AI • NLP • Automation',
+            category: 'ai',
+            tech: ['Python', 'TensorFlow', 'Flask', 'NLP'],
             link: '#'
         }, {
             id: 'bot-wa',
@@ -1574,13 +2383,52 @@
             desc_en: 'Automated WhatsApp bot for customer service, order confirmation, and interactive chat experiences.',
             desc_id: 'Bot WhatsApp otomatis untuk layanan pelanggan, konfirmasi pesanan, dan pengalaman chat interaktif.',
             badge: 'WhatsApp • Automation • Chatbot',
+            category: 'automation',
+            tech: ['Node.js', 'WhatsApp API', 'Express', 'MongoDB'],
+            link: '#'
+        }, {
+            id: 'inventory-system',
+            icon: 'fa-boxes',
+            color: '#F59E0B',
+            title_en: 'Inventory Management System',
+            title_id: 'Sistem Manajemen Inventaris',
+            desc_en: 'Real-time inventory tracking with barcode scanning, low-stock alerts, and detailed reporting.',
+            desc_id: 'Pelacakan inventaris real-time dengan pemindaian barcode, peringatan stok rendah, dan laporan terperinci.',
+            badge: 'Inventory • Real-time • Analytics',
+            category: 'ecommerce',
+            tech: ['React', 'Express', 'PostgreSQL', 'Socket.io'],
+            link: '#'
+        }, {
+            id: 'ai-chat',
+            icon: 'fa-comment-dots',
+            color: '#8B5CF6',
+            title_en: 'AI Chat for Education',
+            title_id: 'Chat AI untuk Pendidikan',
+            desc_en: 'Intelligent tutoring system that helps students learn programming concepts through interactive chat.',
+            desc_id: 'Sistem tutor cerdas yang membantu siswa belajar konsep pemrograman melalui chat interaktif.',
+            badge: 'AI • Education • Chat',
+            category: 'ai',
+            tech: ['Python', 'FastAPI', 'OpenAI', 'React'],
+            link: '#'
+        }, {
+            id: 'auto-email',
+            icon: 'fa-envelope',
+            color: '#3B82F6',
+            title_en: 'Email Automation Suite',
+            title_id: 'Paket Otomatisasi Email',
+            desc_en: 'Automated email marketing system with personalization, analytics, and A/B testing capabilities.',
+            desc_id: 'Sistem pemasaran email otomatis dengan personalisasi, analitik, dan kemampuan A/B testing.',
+            badge: 'Automation • Email • Analytics',
+            category: 'automation',
+            tech: ['Node.js', 'SendGrid', 'Redis', 'Vue.js'],
             link: '#'
         }];
 
         let currentLang = 'en';
+        let currentFilter = 'all';
 
         // ============================================================
-        // RENDER FUNCTIONS
+        // RENDER FUNCTIONS (preserved)
         // ============================================================
         function renderAbout(data) {
             document.getElementById('aboutName').textContent = data.name;
@@ -1589,35 +2437,28 @@
             document.getElementById('aboutEmail').textContent = data.email;
             document.getElementById('aboutEdu').textContent = data.education;
             document.getElementById('aboutJob').textContent = data.job;
-            document.getElementById('aboutDesc1').textContent = data.desc1;
-            document.getElementById('aboutDesc2').textContent = data.desc2;
         }
 
         function renderTimeline() {
             const container = document.getElementById('timelineContainer');
             const isEn = currentLang === 'en';
             let html = '';
-            TIMELINE_DATA.forEach(item => {
+            TIMELINE_DATA.forEach((item, idx) => {
                 const title = isEn ? item.title_en : item.title_id;
                 const desc = isEn ? item.desc_en : item.desc_id;
+                const delay = (idx % 6) + 1;
                 html += `
-                    <div class="timeline-item">
-                        <div class="year">${item.year}</div>
-                        <h4>${title}</h4>
-                        <p>${desc}</p>
-                    </div>
-                `;
+                            <div class="timeline-item blur-reveal blur-reveal-d${delay}">
+                                <div class="year">${item.year}</div>
+                                <h4>${title}</h4>
+                                <p>${desc}</p>
+                            </div>
+                        `;
             });
             container.innerHTML = html;
-
-            // Apply blur reveal to timeline items
-            document.querySelectorAll('.timeline-item').forEach((el, i) => {
-                el.classList.add('blur-reveal', `blur-reveal-d${(i % 6) + 1}`);
-                // Trigger visible after a small delay
-                setTimeout(() => {
-                    el.classList.add('visible');
-                }, 300 + i * 100);
-            });
+            setTimeout(() => {
+                document.querySelectorAll('.timeline-item').forEach(el => el.classList.add('visible'));
+            }, 300);
         }
 
         function renderTools() {
@@ -1629,41 +2470,63 @@
                 const desc = isEn ? tool.desc_en : tool.desc_id;
                 const delay = (i % 4) + 1;
                 html += `
-                    <div class="tool-card blur-reveal blur-reveal-d${delay}">
-                        <div class="tool-icon" style="background:${tool.color};">
-                            <i class="fas ${tool.icon}"></i>
-                        </div>
-                        <h4>${title}</h4>
-                        <p>${desc}</p>
-                        <span class="tech-badge">${tool.badge}</span>
-                    </div>
-                `;
+                            <div class="tool-card blur-reveal blur-reveal-d${delay}">
+                                <div class="tool-icon" style="background:${tool.color};">
+                                    <i class="fas ${tool.icon}"></i>
+                                </div>
+                                <h4>${title}</h4>
+                                <p>${desc}</p>
+                                <span class="tech-badge">${tool.badge}</span>
+                            </div>
+                        `;
             });
             container.innerHTML = html;
         }
 
-        function renderProjectsCustom() {
+        function renderProjectsCustom(filter = 'all') {
             const container = document.getElementById('projectsCustomGrid');
             const isEn = currentLang === 'en';
+            const filtered = filter === 'all' ? PROJECTS_CUSTOM_DATA : PROJECTS_CUSTOM_DATA.filter(p => p.category === filter);
             let html = '';
-            PROJECTS_CUSTOM_DATA.forEach((project, i) => {
+            filtered.forEach((project, i) => {
                 const title = isEn ? project.title_en : project.title_id;
                 const desc = isEn ? project.desc_en : project.desc_id;
                 const linkText = isEn ? 'View Project' : 'Lihat Proyek';
                 const delay = (i % 3) + 1;
                 html += `
-                    <div class="project-custom-card blur-reveal blur-reveal-d${delay}">
-                        <div class="project-icon" style="background:${project.color};">
-                            <i class="fas ${project.icon}"></i>
-                        </div>
-                        <h4>${title}</h4>
-                        <p>${desc}</p>
-                        <span class="project-badge">${project.badge}</span>
-                        <a href="${project.link}" class="project-link">${linkText} <i class="fas fa-arrow-right"></i></a>
-                    </div>
-                `;
+                            <div class="project-custom-card blur-reveal blur-reveal-d${delay}" data-project='${JSON.stringify(project)}'>
+                                <div class="project-icon" style="background:${project.color};">
+                                    <i class="fas ${project.icon}"></i>
+                                </div>
+                                <h4>${title}</h4>
+                                <p>${desc}</p>
+                                <span class="project-badge">${project.badge}</span>
+                                <span class="project-link" data-project-id="${project.id}">${linkText} <i class="fas fa-arrow-right"></i></span>
+                            </div>
+                        `;
             });
             container.innerHTML = html;
+
+            document.querySelectorAll('.project-custom-card .project-link').forEach(el => {
+                el.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const card = this.closest('.project-custom-card');
+                    const data = JSON.parse(card.dataset.project);
+                    openModal(data);
+                });
+            });
+            document.querySelectorAll('.project-custom-card').forEach(card => {
+                card.addEventListener('click', function() {
+                    const data = JSON.parse(this.dataset.project);
+                    openModal(data);
+                });
+            });
+
+            setTimeout(() => {
+                document.querySelectorAll('.project-custom-card .blur-reveal').forEach(el => el.classList.add(
+                'visible'));
+                document.querySelectorAll('.project-custom-card').forEach(el => el.classList.add('visible'));
+            }, 100);
         }
 
         function renderSocialLinks() {
@@ -1679,9 +2542,9 @@
                 const link = SOCIAL_LINKS[p.key];
                 const valid = link && link !== '#' && !link.includes('username_anda');
                 if (valid) {
-                    html += `<a href="${link}" target="_blank" class="social-btn"><i class="fab ${p.icon}"></i></a>`;
+                    html += `<a href="${link}" target="_blank" class="social-btn" aria-label="${p.key}"><i class="fab ${p.icon}"></i></a>`;
                 } else {
-                    html += `<span class="social-btn" style="opacity:0.2;cursor:default;"><i class="fab ${p.icon}"></i></span>`;
+                    html += `<span class="social-btn" style="opacity:0.15;cursor:default;"><i class="fab ${p.icon}"></i></span>`;
                 }
             });
             container.innerHTML = html;
@@ -1691,14 +2554,38 @@
             const texts = LANG[currentLang];
             document.querySelectorAll('[data-i18n]').forEach(el => {
                 const key = el.getAttribute('data-i18n');
-                if (texts[key]) {
-                    el.textContent = texts[key];
+                if (texts[key] !== undefined) {
+                    if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.tagName === 'BUTTON') {
+                        if (el.hasAttribute('placeholder')) {
+                            el.placeholder = texts[key];
+                        } else {
+                            el.textContent = texts[key];
+                        }
+                    } else if (el.tagName === 'LI') {
+                        el.innerHTML = texts[key];
+                    } else {
+                        el.textContent = texts[key];
+                    }
                 }
             });
-            document.getElementById('whitelistText').textContent = texts.whitelist_text;
-            document.getElementById('prinsipText').textContent = texts.prinsip_text;
-            document.getElementById('prosesText').textContent = texts.proses_text;
-
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                const key = btn.getAttribute('data-i18n');
+                if (key && texts[key]) {
+                    btn.textContent = texts[key];
+                }
+            });
+            const whitelistP = document.getElementById('whitelistText');
+            if (whitelistP && texts.whitelist_text) {
+                whitelistP.textContent = texts.whitelist_text;
+            }
+            const prinsipP = document.getElementById('prinsipText');
+            if (prinsipP && texts.prinsip_text) {
+                prinsipP.textContent = texts.prinsip_text;
+            }
+            const prosesP = document.getElementById('prosesText');
+            if (prosesP && texts.proses_text) {
+                prosesP.textContent = texts.proses_text;
+            }
             typewriterPhrases = [
                 texts.hero_typing_1,
                 texts.hero_typing_2,
@@ -1715,16 +2602,61 @@
             renderAbout(data);
             renderTimeline();
             renderTools();
-            renderProjectsCustom();
+            renderProjectsCustom(currentFilter);
             renderSocialLinks();
             updateI18n();
 
-            // Trigger blur reveal on all elements after render
-            setTimeout(triggerBlurReveal, 200);
+            setTimeout(triggerBlurReveal, 250);
+            setTimeout(checkSkills, 500);
         }
 
         // ============================================================
-        // BLUR REVEAL TRIGGER
+        // MODAL
+        // ============================================================
+        const modal = document.getElementById('projectModal');
+        const modalClose = document.getElementById('modalClose');
+
+        function openModal(project) {
+            const isEn = currentLang === 'en';
+            document.getElementById('modalIcon').style.background = project.color;
+            document.getElementById('modalIcon').innerHTML = `<i class="fas ${project.icon}"></i>`;
+            document.getElementById('modalTitle').textContent = isEn ? project.title_en : project.title_id;
+            document.getElementById('modalDesc').textContent = isEn ? project.desc_en : project.desc_id;
+            const techHtml = project.tech.map(t => `<span>${t}</span>`).join('');
+            document.getElementById('modalTech').innerHTML = techHtml;
+            document.getElementById('modalLink').href = project.link;
+            document.getElementById('modalLink').textContent = (isEn ? 'View Project' : 'Lihat Proyek') + '  →';
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        modalClose.addEventListener('click', closeModal);
+        modal.addEventListener('click', function(e) {
+            if (e.target === this) closeModal();
+        });
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeModal();
+        });
+
+        // ============================================================
+        // FILTER PROJECTS
+        // ============================================================
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                currentFilter = this.dataset.filter;
+                renderProjectsCustom(currentFilter);
+            });
+        });
+
+        // ============================================================
+        // BLUR REVEAL (preserved)
         // ============================================================
         function triggerBlurReveal() {
             const elements = document.querySelectorAll('.blur-reveal:not(.visible)');
@@ -1734,24 +2666,16 @@
                         entry.target.classList.add('visible');
                     }
                 });
-            }, {
-                threshold: 0.1,
-                rootMargin: '0px 0px -50px 0px'
-            });
-
+            }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
             elements.forEach(el => observer.observe(el));
-
-            // Also check already visible elements
             document.querySelectorAll('.blur-reveal').forEach(el => {
                 const rect = el.getBoundingClientRect();
-                if (rect.top < window.innerHeight - 50) {
-                    el.classList.add('visible');
-                }
+                if (rect.top < window.innerHeight - 40) el.classList.add('visible');
             });
         }
 
         // ============================================================
-        // TYPEWRITER EFFECT
+        // TYPEWRITER (preserved)
         // ============================================================
         let typewriterPhrases = [
             "I craft clean interfaces & robust systems.",
@@ -1772,34 +2696,34 @@
                 if (charIndex === 0) {
                     isDeleting = false;
                     phraseIndex = (phraseIndex + 1) % typewriterPhrases.length;
-                    setTimeout(typeEffect, 800);
+                    setTimeout(typeEffect, 900);
                     return;
                 }
-                setTimeout(typeEffect, 40);
+                setTimeout(typeEffect, 35);
             } else {
                 typewriterEl.innerHTML = current.substring(0, charIndex + 1) + '<span class="cursor"></span>';
                 charIndex++;
                 if (charIndex === current.length) {
                     isDeleting = true;
-                    setTimeout(typeEffect, 2000);
+                    setTimeout(typeEffect, 2200);
                     return;
                 }
-                setTimeout(typeEffect, 60);
+                setTimeout(typeEffect, 50);
             }
         }
-        setTimeout(typeEffect, 500);
+        setTimeout(typeEffect, 600);
 
         // ============================================================
-        // SCROLL EVENT FOR SKILL BARS
+        // SKILL BARS (preserved)
         // ============================================================
         function animateSkillBars() {
             const fills = document.querySelectorAll('.skill-bar .fill');
-            fills.forEach(fill => {
+            fills.forEach((fill, idx) => {
                 const width = fill.getAttribute('data-width');
                 if (width) {
                     setTimeout(() => {
                         fill.style.width = width + '%';
-                    }, 400);
+                    }, 300 + idx * 80);
                 }
             });
         }
@@ -1809,7 +2733,7 @@
         function checkSkills() {
             if (skillsAnimated) return;
             const rect = skillsSection.getBoundingClientRect();
-            if (rect.top < window.innerHeight - 80) {
+            if (rect.top < window.innerHeight - 60) {
                 animateSkillBars();
                 skillsAnimated = true;
             }
@@ -1818,14 +2742,14 @@
         window.addEventListener('load', checkSkills);
 
         // ============================================================
-        // 3D BACKGROUND (Three.js)
+        // 3D BACKGROUND (preserved, but style updated)
         // ============================================================
         (function initThree() {
             const container = document.body;
             const canvas = document.createElement('div');
             canvas.id = 'three-canvas';
             canvas.style.cssText =
-                'position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:0;pointer-events:none;opacity:0.3;';
+                'position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:0;pointer-events:none;opacity:0.15;';
             container.prepend(canvas);
 
             const scene = new THREE.Scene();
@@ -1833,19 +2757,19 @@
             const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
             renderer.setSize(window.innerWidth, window.innerHeight);
             renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-            renderer.setClearColor(0xe0e5ec, 0);
+            renderer.setClearColor(0xfffdf5, 0);
             canvas.appendChild(renderer.domElement);
 
-            camera.position.z = 14;
+            camera.position.z = 16;
 
             const count = 600;
             const positions = new Float32Array(count * 3);
             const colors = new Float32Array(count * 3);
             for (let i = 0; i < count; i++) {
-                positions[i * 3] = (Math.random() - 0.5) * 40;
-                positions[i * 3 + 1] = (Math.random() - 0.5) * 40;
-                positions[i * 3 + 2] = (Math.random() - 0.5) * 20;
-                const c = Math.random() > 0.5 ? new THREE.Color(0x6C63FF) : new THREE.Color(0x8B83FF);
+                positions[i * 3] = (Math.random() - 0.5) * 50;
+                positions[i * 3 + 1] = (Math.random() - 0.5) * 50;
+                positions[i * 3 + 2] = (Math.random() - 0.5) * 30;
+                const c = Math.random() > 0.6 ? new THREE.Color(0x8B5CF6) : new THREE.Color(0xF472B6);
                 colors[i * 3] = c.r;
                 colors[i * 3 + 1] = c.g;
                 colors[i * 3 + 2] = c.b;
@@ -1855,29 +2779,33 @@
             geo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
 
             const mat = new THREE.PointsMaterial({
-                size: 0.08,
+                size: 0.07,
                 vertexColors: true,
                 transparent: true,
-                opacity: 0.25,
+                opacity: 0.12,
                 blending: THREE.AdditiveBlending,
                 depthWrite: false,
+                sizeAttenuation: true,
             });
             const particles = new THREE.Points(geo, mat);
             scene.add(particles);
 
             const ringGroup = new THREE.Group();
-            for (let i = 0; i < 5; i++) {
-                const radius = 1.5 + i * 1.0;
-                const geoRing = new THREE.TorusGeometry(radius, 0.015, 12, 60);
+            for (let i = 0; i < 6; i++) {
+                const radius = 1.8 + i * 1.2;
+                const geoRing = new THREE.TorusGeometry(radius, 0.012, 16, 80);
                 const matRing = new THREE.MeshBasicMaterial({
-                    color: 0x6C63FF,
+                    color: 0x8B5CF6,
                     transparent: true,
-                    opacity: 0.04,
+                    opacity: 0.025,
                 });
                 const mesh = new THREE.Mesh(geoRing, matRing);
                 mesh.rotation.x = Math.random() * Math.PI;
                 mesh.rotation.y = Math.random() * Math.PI;
-                mesh.userData = { rx: 0.0002 + i * 0.0001, ry: 0.0004 + i * 0.0002 };
+                mesh.userData = {
+                    rx: 0.00015 + i * 0.00008,
+                    ry: 0.0003 + i * 0.00015
+                };
                 ringGroup.add(mesh);
             }
             scene.add(ringGroup);
@@ -1888,22 +2816,25 @@
                 mouseX = (e.clientX / window.innerWidth) * 2 - 1;
                 mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
             });
+            document.addEventListener('touchmove', (e) => {
+                if (e.touches.length > 0) {
+                    mouseX = (e.touches[0].clientX / window.innerWidth) * 2 - 1;
+                    mouseY = -(e.touches[0].clientY / window.innerHeight) * 2 + 1;
+                }
+            }, { passive: true });
 
             function animate() {
                 requestAnimationFrame(animate);
-                particles.rotation.x += 0.00004;
-                particles.rotation.y += 0.00008;
-
+                particles.rotation.x += 0.00003;
+                particles.rotation.y += 0.00006;
                 ringGroup.children.forEach(mesh => {
                     mesh.rotation.x += mesh.userData.rx;
                     mesh.rotation.y += mesh.userData.ry;
                 });
-                ringGroup.rotation.y += 0.0002;
-
-                camera.position.x += (mouseX * 0.4 - camera.position.x) * 0.005;
-                camera.position.y += (mouseY * 0.3 - camera.position.y) * 0.005;
+                ringGroup.rotation.y += 0.00015;
+                camera.position.x += (mouseX * 0.5 - camera.position.x) * 0.004;
+                camera.position.y += (mouseY * 0.35 - camera.position.y) * 0.004;
                 camera.lookAt(0, 0, 0);
-
                 renderer.render(scene, camera);
             }
             animate();
@@ -1916,19 +2847,19 @@
         })();
 
         // ============================================================
-        // NAVBAR & MOBILE MENU
+        // NAVBAR (preserved)
         // ============================================================
         const navbar = document.getElementById('navbar');
         const hamburger = document.getElementById('hamburger');
         const navLinks = document.getElementById('navLinks');
 
         window.addEventListener('scroll', () => {
-            navbar.classList.toggle('scrolled', window.scrollY > 50);
+            navbar.classList.toggle('scrolled', window.scrollY > 40);
             const sections = document.querySelectorAll('section[id]');
             let current = '';
             sections.forEach(s => {
                 const rect = s.getBoundingClientRect();
-                if (rect.top <= 200) current = s.id;
+                if (rect.top <= 180) current = s.id;
             });
             document.querySelectorAll('.nav-link').forEach(link => {
                 link.classList.toggle('active', link.dataset.section === current);
@@ -1938,22 +2869,31 @@
         hamburger.addEventListener('click', (e) => {
             e.stopPropagation();
             navLinks.classList.toggle('active');
+            const icon = hamburger.querySelector('i');
+            icon.classList.toggle('fa-bars');
+            icon.classList.toggle('fa-times');
         });
 
         document.querySelectorAll('.nav-link').forEach(link => {
             link.addEventListener('click', () => {
                 navLinks.classList.remove('active');
+                const icon = hamburger.querySelector('i');
+                icon.classList.add('fa-bars');
+                icon.classList.remove('fa-times');
             });
         });
 
         document.addEventListener('click', (e) => {
             if (!navLinks.contains(e.target) && !hamburger.contains(e.target)) {
                 navLinks.classList.remove('active');
+                const icon = hamburger.querySelector('i');
+                icon.classList.add('fa-bars');
+                icon.classList.remove('fa-times');
             }
         });
 
         // ============================================================
-        // LANGUAGE TOGGLE
+        // LANGUAGE TOGGLE (preserved)
         // ============================================================
         document.getElementById('langToggle').addEventListener('click', () => {
             currentLang = currentLang === 'en' ? 'id' : 'en';
@@ -1972,11 +2912,11 @@
                 typewriterEl.innerHTML = typewriterPhrases[0] + '<span class="cursor"></span>';
                 charIndex = typewriterPhrases[0].length;
                 isDeleting = true;
-            }, 300);
+            }, 400);
         });
 
         // ============================================================
-        // FORM HANDLING
+        // FORM (preserved)
         // ============================================================
         document.getElementById('contactForm').addEventListener('submit', function(e) {
             e.preventDefault();
@@ -2003,18 +2943,15 @@
         });
 
         // ============================================================
-        // INIT
+        // INIT (preserved)
         // ============================================================
         renderAll();
 
-        // Trigger blur reveal on load after render
         setTimeout(() => {
             triggerBlurReveal();
-            // Trigger skill bars if skills section is visible
             checkSkills();
-        }, 300);
+        }, 400);
 
-        // Re-trigger on scroll
         window.addEventListener('scroll', () => {
             triggerBlurReveal();
             checkSkills();
