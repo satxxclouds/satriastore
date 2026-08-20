@@ -1,0 +1,1743 @@
+<!DOCTYPE html>
+<html lang="id" allowfullscreen>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>TKJT — Tekaje Generasi Kekinian</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Calistoga&family=JetBrains+Mono:wght@400;500;600&family=Permanent+Marker&display=swap" rel="stylesheet" />
+
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+
+    <style>
+        /* ============================================================
+           RESET & BASE
+           ============================================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', system-ui, sans-serif;
+        }
+
+        html, body {
+            min-height: 100vh;
+            overflow-x: hidden;
+            touch-action: pan-x pan-y;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        /* ============================================================
+           ⭐ VIDEO BACKGROUND — FIXED & TIDAK BLUR
+           ============================================================ */
+        .video-background {
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 100vw !important;
+            height: 100vh !important;
+            z-index: -2 !important;
+            overflow: hidden;
+            background: #0a0e17;
+            transform: none !important;
+            will-change: auto;
+        }
+
+        .video-background video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            object-fit: cover;
+            object-position: center;
+            display: block;
+            filter: none !important;
+            -webkit-filter: none !important;
+            image-rendering: auto;
+        }
+
+        .video-background .fallback {
+            display: none;
+            width: 100%;
+            height: 100%;
+            background: #0a0e17;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255,255,255,0.08);
+            font-size: 1rem;
+        }
+        .video-background.error video { display: none; }
+        .video-background.error .fallback { display: flex; }
+
+        /* OVERLAY */
+        .video-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            background: rgba(10, 14, 23, 0.55);
+            pointer-events: none;
+        }
+
+        /* ============================================================
+           KONTEN DI ATAS VIDEO
+           ============================================================ */
+        .content-wrapper {
+            position: relative;
+            z-index: 1;
+            min-height: 100vh;
+            color: #fff;
+        }
+
+        /* ============================================================
+           SCROLL ANIMATIONS
+           ============================================================ */
+        .reveal {
+            opacity: 0;
+            transform: translateY(28px);
+            transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+
+        .reveal-left {
+            opacity: 0;
+            transform: translateX(-40px);
+            transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal-left.visible { opacity: 1; transform: translateX(0); }
+
+        .reveal-right {
+            opacity: 0;
+            transform: translateX(40px);
+            transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal-right.visible { opacity: 1; transform: translateX(0); }
+
+        .reveal-scale {
+            opacity: 0;
+            transform: scale(0.92) translateY(16px);
+            transition: all 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .reveal-scale.visible { opacity: 1; transform: scale(1) translateY(0); }
+
+        .reveal-rotate {
+            opacity: 0;
+            transform: perspective(600px) rotateX(4deg) translateY(24px);
+            transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .reveal-rotate.visible { opacity: 1; transform: perspective(600px) rotateX(0deg) translateY(0); }
+
+        .reveal-pop {
+            opacity: 0;
+            transform: scale(0.88) translateY(20px);
+            transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .reveal-pop.visible { opacity: 1; transform: scale(1) translateY(0); }
+
+        .reveal-wali {
+            opacity: 0;
+            transform: scale(0.8) rotate(-3deg);
+            transition: all 0.9s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .reveal-wali.visible { opacity: 1; transform: scale(1) rotate(0deg); }
+
+        .reveal-stagger>* {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: all 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .reveal-stagger.visible>*:nth-child(1) { transition-delay: 0.04s; opacity: 1; transform: translateY(0); }
+        .reveal-stagger.visible>*:nth-child(2) { transition-delay: 0.08s; opacity: 1; transform: translateY(0); }
+        .reveal-stagger.visible>*:nth-child(3) { transition-delay: 0.12s; opacity: 1; transform: translateY(0); }
+        .reveal-stagger.visible>*:nth-child(4) { transition-delay: 0.16s; opacity: 1; transform: translateY(0); }
+        .reveal-stagger.visible>*:nth-child(5) { transition-delay: 0.20s; opacity: 1; transform: translateY(0); }
+        .reveal-stagger.visible>*:nth-child(6) { transition-delay: 0.24s; opacity: 1; transform: translateY(0); }
+
+        /* ============================================================
+           TYPOGRAPHY — GAYA GRAFITI
+           ============================================================ */
+        .text-gradient {
+            background: linear-gradient(to right, #e0e0e0, #ffffff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.35rem 1.2rem;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.04);
+            border-radius: 9999px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: #cccccc;
+        }
+        .section-badge .badge-dot {
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #cccccc;
+            animation: pulseDot 2s ease-in-out infinite;
+        }
+        @keyframes pulseDot {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.4); opacity: 0.5; }
+        }
+
+        .section-title,
+        .hero-title,
+        .brand-info .class-name,
+        .wali-card .wali-overlay .wali-name {
+            font-family: 'Permanent Marker', cursive !important;
+            font-weight: 700;
+            transform: skew(-3deg);
+            text-shadow: 3px 3px 0 rgba(0,0,0,0.3);
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        .section-title {
+            font-size: clamp(2.2rem, 4vw, 3.25rem);
+            line-height: 1.15;
+            color: #fff;
+        }
+
+        .hero-title {
+            font-size: clamp(3rem, 6vw, 4.8rem);
+            line-height: 0.95;
+            letter-spacing: 0.02em;
+            color: #fff;
+        }
+
+        .brand-info .class-name {
+            font-size: 1.6rem;
+            color: #fff;
+        }
+        .brand-info .class-name span {
+            color: #cccccc;
+        }
+
+        .section-subtitle {
+            font-size: 0.95rem;
+            font-weight: 400;
+            color: rgba(255,255,255,0.6);
+            max-width: 440px;
+            margin: 0.3rem auto 0;
+        }
+
+        /* ============================================================
+           LAYOUT & CARDS
+           ============================================================ */
+        .container { max-width: 72rem; margin: 0 auto; padding: 0 1.5rem; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+        .grid-auto { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
+        .grid-students { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1.5rem; }
+        .section-pad { padding: 4.5rem 0; }
+
+        .neo-card {
+            background: rgba(255,255,255,0.04);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 12px;
+            box-shadow: 0 4px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        .neo-card:hover {
+            box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+            transform: translateY(-4px);
+            border-color: rgba(255,255,255,0.15);
+        }
+
+        .neo-shadow { box-shadow: 0 4px 30px rgba(0,0,0,0.1); }
+        .neo-shadow-lg { box-shadow: 0 12px 40px rgba(0,0,0,0.15); }
+
+        /* ============================================================
+           BUTTONS
+           ============================================================ */
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.8rem 2rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #fff;
+            background: linear-gradient(to right, #888888, #bbbbbb);
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            cursor: pointer;
+            transition: all 0.25s ease;
+            text-decoration: none;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+        }
+        .btn-primary:active { transform: scale(0.97); }
+
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.8rem 2rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #fff;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            text-decoration: none;
+        }
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.10);
+            border-color: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+        }
+        .btn-secondary:active { transform: scale(0.97); }
+
+        /* ============================================================
+           SCHOOL HEADER
+           ============================================================ */
+        .school-header {
+            background: rgba(10,14,23,0.6);
+            backdrop-filter: blur(16px);
+            padding: 0.8rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            border-top: 1px solid rgba(255,255,255,0.06);
+            box-shadow: 0 4px 30px rgba(0,0,0,0.15);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .school-row {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1.8rem;
+            flex-wrap: wrap;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+        .info-item:hover { background: rgba(255,255,255,0.04); }
+
+        .info-item .label {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 500;
+            font-size: 0.55rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: #aaaaaa;
+            opacity: 0.6;
+            padding: 0.15rem 0.5rem;
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 2px;
+        }
+
+        .info-item .value {
+            font-weight: 700;
+            font-size: 0.95rem;
+            letter-spacing: 0.04em;
+            color: #fff;
+            transition: color 0.3s ease;
+        }
+        .info-item:hover .value { color: #cccccc; }
+
+        .cursor-blink {
+            display: inline-block;
+            width: 2px;
+            height: 1em;
+            background: #cccccc;
+            margin-left: 2px;
+            vertical-align: text-bottom;
+            border-radius: 2px;
+            animation: blinkStep 0.7s step-end infinite;
+            flex-shrink: 0;
+            transition: opacity 0.3s ease;
+        }
+        .cursor-blink.hidden {
+            opacity: 0;
+            animation: none;
+        }
+        @keyframes blinkStep {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        .separator {
+            color: rgba(255,255,255,0.15);
+            font-size: 1rem;
+            opacity: 0.4;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            flex-shrink: 0;
+        }
+        .separator i { color: #cccccc; opacity: 0.2; }
+
+        @media (max-width: 768px) {
+            .school-row { gap: 0.6rem; flex-direction: column; align-items: center; }
+            .separator { display: none; }
+            .info-item { white-space: normal; flex-wrap: wrap; justify-content: center; padding: 0.15rem 0.3rem; }
+            .info-item .label { font-size: 0.45rem; }
+            .info-item .value { font-size: 0.75rem; }
+            .cursor-blink { height: 0.8em; }
+        }
+
+        /* ============================================================
+           HERO
+           ============================================================ */
+        .hero-section { padding: 4rem 0 3.5rem; text-align: center; position: relative; }
+        .hero-content { max-width: 740px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; gap: 0.5rem; }
+
+        .hero-welcome {
+            font-size: 2.4rem;
+            font-weight: 800;
+            color: #fff;
+            letter-spacing: 0.06em;
+            line-height: 1.2;
+            min-height: 4rem;
+            text-transform: uppercase;
+        }
+        .cursor-hero {
+            display: inline-block;
+            width: 4px;
+            height: 1.1em;
+            background: #cccccc;
+            margin-left: 2px;
+            vertical-align: text-bottom;
+            border-radius: 2px;
+            animation: blinkCursor 0.7s step-end infinite;
+            transition: opacity 0.3s ease;
+        }
+        .cursor-hero.hidden {
+            opacity: 0;
+            animation: none;
+        }
+        @keyframes blinkCursor {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        .shimmer-welcome {
+            background: linear-gradient(90deg, #fff 0%, #cccccc 40%, #e0e0e0 70%, #fff 100%);
+            background-size: 300% 100%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: shimmerText 4s ease-in-out infinite;
+        }
+        @keyframes shimmerText {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @media (max-width: 640px) {
+            .hero-welcome { font-size: 1.9rem; min-height: 3.2rem; letter-spacing: 0.04em; }
+            .hero-section { padding: 3rem 0 2.5rem; }
+        }
+        @media (max-width: 480px) {
+            .hero-welcome { font-size: 1.6rem; min-height: 2.8rem; }
+            .hero-section { padding: 2.5rem 0 2rem; }
+        }
+
+        /* ============================================================
+           BRAND SECTION
+           ============================================================ */
+        .brand-section { padding: 1.5rem 0 2.5rem; text-align: center; }
+        .brand-wrapper { display: flex; flex-direction: column; align-items: center; gap: 1rem; }
+
+        .class-logo {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid rgba(255,255,255,0.1);
+            box-shadow: 0 4px 30px rgba(0,0,0,0.2);
+            overflow: hidden;
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            flex-shrink: 0;
+        }
+        .class-logo:hover {
+            transform: scale(1.04) rotate(-2deg);
+            border-color: rgba(255,255,255,0.3);
+            box-shadow: 0 8px 40px rgba(0,0,0,0.15);
+        }
+        .class-logo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+        .brand-info .class-name {
+            font-family: 'Permanent Marker', cursive !important;
+            font-weight: 700;
+            transform: skew(-3deg);
+            text-shadow: 3px 3px 0 rgba(0,0,0,0.3);
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            font-size: 1.6rem;
+            color: #fff;
+        }
+        .brand-info .class-name span { color: #cccccc; }
+
+        .brand-instagram {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        .brand-instagram .ig-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 500;
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: rgba(255,255,255,0.4);
+            text-align: center;
+        }
+
+        .btn-ig-official {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.4rem 1.2rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: #fff;
+            background: linear-gradient(to right, #888888, #bbbbbb);
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-ig-official::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.04) 50%, transparent 70%);
+            animation: shimmerBtn 3s ease-in-out infinite;
+            transform: rotate(25deg);
+        }
+        @keyframes shimmerBtn {
+            0% { transform: translateX(-100%) rotate(25deg); }
+            100% { transform: translateX(100%) rotate(25deg); }
+        }
+        .btn-ig-official:hover {
+            transform: translateY(-2px) scale(1.03);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+        }
+        .btn-ig-official i { font-size: 0.8rem; }
+
+        @media (max-width: 640px) {
+            .class-logo { width: 160px; height: 160px; }
+            .brand-info .class-name { font-size: 1.3rem; }
+        }
+        @media (max-width: 480px) {
+            .class-logo { width: 130px; height: 130px; }
+            .brand-info .class-name { font-size: 1.1rem; }
+            .brand-section { padding: 1rem 0 1.8rem; }
+        }
+
+        /* ============================================================
+           QUOTE CARDS
+           ============================================================ */
+        .quote-card {
+            background: rgba(255,255,255,0.04);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,0.08);
+            padding: 1.8rem 2rem;
+            border-radius: 12px;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 30px rgba(0,0,0,0.1);
+        }
+        .quote-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 3px;
+            height: 100%;
+            background: linear-gradient(to bottom, #aaaaaa, #dddddd);
+            transition: width 0.4s ease;
+            opacity: 0.15;
+        }
+        .quote-card:hover::before {
+            width: 5px;
+            opacity: 0.3;
+        }
+        .quote-card:hover {
+            border-color: rgba(255,255,255,0.15);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.2);
+        }
+        .quote-card .quote-mark {
+            font-size: 2rem;
+            font-family: 'Permanent Marker', cursive;
+            color: #cccccc;
+            opacity: 0.08;
+            margin-bottom: 0.3rem;
+            display: block;
+            line-height: 1;
+        }
+        .quote-card p {
+            font-size: 0.95rem;
+            line-height: 1.8;
+            font-weight: 450;
+            color: rgba(255,255,255,0.9);
+        }
+        .quote-card p .highlight-blue {
+            color: #cccccc;
+            font-weight: 700;
+        }
+        .quote-card p .highlight-light {
+            color: #e0e0e0;
+            font-weight: 700;
+        }
+        .quote-tag {
+            display: inline-block;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.5rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: rgba(255,255,255,0.3);
+            margin-top: 0.8rem;
+            border-top: 1px solid rgba(255,255,255,0.06);
+            padding-top: 0.8rem;
+        }
+
+        /* ============================================================
+           STUDENT CARD
+           ============================================================ */
+        .student-card .neo-card {
+            padding: 1.2rem;
+            position: relative;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            background: rgba(255,255,255,0.03);
+            backdrop-filter: blur(6px);
+        }
+        .student-card .student-badge {
+            position: absolute;
+            top: -8px;
+            right: 12px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.5rem;
+            font-weight: 600;
+            padding: 0.15rem 0.6rem;
+            border-radius: 9999px;
+            background: linear-gradient(to right, #888888, #bbbbbb);
+            color: #fff;
+            border: none;
+        }
+        .student-card .student-photo {
+            width: 100%;
+            aspect-ratio: 3 / 4;
+            overflow: hidden;
+            background: rgba(255,255,255,0.04);
+            border: 1.5px solid rgba(255,255,255,0.06);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: border-color 0.3s ease;
+            margin-bottom: 0.8rem;
+        }
+        .student-card:hover .student-photo { border-color: #cccccc; }
+        .student-card .student-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+        .student-card:hover .student-photo img { transform: scale(1.03); }
+        .student-card .student-photo .placeholder {
+            font-weight: 900;
+            font-size: 2.8rem;
+            color: rgba(255,255,255,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            font-family: 'Permanent Marker', cursive;
+        }
+        .student-card .student-name {
+            font-weight: 700;
+            font-size: 0.85rem;
+            text-align: center;
+            color: #fff;
+            margin-bottom: 0.6rem;
+        }
+        .student-card .handle-reveal {
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            text-align: center;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.55rem;
+            font-weight: 500;
+            color: rgba(255,255,255,0.3);
+            margin-top: 0.4rem;
+            letter-spacing: 0.04em;
+        }
+        .student-card:hover .handle-reveal { opacity: 1; }
+
+        .btn-ig-student {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.4rem;
+            width: 100%;
+            padding: 0.4rem 0.8rem;
+            font-weight: 600;
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            border: 1px solid rgba(255,255,255,0.06);
+            background: rgba(255,255,255,0.02);
+            color: rgba(255,255,255,0.7);
+            cursor: pointer;
+            border-radius: 12px;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-ig-student::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to right, #888888, #bbbbbb);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            border-radius: 12px;
+        }
+        .btn-ig-student:hover {
+            border-color: #cccccc;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        }
+        .btn-ig-student:hover::before { opacity: 0.85; }
+        .btn-ig-student i,
+        .btn-ig-student span {
+            position: relative;
+            z-index: 2;
+            transition: color 0.3s ease;
+        }
+        .btn-ig-student i { color: #cccccc; font-size: 0.75rem; }
+        .btn-ig-student:hover i { color: #fff; }
+        .btn-ig-student span { position: relative; z-index: 2; transition: color 0.3s ease; }
+        .btn-ig-student:hover span { color: #fff; }
+
+        /* ============================================================
+           WALI KELAS
+           ============================================================ */
+        .wali-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 0.5rem 0;
+            gap: 1.5rem;
+        }
+        .wali-card {
+            width: 100%;
+            max-width: 340px;
+            aspect-ratio: 3 / 4;
+            background: rgba(255,255,255,0.03);
+            backdrop-filter: blur(6px);
+            border: 1.5px solid rgba(255,255,255,0.06);
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+            transition: all 0.5s ease;
+            box-shadow: 0 4px 30px rgba(0,0,0,0.1);
+        }
+        .wali-card:hover {
+            border-color: #cccccc;
+            transform: scale(1.01) rotate(-0.5deg);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.2);
+        }
+        .wali-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.6s ease;
+        }
+        .wali-card:hover img { transform: scale(1.03); }
+        .wali-card .wali-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 1.2rem;
+            background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 100%);
+            text-align: center;
+        }
+        .wali-card .wali-overlay .wali-name {
+            font-family: 'Permanent Marker', cursive !important;
+            font-weight: 700;
+            transform: skew(-3deg);
+            text-shadow: 3px 3px 0 rgba(0,0,0,0.3);
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            font-size: 1.1rem;
+            color: #fff;
+        }
+        .wali-card .wali-overlay .wali-title {
+            font-weight: 400;
+            font-size: 0.7rem;
+            color: rgba(255,255,255,0.5);
+            letter-spacing: 0.06em;
+        }
+
+        @media (max-width: 820px) { .wali-card { max-width: 260px; } }
+        @media (max-width: 480px) { .wali-container { order: -1; } .wali-card { max-width: 200px; } }
+
+        /* ============================================================
+           ⭐ MEDIA GRID — KENANGAN (9:16, 3:4, 16:9)
+           ============================================================ */
+        .media-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .media-item {
+            border-radius: 14px;
+            overflow: hidden;
+            border: 2px solid rgba(255,255,255,0.06);
+            background: rgba(255,255,255,0.03);
+            backdrop-filter: blur(6px);
+            box-shadow: 0 4px 30px rgba(0,0,0,0.15);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            cursor: pointer;
+            aspect-ratio: 9 / 16; /* default */
+        }
+
+        /* Variasi rasio */
+        .media-item-3-4 {
+            aspect-ratio: 3 / 4 !important;
+        }
+        .media-item-16-9 {
+            aspect-ratio: 16 / 9 !important;
+        }
+
+        .media-item:hover {
+            transform: translateY(-6px) scale(1.03);
+            border-color: rgba(255,255,255,0.2);
+            box-shadow: 0 16px 50px rgba(0,0,0,0.35);
+            z-index: 2;
+        }
+
+        .media-item img,
+        .media-item video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .media-item .media-label {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 0.8rem 0.6rem;
+            background: linear-gradient(to top, rgba(0,0,0,0.65) 0%, transparent 100%);
+            color: rgba(255,255,255,0.7);
+            font-size: 0.5rem;
+            font-family: 'JetBrains Mono', monospace;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            text-align: center;
+            pointer-events: none;
+        }
+
+        .media-item .media-type {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            padding: 0.2rem 0.5rem;
+            border-radius: 9999px;
+            font-size: 0.4rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(4px);
+            color: rgba(255,255,255,0.6);
+            border: 1px solid rgba(255,255,255,0.05);
+            pointer-events: none;
+        }
+        .media-item .media-type.video { color: #ff6b6b; }
+        .media-item .media-type.photo { color: #69db7c; }
+
+        @media (max-width: 640px) {
+            .media-grid {
+                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+                gap: 1rem;
+            }
+        }
+        @media (max-width: 480px) {
+            .media-grid {
+                grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+                gap: 0.8rem;
+            }
+        }
+
+        /* ============================================================
+           RESPONSIVE
+           ============================================================ */
+        @media (max-width: 820px) {
+            .grid-2 { grid-template-columns: 1fr; }
+            .grid-students { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
+            .section-pad { padding: 3rem 0; }
+        }
+        @media (max-width: 480px) {
+            .grid-students { grid-template-columns: 1fr 1fr; }
+            .container { padding: 0 1rem; }
+            .section-pad { padding: 2rem 0; }
+            .quote-card { padding: 1.2rem; }
+        }
+
+        /* ============================================================
+           SCROLLBAR
+           ============================================================ */
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); }
+        ::-webkit-scrollbar-thumb { background: #aaaaaa; border-radius: 9999px; opacity: 0.3; }
+        ::-webkit-scrollbar-thumb:hover { background: #cccccc; }
+
+        /* ============================================================
+           FOOTER
+           ============================================================ */
+        .footer {
+            background: rgba(10,14,23,0.6);
+            backdrop-filter: blur(8px);
+            padding: 2.5rem 1rem;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.06);
+        }
+        .footer p {
+            font-weight: 600;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: rgba(255,255,255,0.4);
+        }
+        .footer p .highlight { color: #cccccc; }
+        .footer .footer-dots {
+            display: flex;
+            justify-content: center;
+            gap: 0.6rem;
+            margin-top: 1rem;
+        }
+        .footer .footer-dots span {
+            display: inline-block;
+            width: 1rem;
+            height: 1rem;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+        .footer .footer-dots .dot-accent { background: #aaaaaa; }
+        .footer .footer-dots .dot-secondary { background: #cccccc; }
+        .footer .footer-dots .dot-muted { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.06); }
+        .footer .footer-dots .dot-foreground { background: #fff; opacity: 0.1; }
+        .footer .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 0.8rem;
+            flex-wrap: wrap;
+        }
+        .footer .footer-links a {
+            color: rgba(255,255,255,0.3);
+            font-weight: 500;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            transition: color 0.3s ease;
+            text-decoration: none;
+        }
+        .footer .footer-links a:hover { color: #cccccc; }
+        .footer .footer-sub {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.6rem;
+            color: rgba(255,255,255,0.2);
+            margin-top: 0.5rem;
+            opacity: 0.5;
+            letter-spacing: 0.04em;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ============================================================
+    🎬 VIDEO BACKGROUND
+    ============================================================ -->
+    <div class="video-background" id="videoBackground">
+        <video autoplay loop muted playsinline preload="auto" id="bgVideo">
+            <source src="https://assets.mixkit.co/videos/preview/mixkit-digital-network-animation-4055-large.mp4" type="video/mp4" />
+            <!-- Ganti dengan video lokal jika diinginkan -->
+            Browser Anda tidak mendukung video background.
+        </video>
+        <div class="fallback"><span>🎬 Video background tidak tersedia</span></div>
+    </div>
+
+    <div class="video-overlay"></div>
+
+    <!-- ============================================================
+    KONTEN UTAMA
+    ============================================================ -->
+    <div class="content-wrapper">
+
+        <!-- SCHOOL HEADER -->
+        <header class="school-header">
+            <div class="container">
+                <div class="school-row">
+                    <div class="info-item">
+                        <span class="label">School</span>
+                        <span class="value" id="schoolText">SMK YADIKA 7 BOGOR</span>
+                        <span class="cursor-blink" id="schoolCursor"></span>
+                    </div>
+                    <span class="separator"><i class="fas fa-laptop-code"></i></span>
+                    <div class="info-item">
+                        <span class="label">Kelas</span>
+                        <span class="value" id="classText">XI-TEKAJE</span>
+                        <span class="cursor-blink" id="classCursor"></span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- HERO -->
+        <section class="hero-section">
+            <div class="container">
+                <div class="hero-content">
+                    <div class="reveal" style="transition-delay:0.05s;">
+                        <div class="hero-welcome">
+                            <span id="heroTypeText" class="shimmer-welcome"></span>
+                            <span class="cursor-hero" id="heroCursor"></span>
+                        </div>
+                    </div>
+                    <h1 class="hero-title reveal" style="transition-delay:0.12s;">
+                        <span class="text-gradient">TJKT</span>
+                    </h1>
+                </div>
+            </div>
+        </section>
+
+        <!-- BRAND SECTION -->
+        <section class="brand-section reveal" style="transition-delay:0.1s;">
+            <div class="container">
+                <div class="brand-wrapper">
+                    <div class="class-logo">
+                        <img src="tekaje.jpg" alt="Logo Kelas TJKT" />
+                    </div>
+                    <div class="brand-info">
+                        <div class="class-name">Kelas <span>XI-TEKAJE</span></div>
+                        <div class="brand-instagram">
+                            <span class="ig-label">Official Account</span>
+                            <a href="https://instagram.com/tejekatein" target="_blank" class="btn-ig-official">
+                                <i class="fab fa-instagram"></i> <span>pencet kunyuk</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- QUOTES -->
+        <section id="quotes" class="section-pad" style="border-bottom:1px solid rgba(255,255,255,0.04);">
+            <div class="container">
+                <div class="reveal" style="margin-bottom:2rem;text-align:center;">
+                    <div class="section-badge"><span class="badge-dot"></span><span>SEDIKIT</span></div>
+                    <h2 class="section-title" style="margin-top:0.6rem;"><span class="text-gradient">KATA KATA</span></h2>
+                    <p class="section-subtitle">sengaja ngetik pake huruf kecil biar keren</p>
+                </div>
+                <div class="grid-auto" style="gap:1.5rem;">
+                    <div class="quote-card reveal-left" style="transition-delay:0.05s;">
+                        <span class="quote-mark">"</span>
+                        <p>masuk tkj biar ga ketemu <span class="highlight-blue">MATEMATIKA</span> eh malah ketemu <span class="highlight-light">IP ADDRESS</span></p>
+                        <span class="quote-tag">realita pahit</span>
+                    </div>
+                    <div class="quote-card reveal-scale" style="transition-delay:0.1s;">
+                        <span class="quote-mark">"</span>
+                        <p><span class="highlight-blue">-TEKAJE-</span> Mengajarkan kita tentang memperbaiki jaringan bukan memperbaiki hubungan yang kandas karena perselingkuhan.</p>
+                        <span class="quote-tag">move on? sini belajar routing</span>
+                    </div>
+                    <div class="quote-card reveal-right" style="transition-delay:0.15s;">
+                        <span class="quote-mark">"</span>
+                        <p>Jurusan TKJ memang rumit tapi TKJ yang mengajarkan kita untuk menikmati setiap proses dan perjalanan yang kita lalui sampai kita berhasil dan mendapatkan yang kita inginkan.</p>
+                        <span class="quote-tag">trust the process</span>
+                    </div>
+                    <div class="quote-card reveal-rotate" style="transition-delay:0.2s;">
+                        <span class="quote-mark">"</span>
+                        <p>kata <span class="highlight-blue">M.r DASUKI</span> jangan cari yang setia, karna yang setia ada di jurusan <span class="highlight-light">TKJ</span></p>
+                        <span class="quote-tag">fakta or hoax? terserah</span>
+                    </div>
+                    <div class="quote-card reveal-left" style="transition-delay:0.25s;">
+                        <span class="quote-mark">"</span>
+                        <p>tidak ada kata <span class="highlight-light">"AKU SALAH AMBIL JURUSAN INI"</span> semua tergantung niat dan usahamu kalo kamu nyesel ambil jurusan ini coba putar pandanganmu apakah bisa putar balik, tentu aja bisa cuma banyak halangan, selesaikan yang kamu lalui dari awal dengan niat dan usaha pasti kamu bisa</p>
+                        <span class="quote-tag">mindset > jurusan</span>
+                    </div>
+                    <div class="quote-card reveal-right" style="transition-delay:0.3s;">
+                        <span class="quote-mark">"</span>
+                        <p><span class="highlight-blue">TKJ</span> mengajarkan ku membangun jaringan baru itu tidak semudah membangun hubungan baru</p>
+                        <span class="quote-tag">sinyal cinta -99 dBm</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- VISI & MISI -->
+        <section class="section-pad" style="border-bottom:1px solid rgba(255,255,255,0.04);">
+            <div class="container">
+                <div class="reveal" style="margin-bottom:2rem;text-align:center;">
+                    <div class="section-badge"><span class="badge-dot"></span><span>Arah</span></div>
+                    <h2 class="section-title" style="margin-top:0.6rem;"><span class="text-gradient">VISI</span> &amp; <span style="color:#dddddd;">MISI</span></h2>
+                    <p class="section-subtitle">karena mimpi ga harus realistis, yang penting keren</p>
+                </div>
+                <div class="grid-2">
+                    <div class="neo-card neo-shadow reveal-left" style="padding:2rem;">
+                        <div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:1rem;">
+                            <span style="background:linear-gradient(to right, #888888, #bbbbbb);padding:0.2rem 0.8rem;font-family:'JetBrains Mono',monospace;font-weight:600;font-size:0.6rem;text-transform:uppercase;letter-spacing:0.1em;color:#fff;border-radius:12px;">Visi</span>
+                            <span style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:rgba(255,255,255,0.3);">ngelangit</span>
+                        </div>
+                        <p style="font-weight:500;font-size:0.95rem;line-height:1.8;color:rgba(255,255,255,0.9);">Menjadi program keahlian terdepan dalam menghasilkan profesional jaringan komputer dan telekomunikasi yang <span style="color:#cccccc;font-weight:600;">kompeten</span>, <span style="color:#dddddd;font-weight:600;">inovatif</span>, dan <span style="color:#cccccc;font-weight:600;">siap bersaing</span> di era digital global.</p>
+                    </div>
+                    <div class="neo-card neo-shadow reveal-right" style="padding:2rem;">
+                        <div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:1rem;justify-content:flex-end;">
+                            <span style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:rgba(255,255,255,0.3);">gaskeun</span>
+                            <span style="background:linear-gradient(to right, #bbbbbb, #888888);padding:0.2rem 0.8rem;font-family:'JetBrains Mono',monospace;font-weight:600;font-size:0.6rem;text-transform:uppercase;letter-spacing:0.1em;color:#fff;border-radius:12px;">Misi</span>
+                        </div>
+                        <ul style="list-style:none;padding:0;display:flex;flex-direction:column;gap:0.8rem;">
+                            <li style="display:flex;gap:0.8rem;font-weight:500;color:rgba(255,255,255,0.85);font-size:0.9rem;">
+                                <span style="color:#cccccc;font-size:1.1rem;">—</span>
+                                <span>Mengembangkan kurikulum berbasis kompetensi <span style="color:#cccccc;font-weight:600;">industri 4.0</span></span>
+                            </li>
+                            <li style="display:flex;gap:0.8rem;font-weight:500;color:rgba(255,255,255,0.85);font-size:0.9rem;">
+                                <span style="color:#dddddd;font-size:1.1rem;">—</span>
+                                <span>Mempersiapkan siswa dengan <span style="color:#dddddd;font-weight:600;">skill praktis</span> &amp; sertifikasi internasional</span>
+                            </li>
+                            <li style="display:flex;gap:0.8rem;font-weight:500;color:rgba(255,255,255,0.85);font-size:0.9rem;">
+                                <span style="color:#cccccc;font-size:1.1rem;">—</span>
+                                <span>Membentuk <span style="color:#cccccc;font-weight:600;">karakter profesional</span> &amp; etika kerja tinggi</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TUJUAN PROGRAM -->
+        <section class="section-pad" style="border-bottom:1px solid rgba(255,255,255,0.04);">
+            <div class="container">
+                <div class="reveal" style="margin-bottom:2rem;text-align:center;">
+                    <div class="section-badge"><span class="badge-dot"></span><span>Tujuan</span></div>
+                    <h2 class="section-title" style="margin-top:0.6rem;"><span class="text-gradient">TUJUAN</span> PROGRAM</h2>
+                    <p class="section-subtitle">targetnya jelas: jadi <span style="color:#dddddd;">the chosen one</span> di dunia IT</p>
+                </div>
+                <div class="grid-auto" id="tujuanContainer"></div>
+            </div>
+        </section>
+
+        <!-- KOMPETENSI -->
+        <section class="section-pad" style="border-bottom:1px solid rgba(255,255,255,0.04);">
+            <div class="container">
+                <div class="reveal" style="margin-bottom:2rem;text-align:center;">
+                    <div class="section-badge"><span class="badge-dot"></span><span>Kompetensi</span></div>
+                    <h2 class="section-title" style="margin-top:0.6rem;"><span class="text-gradient">KOMPETENSI</span> UTAMA</h2>
+                    <p class="section-subtitle">skill yang bikin kamu <span style="color:#cccccc;">beda</span> dari yang lain</p>
+                </div>
+                <div class="grid-2">
+                    <div class="reveal-left">
+                        <h3 style="font-family:'JetBrains Mono',monospace;font-weight:600;font-size:0.8rem;text-transform:uppercase;letter-spacing:0.1em;color:#cccccc;margin-bottom:1rem;">Teknis</h3>
+                        <div style="display:flex;flex-direction:column;gap:0.6rem;" id="teknisList"></div>
+                    </div>
+                    <div class="reveal-right">
+                        <h3 style="font-family:'JetBrains Mono',monospace;font-weight:600;font-size:0.8rem;text-transform:uppercase;letter-spacing:0.1em;color:#dddddd;margin-bottom:1rem;">Soft Skills</h3>
+                        <div style="display:flex;flex-direction:column;gap:0.6rem;" id="softSkillsList"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- WALI KELAS -->
+        <section class="section-pad" style="border-bottom:1px solid rgba(255,255,255,0.04);">
+            <div class="container">
+                <div class="reveal" style="margin-bottom:1.5rem;text-align:center;">
+                    <div class="section-badge"><span class="badge-dot"></span><span>Pengayom</span></div>
+                    <h2 class="section-title" style="margin-top:0.6rem;"><span class="text-gradient">WALI</span> KELAS</h2>
+                    <p class="section-subtitle">bapak yang sabar ngadepin anak-anak <span style="color:#cccccc;">rese</span> ini</p>
+                </div>
+                <div class="wali-container reveal-wali" style="transition-delay:0.2s;">
+                    <div class="wali-card">
+                        <img src="pak-daduki.jpg" alt="Wali Kelas TJKT" />
+                        <div class="wali-overlay">
+                            <div class="wali-name">M.r Daduki</div>
+                            <div class="wali-title">Pengayom Generasi Tekaje</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SISWA -->
+        <section class="section-pad" style="border-bottom:1px solid rgba(255,255,255,0.04);">
+            <div class="container">
+                <div class="reveal" style="margin-bottom:2rem;text-align:center;">
+                    <div class="section-badge"><span class="badge-dot"></span><span>Generasi</span></div>
+                    <h2 class="section-title" style="margin-top:0.6rem;"><span class="text-gradient">CALON</span> PENGUSAHA</h2>
+                    <p class="section-subtitle">24 butir <span style="color:#dddddd;">siswa</span> yang siap ngerubah dunia</p>
+                </div>
+                <div class="grid-students" id="studentGrid"></div>
+            </div>
+        </section>
+
+        <!-- ============================================================
+        ⭐ KENANGAN — 44 Media (9:16, 3:4, 16:9)
+        ============================================================ -->
+        <section class="section-pad" style="border-bottom:1px solid rgba(255,255,255,0.04);">
+            <div class="container">
+                <div class="reveal" style="margin-bottom:2rem;text-align:center;">
+                    <div class="section-badge"><span class="badge-dot"></span><span>Kenangan</span></div>
+                    <h2 class="section-title" style="margin-top:0.6rem;"><span class="text-gradient">MOMENT</span> TERINDAH</h2>
+                    <p class="section-subtitle">44 momen — 9:16 · 3:4 · 16:9</p>
+                </div>
+
+                <div class="media-grid" id="mediaGrid">
+
+                    <!-- 4 VIDEO 9:16 -->
+                    <div class="media-item reveal" style="transition-delay:0.02s;">
+                        <video autoplay loop muted playsinline preload="metadata">
+                            <source src="1.mp4" type="video/mp4" />
+                        </video>
+                        <span class="media-type video"><i class="fas fa-video"></i></span>
+                        <div class="media-label">Kenangan #1</div>
+                    </div>
+                    <div class="media-item reveal" style="transition-delay:0.06s;">
+                        <video autoplay loop muted playsinline preload="metadata">
+                            <source src="https://assets.mixkit.co/videos/preview/mixkit-server-room-with-modern-computers-3219-large.mp4" type="video/mp4" />
+                        </video>
+                        <span class="media-type video"><i class="fas fa-video"></i></span>
+                        <div class="media-label">Kenangan #2</div>
+                    </div>
+                    <div class="media-item reveal" style="transition-delay:0.10s;">
+                        <video autoplay loop muted playsinline preload="metadata">
+                            <source src="https://assets.mixkit.co/videos/preview/mixkit-futuristic-digital-world-3895-large.mp4" type="video/mp4" />
+                        </video>
+                        <span class="media-type video"><i class="fas fa-video"></i></span>
+                        <div class="media-label">Kenangan #3</div>
+                    </div>
+                    <div class="media-item reveal" style="transition-delay:0.14s;">
+                        <video autoplay loop muted playsinline preload="metadata">
+                            <source src="https://assets.mixkit.co/videos/preview/mixkit-hacker-using-a-laptop-in-a-dark-room-4150-large.mp4" type="video/mp4" />
+                        </video>
+                        <span class="media-type video"><i class="fas fa-video"></i></span>
+                        <div class="media-label">Kenangan #4</div>
+                    </div>
+
+                    <!-- 20 FOTO 9:16 -->
+                    <div class="media-item reveal" style="transition-delay:0.18s;">
+                        <img src="5.jpg" alt="Kenangan" loading="lazy" />
+                        <span class="media-type photo"><i class="fas fa-image"></i></span>
+                        <div class="media-label">Kenangan #5</div>
+                    </div>
+                    <div class="media-item reveal" style="transition-delay:0.22s;">
+                        <img src="https://picsum.photos/seed/kenang2/600/1067" alt="Kenangan" loading="lazy" />
+                        <span class="media-type photo"><i class="fas fa-image"></i></span>
+                        <div class="media-label">Kenangan #6</div>
+                    </div>
+                    <div class="media-item reveal" style="transition-delay:0.26s;">
+                        <img src="https://picsum.photos/seed/kenang3/600/1067" alt="Kenangan" loading="lazy" />
+                        <span class="media-type photo"><i class="fas fa-image"></i></span>
+                        <div class="media-label">Kenangan #7</div>
+                    </div>
+                    <div class="media-item reveal" style="transition-delay:0.30s;">
+                        <img src="https://picsum.photos/seed/kenang4/600/1067" alt="Kenangan" loading="lazy" />
+                        <span class="media-type photo"><i class="fas fa-image"></i></span>
+                        <div class="media-label">Kenangan #8</div>
+                    </div>
+                    <div class="media-item reveal" style="transition-delay:0.34s;">
+                        <img src="https://picsum.photos/seed/kenang5/600/1067" alt="Kenangan" loading="lazy" />
+                        <span class="media-type photo"><i class="fas fa-image"></i></span>
+                        <div class="media-label">Kenangan #9</div>
+                    </div>
+                    <div class="media-item reveal" style="transition-delay:0.38s;">
+                        <img src="https://picsum.photos/seed/kenang6/600/1067" alt="Kenangan" loading="lazy" />
+                        <span class="media-type photo"><i class="fas fa-image"></i></span>
+                        <div class="media-label">Kenangan #10</div>
+                    </div>
+                    <div class="media-item reveal" style="transition-delay:0.42s;">
+                        <img src="https://picsum.photos/seed/kenang7/600/1067" alt="Kenangan" loading="lazy" />
+                        <span class="media-type photo"><i class="fas fa-image"></i></span>
+                        <div class="media-label">Kenangan #11</div>
+                    </div>
+                    <div class="media-item reveal" style="transition-delay:0.46s;">
+                        <img src="https://picsum.photos/seed/kenang8/600/1067" alt="Kenangan" loading="lazy" />
+                        <span class="media-type photo"><i class="fas fa-image"></i></span>
+                        <div class="media-label">Kenangan #12</div>
+                    </div>
+                    <div class="media-item reveal" style="transition-delay:0.50s;">
+                        <img src="https://picsum.photos/seed/kenang9/600/1067" alt="Kenangan" loading="lazy" />
+                        <span class="media-type photo"><i class="fas fa-image"></i></span>
+                        <div class="media-label">Kenangan #13</div>
+                    </div>
+                    <div class="media-item reveal" style="transition-delay:0.54s;">
+                        <img src="https://picsum.photos/seed/kenang10/600/1067" alt="Kenangan" loading="lazy" />
+                        <span class="media-type photo"><i class="fas fa-image"></i></span>
+                        <div class="media-label">Kenangan #14</div>
+                    </div>
+                    <div class="media-item reveal" style="transition-delay:0.58s;">
+                        <img src="https://picsum.photos/seed/kenang11/600/1067" alt="Kenangan" loading="lazy" />
+                        <span class="media-type photo"><i class="fas fa-image"></i></span>
+                        <div class="media-label">Kenangan #15</div>
+                    </div>
+                    <div class="media-item reveal" style="transition-delay:0.62s;">
+                        <img src="https://picsum.photos/seed/kenang12/600/1067" alt="Kenangan" loading="lazy" />
+                        <span class="media-type photo"><i class="fas fa-image"></i></span>
+                        <div class="media-label">Kenangan #16</div>
+                    </div>
+                    <div class="media-item reveal" style="transition-delay:0.66s;">
+                        <img src="https://picsum.photos/seed/kenang13/600/1067" alt="Kenangan" loading="lazy" />
+                        <span class="media-type photo"><i class="fas fa-image"></i></span>
+                        <div class="media-label">Kenangan #17</div>
+                    </div>
+                    <div class="media-item reveal" style="transition-delay:0.70s;">
+                        <img src="https://picsum.photos/seed/kenang14/600/1067" alt="Kenangan" loading="lazy" />
+                        <span class="media-type photo"><i class="fas fa-image"></i></span>
+                        <div class="media-label">Kenangan #18</div>
+                    </div>
+                    <div class="media-item reveal" style="transition-delay:0.74s;">
+                        <img src="https://picsum.photos/seed/kenang15/600/1067" alt="Kenangan" loading="lazy" />
+                        <span class="media-type photo"><i class="fas fa-image"></i></span>
+                        <div class="media-label">Kenangan #19</div>
+                    </div>
+                    <div class="media-item reveal" style="transition-delay:0.78s;">
+                        <img src="https://picsum.photos/seed/kenang16/600/1067" alt="Kenangan" loading="lazy" />
+                        <span class="media-type photo"><i class="fas fa-image"></i></span>
+                        <div class="media-label">Kenangan #20</div>
+                    </div>
+                    <div class="media-item reveal" style="transition-delay:0.82s;">
+                        <img src="https://picsum.photos/seed/kenang17/600/1067" alt="Kenangan" loading="lazy" />
+                        <span class="media-type photo"><i class="fas fa-image"></i></span>
+                        <div class="media-label">Kenangan #21</div>
+                    </div>
+                    <div class="media-item reveal" style="transition-delay:0.86s;">
+                        <img src="https://picsum.photos/seed/kenang18/600/1067" alt="Kenangan" loading="lazy" />
+                        <span class="media-type photo"><i class="fas fa-image"></i></span>
+                        <div class="media-label">Kenangan #22</div>
+                    </div>
+                    <div class="media-item reveal" style="transition-delay:0.90s;">
+                        <img src="https://picsum.photos/seed/kenang19/600/1067" alt="Kenangan" loading="lazy" />
+                        <span class="media-type photo"><i class="fas fa-image"></i></span>
+                        <div class="media-label">Kenangan #23</div>
+                    </div>
+                    <div class="media-item reveal" style="transition-delay:0.94s;">
+                        <img src="https://picsum.photos/seed/kenang20/600/1067" alt="Kenangan" loading="lazy" />
+                        <span class="media-type photo"><i class="fas fa-image"></i></span>
+                        <div class="media-label">Kenangan #24</div>
+                    </div>
+
+                    <!-- 10 FOTO 3:4 -->
+                    <div class="media-item media-item-3-4 reveal" style="transition-delay:0.98s;">
+                        <img src="https://picsum.photos/seed/kenang21/600/800" alt="Kenangan" loading="lazy" />
+                        <span class="media-type photo"><i class="fas fa-image"></i></span>
+                        <div class="media-label">Kenangan #25</div>
+                    </div>
+                    <div class="media-item media-item-3-4 reveal" style="transition-delay:1.02s;">
+                        <img src="https://picsum.photos/seed/kenang22/600/800" alt="Kenangan" loading="lazy" />
+                        <span class="media-type photo"><i class="fas fa-image"></i></span>
+                        <div class="media-label">Kenangan #26</div>
+                    </div>
+                    <div class="media-item media-item-3-4 reveal" style="transition-delay:1.06s;">
+                        <img src="https://picsum.photos/seed/kenang23/600/800" alt="Kenangan" loading="lazy" />
+                        <span class="media-type photo"><i class="fas fa-image"></i></span>
+                        <div class="media-label">Kenangan #27</div>
+                    </div>
+                    <div class="media-item media-item-3-4 reveal" style="transition-delay:1.10s;">
+                        <img src="https://picsum.photos/seed/kenang24/600/800" alt="Kenangan" loading="lazy" />
+                        <span class="media-type photo"><i class="fas fa-image"></i></span>
+                        <div class="media-label">Kenangan #28</div>
+                    </div>
+                    <div class="media-item media-item-3-4 reveal" style="transition-delay:1.14s;">
+                        <img src="https://picsum.photos/seed/kenang25/600/800" alt="Kenangan" loading="lazy" />
+                        <span class="media-type photo"><i class="fas fa-image"></i></span>
+                        <div class="media-label">Kenangan #29</div>
+                    </div>
+                    <div class="media-item media-item-3-4 reveal" style="transition-delay:1.18s;">
+                        <img src="https://picsum.photos/seed/kenang26/600/800" alt="Kenangan" loading="lazy" />
+                        <span class="media-type photo"><i class="fas fa-image"></i></span>
+                        <div class="media-label">Kenangan #30</div>
+                    </div>
+                    <div class="media-item media-item-3-4 reveal" style="transition-delay:1.22s;">
+                        <img src="https://picsum.photos/seed/kenang27/600/800" alt="Kenangan" loading="lazy" />
+                        <span class="media-type photo"><i class="fas fa-image"></i></span>
+                        <div class="media-label">Kenangan #31</div>
+                    </div>
+                    <div class="media-item media-item-3-4 reveal" style="transition-delay:1.26s;">
+                        <img src="https://picsum.photos/seed/kenang28/600/800" alt="Kenangan" loading="lazy" />
+                        <span class="media-type photo"><i class="fas fa-image"></i></span>
+                        <div class="media-label">Kenangan #32</div>
+                    </div>
+                    <div class="media-item media-item-3-4 reveal" style="transition-delay:1.30s;">
+                        <img src="https://picsum.photos/seed/kenang29/600/800" alt="Kenangan" loading="lazy" />
+                        <span class="media-type photo"><i class="fas fa-image"></i></span>
+                        <div class="media-label">Kenangan #33</div>
+                    </div>
+                    <div class="media-item media-item-3-4 reveal" style="transition-delay:1.34s;">
+                        <img src="https://picsum.photos/seed/kenang30/600/800" alt="Kenangan" loading="lazy" />
+                        <span class="media-type photo"><i class="fas fa-image"></i></span>
+                        <div class="media-label">Kenangan #34</div>
+                    </div>
+
+                    <!-- 10 VIDEO 16:9 -->
+                    <div class="media-item media-item-16-9 reveal" style="transition-delay:1.38s;">
+                        <video autoplay loop muted playsinline preload="metadata">
+                            <source src="https://assets.mixkit.co/videos/preview/mixkit-digital-network-animation-4055-large.mp4" type="video/mp4" />
+                        </video>
+                        <span class="media-type video"><i class="fas fa-video"></i></span>
+                        <div class="media-label">Kenangan #35</div>
+                    </div>
+                    <div class="media-item media-item-16-9 reveal" style="transition-delay:1.42s;">
+                        <video autoplay loop muted playsinline preload="metadata">
+                            <source src="https://assets.mixkit.co/videos/preview/mixkit-server-room-with-modern-computers-3219-large.mp4" type="video/mp4" />
+                        </video>
+                        <span class="media-type video"><i class="fas fa-video"></i></span>
+                        <div class="media-label">Kenangan #36</div>
+                    </div>
+                    <div class="media-item media-item-16-9 reveal" style="transition-delay:1.46s;">
+                        <video autoplay loop muted playsinline preload="metadata">
+                            <source src="https://assets.mixkit.co/videos/preview/mixkit-futuristic-digital-world-3895-large.mp4" type="video/mp4" />
+                        </video>
+                        <span class="media-type video"><i class="fas fa-video"></i></span>
+                        <div class="media-label">Kenangan #37</div>
+                    </div>
+                    <div class="media-item media-item-16-9 reveal" style="transition-delay:1.50s;">
+                        <video autoplay loop muted playsinline preload="metadata">
+                            <source src="https://assets.mixkit.co/videos/preview/mixkit-hacker-using-a-laptop-in-a-dark-room-4150-large.mp4" type="video/mp4" />
+                        </video>
+                        <span class="media-type video"><i class="fas fa-video"></i></span>
+                        <div class="media-label">Kenangan #38</div>
+                    </div>
+                    <div class="media-item media-item-16-9 reveal" style="transition-delay:1.54s;">
+                        <video autoplay loop muted playsinline preload="metadata">
+                            <source src="https://assets.mixkit.co/videos/preview/mixkit-digital-network-animation-4055-large.mp4" type="video/mp4" />
+                        </video>
+                        <span class="media-type video"><i class="fas fa-video"></i></span>
+                        <div class="media-label">Kenangan #39</div>
+                    </div>
+                    <div class="media-item media-item-16-9 reveal" style="transition-delay:1.58s;">
+                        <video autoplay loop muted playsinline preload="metadata">
+                            <source src="https://assets.mixkit.co/videos/preview/mixkit-server-room-with-modern-computers-3219-large.mp4" type="video/mp4" />
+                        </video>
+                        <span class="media-type video"><i class="fas fa-video"></i></span>
+                        <div class="media-label">Kenangan #40</div>
+                    </div>
+                    <div class="media-item media-item-16-9 reveal" style="transition-delay:1.62s;">
+                        <video autoplay loop muted playsinline preload="metadata">
+                            <source src="https://assets.mixkit.co/videos/preview/mixkit-futuristic-digital-world-3895-large.mp4" type="video/mp4" />
+                        </video>
+                        <span class="media-type video"><i class="fas fa-video"></i></span>
+                        <div class="media-label">Kenangan #41</div>
+                    </div>
+                    <div class="media-item media-item-16-9 reveal" style="transition-delay:1.66s;">
+                        <video autoplay loop muted playsinline preload="metadata">
+                            <source src="https://assets.mixkit.co/videos/preview/mixkit-hacker-using-a-laptop-in-a-dark-room-4150-large.mp4" type="video/mp4" />
+                        </video>
+                        <span class="media-type video"><i class="fas fa-video"></i></span>
+                        <div class="media-label">Kenangan #42</div>
+                    </div>
+                    <div class="media-item media-item-16-9 reveal" style="transition-delay:1.70s;">
+                        <video autoplay loop muted playsinline preload="metadata">
+                            <source src="https://assets.mixkit.co/videos/preview/mixkit-digital-network-animation-4055-large.mp4" type="video/mp4" />
+                        </video>
+                        <span class="media-type video"><i class="fas fa-video"></i></span>
+                        <div class="media-label">Kenangan #43</div>
+                    </div>
+                    <div class="media-item media-item-16-9 reveal" style="transition-delay:1.74s;">
+                        <video autoplay loop muted playsinline preload="metadata">
+                            <source src="https://assets.mixkit.co/videos/preview/mixkit-server-room-with-modern-computers-3219-large.mp4" type="video/mp4" />
+                        </video>
+                        <span class="media-type video"><i class="fas fa-video"></i></span>
+                        <div class="media-label">Kenangan #44</div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="footer">
+            <div class="container">
+                <p>© TEKAJE ANGKT <span class="highlight">2K28</span></p>
+                <p class="footer-sub">yang penting sinyal kuat, hati juga kuat</p>
+                <div class="footer-dots">
+                    <span class="dot-accent"></span>
+                    <span class="dot-secondary"></span>
+                    <span class="dot-muted"></span>
+                    <span class="dot-foreground"></span>
+                </div>
+                <div class="footer-links">
+                    <a href="#">Beranda</a>
+                    <a href="#about">Tentang</a>
+                    <a href="#projects">Proyek</a>
+                    <a href="#thankyou">Terima Kasih</a>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- ============================================================
+    JAVASCRIPT
+    ============================================================ -->
+    <script>
+        // Fullscreen
+        function goFullscreen() {
+            const el = document.documentElement;
+            if (el.requestFullscreen) el.requestFullscreen();
+            else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+            else if (el.msRequestFullscreen) el.msRequestFullscreen();
+            document.removeEventListener('click', goFullscreen);
+            document.removeEventListener('touchstart', goFullscreen);
+        }
+        document.addEventListener('click', goFullscreen);
+        document.addEventListener('touchstart', goFullscreen);
+
+        // Video background error
+        const video = document.getElementById('bgVideo');
+        const container = document.getElementById('videoBackground');
+        if (video) {
+            video.addEventListener('error', function() { container.classList.add('error'); });
+            video.addEventListener('canplay', function() { container.classList.remove('error'); });
+            setTimeout(() => { if (video.error) container.classList.add('error'); }, 3000);
+        }
+
+        // Typewriter
+        function typewriterHero() {
+            const text = "WELCOME TO CLASS";
+            const el = document.getElementById('heroTypeText');
+            const cur = document.getElementById('heroCursor');
+            if (!el) return;
+            let i = 0;
+            const speed = 50;
+            function type() {
+                if (i < text.length) {
+                    el.textContent += text.charAt(i);
+                    i++;
+                    setTimeout(type, speed);
+                } else {
+                    if (cur) cur.classList.add('hidden');
+                }
+            }
+            type();
+        }
+
+        function typewriterEffect(element, text, speed = 30, onComplete) {
+            if (!element) return;
+            let i = 0;
+            element.textContent = '';
+            const type = () => {
+                if (i < text.length) {
+                    element.textContent += text.charAt(i);
+                    i++;
+                    setTimeout(type, speed);
+                } else {
+                    if (onComplete) onComplete();
+                }
+            };
+            type();
+        }
+
+        function initTypewriters() {
+            const schoolText = document.getElementById('schoolText');
+            const schoolCursor = document.getElementById('schoolCursor');
+            const classText = document.getElementById('classText');
+            const classCursor = document.getElementById('classCursor');
+            setTimeout(() => {
+                typewriterEffect(schoolText, 'SMK YADIKA 7 BOGOR', 30, () => {
+                    if (schoolCursor) schoolCursor.classList.add('hidden');
+                });
+            }, 300);
+            setTimeout(() => {
+                typewriterEffect(classText, 'XI-TEKAJE', 45, () => {
+                    if (classCursor) classCursor.classList.add('hidden');
+                });
+            }, 1200);
+        }
+
+        // Data
+        const students = [
+            { id: 1, name: 'Satria', instagram: 'satriamahathr_', photo: 'satria.jpg' },
+            { id: 2, name: 'Budi Santoso', instagram: 'budi_santoso', photo: '' },
+            { id: 3, name: 'Citra Dewi', instagram: 'citra.dewi', photo: '' },
+            { id: 4, name: 'Doni Wijaya', instagram: 'doni_wijaya', photo: '' },
+            { id: 5, name: 'Erica Putri', instagram: 'erica.putri', photo: '' },
+            { id: 6, name: 'Fajar Mulyanto', instagram: 'fajar_mulyanto', photo: '' },
+            { id: 7, name: 'Gita Sari', instagram: 'gita_sari95', photo: '' },
+            { id: 8, name: 'Hendra Kusuma', instagram: 'hendra.kusuma', photo: '' },
+            { id: 9, name: 'Indah Lestari', instagram: 'indah_lestari', photo: '' },
+            { id: 10, name: 'Joko Prasetyo', instagram: 'joko_prasetyo', photo: '' },
+            { id: 11, name: 'Khanza Aurellia', instagram: 'khanza.aurellia', photo: '' },
+            { id: 12, name: 'Lina Wijaya', instagram: 'lina_wijaya', photo: '' },
+            { id: 13, name: 'Malik Hidayat', instagram: 'malik_hidayat', photo: '' },
+            { id: 14, name: 'Nina Pratama', instagram: 'nina.pratama', photo: '' },
+            { id: 15, name: 'Oki Rahmat', instagram: 'oki_rahmat', photo: '' },
+            { id: 16, name: 'Putri Handoko', instagram: 'putri.handoko', photo: '' },
+            { id: 17, name: 'Quasi Riyanto', instagram: 'quasi_riyanto', photo: '' },
+            { id: 18, name: 'Reza Firmansyah', instagram: 'reza.firmansyah', photo: '' },
+            { id: 19, name: 'Siti Nurhaliza', instagram: 'siti_nurhaliza', photo: '' },
+            { id: 20, name: 'Taufiq Rachman', instagram: 'taufiq_rachman', photo: '' },
+            { id: 21, name: 'Ulfa Kamila', instagram: 'ulfa_kamila', photo: '' },
+            { id: 22, name: 'Vino Setiawan', instagram: 'vino_setiawan', photo: '' },
+            { id: 23, name: 'Wulan Sari', instagram: 'wulan_sari', photo: '' },
+            { id: 24, name: 'Yuki Tanzawa', instagram: 'yuki_tanzawa', photo: '' }
+        ];
+
+        const tujuanData = [
+            { title: 'Instalasi Jaringan', desc: 'Merencanakan, menginstal, dan mengkonfigurasi infrastruktur jaringan modern', color: '#aaaaaa' },
+            { title: 'Administrasi Sistem', desc: 'Mengelola server, user management, security systems, dan backup data', color: '#bbbbbb' },
+            { title: 'Troubleshooting', desc: 'Mendiagnosis dan mengatasi masalah jaringan dengan cepat dan tepat', color: '#cccccc' },
+            { title: 'Keamanan Jaringan', desc: 'Implementasi security protocols dan firewall untuk proteksi data', color: '#aaaaaa' },
+            { title: 'Telekomunikasi', desc: 'Memahami teknologi VoIP, mikrotik, wireless networking terkini', color: '#bbbbbb' },
+            { title: 'Sertifikasi', desc: 'Meraih sertifikasi internasional: CompTIA, Cisco, Mikrotik', color: '#cccccc' }
+        ];
+
+        const teknisSkills = ['Cisco CCNA & CCNP', 'Mikrotik RouterOS', 'Network Security & Firewall', 'VoIP & Telekomunikasi', 'Cloud & Virtualization', 'Linux & Windows Server'];
+        const softSkills = ['Problem Solving & Thinking', 'Teamwork & Collaboration', 'Communication Skills', 'Professionalism & Integrity', 'Time Management', 'Customer Service'];
+
+        function renderTujuan() {
+            const container = document.getElementById('tujuanContainer');
+            let html = '';
+            tujuanData.forEach((item, i) => {
+                html += `<div class="neo-card neo-shadow reveal" style="padding:1.2rem;transition-delay:${0.05 + i * 0.06}s;">
+                            <div style="width:2.8rem;height:2.8rem;background:${item.color};border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-family:'Calistoga',Georgia,serif;font-weight:400;font-size:1.1rem;margin-bottom:0.8rem;opacity:0.85;">${i + 1}</div>
+                            <h3 style="font-weight:700;font-size:0.95rem;color:#fff;margin-bottom:0.3rem;">${item.title}</h3>
+                            <p style="font-weight:400;font-size:0.85rem;color:rgba(255,255,255,0.5);">${item.desc}</p>
+                        </div>`;
+            });
+            container.innerHTML = html;
+        }
+
+        function renderKompetensi() {
+            const teknisContainer = document.getElementById('teknisList');
+            let teknisHtml = '';
+            teknisSkills.forEach((skill, i) => {
+                teknisHtml += `<div class="neo-card reveal" style="padding:0.5rem 1rem;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);display:flex;align-items:center;gap:0.6rem;transition-delay:${0.05 + i * 0.04}s;">
+                            <span style="color:#cccccc;font-family:'JetBrains Mono',monospace;font-size:0.85rem;">—</span>
+                            <span style="font-weight:500;font-size:0.85rem;color:rgba(255,255,255,0.8);">${skill}</span>
+                        </div>`;
+            });
+            teknisContainer.innerHTML = teknisHtml;
+
+            const softContainer = document.getElementById('softSkillsList');
+            let softHtml = '';
+            softSkills.forEach((skill, i) => {
+                softHtml += `<div class="neo-card reveal" style="padding:0.5rem 1rem;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);display:flex;align-items:center;gap:0.6rem;transition-delay:${0.05 + i * 0.04}s;">
+                            <span style="color:#dddddd;font-family:'JetBrains Mono',monospace;font-size:0.85rem;">—</span>
+                            <span style="font-weight:500;font-size:0.85rem;color:rgba(255,255,255,0.8);">${skill}</span>
+                        </div>`;
+            });
+            softContainer.innerHTML = softHtml;
+        }
+
+        function renderStudents() {
+            const container = document.getElementById('studentGrid');
+            let html = '';
+            students.forEach((student, idx) => {
+                const hasPhoto = student.photo && student.photo.trim() !== '';
+                html += `<div class="student-card reveal" style="transition-delay:${0.03 + idx * 0.02}s;">
+                            <div class="neo-card">
+                                <span class="student-badge">#${student.id}</span>
+                                <div class="student-photo">
+                                    ${hasPhoto ? `<img src="${student.photo}" alt="${student.name}" />` : `<span class="placeholder">${student.name.charAt(0)}</span>`}
+                                </div>
+                                <h3 class="student-name">${student.name}</h3>
+                                <button class="btn-ig-student" onclick="window.open('https://instagram.com/${student.instagram}','_blank')">
+                                    <i class="fab fa-instagram"></i><span>Instagram</span>
+                                </button>
+                                <div class="handle-reveal">@${student.instagram}</div>
+                            </div>
+                        </div>`;
+            });
+            container.innerHTML = html;
+        }
+
+        function initScrollReveal() {
+            const classes = ['.reveal','.reveal-left','.reveal-right','.reveal-scale','.reveal-rotate','.reveal-pop','.reveal-zoom','.reveal-wali','.reveal-stagger'];
+            const elements = document.querySelectorAll(classes.join(','));
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+            }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+            elements.forEach(el => {
+                if (el.getBoundingClientRect().top < window.innerHeight - 40) el.classList.add('visible');
+                else observer.observe(el);
+            });
+        }
+
+        renderTujuan();
+        renderKompetensi();
+        renderStudents();
+        setTimeout(typewriterHero, 400);
+        setTimeout(initTypewriters, 200);
+        setTimeout(initScrollReveal, 100);
+        window.addEventListener('scroll', () => {
+            document.querySelectorAll('.reveal:not(.visible), .reveal-left:not(.visible), .reveal-right:not(.visible), .reveal-scale:not(.visible), .reveal-rotate:not(.visible), .reveal-pop:not(.visible), .reveal-zoom:not(.visible), .reveal-wali:not(.visible), .reveal-stagger:not(.visible)')
+                .forEach(el => { if (el.getBoundingClientRect().top < window.innerHeight - 40) el.classList.add('visible'); });
+        });
+    </script>
+
+</body>
+</html>
