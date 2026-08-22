@@ -3,33 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Anime Dashboard · Premium</title>
-
-    <!-- Google Fonts & Font Awesome -->
+    <title>Website Maintenance</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
     <style>
-        /* ============================================
-                   RESET & VARIABEL PREMIUM
-                   ============================================ */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-        }
-
-        :root {
-            --glass-bg: rgba(255, 255, 255, 0.03);
-            --glass-border: rgba(255, 255, 255, 0.08);
-            --glass-shadow: rgba(0, 0, 0, 0.6);
-            --primary-glow: #f093fb;
-            --secondary-glow: #f5576c;
-            --accent-cyan: #4dd0ff;
-            --text-white: rgba(255, 255, 255, 0.85);
-            --text-muted: rgba(255, 255, 255, 0.4);
         }
 
         body {
@@ -38,929 +22,177 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 24px;
-            background: #08080e;
-            /* Grid pattern halus di background */
-            background-image:
-                radial-gradient(circle at 20% 50%, rgba(255, 77, 255, 0.05) 0%, transparent 50%),
-                radial-gradient(circle at 80% 50%, rgba(77, 208, 255, 0.05) 0%, transparent 50%),
-                linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-            background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
-            position: relative;
-            overflow-x: hidden;
+            padding: 20px;
+            background: #0f0f1e;
+            color: #ffffff;
         }
 
-        /* ============================================
-                   ORB GLOW INTERAKTIF (berubah posisi halus)
-                   ============================================ */
-        .orb {
-            position: fixed;
-            border-radius: 50%;
-            filter: blur(100px);
-            pointer-events: none;
-            z-index: 0;
-            transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-        .orb1 {
-            width: 500px;
-            height: 500px;
-            background: #ff4dff;
-            top: -200px;
-            left: -150px;
-            opacity: 0.3;
-            animation: floatOrb 10s infinite alternate ease-in-out;
-        }
-        .orb2 {
-            width: 600px;
-            height: 600px;
-            background: #4dd0ff;
-            bottom: -250px;
-            right: -150px;
-            opacity: 0.2;
-            animation: floatOrb 12s infinite alternate-reverse ease-in-out;
-            animation-delay: 2s;
-        }
-        .orb3 {
-            width: 300px;
-            height: 300px;
-            background: #aaff4d;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            opacity: 0.08;
-            animation: floatOrb 8s infinite alternate ease-in-out;
-            animation-delay: 4s;
-        }
-        @keyframes floatOrb {
-            0% {
-                transform: translate(0, 0) scale(1);
-            }
-            100% {
-                transform: translate(60px, 40px) scale(1.3);
-            }
-        }
-
-        /* ============================================
-                   DASHBOARD UTAMA (Glassmorphism + Tilt)
-                   ============================================ */
-        .dashboard {
-            position: relative;
-            z-index: 10;
+        .maintenance-container {
             width: 100%;
-            max-width: 1320px;
-            background: var(--glass-bg);
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
-            border: 1px solid var(--glass-border);
-            border-radius: 48px;
-            padding: 32px;
-            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.7),
-                inset 0 1px 0 rgba(255, 255, 255, 0.06);
-            transition: transform 0.1s ease, box-shadow 0.5s ease;
-            transform-style: preserve-3d;
-            perspective: 1000px;
-        }
-
-        /* ============================================
-                   HEADER PREMIUM (Avatar + Greeting)
-                   ============================================ */
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 28px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 18px;
-        }
-
-        .avatar {
-            width: 56px;
-            height: 56px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--primary-glow), var(--secondary-glow));
-            padding: 3px;
-            flex-shrink: 0;
-            box-shadow: 0 0 30px rgba(245, 87, 108, 0.2);
-        }
-        .avatar img {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
+            max-width: 600px;
+            padding: 50px 40px;
             background: #1a1a2e;
-            object-fit: cover;
-            border: 2px solid #0a0a0f;
-        }
-
-        .greeting h2 {
-            font-size: 22px;
-            font-weight: 700;
-            color: var(--text-white);
-            letter-spacing: -0.3px;
-        }
-        .greeting h2 span {
-            background: linear-gradient(135deg, #f093fb, #f5576c);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        .greeting p {
-            font-size: 13px;
-            color: var(--text-muted);
-            margin-top: 2px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .greeting p i {
-            color: #4ade80;
-            font-size: 8px;
-        }
-
-        .header-right {
-            display: flex;
-            align-items: center;
-            gap: 18px;
-            color: var(--text-white);
-        }
-
-        .search-bar {
-            display: flex;
-            align-items: center;
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 40px;
-            padding: 8px 18px;
-            gap: 10px;
-            backdrop-filter: blur(5px);
-            transition: all 0.3s ease;
-        }
-        .search-bar:hover {
-            border-color: rgba(255, 255, 255, 0.15);
-            background: rgba(255, 255, 255, 0.07);
-        }
-        .search-bar input {
-            background: none;
-            border: none;
-            color: var(--text-white);
-            font-size: 13px;
-            font-family: 'Inter', sans-serif;
-            outline: none;
-            width: 120px;
-        }
-        .search-bar input::placeholder {
-            color: var(--text-muted);
-        }
-        .search-bar i {
-            color: var(--text-muted);
-            font-size: 14px;
-        }
-
-        .clock {
-            font-size: 20px;
-            font-weight: 600;
-            background: rgba(255, 255, 255, 0.04);
-            padding: 6px 18px;
-            border-radius: 40px;
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            backdrop-filter: blur(5px);
-            letter-spacing: 1px;
-            font-variant-numeric: tabular-nums;
-        }
-
-        .notif-badge {
-            position: relative;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(255, 255, 255, 0.04);
-            border-radius: 50%;
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        .notif-badge:hover {
-            background: rgba(255, 255, 255, 0.08);
-        }
-        .notif-badge .dot {
-            position: absolute;
-            top: 8px;
-            right: 8px;
-            width: 8px;
-            height: 8px;
-            background: #f5576c;
-            border-radius: 50%;
-            box-shadow: 0 0 15px #f5576c;
-            animation: pulse-dot 2s infinite;
-        }
-        @keyframes pulse-dot {
-            0%,
-            100% {
-                opacity: 1;
-                transform: scale(1);
-            }
-            50% {
-                opacity: 0.5;
-                transform: scale(1.5);
-            }
-        }
-
-        /* ============================================
-                   STATS ROW (Premium Metric)
-                   ============================================ */
-        .stats-row {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 16px;
-            margin-bottom: 30px;
-        }
-        .stat-item {
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.04);
             border-radius: 20px;
-            padding: 16px 22px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            backdrop-filter: blur(5px);
-            transition: all 0.3s ease;
+            box-shadow: 0 10px 40px #000000;
+            text-align: center;
+            border: 1px solid #2a2a3e;
         }
-        .stat-item:hover {
-            border-color: rgba(255, 255, 255, 0.1);
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-        }
-        .stat-left {
-            display: flex;
-            flex-direction: column;
-        }
-        .stat-left .label {
-            font-size: 12px;
-            font-weight: 600;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        .stat-left .value {
-            font-size: 24px;
-            font-weight: 800;
-            color: var(--text-white);
-            margin-top: 2px;
-        }
-        .stat-item .icon {
-            width: 44px;
-            height: 44px;
-            border-radius: 14px;
+
+        .icon-box {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 30px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 20px;
-            background: rgba(255, 255, 255, 0.04);
-        }
-        .stat-item:nth-child(1) .icon {
-            color: #f093fb;
-        }
-        .stat-item:nth-child(2) .icon {
-            color: #4dd0ff;
-        }
-        .stat-item:nth-child(3) .icon {
-            color: #fbbf24;
+            background: #2a2a3e;
+            border-radius: 15px;
         }
 
-        /* ============================================
-                   GRID UTAMA (Video + Foto)
-                   ============================================ */
-        .grid-main {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 24px;
+        .icon-box i {
+            font-size: 40px;
+            color: #ff6b9d;
         }
 
-        /* ============================================
-                   CARD DENGAN BORDER GLOW ANIMASI
-                   ============================================ */
-        .card {
-            background: rgba(0, 0, 0, 0.35);
-            border-radius: 28px;
-            padding: 18px;
-            border: 1px solid rgba(255, 255, 255, 0.04);
-            backdrop-filter: blur(8px);
-            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            position: relative;
-            overflow: hidden;
-        }
-        /* Efek glow border berjalan (premium) */
-        .card::before {
-            content: '';
-            position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
-            border-radius: 30px;
-            background: conic-gradient(from 0deg, transparent, rgba(245, 87, 108, 0.2), transparent, rgba(77, 208, 255, 0.2), transparent);
-            z-index: -1;
-            animation: rotateBorder 6s linear infinite;
-            opacity: 0;
-            transition: opacity 0.6s ease;
-        }
-        .card:hover::before {
-            opacity: 1;
-        }
-        .card:hover {
-            transform: translateY(-6px) scale(1.01);
-            border-color: rgba(255, 255, 255, 0.08);
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.6);
-        }
-
-        @keyframes rotateBorder {
-            0% {
-                transform: rotate(0deg);
-            }
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-
-        .card-label {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 14px;
-            padding: 0 6px;
-        }
-        .card-label span {
-            font-size: 12px;
+        h1 {
+            font-size: 36px;
             font-weight: 700;
-            color: var(--text-muted);
+            margin-bottom: 15px;
+            color: #ffffff;
+        }
+
+        h1 span {
+            color: #ff6b9d;
+        }
+
+        .apology {
+            background: #252539;
+            border-left: 4px solid #ff6b9d;
+            padding: 20px;
+            margin: 25px 0;
+            border-radius: 8px;
+            text-align: left;
+        }
+
+        .apology-title {
+            font-weight: 700;
+            color: #ff6b9d;
+            margin-bottom: 10px;
+            font-size: 14px;
             text-transform: uppercase;
-            letter-spacing: 1.8px;
-            display: flex;
+            letter-spacing: 1px;
+        }
+
+        .apology-text {
+            color: #b0b0c0;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .description {
+            color: #b0b0c0;
+            font-size: 15px;
+            line-height: 1.8;
+            margin: 20px 0;
+        }
+
+        .status-badge {
+            display: inline-flex;
             align-items: center;
             gap: 8px;
-        }
-        .card-label span i {
-            color: var(--text-muted);
-        }
-        .card-label .badge-live {
-            background: #f5576c;
-            padding: 4px 12px;
-            border-radius: 40px;
-            font-size: 10px;
-            font-weight: 700;
-            color: #fff;
+            padding: 10px 18px;
+            background: #2a2a3e;
+            border-radius: 25px;
+            margin-top: 25px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
             letter-spacing: 1px;
-            animation: pulse-live 1.5s infinite;
-            box-shadow: 0 0 20px rgba(245, 87, 108, 0.3);
+            color: #ff9baa;
         }
-        @keyframes pulse-live {
-            0%,
-            100% {
+
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            background: #ff6b9d;
+            border-radius: 50%;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
                 opacity: 1;
             }
             50% {
-                opacity: 0.6;
-            }
-        }
-
-        /* ============================================
-                   VIDEO WRAPPER (16:9) + VISUALIZER
-                   ============================================ */
-        .video-wrapper {
-            position: relative;
-            width: 100%;
-            aspect-ratio: 16 / 9;
-            border-radius: 20px;
-            overflow: hidden;
-            background: #000;
-            box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.8);
-        }
-        .video-wrapper video {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        /* Overlay gradasi di video agar teks visualizer terbaca */
-        .video-wrapper .overlay-grad {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 60%;
-            background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, transparent 100%);
-            pointer-events: none;
-        }
-
-        /* Equalizer / Visualizer di bawah video */
-        .visualizer {
-            position: absolute;
-            bottom: 20px;
-            left: 20px;
-            right: 20px;
-            display: flex;
-            align-items: flex-end;
-            gap: 4px;
-            height: 30px;
-            pointer-events: none;
-            z-index: 5;
-        }
-        .visualizer .bar {
-            flex: 1;
-            background: linear-gradient(to top, #f093fb, #f5576c);
-            border-radius: 4px;
-            height: 10%;
-            animation: viz 0.8s infinite alternate ease-in-out;
-            opacity: 0.7;
-            box-shadow: 0 0 15px rgba(245, 87, 108, 0.3);
-        }
-        .visualizer .bar:nth-child(1) {
-            height: 40%;
-            animation-delay: 0s;
-        }
-        .visualizer .bar:nth-child(2) {
-            height: 70%;
-            animation-delay: 0.2s;
-        }
-        .visualizer .bar:nth-child(3) {
-            height: 25%;
-            animation-delay: 0.4s;
-        }
-        .visualizer .bar:nth-child(4) {
-            height: 90%;
-            animation-delay: 0.1s;
-        }
-        .visualizer .bar:nth-child(5) {
-            height: 50%;
-            animation-delay: 0.6s;
-        }
-        .visualizer .bar:nth-child(6) {
-            height: 80%;
-            animation-delay: 0.3s;
-        }
-        .visualizer .bar:nth-child(7) {
-            height: 30%;
-            animation-delay: 0.7s;
-        }
-        .visualizer .bar:nth-child(8) {
-            height: 60%;
-            animation-delay: 0.5s;
-        }
-        .visualizer .bar:nth-child(9) {
-            height: 45%;
-            animation-delay: 0.9s;
-        }
-        .visualizer .bar:nth-child(10) {
-            height: 75%;
-            animation-delay: 0.8s;
-        }
-        .visualizer .bar:nth-child(11) {
-            height: 20%;
-            animation-delay: 0.15s;
-        }
-        .visualizer .bar:nth-child(12) {
-            height: 85%;
-            animation-delay: 0.45s;
-        }
-
-        @keyframes viz {
-            0% {
-                transform: scaleY(0.3);
                 opacity: 0.4;
             }
-            100% {
-                transform: scaleY(1);
-                opacity: 1;
-            }
         }
 
-        /* ============================================
-                   FOTO WRAPPER (3:4) DENGAN ZOOM & GLOW
-                   ============================================ */
-        .photo-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-            height: 100%;
-        }
-        .photo-wrapper {
-            width: 100%;
-            aspect-ratio: 3 / 4;
-            border-radius: 20px;
-            overflow: hidden;
-            background: #12121c;
-            position: relative;
-            cursor: pointer;
-            border: 1px solid rgba(255, 255, 255, 0.04);
-            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            flex: 1;
-        }
-        .photo-wrapper:hover {
-            border-color: rgba(255, 255, 255, 0.15);
-            box-shadow: 0 0 40px rgba(77, 208, 255, 0.1);
-            transform: scale(1.02);
-            z-index: 20;
-        }
-        .photo-wrapper img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-            transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-        .photo-wrapper:hover img {
-            transform: scale(1.12);
-        }
-
-        /* Overlay & Tag di foto */
-        .photo-wrapper .photo-overlay {
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, transparent 50%);
-            opacity: 0;
-            transition: opacity 0.4s ease;
-        }
-        .photo-wrapper:hover .photo-overlay {
-            opacity: 1;
-        }
-
-        .photo-wrapper .photo-tag {
-            position: absolute;
-            bottom: 16px;
-            left: 16px;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(12px);
-            padding: 6px 16px;
-            border-radius: 40px;
-            font-size: 11px;
-            font-weight: 700;
-            color: var(--text-white);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            letter-spacing: 0.5px;
-            z-index: 10;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .photo-wrapper .photo-tag i {
+        .footer-text {
+            color: #6a6a7e;
             font-size: 12px;
-        }
-        .photo-wrapper .photo-tag.fav i {
-            color: #fbbf24;
-        }
-        .photo-wrapper .photo-tag.collect i {
-            color: #f472b6;
+            margin-top: 35px;
+            padding-top: 25px;
+            border-top: 1px solid #2a2a3e;
         }
 
-        /* ============================================
-                   RESPONSIVE DESIGN
-                   ============================================ */
-        @media (max-width: 1024px) {
-            .grid-main {
-                grid-template-columns: 1fr;
-                gap: 24px;
-            }
-            .photo-grid {
-                flex-direction: row;
-                height: auto;
-            }
-            .photo-wrapper {
-                flex: 1;
-                aspect-ratio: 3 / 4;
-            }
-            .stats-row {
-                grid-template-columns: repeat(3, 1fr);
-            }
-        }
-
-        @media (max-width: 768px) {
-            .dashboard {
-                padding: 20px;
-                border-radius: 32px;
-            }
-            .header {
-                flex-direction: column;
-                align-items: stretch;
-            }
-            .header-right {
-                flex-wrap: wrap;
-                justify-content: space-between;
-            }
-            .search-bar input {
-                width: 80px;
-            }
-            .clock {
-                font-size: 16px;
-                padding: 4px 12px;
-            }
-            .stats-row {
-                grid-template-columns: 1fr 1fr;
-                gap: 10px;
-            }
-            .stat-item {
-                padding: 12px 16px;
-            }
-            .stat-left .value {
-                font-size: 20px;
-            }
-            .greeting h2 {
-                font-size: 18px;
-            }
-            .avatar {
-                width: 44px;
-                height: 44px;
-            }
+        .footer-text i {
+            color: #ff6b9d;
+            margin-right: 5px;
         }
 
         @media (max-width: 500px) {
-            .stats-row {
-                grid-template-columns: 1fr;
+            .maintenance-container {
+                padding: 35px 25px;
             }
-            .photo-grid {
-                flex-direction: column;
-            }
-            .photo-wrapper {
-                aspect-ratio: 3 / 4;
-            }
-            .dashboard {
-                padding: 14px;
-                border-radius: 24px;
-            }
-            .card {
-                padding: 12px;
-            }
-            .visualizer {
-                height: 20px;
-                bottom: 12px;
-                left: 12px;
-                right: 12px;
-            }
-            .search-bar {
-                display: none;
-            }
-        }
 
-        /* ============================================
-                   ANIMASI LOADING FADE-IN
-                   ============================================ */
-        .dashboard {
-            opacity: 0;
-            animation: fadeUp 0.9s cubic-bezier(0.23, 1, 0.32, 1) forwards;
-        }
-        @keyframes fadeUp {
-            0% {
-                opacity: 0;
-                transform: translateY(40px) scale(0.96);
+            h1 {
+                font-size: 28px;
             }
-            100% {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-        }
-        .stat-item {
-            opacity: 0;
-            animation: fadeUp 0.6s ease forwards;
-        }
-        .stat-item:nth-child(1) {
-            animation-delay: 0.1s;
-        }
-        .stat-item:nth-child(2) {
-            animation-delay: 0.2s;
-        }
-        .stat-item:nth-child(3) {
-            animation-delay: 0.3s;
-        }
-        .card:nth-child(1) {
-            animation-delay: 0.2s;
-        }
-        .card:nth-child(2) {
-            animation-delay: 0.3s;
-        }
 
-        /* ============================================
-                   SCROLL BAR PREMIUM
-                   ============================================ */
-        ::-webkit-scrollbar {
-            width: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: transparent;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.15);
-            border-radius: 10px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: rgba(255, 255, 255, 0.25);
+            .icon-box {
+                width: 70px;
+                height: 70px;
+            }
+
+            .icon-box i {
+                font-size: 32px;
+            }
+
+            .apology {
+                padding: 15px;
+            }
         }
     </style>
 </head>
 <body>
+    <main class="maintenance-container">
+        <div class="icon-box">
+            <i class="fas fa-wrench"></i>
+        </div>
 
-    <!-- ===== ORBS ===== -->
-    <div class="orb orb1"></div>
-    <div class="orb orb2"></div>
-    <div class="orb orb3"></div>
+        <h1>Website <span>Maintenance</span></h1>
 
-    <!-- ===== DASHBOARD ===== -->
-    <div class="dashboard" id="dashboard">
-
-        <!-- ===== HEADER ===== -->
-        <div class="header">
-            <div class="header-left">
-                <div class="avatar">
-                    <!-- Ganti src dengan foto profil anime favorit Anda -->
-                    <img src="https://i.pravatar.cc/150?img=11" alt="Avatar">
-                </div>
-                <div class="greeting">
-                    <h2>Selamat datang, <span id="greetingName">Kolektor</span> 👋</h2>
-                    <p><i class="fas fa-circle"></i> Sistem online · 2 koleksi baru hari ini</p>
-                </div>
-            </div>
-            <div class="header-right">
-                <div class="search-bar">
-                    <i class="fas fa-search"></i>
-                    <input type="text" placeholder="Cari anime..." readonly>
-                </div>
-                <div class="clock" id="clockDisplay">--:--:--</div>
-                <div class="notif-badge">
-                    <i class="fas fa-bell" style="color: var(--text-white);"></i>
-                    <span class="dot"></span>
-                </div>
+        <div class="apology">
+            <div class="apology-title">⚠️ Kami Minta Maaf</div>
+            <div class="apology-text">
+                Kami dengan tulus memohon maaf atas ketidaknyamanan ini. Website kami sedang dalam pemeliharaan untuk memberikan pengalaman yang lebih baik bagi Anda.
             </div>
         </div>
 
-        <!-- ===== STATS ROW ===== -->
-        <div class="stats-row">
-            <div class="stat-item">
-                <div class="stat-left">
-                    <span class="label">Total Koleksi</span>
-                    <span class="value">24</span>
-                </div>
-                <div class="icon"><i class="fas fa-film"></i></div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-left">
-                    <span class="label">Jam Nonton</span>
-                    <span class="value">128</span>
-                </div>
-                <div class="icon"><i class="fas fa-clock"></i></div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-left">
-                    <span class="label">Favorit</span>
-                    <span class="value">12</span>
-                </div>
-                <div class="icon"><i class="fas fa-star"></i></div>
-            </div>
+        <p class="description">
+            Kami sedang melakukan pembaruan dan perbaikan sistem untuk memastikan website tetap optimal. Silakan kembali lagi dalam beberapa saat.
+        </p>
+
+        <div class="status-badge">
+            <span class="status-dot"></span>
+            SISTEM SEDANG DIPERBAIKI
         </div>
 
-        <!-- ===== GRID UTAMA ===== -->
-        <div class="grid-main">
-
-            <!-- KIRI: VIDEO 16:9 -->
-            <div class="card">
-                <div class="card-label">
-                    <span><i class="fas fa-play-circle"></i> Now Playing</span>
-                    <span class="badge-live"><i class="fas fa-circle" style="font-size: 8px; margin-right: 6px;"></i> LIVE</span>
-                </div>
-                <div class="video-wrapper">
-                    <!-- 
-                        ⚠️ GANTI src="video.mp4" dengan file video anime favorit Anda
-                        Pastikan file video berada di folder yang sama dengan HTML ini
-                        Contoh: src="https://www.w3schools.com/html/mov_bbb.mp4" 
-                    -->
-                    <video autoplay muted loop playsinline>
-                        <source src="video.mp4" type="video/mp4">
-                        Browser tidak mendukung video.
-                    </video>
-                    <div class="overlay-grad"></div>
-
-                    <!-- Visualizer Equalizer -->
-                    <div class="visualizer">
-                        <div class="bar"></div><div class="bar"></div><div class="bar"></div>
-                        <div class="bar"></div><div class="bar"></div><div class="bar"></div>
-                        <div class="bar"></div><div class="bar"></div><div class="bar"></div>
-                        <div class="bar"></div><div class="bar"></div><div class="bar"></div>
-                    </div>
-                </div>
-                <!-- Judul video di bawah -->
-                <div style="margin-top: 14px; display: flex; justify-content: space-between; align-items: center; padding: 0 4px;">
-                    <span style="color: var(--text-white); font-weight: 600; font-size: 14px;">✨ Sakura Season · Episode 1</span>
-                    <span style="color: var(--text-muted); font-size: 12px;"><i class="fas fa-headphones"></i> 2.4k</span>
-                </div>
-            </div>
-
-            <!-- KANAN: 2 FOTO 3:4 -->
-            <div class="card">
-                <div class="card-label">
-                    <span><i class="fas fa-images"></i> Gallery</span>
-                    <span style="font-size: 11px; color: var(--text-muted);">3:4</span>
-                </div>
-                <div class="photo-grid">
-
-                    <!-- FOTO 1 -->
-                    <div class="photo-wrapper">
-                        <!-- 
-                            ⚠️ GANTI src="anime.jpg" dengan gambar anime favorit Anda
-                            Contoh: src="https://picsum.photos/seed/anime1/600/800"
-                        -->
-                        <img src="anime.jpg" alt="Anime 1">
-                        <div class="photo-overlay"></div>
-                        <span class="photo-tag fav"><i class="fas fa-star"></i> Favorit</span>
-                    </div>
-
-                    <!-- FOTO 2 -->
-                    <div class="photo-wrapper">
-                        <!-- 
-                            ⚠️ GANTI src="animev2.jpg" dengan gambar anime favorit Anda
-                            Contoh: src="https://picsum.photos/seed/anime2/600/800"
-                        -->
-                        <img src="animev2.jpg" alt="Anime 2">
-                        <div class="photo-overlay"></div>
-                        <span class="photo-tag collect"><i class="fas fa-heart"></i> Koleksi</span>
-                    </div>
-
-                </div>
-            </div>
-
-        </div>
-
-        <!-- Footer kecil -->
-        <div style="margin-top: 30px; padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.03); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
-            <span style="color: var(--text-muted); font-size: 12px; letter-spacing: 0.5px;"><i class="far fa-copyright"></i> 2026 · Anime Dashboard Premium</span>
-            <span style="color: var(--text-muted); font-size: 12px; display: flex; gap: 16px;">
-                <span><i class="fas fa-circle" style="color: #4ade80; font-size: 6px;"></i> v2.0</span>
-                <span><i class="fas fa-database"></i> 1.2 GB</span>
-            </span>
-        </div>
-    </div>
-
-    <!-- ============================================
-    JAVASCRIPT PREMIUM (Jam + Parallax Tilt)
-    ============================================ -->
-    <script>
-        // ===== 1. JAM DIGITAL =====
-        function updateClock() {
-            const now = new Date();
-            const hours = String(now.getHours()).padStart(2, '0');
-            const minutes = String(now.getMinutes()).padStart(2, '0');
-            const seconds = String(now.getSeconds()).padStart(2, '0');
-            document.getElementById('clockDisplay').textContent = `${hours}:${minutes}:${seconds}`;
-
-            // Ubah sapaan berdasarkan jam
-            const hour = now.getHours();
-            let greet = 'Kolektor';
-            if (hour >= 4 && hour < 11) greet = 'Pagi';
-            else if (hour >= 11 && hour < 15) greet = 'Siang';
-            else if (hour >= 15 && hour < 19) greet = 'Sore';
-            else greet = 'Malam';
-            document.getElementById('greetingName').textContent = greet;
-        }
-        updateClock();
-        setInterval(updateClock, 1000);
-
-        // ===== 2. PARALLAX TILT (Efek 3D saat mouse bergerak) =====
-        const dashboard = document.getElementById('dashboard');
-
-        dashboard.addEventListener('mousemove', (e) => {
-            const rect = dashboard.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-
-            const centerX = rect.width / 2;
-            const centerY = rect.height / 2;
-
-            const rotateX = ((y - centerY) / centerY) * -6; // max -6 deg
-            const rotateY = ((x - centerX) / centerX) * 6; // max 6 deg
-
-            dashboard.style.transform =
-                `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(10px)`;
-        });
-
-        dashboard.addEventListener('mouseleave', () => {
-            dashboard.style.transform =
-            'perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px)';
-        });
-
-        // ===== 3. LOG CONSOLE =====
-        console.log("✦ Premium Dashboard Anime siap!");
-        console.log("📹 Ganti file: video.mp4, anime.jpg, animev2.jpg dengan koleksi Anda.");
-        console.log("🔄 Efek tilt 3D aktif! Gerakkan mouse di atas dashboard.");
-    </script>
-
+        <p class="footer-text">
+            <i class="fas fa-clock"></i>
+            Terima kasih atas kesabaran dan dukungan Anda
+        </p>
+    </main>
 </body>
 </html>
