@@ -2,223 +2,425 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>Satria — Hub</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Satria · Hub</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800;900&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
+    /* ================================================================
+       INDUSTRIAL SKEUOMORPHISM — DESIGN TOKENS
+       ================================================================ */
+
     :root {
-      --bg: #0e0e15;
-      --bg-card: rgba(255, 255, 255, 0.03);
-      --bg-card-hover: rgba(255, 255, 255, 0.06);
-      --fg: #eceef4;
-      --muted: #9aa1b0;
-      --accent: #818cf8;
-      --accent-light: #a5a0ff;
-      --accent2: #4fd1c5;
-      --shadow: rgba(0, 0, 0, 0.6);
-      --shadow-hover: rgba(0, 0, 0, 0.8);
-      --border: rgba(255, 255, 255, 0.06);
-      --radius-card: 22px;
-      --spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+      /* ——— Chassis (Background) ——— */
+      --bg-chassis: #e0e5ec;
+      --bg-panel: #f0f2f5;
+      --bg-recessed: #d1d9e6;
+      --bg-dark-panel: #2d3436;
+
+      /* ——— Text ——— */
+      --text-primary: #2d3436;
+      --text-muted: #4a5568;
+      --text-on-accent: #ffffff;
+
+      /* ——— Accent (Safety Orange) ——— */
+      --accent: #ff4757;
+      --accent-foreground: #ffffff;
+      --accent-glow: rgba(255, 71, 87, 0.6);
+
+      /* ——— Neumorphic Shadows ——— */
+      --shadow-card: 8px 8px 16px #babecc, -8px -8px 16px #ffffff;
+      --shadow-floating: 12px 12px 24px #babecc, -12px -12px 24px #ffffff, inset 1px 1px 0 rgba(255,255,255,0.5);
+      --shadow-pressed: inset 6px 6px 12px #babecc, inset -6px -6px 12px #ffffff;
+      --shadow-recessed: inset 4px 4px 8px #babecc, inset -4px -4px 8px #ffffff;
+      --shadow-sharp: 4px 4px 8px rgba(0,0,0,0.15), -1px -1px 1px rgba(255,255,255,0.8);
+
+      /* ——— Border & Radius ——— */
+      --radius-sm: 4px;
+      --radius-md: 8px;
+      --radius-lg: 16px;
+      --radius-xl: 24px;
+      --radius-full: 9999px;
+
+      /* ——— Typography ——— */
+      --font-sans: 'Inter', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+
+      /* ——— Noise overlay ——— */
+      --noise-opacity: 0.03;
     }
 
+    /* ===== TEMA-TEMA (industrial variants) ===== */
     body.theme-light {
-      --bg: #f0f2f6;
-      --bg-card: rgba(0, 0, 0, 0.02);
-      --bg-card-hover: rgba(0, 0, 0, 0.04);
-      --fg: #1a1d24;
-      --muted: #6b7280;
-      --accent: #6366f1;
-      --accent-light: #818cf8;
-      --accent2: #06b6d4;
-      --shadow: rgba(0, 0, 0, 0.08);
-      --shadow-hover: rgba(0, 0, 0, 0.16);
-      --border: rgba(0, 0, 0, 0.06);
+      --bg-chassis: #e0e5ec;
+      --bg-panel: #f0f2f5;
+      --bg-recessed: #d1d9e6;
+      --text-primary: #2d3436;
+      --text-muted: #4a5568;
+      --shadow-card: 8px 8px 16px #babecc, -8px -8px 16px #ffffff;
+      --shadow-floating: 12px 12px 24px #babecc, -12px -12px 24px #ffffff, inset 1px 1px 0 rgba(255,255,255,0.5);
+      --shadow-pressed: inset 6px 6px 12px #babecc, inset -6px -6px 12px #ffffff;
+      --shadow-recessed: inset 4px 4px 8px #babecc, inset -4px -4px 8px #ffffff;
+    }
+    body.theme-dark {
+      --bg-chassis: #1a1d24;
+      --bg-panel: #252a33;
+      --bg-recessed: #111318;
+      --text-primary: #e8edf5;
+      --text-muted: #9aa3b5;
+      --shadow-card: 8px 8px 16px rgba(0,0,0,0.6), -8px -8px 16px rgba(60,70,90,0.3);
+      --shadow-floating: 12px 12px 24px rgba(0,0,0,0.7), -12px -12px 24px rgba(60,70,90,0.4), inset 1px 1px 0 rgba(255,255,255,0.05);
+      --shadow-pressed: inset 6px 6px 12px rgba(0,0,0,0.6), inset -6px -6px 12px rgba(60,70,90,0.3);
+      --shadow-recessed: inset 4px 4px 8px rgba(0,0,0,0.5), inset -4px -4px 8px rgba(60,70,90,0.2);
     }
     body.theme-blue {
-      --bg: #0b1120;
-      --bg-card: rgba(255, 255, 255, 0.04);
-      --bg-card-hover: rgba(255, 255, 255, 0.08);
-      --fg: #e0e7ff;
-      --muted: #94a3b8;
+      --bg-chassis: #d6e0f0;
+      --bg-panel: #e5edf8;
+      --bg-recessed: #c6d2e4;
+      --text-primary: #1e2a3a;
+      --text-muted: #3a4b5e;
       --accent: #3b82f6;
-      --accent-light: #60a5fa;
-      --accent2: #06b6d4;
+      --accent-glow: rgba(59,130,246,0.5);
+      --shadow-card: 8px 8px 16px #b0c0d6, -8px -8px 16px #f0f8ff;
+      --shadow-floating: 12px 12px 24px #b0c0d6, -12px -12px 24px #f0f8ff, inset 1px 1px 0 rgba(255,255,255,0.5);
+      --shadow-pressed: inset 6px 6px 12px #b0c0d6, inset -6px -6px 12px #f0f8ff;
+      --shadow-recessed: inset 4px 4px 8px #b0c0d6, inset -4px -4px 8px #f0f8ff;
     }
     body.theme-purple {
-      --bg: #15132b;
-      --bg-card: rgba(255, 255, 255, 0.05);
-      --bg-card-hover: rgba(255, 255, 255, 0.10);
-      --fg: #ede9fe;
-      --muted: #a78bfa;
+      --bg-chassis: #ddd6ed;
+      --bg-panel: #ede8f8;
+      --bg-recessed: #cdc4e0;
+      --text-primary: #2d1b3d;
+      --text-muted: #5a4a6e;
       --accent: #a78bfa;
-      --accent-light: #c4b5fd;
-      --accent2: #d946ef;
+      --accent-glow: rgba(167,139,250,0.5);
+      --shadow-card: 8px 8px 16px #b8aad0, -8px -8px 16px #faf5ff;
+      --shadow-floating: 12px 12px 24px #b8aad0, -12px -12px 24px #faf5ff, inset 1px 1px 0 rgba(255,255,255,0.5);
+      --shadow-pressed: inset 6px 6px 12px #b8aad0, inset -6px -6px 12px #faf5ff;
+      --shadow-recessed: inset 4px 4px 8px #b8aad0, inset -4px -4px 8px #faf5ff;
     }
     body.theme-green {
-      --bg: #041510;
-      --bg-card: rgba(255, 255, 255, 0.04);
-      --bg-card-hover: rgba(255, 255, 255, 0.08);
-      --fg: #dcfce7;
-      --muted: #86efac;
+      --bg-chassis: #d4e8d4;
+      --bg-panel: #e4f4e4;
+      --bg-recessed: #c0dcc0;
+      --text-primary: #1a2e1a;
+      --text-muted: #3a5a3a;
       --accent: #10b981;
-      --accent-light: #34d399;
-      --accent2: #14b8a6;
+      --accent-glow: rgba(16,185,129,0.5);
+      --shadow-card: 8px 8px 16px #a8c8a8, -8px -8px 16px #f0fff0;
+      --shadow-floating: 12px 12px 24px #a8c8a8, -12px -12px 24px #f0fff0, inset 1px 1px 0 rgba(255,255,255,0.5);
+      --shadow-pressed: inset 6px 6px 12px #a8c8a8, inset -6px -6px 12px #f0fff0;
+      --shadow-recessed: inset 4px 4px 8px #a8c8a8, inset -4px -4px 8px #f0fff0;
     }
     body.theme-orange {
-      --bg: #1a0f07;
-      --bg-card: rgba(255, 255, 255, 0.05);
-      --bg-card-hover: rgba(255, 255, 255, 0.10);
-      --fg: #fef3c7;
-      --muted: #fbbf24;
+      --bg-chassis: #ecdcd0;
+      --bg-panel: #f8ece0;
+      --bg-recessed: #e0cebe;
+      --text-primary: #3d2a1a;
+      --text-muted: #6a5540;
       --accent: #f97316;
-      --accent-light: #fb923c;
-      --accent2: #ec4899;
+      --accent-glow: rgba(249,115,22,0.5);
+      --shadow-card: 8px 8px 16px #c8b8a8, -8px -8px 16px #fff8f0;
+      --shadow-floating: 12px 12px 24px #c8b8a8, -12px -12px 24px #fff8f0, inset 1px 1px 0 rgba(255,255,255,0.5);
+      --shadow-pressed: inset 6px 6px 12px #c8b8a8, inset -6px -6px 12px #fff8f0;
+      --shadow-recessed: inset 4px 4px 8px #c8b8a8, inset -4px -4px 8px #fff8f0;
     }
     body.theme-red {
-      --bg: #1a0b0b;
-      --bg-card: rgba(255, 255, 255, 0.05);
-      --bg-card-hover: rgba(255, 255, 255, 0.10);
-      --fg: #fecaca;
-      --muted: #fca5a5;
+      --bg-chassis: #e8d4d4;
+      --bg-panel: #f4e4e4;
+      --bg-recessed: #dcc4c4;
+      --text-primary: #3d1a1a;
+      --text-muted: #6a4040;
       --accent: #ef4444;
-      --accent-light: #f87171;
-      --accent2: #f43f5e;
+      --accent-glow: rgba(239,68,68,0.5);
+      --shadow-card: 8px 8px 16px #c8b0b0, -8px -8px 16px #fff4f4;
+      --shadow-floating: 12px 12px 24px #c8b0b0, -12px -12px 24px #fff4f4, inset 1px 1px 0 rgba(255,255,255,0.5);
+      --shadow-pressed: inset 6px 6px 12px #c8b0b0, inset -6px -6px 12px #fff4f4;
+      --shadow-recessed: inset 4px 4px 8px #c8b0b0, inset -4px -4px 8px #fff4f4;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-    html { background: var(--bg); }
+    /* ================================================================
+       RESET & BASE
+       ================================================================ */
+    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    html { background: var(--bg-chassis); }
     body {
-      background: var(--bg); color: var(--fg);
-      font-family: 'DM Sans', sans-serif;
-      min-height: 100vh; padding: 0 0 30px 0;
-      transition: background 0.5s ease, color 0.5s ease;
-      overflow-x: hidden; display: flex; justify-content: center;
+      background: var(--bg-chassis);
+      color: var(--text-primary);
+      font-family: var(--font-sans);
+      font-weight: 500;
+      min-height: 100vh;
+      padding: 0 0 30px 0;
+      transition: background 0.4s ease, color 0.4s ease;
+      overflow-x: hidden;
+      display: flex;
+      justify-content: center;
+      /* Mencegah zoom dengan touch-action */
+      touch-action: pan-y pinch-zoom;
     }
 
-    .app { width: 100%; max-width: 560px; padding: 0 16px; position: relative; }
+    /* === Noise overlay (plastik) === */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 9999;
+      opacity: var(--noise-opacity);
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+      background-repeat: repeat;
+      background-size: 256px 256px;
+      mix-blend-mode: overlay;
+    }
 
-    /* ===== TOP BAR ===== */
+    .app {
+      width: 100%;
+      max-width: 600px;
+      padding: 0 16px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ================================================================
+       TOP BAR — Chip with LED
+       ================================================================ */
     .top-bar {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 14px 0 10px;
-      opacity: 0; animation: fadeUp 0.6s var(--spring) forwards;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 0 12px;
+      opacity: 0;
+      animation: fadeUp 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
     }
     .clock-chip {
-      display: flex; align-items: center; gap: 8px;
-      background: var(--bg-card); backdrop-filter: blur(12px);
-      border: 1px solid var(--border); padding: 6px 14px; border-radius: 40px;
-      font-size: 13px; font-weight: 700; color: var(--muted);
-      transition: all 0.4s ease;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--bg-panel);
+      border-radius: var(--radius-full);
+      padding: 6px 18px 6px 14px;
+      box-shadow: var(--shadow-card);
+      font-family: var(--font-mono);
+      font-weight: 500;
+      font-size: 14px;
+      color: var(--text-primary);
+      transition: box-shadow 0.3s ease;
     }
-    .clock-chip .live {
-      width: 6px; height: 6px; background: var(--accent2); border-radius: 50%;
-      box-shadow: 0 0 8px var(--accent2); animation: pulse 2s infinite;
+    .clock-chip .led {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #22c55e;
+      box-shadow: 0 0 10px rgba(34,197,94,0.6);
+      animation: pulse-led 2s infinite;
     }
-    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.4;transform:scale(0.85)} }
+    @keyframes pulse-led {
+      0%,100% { opacity:1; transform:scale(1); }
+      50% { opacity:0.4; transform:scale(0.85); }
+    }
+    .clock-chip .time {
+      letter-spacing: 0.5px;
+    }
 
     .avatar-btn {
-      width: 40px; height: 40px; border-radius: 50%;
-      background: var(--bg-card); border: 1px solid var(--border); backdrop-filter: blur(12px);
-      display: flex; align-items: center; justify-content: center;
-      font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 15px;
-      color: var(--accent); cursor: pointer;
-      transition: all 0.3s var(--spring); position: relative; will-change: transform;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--bg-panel);
+      border: none;
+      box-shadow: var(--shadow-card);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-sans);
+      font-weight: 800;
+      font-size: 16px;
+      color: var(--accent);
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+      position: relative;
     }
-    .avatar-btn:hover { transform: scale(1.08); }
-    .avatar-btn:active { transform: scale(0.92); }
+    .avatar-btn:hover {
+      transform: scale(1.05);
+      box-shadow: var(--shadow-floating);
+    }
+    .avatar-btn:active {
+      transform: scale(0.92);
+      box-shadow: var(--shadow-pressed);
+    }
     .avatar-btn::after {
       content: attr(data-label);
-      position: absolute; top: calc(100% + 10px); right: 0;
-      background: var(--bg); color: var(--fg);
-      padding: 4px 10px; border-radius: 8px;
-      font-size: 10px; font-weight: 700; letter-spacing: 0.4px; text-transform: uppercase;
-      box-shadow: 0 6px 16px var(--shadow); border: 1px solid var(--border);
-      opacity: 0; transform: translateY(-6px) scale(0.95);
-      pointer-events: none; white-space: nowrap;
-      transition: all 0.25s var(--spring);
+      position: absolute;
+      top: calc(100% + 10px);
+      right: 0;
+      background: var(--bg-panel);
+      color: var(--text-muted);
+      padding: 4px 12px;
+      border-radius: var(--radius-md);
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-family: var(--font-mono);
+      box-shadow: var(--shadow-card);
+      border: 1px solid rgba(0,0,0,0.04);
+      opacity: 0;
+      transform: translateY(-6px) scale(0.95);
+      pointer-events: none;
+      white-space: nowrap;
+      transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
-    .avatar-btn:hover::after { opacity: 1; transform: translateY(0) scale(1); }
+    .avatar-btn:hover::after {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
 
-    /* ===== TEKS DI ATAS VIDEO ===== */
+    /* ================================================================
+       HERO TEXT
+       ================================================================ */
     .hero-text-top {
-      text-align: center; margin-top: 6px; margin-bottom: 14px;
-      opacity: 0; animation: fadeUp 0.6s var(--spring) forwards; animation-delay: 0.05s;
+      text-align: center;
+      margin-top: 2px;
+      margin-bottom: 12px;
+      opacity: 0;
+      animation: fadeUp 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+      animation-delay: 0.05s;
     }
     .hero-text-top .badge {
-      display: inline-block; background: var(--bg-card); backdrop-filter: blur(8px);
-      padding: 4px 14px; border-radius: 40px;
-      font-size: 10px; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase;
-      color: var(--muted); border: 1px solid var(--border); margin-bottom: 6px;
+      display: inline-block;
+      background: var(--bg-panel);
+      padding: 4px 18px;
+      border-radius: var(--radius-full);
+      box-shadow: var(--shadow-recessed);
+      font-family: var(--font-mono);
+      font-weight: 700;
+      font-size: 10px;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 4px;
     }
     .hero-text-top .badge .dot {
-      display: inline-block; width: 5px; height: 5px; background: #4ade80; border-radius: 50%;
-      margin-right: 6px; animation: pulse-dot 2s infinite;
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      background: var(--accent);
+      border-radius: 50%;
+      margin-right: 6px;
+      box-shadow: 0 0 12px var(--accent-glow);
+      animation: pulse-dot 2s infinite;
     }
-    @keyframes pulse-dot { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.3;transform:scale(0.7)} }
+    @keyframes pulse-dot {
+      0%,100% { opacity:1; transform:scale(1); }
+      50% { opacity:0.3; transform:scale(0.7); }
+    }
     .hero-text-top h1 {
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      font-size: clamp(26px, 7vw, 38px); font-weight: 900; letter-spacing: -0.02em;
-      color: var(--fg); line-height: 1.1;
+      font-family: var(--font-sans);
+      font-weight: 800;
+      font-size: clamp(26px, 7vw, 38px);
+      letter-spacing: -0.02em;
+      color: var(--text-primary);
+      line-height: 1.15;
+      text-shadow: 0 1px 0 #ffffff, 0 2px 4px rgba(0,0,0,0.03);
     }
     .hero-text-top h1 .grad {
-      background: linear-gradient(120deg, var(--accent-light), var(--accent2));
-      -webkit-background-clip: text; background-clip: text; color: transparent;
+      background: linear-gradient(120deg, var(--accent), var(--accent-light, var(--accent)));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
     }
 
-    /* ===== VIDEO ===== */
-    .video-wrap { margin-bottom: 14px; opacity: 0; animation: fadeUp 0.6s var(--spring) forwards; animation-delay: 0.1s; }
-    .video-card {
-      position: relative; width: 100%; aspect-ratio: 16 / 9; max-height: 220px;
-      border-radius: 24px; overflow: hidden; background: #000;
-      box-shadow: 0 16px 40px var(--shadow);
+    /* ================================================================
+       GAMBAR 16:9 (pengganti video)
+       ================================================================ */
+    .image-wrap {
+      margin-bottom: 14px;
+      opacity: 0;
+      animation: fadeUp 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+      animation-delay: 0.1s;
+    }
+    .image-card {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      max-height: 220px;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      background: var(--bg-recessed);
+      box-shadow: var(--shadow-card);
       transition: box-shadow 0.4s ease;
     }
-    .video-card video { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .image-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    /* Ventilasi (dekorasi) di sudut kanan atas gambar */
+    .image-card .vents {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      display: flex;
+      gap: 4px;
+    }
+    .image-card .vents span {
+      display: block;
+      width: 4px;
+      height: 24px;
+      border-radius: var(--radius-sm);
+      background: var(--bg-recessed);
+      box-shadow: inset 1px 1px 2px rgba(0,0,0,0.15);
+    }
 
-    /* ===== TEKS DI BAWAH VIDEO ===== */
+    /* ================================================================
+       HERO TEXT BAWAH
+       ================================================================ */
     .hero-text-bottom {
-      text-align: center; margin-top: 4px; margin-bottom: 24px;
-      opacity: 0; animation: fadeUp 0.6s var(--spring) forwards; animation-delay: 0.15s;
+      text-align: center;
+      margin-top: 2px;
+      margin-bottom: 22px;
+      opacity: 0;
+      animation: fadeUp 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+      animation-delay: 0.15s;
     }
     .hero-text-bottom p {
-      font-size: clamp(14px, 2.5vw, 17px); color: var(--muted); font-weight: 500; line-height: 1.4;
+      font-size: clamp(14px, 2.5vw, 17px);
+      color: var(--text-muted);
+      font-weight: 500;
+      line-height: 1.4;
     }
 
-    /* ============================================================
-       MENU PREMIUM — DENGAN SHADOW DALAM & EFEK GLOW
-       ============================================================ */
+    /* ================================================================
+       MENU — INDUSTRIAL PANELS
+       ================================================================ */
     .menu-wrap { margin-top: 0; }
     .menu-grid {
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      gap: 16px;
     }
 
-    /* Semua item menu menjadi full-width (1 kolom) agar terlihat lebih mewah */
     .menu-item {
       display: flex;
       align-items: center;
       gap: 18px;
       padding: 16px 20px;
-      background: var(--bg-card);
-      backdrop-filter: blur(12px);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-card);
+      background: var(--bg-panel);
+      border-radius: var(--radius-lg);
       text-decoration: none;
-      color: var(--fg);
-      transition: all 0.4s var(--spring);
-      will-change: transform, box-shadow, background, border-color;
+      color: var(--text-primary);
+      box-shadow: var(--shadow-card);
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      will-change: transform, box-shadow;
       position: relative;
       opacity: 0;
-      animation: cardIn 0.6s var(--spring) forwards;
+      animation: cardIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
       cursor: pointer;
-      /* Shadow utama yang dalam */
-      box-shadow: 0 8px 24px var(--shadow), 0 2px 4px rgba(0,0,0,0.05);
+      border: none;
     }
-
     .menu-item:nth-child(1) { animation-delay: 0.10s; }
     .menu-item:nth-child(2) { animation-delay: 0.16s; }
     .menu-item:nth-child(3) { animation-delay: 0.22s; }
@@ -228,148 +430,171 @@
     .menu-item:nth-child(7) { animation-delay: 0.46s; }
     .menu-item:nth-child(8) { animation-delay: 0.52s; }
 
-    /* Hover dengan shadow super dalam + efek terangkat */
     .menu-item:hover {
-      transform: translateY(-6px) scale(1.01);
-      background: var(--bg-card-hover);
-      border-color: rgba(255, 255, 255, 0.12);
-      box-shadow: 0 20px 56px var(--shadow-hover), 0 0 0 1px var(--accent) inset;
+      transform: translateY(-4px) scale(1.01);
+      box-shadow: var(--shadow-floating);
     }
-
     .menu-item:active {
       transform: translateY(2px) scale(0.98);
+      box-shadow: var(--shadow-pressed);
       transition-duration: 0.08s;
-      box-shadow: 0 4px 12px var(--shadow);
     }
 
-    /* Icon dengan background berwarna + shadow glow */
+    /* ——— Sekrup di sudut card (dekorasi) ——— */
+    .menu-item::before,
+    .menu-item::after {
+      content: '';
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 40% 35%, rgba(255,255,255,0.6) 15%, rgba(0,0,0,0.08) 60%, rgba(0,0,0,0.2) 90%);
+      box-shadow: inset 0 1px 2px rgba(255,255,255,0.5), 0 1px 2px rgba(0,0,0,0.1);
+      pointer-events: none;
+    }
+    .menu-item::before { top: 10px; left: 10px; }
+    .menu-item::after { bottom: 10px; right: 10px; }
+
+    /* ——— Icon housing ——— */
     .menu-item .icon {
       flex: none;
       width: 56px;
       height: 56px;
-      border-radius: 18px;
+      border-radius: var(--radius-md);
       display: flex;
       align-items: center;
       justify-content: center;
       color: #fff;
       font-size: 24px;
-      transition: all 0.4s var(--spring);
-      will-change: transform;
-      /* Setiap icon punya warna aksen sendiri (diatur inline via style) */
-      background: var(--accent-c);
-      box-shadow: 0 8px 20px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,255,255,0.05) inset;
+      background: var(--accent);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.2);
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
-
     .menu-item:hover .icon {
-      transform: scale(1.10) rotate(-4deg);
-      box-shadow: 0 12px 28px var(--accent-c-alpha), 0 0 0 1px rgba(255,255,255,0.1) inset;
+      transform: scale(1.08) rotate(-3deg);
+      box-shadow: 0 8px 24px var(--accent-glow);
+    }
+    .menu-item:active .icon {
+      transform: scale(0.92);
     }
 
-    .menu-item .icon svg {
-      width: 26px;
-      height: 26px;
-      stroke: currentColor;
-      stroke-width: 2;
-      fill: none;
+    .menu-item .icon i {
+      font-size: 26px;
+      line-height: 1;
     }
 
-    /* Teks di dalam menu */
-    .menu-item .info {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-    }
-
+    /* ——— Info ——— */
+    .menu-item .info { flex: 1; display: flex; flex-direction: column; gap: 1px; }
     .menu-item .name {
-      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-family: var(--font-sans);
       font-weight: 800;
       font-size: 17px;
-      color: var(--fg);
-      transition: color 0.3s ease;
+      color: var(--text-primary);
+      transition: color 0.2s ease;
       letter-spacing: -0.01em;
     }
-    .menu-item:hover .name {
-      color: var(--accent-light);
-    }
-
+    .menu-item:hover .name { color: var(--accent); }
     .menu-item .desc {
+      font-family: var(--font-mono);
       font-size: 12px;
-      color: var(--muted);
       font-weight: 500;
-      line-height: 1.3;
+      color: var(--text-muted);
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
     }
 
-    /* Badge "Ready" yang elegan */
+    /* ——— Badge "Ready" (LED style) ——— */
     .menu-item .badge-ready {
       position: absolute;
       top: 12px;
       right: 12px;
-      font-size: 8px;
-      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--font-mono);
+      font-weight: 700;
+      font-size: 9px;
       text-transform: uppercase;
-      letter-spacing: 0.8px;
-      background: var(--accent2);
-      color: #fff;
-      padding: 3px 12px;
-      border-radius: 40px;
-      opacity: 0.9;
-      box-shadow: 0 4px 12px rgba(79, 209, 197, 0.3);
-      transition: transform 0.3s var(--spring);
+      letter-spacing: 0.6px;
+      color: #22c55e;
+      background: rgba(34,197,94,0.12);
+      padding: 3px 12px 3px 8px;
+      border-radius: var(--radius-full);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.4), 0 2px 6px rgba(0,0,0,0.05);
     }
-    .menu-item:hover .badge-ready {
-      transform: scale(1.05);
-      box-shadow: 0 6px 16px rgba(79, 209, 197, 0.5);
-    }
-
-    /* Arrow di menu Store (featured) */
-    .menu-item .arrow {
-      margin-left: auto;
-      font-size: 18px;
-      color: var(--muted);
-      transition: transform 0.4s var(--spring);
-      opacity: 0.6;
-    }
-    .menu-item:hover .arrow {
-      transform: translateX(6px);
-      opacity: 1;
-      color: var(--accent-light);
+    .menu-item .badge-ready::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #22c55e;
+      box-shadow: 0 0 10px rgba(34,197,94,0.6);
+      animation: pulse-led 2s infinite;
     }
 
-    /* Item Store (Featured) sedikit berbeda agar menonjol */
+    /* ——— Featured item (Store) ——— */
     .menu-item.featured {
-      border: 1px solid rgba(129, 140, 248, 0.15);
-      background: linear-gradient(135deg, rgba(129, 140, 248, 0.05), var(--bg-card));
+      background: var(--bg-panel);
+      border: 1px solid rgba(255,71,87,0.1);
+      box-shadow: var(--shadow-card), 0 0 0 1px var(--accent) inset;
     }
     .menu-item.featured:hover {
-      border-color: var(--accent);
-      box-shadow: 0 20px 56px var(--shadow-hover), 0 0 0 1px var(--accent) inset, 0 0 40px rgba(129, 140, 248, 0.05);
+      box-shadow: var(--shadow-floating), 0 0 0 1px var(--accent) inset;
     }
     .menu-item.featured .badge-ready { display: none; }
     .menu-item.featured .icon {
       background: var(--accent);
-      box-shadow: 0 8px 20px rgba(129, 140, 248, 0.4);
+      box-shadow: 0 6px 20px var(--accent-glow);
     }
-    .menu-item.featured .name {
-      font-size: 19px;
+    .menu-item.featured .name { font-size: 19px; }
+    .menu-item .arrow {
+      margin-left: auto;
+      font-size: 20px;
+      color: var(--text-muted);
+      opacity: 0.5;
+      transition: all 0.3s ease;
+    }
+    .menu-item:hover .arrow {
+      transform: translateX(6px);
+      opacity: 1;
+      color: var(--accent);
     }
 
-    /* ===== FOOTER ===== */
+    /* ================================================================
+       FOOTER
+       ================================================================ */
     .footer {
       margin-top: 34px;
-      display: flex; justify-content: space-between; align-items: center;
-      font-size: 12px; color: var(--muted); font-weight: 600;
-      padding: 14px 0 4px; border-top: 1px solid var(--border);
-      opacity: 0; animation: fadeUp 0.6s var(--spring) forwards; animation-delay: 0.6s;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-muted);
+      padding: 14px 0 4px;
+      border-top: 1px solid rgba(0,0,0,0.04);
+      opacity: 0;
+      animation: fadeUp 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+      animation-delay: 0.6s;
     }
-    .footer b { color: var(--fg); font-weight: 700; }
-    .footer-dots { display: flex; gap: 5px; }
+    .footer b { color: var(--text-primary); font-weight: 700; }
+    .footer-dots {
+      display: flex;
+      gap: 6px;
+    }
     .footer-dots span {
-      width: 5px; height: 5px; border-radius: 50%;
-      background: var(--border); transition: background 0.4s ease;
+      display: block;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--bg-recessed);
+      box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
     }
 
-    /* ===== ANIMASI ===== */
+    /* ================================================================
+       ANIMASI
+       ================================================================ */
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(16px); }
       to { opacity: 1; transform: translateY(0); }
@@ -379,25 +604,28 @@
       100% { opacity: 1; transform: translateY(0) scale(1); }
     }
 
-    /* ===== RESPONSIVE ===== */
+    /* ================================================================
+       RESPONSIVE
+       ================================================================ */
     @media (max-width: 480px) {
       .app { padding: 0 12px; }
-      .video-card { max-height: 170px; border-radius: 18px; }
-      .menu-item { padding: 14px 16px; gap: 14px; border-radius: 18px; }
-      .menu-item .icon { width: 48px; height: 48px; border-radius: 16px; }
-      .menu-item .icon svg { width: 22px; height: 22px; }
+      .image-card { max-height: 170px; border-radius: var(--radius-md); }
+      .menu-item { padding: 14px 16px; gap: 14px; border-radius: var(--radius-md); }
+      .menu-item .icon { width: 48px; height: 48px; }
+      .menu-item .icon i { font-size: 22px; }
       .menu-item .name { font-size: 15px; }
       .menu-item.featured .name { font-size: 17px; }
-      .menu-item .badge-ready { font-size: 7px; padding: 2px 10px; top: 10px; right: 10px; }
+      .menu-item .badge-ready { font-size: 8px; padding: 2px 10px 2px 6px; top: 10px; right: 10px; }
       .hero-text-top h1 { font-size: 24px; }
+      .clock-chip { font-size: 12px; padding: 4px 14px 4px 10px; }
     }
     @media (max-width: 380px) {
-      .video-card { max-height: 140px; }
+      .image-card { max-height: 140px; }
       .menu-item { padding: 12px 14px; gap: 12px; }
       .menu-item .icon { width: 40px; height: 40px; }
-      .menu-item .icon svg { width: 18px; height: 18px; }
+      .menu-item .icon i { font-size: 18px; }
       .menu-item .name { font-size: 14px; }
-      .menu-item .desc { font-size: 11px; }
+      .menu-item .desc { font-size: 10px; }
       .menu-item.featured .name { font-size: 15px; }
       .hero-text-top h1 { font-size: 20px; }
     }
@@ -405,205 +633,184 @@
 </head>
 <body>
 
-  <div class="app">
+<div class="app">
 
-    <!-- TOP BAR -->
-    <div class="top-bar">
-      <div class="clock-chip">
-        <span class="live"></span>
-        <span id="fClock">--:--</span>
-      </div>
-      <button class="avatar-btn" id="avatarBtn" data-label="Dark">S</button>
+  <!-- ===== TOP BAR ===== -->
+  <div class="top-bar">
+    <div class="clock-chip">
+      <span class="led"></span>
+      <span class="time" id="fClock">--:--</span>
     </div>
-
-    <!-- TEKS DI ATAS VIDEO -->
-    <div class="hero-text-top">
-      <span class="badge"><span class="dot"></span>Semua Layanan, Satu Tempat</span>
-      <h1>Satria <span class="grad">Digital Hub</span></h1>
-    </div>
-
-    <!-- VIDEO (Autoplay, Muted, Loop) -->
-    <div class="video-wrap">
-      <div class="video-card">
-        <!-- Ganti src="video.mp4" dengan file video anime Anda -->
-        <video autoplay muted loop playsinline>
-          <source src="website.mp4" type="video/mp4">
-          Browser tidak mendukung video..
-        </video>
-      </div>
-    </div>
-
-    <!-- TEKS DI BAWAH VIDEO -->
-    <div class="hero-text-bottom">
-      <p>Pilih Menu di Bawah Sesuai Selera.</p>
-    </div>
-
-    <!-- ============================================================
-    MENU PREMIUM — DENGAN SHADOW & WARNA IKON BERBEDA
-    ============================================================ -->
-    <div class="menu-wrap">
-      <div class="menu-grid">
-
-        <!-- 1. Store (Featured) -->
-        <a class="menu-item featured" href="index.html" style="--accent-c: #818cf8; --accent-c-alpha: rgba(129, 140, 248, 0.4);">
-          <span class="icon">
-            <svg viewBox="0 0 24 24"><path d="M6 2l1.5 4h9L18 2"/><path d="M3 6h18l-1.5 14H4.5L3 6z"/><path d="M9 10a3 3 0 0 0 6 0"/></svg>
-          </span>
-          <span class="info">
-            <span class="name">Store</span>
-            <span class="desc">Toko utama</span>
-          </span>
-          <span class="arrow">→</span>
-        </a>
-
-        <!-- 2. Stcx AI -->
-        <a class="menu-item" href="ai.html" style="--accent-c: #a78bfa; --accent-c-alpha: rgba(167, 139, 250, 0.4);">
-          <span class="badge-ready">Ready</span>
-          <span class="icon">
-            <svg viewBox="0 0 24 24"><rect x="7" y="8" width="10" height="8" rx="2"/><path d="M12 4v2"/><path d="M9 18v2"/><path d="M15 18v2"/><circle cx="10" cy="12" r="1"/><circle cx="14" cy="12" r="1"/></svg>
-          </span>
-          <span class="info">
-            <span class="name">Stcx AI</span>
-            <span class="desc">Asisten cerdas</span>
-          </span>
-        </a>
-
-        <!-- 3. Portofolio -->
-        <a class="menu-item" href="portofolio.html" style="--accent-c: #60a5fa; --accent-c-alpha: rgba(96, 165, 250, 0.4);">
-          <span class="badge-ready">Ready</span>
-          <span class="icon">
-            <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
-          </span>
-          <span class="info">
-            <span class="name">Portofolio</span>
-            <span class="desc">Karya & proyek</span>
-          </span>
-        </a>
-
-        <!-- 4. Now Playing -->
-        <a class="menu-item" href="music.html" style="--accent-c: #f472b6; --accent-c-alpha: rgba(244, 114, 182, 0.4);">
-          <span class="badge-ready">Ready</span>
-          <span class="icon">
-            <svg viewBox="0 0 24 24"><path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/></svg>
-          </span>
-          <span class="info">
-            <span class="name">Now Playing</span>
-            <span class="desc">Pemutar musik</span>
-          </span>
-        </a>
-
-        <!-- 5. Komponen PC -->
-        <a class="menu-item" href="komponen.html" style="--accent-c: #34d399; --accent-c-alpha: rgba(52, 211, 153, 0.4);">
-          <span class="badge-ready">Ready</span>
-          <span class="icon">
-            <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8"/><path d="M12 16v4"/></svg>
-          </span>
-          <span class="info">
-            <span class="name">Komponen PC</span>
-            <span class="desc">Rakit PC</span>
-          </span>
-        </a>
-
-        <!-- 6. Warkop -->
-        <a class="menu-item" href="kuliner.html" style="--accent-c: #fb923c; --accent-c-alpha: rgba(251, 146, 60, 0.4);">
-          <span class="badge-ready">Ready</span>
-          <span class="icon">
-            <svg viewBox="0 0 24 24"><path d="M4 10h16"/><path d="M5 10a7 7 0 0 1 14 0"/><path d="M4 14h16"/><path d="M6 18h12"/></svg>
-          </span>
-          <span class="info">
-            <span class="name">Warkop</span>
-            <span class="desc">Kuliner & kopi</span>
-          </span>
-        </a>
-
-        <!-- 7. SSM -->
-        <a class="menu-item" href="ssm.html" style="--accent-c: #f87171; --accent-c-alpha: rgba(248, 113, 113, 0.4);">
-          <span class="badge-ready">Ready</span>
-          <span class="icon">
-            <svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 15l3-3 3 2 4-6"/><circle cx="7" cy="15" r="1"/><circle cx="10" cy="12" r="1"/><circle cx="13" cy="14" r="1"/><circle cx="17" cy="8" r="1"/></svg>
-          </span>
-          <span class="info">
-            <span class="name">SSM</span>
-            <span class="desc">Sistem monitoring</span>
-          </span>
-        </a>
-
-        <!-- 8. Dashboard -->
-        <a class="menu-item" href="dashboard.html" style="--accent-c: #fbbf24; --accent-c-alpha: rgba(251, 191, 36, 0.4);">
-          <span class="badge-ready">Ready</span>
-          <span class="icon">
-            <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="6" rx="1.5"/><rect x="3" y="14" width="18" height="6" rx="1.5"/><circle cx="7" cy="7" r="1" fill="currentColor" stroke="none"/><circle cx="7" cy="17" r="1" fill="currentColor" stroke="none"/></svg>
-          </span>
-          <span class="info">
-            <span class="name">Dashboard</span>
-            <span class="desc">Analitik & data</span>
-          </span>
-        </a>
-
-      </div>
-    </div>
-
-    <!-- FOOTER -->
-    <div class="footer">
-      <span>Dibuat oleh <b>Satria</b></span>
-      <div class="footer-dots"><span></span><span></span><span></span></div>
-    </div>
-
+    <button class="avatar-btn" id="avatarBtn" data-label="Tema">S</button>
   </div>
 
-  <script>
-    // ===== TEMA =====
-    const STORAGE_KEY = 'satria-theme';
-    const THEMES = [
-      { name: 'dark', label: 'Dark' },
-      { name: 'light', label: 'Light' },
-      { name: 'blue', label: 'Blue' },
-      { name: 'purple', label: 'Purple' },
-      { name: 'green', label: 'Green' },
-      { name: 'orange', label: 'Orange' },
-      { name: 'red', label: 'Red' }
-    ];
+  <!-- ===== HERO TEXT ===== -->
+  <div class="hero-text-top">
+    <span class="badge"><span class="dot"></span>Semua Layanan, Satu Tempat</span>
+    <h1>Satria <span class="grad">Digital Hub</span></h1>
+  </div>
 
-    function getIdx() {
-      const saved = localStorage.getItem(STORAGE_KEY) || 'dark';
-      const idx = THEMES.findIndex(t => t.name === saved);
-      return idx === -1 ? 0 : idx;
-    }
+  <!-- ===== GAMBAR 16:9 (pengganti video) ===== -->
+  <div class="image-wrap">
+    <div class="image-card">
+      <!-- Ganti src dengan gambar favorit Anda -->
+      <img src="atas.jpg" alt="Hero image">
+      <!-- Ventilasi dekorasi -->
+      <div class="vents">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+  </div>
 
-    function applyTheme(name) {
-      document.body.classList.forEach(c => { if (c.startsWith('theme-')) document.body.classList.remove(c); });
-      if (name !== 'dark') document.body.classList.add('theme-' + name);
-      const obj = THEMES.find(t => t.name === name) || THEMES[0];
-      document.getElementById('avatarBtn').setAttribute('data-label', obj.label);
-      localStorage.setItem(STORAGE_KEY, name);
-    }
+  <!-- ===== TEKS BAWAH GAMBAR ===== -->
+  <div class="hero-text-bottom">
+    <p>Pilih Menu di Bawah Sesuai Selera.</p>
+  </div>
 
-    function cycleTheme() {
-      const next = (getIdx() + 1) % THEMES.length;
-      applyTheme(THEMES[next].name);
-      const btn = document.getElementById('avatarBtn');
-      btn.style.transform = 'scale(0.85) rotate(-10deg)';
-      setTimeout(() => btn.style.transform = '', 300);
-    }
+  <!-- ===== MENU (Industrial Panels) ===== -->
+  <div class="menu-wrap">
+    <div class="menu-grid">
 
-    document.getElementById('avatarBtn').addEventListener('click', cycleTheme);
-    applyTheme(localStorage.getItem(STORAGE_KEY) || 'dark');
+      <!-- 1. Store (Featured) -->
+      <a class="menu-item featured" href="index.html">
+        <span class="icon"><i class="fas fa-store"></i></span>
+        <span class="info">
+          <span class="name">Store</span>
+          <span class="desc">Toko utama</span>
+        </span>
+        <span class="arrow">→</span>
+      </a>
 
-    // ===== JAM =====
-    function tick() {
-      const d = new Date();
-      const f = n => String(n).padStart(2, '0');
-      document.getElementById('fClock').textContent = f(d.getHours()) + ':' + f(d.getMinutes());
-    }
-    tick();
-    setInterval(tick, 15000);
+      <!-- 2. Stcx AI -->
+      <a class="menu-item" href="ai.html">
+        <span class="badge-ready">Ready</span>
+        <span class="icon"><i class="fas fa-brain"></i></span>
+        <span class="info">
+          <span class="name">Stcx AI</span>
+          <span class="desc">Asisten cerdas</span>
+        </span>
+      </a>
 
-    // ===== VIDEO AUTOPLAY (dipastikan berjalan) =====
-    document.querySelectorAll('video').forEach(v => {
-      v.play().catch(() => { console.log('Autoplay ditahan oleh browser, tetapi sudah di-mute.'); });
-    });
+      <!-- 3. Portofolio -->
+      <a class="menu-item" href="portofolio.html">
+        <span class="badge-ready">Ready</span>
+        <span class="icon"><i class="fas fa-briefcase"></i></span>
+        <span class="info">
+          <span class="name">Portofolio</span>
+          <span class="desc">Karya & proyek</span>
+        </span>
+      </a>
 
-    console.log('✨ Satria Hub — Menu Premium dengan Shadow & Warna Ikon ✨');
-  </script>
+      <!-- 4. Now Playing -->
+      <a class="menu-item" href="music.html">
+        <span class="badge-ready">Ready</span>
+        <span class="icon"><i class="fas fa-music"></i></span>
+        <span class="info">
+          <span class="name">Now Playing</span>
+          <span class="desc">Pemutar musik</span>
+        </span>
+      </a>
+
+      <!-- 5. Komponen PC -->
+      <a class="menu-item" href="komponen.html">
+        <span class="badge-ready">Ready</span>
+        <span class="icon"><i class="fas fa-microchip"></i></span>
+        <span class="info">
+          <span class="name">Komponen PC</span>
+          <span class="desc">Rakit PC</span>
+        </span>
+      </a>
+
+      <!-- 6. Warkop -->
+      <a class="menu-item" href="kuliner.html">
+        <span class="badge-ready">Ready</span>
+        <span class="icon"><i class="fas fa-mug-saucer"></i></span>
+        <span class="info">
+          <span class="name">Warkop</span>
+          <span class="desc">Kuliner & kopi</span>
+        </span>
+      </a>
+
+      <!-- 7. SSM -->
+      <a class="menu-item" href="ssm.html">
+        <span class="badge-ready">Ready</span>
+        <span class="icon"><i class="fas fa-chart-line"></i></span>
+        <span class="info">
+          <span class="name">SSM</span>
+          <span class="desc">Sistem monitoring</span>
+        </span>
+      </a>
+
+      <!-- 8. Dashboard -->
+      <a class="menu-item" href="dashboard.html">
+        <span class="badge-ready">Ready</span>
+        <span class="icon"><i class="fas fa-gauge-high"></i></span>
+        <span class="info">
+          <span class="name">Dashboard</span>
+          <span class="desc">Analitik & data</span>
+        </span>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- ===== FOOTER ===== -->
+  <div class="footer">
+    <span>Dibuat oleh <b>Satria</b></span>
+    <div class="footer-dots"><span></span><span></span><span></span></div>
+  </div>
+
+</div>
+
+<script>
+  // ===== TEMA (Industrial variants) =====
+  const STORAGE_KEY = 'satria-theme';
+  const THEMES = [
+    { name: 'light', label: 'Light' },
+    { name: 'dark', label: 'Dark' },
+    { name: 'blue', label: 'Blue' },
+    { name: 'purple', label: 'Purple' },
+    { name: 'green', label: 'Green' },
+    { name: 'orange', label: 'Orange' },
+    { name: 'red', label: 'Red' }
+  ];
+
+  function getIdx() {
+    const saved = localStorage.getItem(STORAGE_KEY) || 'light';
+    const idx = THEMES.findIndex(t => t.name === saved);
+    return idx === -1 ? 0 : idx;
+  }
+
+  function applyTheme(name) {
+    document.body.classList.forEach(c => { if (c.startsWith('theme-')) document.body.classList.remove(c); });
+    if (name !== 'light') document.body.classList.add('theme-' + name);
+    const obj = THEMES.find(t => t.name === name) || THEMES[0];
+    document.getElementById('avatarBtn').setAttribute('data-label', obj.label);
+    localStorage.setItem(STORAGE_KEY, name);
+  }
+
+  function cycleTheme() {
+    const next = (getIdx() + 1) % THEMES.length;
+    applyTheme(THEMES[next].name);
+    const btn = document.getElementById('avatarBtn');
+    btn.style.transform = 'scale(0.85) rotate(-10deg)';
+    setTimeout(() => btn.style.transform = '', 300);
+  }
+
+  document.getElementById('avatarBtn').addEventListener('click', cycleTheme);
+  applyTheme(localStorage.getItem(STORAGE_KEY) || 'light');
+
+  // ===== JAM =====
+  function tick() {
+    const d = new Date();
+    const f = n => String(n).padStart(2, '0');
+    document.getElementById('fClock').textContent = f(d.getHours()) + ':' + f(d.getMinutes());
+  }
+  tick();
+  setInterval(tick, 15000);
+
+  console.log('🔧 Industrial Skeuomorphism — Satria Hub');
+</script>
+
 </body>
 </html>
