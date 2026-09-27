@@ -2956,6 +2956,8 @@
             background: var(--text-ter);
         }
     </style>
+    <!-- SUPABASE CLIENT -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 
 <body>
@@ -2982,8 +2984,8 @@
 
             <div class="sidebar-footer">
                 <div class="user-info">
-                    <div class="user-name" id="user-name">User</div>
-                    <div class="user-phone" id="user-phone">Tamu</div>
+                    <div class="user-name" id="user-name">Pelanggan</div>
+                    <div class="user-phone" id="user-phone">&nbsp;</div>
                 </div>
             </div>
         </aside>
@@ -3429,7 +3431,16 @@
 
     <script>
         /* ===== STATE ===== */
-        let currentUser = { name: 'Guest', phone: 'Tamu', email: 'guest@satz.local' };
+        let currentUser = { name: '', phone: '', email: '' };
+        const LOCAL_CUSTOMER_ID = (() => {
+            const key = 'zevora_customer_id';
+            let id = localStorage.getItem(key);
+            if (!id) {
+                id = `cust_${Date.now()}_${Math.random().toString(36).slice(2, 10)}`;
+                localStorage.setItem(key, id);
+            }
+            return id;
+        })();
         let cart = {};
         let currentFilter = 'all';
         let isAdminLoggedIn = false;
@@ -3444,9 +3455,51 @@
         let confirmAction = null;
         let activeAdminSection = 'voucher';
         let activeOrderFilter = 'ALL';
-        let pendingOrderStatusIndex = null;
+        let pendingOrderStatusOrderId = null;
+        let adminOrders = [];
+        let adminOrdersLoading = false;
+        let adminOrdersPollTimer = null;
+        let adminOrdersChannel = null;
+        let historySyncPollTimer = null;
+        let historySyncChannel = null;
+        let historySyncLoading = false;
+        let pendingCheckout = null;
+        let supabaseClient = null;
+        let supabaseReady = false;
+        let supabaseErrorShown = false;
+
+        const SUPABASE_URL = 'https://apqpnwzwxkumzvkhiihy.supabase.co';
+        const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_XWGqmv_Jf_hOV1hrrIC8Og_36spM9wb';
         const WA_NUMBER = '6285891103110';
         const TOAST_DURATION = 3000;
+
+        function initSupabase() {
+            if (supabaseReady && supabaseClient) return true;
+
+            if (!window.supabase || typeof window.supabase.createClient !== 'function') {
+                return false;
+            }
+
+            try {
+                supabaseClient = window.supabase.createClient(
+                    SUPABASE_URL,
+                    SUPABASE_PUBLISHABLE_KEY
+                );
+                supabaseReady = true;
+                return true;
+            } catch (error) {
+                console.error('Supabase init error:', error);
+                return false;
+            }
+        }
+
+        function showSupabaseErrorOnce(message) {
+            if (supabaseErrorShown) return;
+            supabaseErrorShown = true;
+            showToast(message, 'error');
+        }
+
+        initSupabase();
 
         /* ===== PRODUCT DATA ===== */
         const PRODUCTS = [
@@ -3742,6 +3795,7 @@
 
         function exitAdmin() {
             if (!isAdminLoggedIn) return;
+            stopAdminOrderSync();
             isAdminLoggedIn = false;
             document.getElementById('menu-admin').style.display = 'none';
             goPage('store');
@@ -3762,9 +3816,17 @@
                 tab.classList.toggle('active', tab.id === `admin-tab-${section}`);
             });
 
-            if (section === 'voucher') renderVouchers();
-            if (section === 'promo') renderAdminPromos();
-            if (section === 'orders') renderAdminOrders();
+            if (section === 'voucher') {
+                stopAdminOrderSync();
+                renderVouchers();
+            }
+            if (section === 'promo') {
+                stopAdminOrderSync();
+                renderAdminPromos();
+            }
+            if (section === 'orders') {
+                startAdminOrderSync();
+            }
         }
 
         function setAdminOrderFilter(filter) {
@@ -3788,22 +3850,74 @@
             return map[status] || map.MENUNGGU;
         }
 
+        async function fetchAdminOrders({ silent = false } = {}) {
+            if (!initSupabase()) {
+                if (!silent) showSupabaseErrorOnce('Koneksi database belum siap');
+                return false;
+            }
+
+            if (adminOrdersLoading) return false;
+            adminOrdersLoading = true;
+
+            try {
+                const { data, error } = await supabaseClient
+                    .from('orders')
+                    .select('*')
+                    .order('created_at', { ascending: false });
+
+                if (error) {
+                    console.error('Supabase order fetch error:', error);
+                    if (!silent) showSupabaseErrorOnce('Gagal mengambil order dari database');
+                    return false;
+                }
+
+                adminOrders = Array.isArray(data) ? data : [];
+                return true;
+            } catch (error) {
+                console.error('Supabase order fetch exception:', error);
+                if (!silent) showSupabaseErrorOnce('Gagal mengambil order dari database');
+                return false;
+            } finally {
+                adminOrdersLoading = false;
+            }
+        }
+
+        function getOrderItemSummary(order) {
+            if (!Array.isArray(order.items) || !order.items.length) return 'Pesanan';
+
+            const first = order.items[0];
+            const firstName = first?.name || 'Produk';
+            const extra = order.items.length - 1;
+            return extra > 0 ? `${firstName} +${extra} produk lainnya` : firstName;
+        }
+
+        function getAdminOrderStatusMeta(status) {
+            const map = {
+                MENUNGGU: { cls: 'waiting', icon: '◷', label: 'MENUNGGU' },
+                DIPROSES: { cls: 'processing', icon: '↻', label: 'DIPROSES' },
+                SELESAI: { cls: 'done', icon: '✓', label: 'SELESAI' },
+                DIBATALKAN: { cls: 'cancelled', icon: '×', label: 'DIBATALKAN' }
+            };
+            return map[status] || map.MENUNGGU;
+        }
+
         function renderAdminOrderCounts() {
             const el = document.getElementById('admin-orders-counts');
             if (!el) return;
 
             const counts = { MENUNGGU: 0, DIPROSES: 0, SELESAI: 0, DIBATALKAN: 0 };
-            history.forEach(h => {
-                const status = h.status || 'MENUNGGU';
+            adminOrders.forEach(order => {
+                const status = order.status || 'MENUNGGU';
                 if (counts[status] !== undefined) counts[status]++;
             });
 
-            const total = history.length;
+            const total = adminOrders.length;
             el.innerHTML = `
                 <div style="font-size:10px;color:var(--text-sec);font-weight:800;">TOTAL <strong style="color:var(--text);">${total}</strong></div>
                 <div style="font-size:10px;color:#fbbf24;font-weight:800;">MENUNGGU <strong>${counts.MENUNGGU}</strong></div>
                 <div style="font-size:10px;color:#60a5fa;font-weight:800;">DIPROSES <strong>${counts.DIPROSES}</strong></div>
-                <div style="font-size:10px;color:#4ade80;font-weight:800;">SELESAI <strong>${counts.SELESAI}</strong></div>`;
+                <div style="font-size:10px;color:#4ade80;font-weight:800;">SELESAI <strong>${counts.SELESAI}</strong></div>
+                <div style="font-size:10px;color:#f87171;font-weight:800;">DIBATALKAN <strong>${counts.DIBATALKAN}</strong></div>`;
         }
 
         function renderAdminOrders() {
@@ -3812,19 +3926,19 @@
 
             renderAdminOrderCounts();
 
-            if (!history.length) {
+            if (!adminOrders.length) {
                 list.innerHTML = `
                     <div class="empty-state">
                         <div class="empty-icon">📦</div>
                         <div class="empty-title">Belum Ada Orderan</div>
-                        <div class="empty-desc">Orderan dari checkout browser ini akan muncul di sini.</div>
+                        <div class="empty-desc">Order dari seluruh perangkat akan muncul di sini setelah tersimpan ke database.</div>
                     </div>`;
                 return;
             }
 
-            const filtered = history.map((h, index) => ({ h, index }))
-                .filter(({ h }) => activeOrderFilter === 'ALL' || (h.status || 'MENUNGGU') === activeOrderFilter)
-                .reverse();
+            const filtered = adminOrders.filter(order =>
+                activeOrderFilter === 'ALL' || (order.status || 'MENUNGGU') === activeOrderFilter
+            );
 
             if (!filtered.length) {
                 list.innerHTML = `
@@ -3836,45 +3950,131 @@
                 return;
             }
 
-            list.innerHTML = filtered.map(({ h, index }) => {
-                const status = h.status || 'MENUNGGU';
+            list.innerHTML = filtered.map(order => {
+                const status = order.status || 'MENUNGGU';
                 const meta = getAdminOrderStatusMeta(status);
+                const itemSummary = getOrderItemSummary(order);
+                const orderId = order.order_id || `ZV-${order.id || 'ORDER'}`;
+                const customer = order.customer_name || 'Pelanggan';
+                const phone = order.customer_phone || '-';
+                const total = Number(order.total || 0);
+                const voucher = order.voucher && order.voucher !== '-' ? order.voucher : 'Tidak ada';
+                const notes = order.notes ? order.notes : 'Tidak ada catatan';
+                const created = order.created_at ? new Date(order.created_at).toLocaleString('id-ID') : '-';
+
                 return `
                     <div class="admin-order-card">
                         <div class="admin-order-top">
                             <div style="min-width:0;">
-                                <div class="admin-order-id">ORDER #${index + 1}</div>
-                                <div class="admin-order-name">${h.name || 'Pesanan'}</div>
-                                <div class="admin-order-date">${h.date || '-'}</div>
+                                <div class="admin-order-id">${orderId}</div>
+                                <div class="admin-order-name">${customer}</div>
+                                <div class="admin-order-date">${created}</div>
                             </div>
                             <span class="admin-order-status-badge ${meta.cls}">${meta.label}</span>
                         </div>
+
                         <div class="admin-order-meta">
                             <div class="admin-order-meta-box">
-                                <div class="admin-order-meta-label">Voucher</div>
-                                <div class="admin-order-meta-value">${h.voucher && h.voucher !== '-' ? h.voucher : 'Tidak ada'}</div>
+                                <div class="admin-order-meta-label">Produk</div>
+                                <div class="admin-order-meta-value">${itemSummary}</div>
                             </div>
                             <div class="admin-order-meta-box">
-                                <div class="admin-order-meta-label">Catatan</div>
-                                <div class="admin-order-meta-value">${h.notes ? h.notes : 'Tidak ada catatan'}</div>
+                                <div class="admin-order-meta-label">Total</div>
+                                <div class="admin-order-meta-value">${fmt(total)}</div>
+                            </div>
+                            <div class="admin-order-meta-box">
+                                <div class="admin-order-meta-label">WhatsApp</div>
+                                <div class="admin-order-meta-value">${phone}</div>
+                            </div>
+                            <div class="admin-order-meta-box">
+                                <div class="admin-order-meta-label">Voucher</div>
+                                <div class="admin-order-meta-value">${voucher}</div>
                             </div>
                         </div>
+
+                        <div class="admin-order-meta" style="margin-top:7px;">
+                            <div class="admin-order-meta-box" style="flex-basis:100%;">
+                                <div class="admin-order-meta-label">Catatan</div>
+                                <div class="admin-order-meta-value">${notes}</div>
+                            </div>
+                        </div>
+
                         <div class="admin-order-footer">
                             <div class="admin-order-footer-label">Status saat ini: ${meta.label}</div>
-                            <button class="admin-order-status-btn" type="button" onclick="openStatusPicker(${index})">${meta.icon} Ubah Status <span style="opacity:.55;">›</span></button>
+                            <button class="admin-order-status-btn" type="button" onclick="openStatusPicker('${String(order.id).replace(/'/g, '')}')">${meta.icon} Ubah Status <span style="opacity:.55;">›</span></button>
                         </div>
                     </div>`;
             }).join('');
         }
 
-        function openStatusPicker(index) {
-            if (!history[index]) return;
-            pendingOrderStatusIndex = index;
+        async function loadAdminOrders({ silent = false } = {}) {
+            const ok = await fetchAdminOrders({ silent });
+            renderAdminOrders();
+            return ok;
+        }
+
+        function startAdminOrderSync() {
+            stopAdminOrderSync();
+
+            loadAdminOrders({ silent: false });
+
+            adminOrdersPollTimer = setInterval(() => {
+                if (!isAdminLoggedIn || activeAdminSection !== 'orders') return;
+                loadAdminOrders({ silent: true });
+            }, 8000);
+
+            if (initSupabase()) {
+                try {
+                    adminOrdersChannel = supabaseClient
+                        .channel('zevora-orders-admin')
+                        .on(
+                            'postgres_changes',
+                            { event: '*', schema: 'public', table: 'orders' },
+                            payload => {
+                                if (activeAdminSection !== 'orders') return;
+                                loadAdminOrders({ silent: true });
+                                if (payload.eventType === 'INSERT') {
+                                    showToast('Order baru masuk', 'info');
+                                }
+                            }
+                        )
+                        .subscribe((status) => {
+                            if (status === 'CHANNEL_ERROR' || status === 'TIMED_OUT') {
+                                console.warn('Supabase realtime channel:', status);
+                            }
+                        });
+                } catch (error) {
+                    console.warn('Supabase realtime init error:', error);
+                }
+            }
+        }
+
+        function stopAdminOrderSync() {
+            if (adminOrdersPollTimer) {
+                clearInterval(adminOrdersPollTimer);
+                adminOrdersPollTimer = null;
+            }
+
+            if (adminOrdersChannel && supabaseClient) {
+                try {
+                    supabaseClient.removeChannel(adminOrdersChannel);
+                } catch (error) {
+                    console.warn('Supabase channel cleanup error:', error);
+                }
+            }
+            adminOrdersChannel = null;
+        }
+
+        function openStatusPicker(orderId) {
+            const order = adminOrders.find(item => String(item.id) === String(orderId));
+            if (!order) return;
+
+            pendingOrderStatusOrderId = order.id;
             const modal = document.getElementById('status-picker-modal');
             const name = document.getElementById('status-picker-order-name');
             if (!modal || !name) return;
 
-            name.textContent = history[index].name || `Order #${index + 1}`;
+            name.textContent = `${order.order_id || 'ORDER'} · ${order.customer_name || 'Pelanggan'}`;
             modal.classList.add('active');
             lockBodyScroll();
         }
@@ -3883,25 +4083,209 @@
             const modal = document.getElementById('status-picker-modal');
             if (!modal) return;
             modal.classList.remove('active');
-            pendingOrderStatusIndex = null;
+            pendingOrderStatusOrderId = null;
             unlockBodyScroll();
         }
 
-        function chooseAdminOrderStatus(status) {
-            if (pendingOrderStatusIndex === null) return;
-            updateAdminOrderStatus(pendingOrderStatusIndex, status);
+        async function chooseAdminOrderStatus(status) {
+            if (pendingOrderStatusOrderId === null) return;
+            const orderId = pendingOrderStatusOrderId;
             closeStatusPicker();
+            await updateAdminOrderStatus(orderId, status);
         }
 
-        function updateAdminOrderStatus(index, status) {
+        async function updateAdminOrderStatus(orderId, status) {
             const allowed = ['MENUNGGU', 'DIPROSES', 'SELESAI', 'DIBATALKAN'];
-            if (!history[index] || !allowed.includes(status)) return;
+            if (!allowed.includes(status) || !initSupabase()) return;
 
-            history[index].status = status;
-            saveHistory();
+            const { error } = await supabaseClient
+                .from('orders')
+                .update({
+                    status,
+                    updated_at: new Date().toISOString()
+                })
+                .eq('id', orderId);
+
+            if (error) {
+                console.error('Supabase order status update error:', error);
+                showToast('Gagal memperbarui status order', 'error');
+                return;
+            }
+
+            const target = adminOrders.find(order => String(order.id) === String(orderId));
+            if (target) {
+                target.status = status;
+                target.updated_at = new Date().toISOString();
+            }
+
+            // Sinkronkan juga riwayat lokal pada perangkat yang sedang membuka admin.
+            const targetOrderId = target?.order_id || '';
+            const localHistoryItem = history.find(item => String(item.orderId || '') === String(targetOrderId));
+            if (localHistoryItem) {
+                localHistoryItem.status = status;
+                localHistoryItem.updatedAt = new Date().toISOString();
+                saveHistory();
+                if (document.getElementById('page-history')?.classList.contains('active')) {
+                    renderHistory();
+                }
+            }
+
             renderAdminOrders();
-            renderHistory();
+            syncCustomerHistoryFromSupabase({ silent: true });
             showToast(`Status order diperbarui: ${status}`, 'success');
+        }
+
+        /* ===== CUSTOMER HISTORY SYNC ===== */
+        function buildHistoryFromOrder(order) {
+            const items = Array.isArray(order.items) ? order.items : [];
+            const first = items[0] || {};
+            let name = 'Pesanan';
+
+            if (items.length > 1) {
+                name = `${first.name || 'Produk'} + ${items.length - 1} produk lainnya`;
+            } else if (first.name) {
+                name = `${first.name} (${first.label || '-'}) x${first.quantity || 1}`;
+            }
+
+            const createdAt = order.created_at || new Date().toISOString();
+
+            return {
+                orderId: order.order_id || '',
+                name,
+                date: new Date(createdAt).toLocaleString('id-ID'),
+                createdAt,
+                updatedAt: order.updated_at || createdAt,
+                status: order.status || 'MENUNGGU',
+                voucher: order.voucher || '-',
+                notes: order.notes || '',
+                total: Number(order.total || 0),
+                customerEmail: order.customer_email || '',
+                customerPhone: order.customer_phone || ''
+            };
+        }
+
+        async function syncCustomerHistoryFromSupabase({ silent = true } = {}) {
+            if (!initSupabase() || historySyncLoading) return false;
+            historySyncLoading = true;
+
+            try {
+                const localOrderIds = new Set(
+                    history
+                        .map(item => String(item.orderId || ''))
+                        .filter(Boolean)
+                );
+
+                let query = supabaseClient
+                    .from('orders')
+                    .select('*')
+                    .order('created_at', { ascending: false });
+
+                // Jika pelanggan mempunyai identitas, batasi hasil berdasarkan email/nomor HP.
+                // Tanpa identitas, gunakan orderId yang memang tersimpan di browser ini.
+                if (currentUser.email) {
+                    query = query.eq('customer_email', currentUser.email);
+                } else if (currentUser.phone) {
+                    query = query.eq('customer_phone', currentUser.phone);
+                }
+
+                const { data, error } = await query;
+
+                if (error) {
+                    console.error('Supabase history sync error:', error);
+                    if (!silent) showSupabaseErrorOnce('Gagal mengambil riwayat dari database');
+                    return false;
+                }
+
+                const serverOrders = Array.isArray(data) ? data : [];
+                const relevantOrders = (!currentUser.email && !currentUser.phone)
+                    ? serverOrders.filter(order => localOrderIds.has(String(order.order_id || '')))
+                    : serverOrders;
+
+                if (!relevantOrders.length) {
+                    return true;
+                }
+
+                const byOrderId = new Map();
+                history.forEach(item => {
+                    if (item.orderId) byOrderId.set(String(item.orderId), item);
+                });
+
+                relevantOrders.forEach(order => {
+                    const normalized = buildHistoryFromOrder(order);
+                    if (!normalized.orderId) return;
+
+                    const existing = byOrderId.get(String(normalized.orderId));
+                    if (existing) {
+                        Object.assign(existing, normalized);
+                    } else {
+                        history.push(normalized);
+                        byOrderId.set(String(normalized.orderId), normalized);
+                    }
+                });
+
+                saveHistory();
+                if (document.getElementById('page-history')?.classList.contains('active')) {
+                    renderHistory();
+                }
+                return true;
+            } catch (error) {
+                console.error('Supabase history sync exception:', error);
+                if (!silent) showSupabaseErrorOnce('Gagal mengambil riwayat dari database');
+                return false;
+            } finally {
+                historySyncLoading = false;
+            }
+        }
+
+        function startHistorySync() {
+            stopHistorySync();
+
+            syncCustomerHistoryFromSupabase({ silent: false });
+
+            historySyncPollTimer = setInterval(() => {
+                const historyPage = document.getElementById('page-history');
+                if (!historyPage?.classList.contains('active')) return;
+                syncCustomerHistoryFromSupabase({ silent: true });
+            }, 6000);
+
+            if (initSupabase()) {
+                try {
+                    historySyncChannel = supabaseClient
+                        .channel('zevora-history-sync')
+                        .on(
+                            'postgres_changes',
+                            { event: '*', schema: 'public', table: 'orders' },
+                            () => {
+                                const historyPage = document.getElementById('page-history');
+                                if (!historyPage?.classList.contains('active')) return;
+                                syncCustomerHistoryFromSupabase({ silent: true });
+                            }
+                        )
+                        .subscribe(status => {
+                            if (status === 'CHANNEL_ERROR' || status === 'TIMED_OUT') {
+                                console.warn('Supabase history realtime:', status);
+                            }
+                        });
+                } catch (error) {
+                    console.warn('Supabase history realtime init error:', error);
+                }
+            }
+        }
+
+        function stopHistorySync() {
+            if (historySyncPollTimer) {
+                clearInterval(historySyncPollTimer);
+                historySyncPollTimer = null;
+            }
+
+            if (historySyncChannel && supabaseClient) {
+                try {
+                    supabaseClient.removeChannel(historySyncChannel);
+                } catch (error) {
+                    console.warn('Supabase history channel cleanup error:', error);
+                }
+            }
+            historySyncChannel = null;
         }
 
         /* ===== NAV ===== */
@@ -3917,7 +4301,12 @@
             if (targetMenu) targetMenu.classList.add('active');
 
             if (page === 'cart') renderCart();
-            if (page === 'history') renderHistory();
+            if (page === 'history') {
+                renderHistory();
+                startHistorySync();
+            } else {
+                stopHistorySync();
+            }
             if (page === 'promo') renderPromos();
             if (page === 'cara-order') { /* static guide page */ }
             if (page === 'faq') initFaq();
@@ -4161,7 +4550,7 @@
                 return;
             }
 
-            if (voucher.usedBy.includes(currentUser.email)) {
+            if (voucher.usedBy.includes(LOCAL_CUSTOMER_ID)) {
                 appliedVoucher = null;
                 voucherMsg = { text: 'Anda sudah menggunakan voucher ini', type: 'error' };
                 renderCart();
@@ -4234,7 +4623,7 @@
             const usable = vouchers.filter(v =>
                 v.expiry >= today &&
                 v.usageCount < v.maxuse &&
-                !v.usedBy.includes(currentUser.email) &&
+                !v.usedBy.includes(LOCAL_CUSTOMER_ID) &&
                 (!appliedVoucher || appliedVoucher.code !== v.code)
             );
 
@@ -4323,6 +4712,8 @@
             text += '┌────────────────────\n';
             let no = 1;
             let subtotal = 0;
+            const orderItems = [];
+
             items.forEach(([key, qty]) => {
                 const parts = key.split('_');
                 const pid = parseInt(parts[0]);
@@ -4330,10 +4721,20 @@
                 const fmtIdx = parseInt(parts[2]) || 0;
                 const p = PRODUCTS.find(x => x.id === pid);
                 if (!p) return;
+
                 const price = calcPrice(p, durIdx, fmtIdx);
                 const label = getItemLabel(p, durIdx, fmtIdx);
                 const total = price * qty;
                 subtotal += total;
+                orderItems.push({
+                    product_id: p.id,
+                    name: p.name,
+                    label,
+                    quantity: qty,
+                    price,
+                    total
+                });
+
                 text += `│ ${String(no).padStart(2, '0')}  ${p.name}\n`;
                 text += `│     ${label} × ${qty}\n`;
                 text += `│     ${fmt(total)}\n`;
@@ -4348,6 +4749,8 @@
             }
 
             const finalTotal = subtotal - discount;
+            const generatedOrderId = `ZV-${new Date().toISOString().slice(0,10).replace(/-/g,'')}-${Date.now().toString().slice(-6)}`;
+
             text += '╭────────────────────╮\n';
             text += '│ 💰 *TOTAL PEMBAYARAN*\n│\n';
             text += `│ Subtotal   ${fmt(subtotal)}\n`;
@@ -4356,9 +4759,24 @@
             text += `│ ✦ *${fmt(finalTotal)}*\n`;
             text += '╰────────────────────╯\n';
             if (orderNotes.trim()) text += `\n📝 *CATATAN*\n${orderNotes.trim()}\n`;
+            text += `\n🆔 *${generatedOrderId}*\n`;
             text += '\n✦ _Menunggu konfirmasi admin..._';
 
-            const detailText = `Subtotal: ${fmt(subtotal)}\n${appliedVoucher ? `Diskon ${appliedVoucher.code} (${appliedVoucher.discount}%): -${fmt(discount)}\n` : ''}Total: ${fmt(finalTotal)}\n\nPemesan: ${currentUser.name}\nNo. HP: ${currentUser.phone}${orderNotes ? '\nCatatan: ' + orderNotes : ''}`;
+            pendingCheckout = {
+                order_id: generatedOrderId,
+                customer_name: currentUser.name || '',
+                customer_phone: currentUser.phone || '',
+                customer_email: currentUser.email || '',
+                items: orderItems,
+                subtotal,
+                discount,
+                total: finalTotal,
+                voucher: appliedVoucher ? appliedVoucher.code : null,
+                notes: orderNotes.trim(),
+                status: 'MENUNGGU'
+            };
+
+            const detailText = `Order ID: ${generatedOrderId}\n\nSubtotal: ${fmt(subtotal)}\n${appliedVoucher ? `Diskon ${appliedVoucher.code} (${appliedVoucher.discount}%): -${fmt(discount)}\n` : ''}Total: ${fmt(finalTotal)}${orderNotes ? '\n\nCatatan: ' + orderNotes : ''}`;
 
             document.getElementById('modal-text').textContent = detailText;
             document.getElementById('modal').classList.add('active');
@@ -4366,36 +4784,55 @@
             window.wa_url = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(text)}`;
         }
 
-        function goWhatsApp() {
-            if (!window.wa_url) return;
-            window.open(window.wa_url, '_blank');
+        async function goWhatsApp() {
+            if (!window.wa_url || !pendingCheckout) return;
+
+            const orderWindow = window.open('about:blank', '_blank');
+
+            if (!initSupabase()) {
+                if (orderWindow) orderWindow.location.href = window.wa_url;
+                showSupabaseErrorOnce('Koneksi database belum siap');
+                return;
+            }
+
+            const payload = { ...pendingCheckout };
+            const { data, error } = await supabaseClient
+                .from('orders')
+                .insert(payload)
+                .select('id,order_id,customer_name,customer_phone,customer_email,items,subtotal,discount,total,voucher,notes,status,created_at,updated_at')
+                .single();
+
+            if (error) {
+                console.error('Supabase order insert error:', error);
+                if (orderWindow) orderWindow.close();
+                showToast('Order gagal disimpan ke database. Pesanan belum dicatat.', 'error');
+                return;
+            }
+
+            if (orderWindow) orderWindow.location.href = window.wa_url;
+            else window.open(window.wa_url, '_blank');
 
             if (appliedVoucher) {
                 const idx = vouchers.findIndex(v => v.code === appliedVoucher.code);
                 if (idx !== -1) {
                     vouchers[idx].usageCount++;
-                    if (!vouchers[idx].usedBy.includes(currentUser.email)) {
-                        vouchers[idx].usedBy.push(currentUser.email);
+                    if (!vouchers[idx].usedBy.includes(LOCAL_CUSTOMER_ID)) {
+                        vouchers[idx].usedBy.push(LOCAL_CUSTOMER_ID);
                     }
                     saveVouchers();
                 }
             }
 
-            Object.entries(cart).forEach(([key, qty]) => {
-                const parts = key.split('_');
-                const pid = parseInt(parts[0]);
-                const durIdx = parseInt(parts[1]) || 0;
-                const fmtIdx = parseInt(parts[2]) || 0;
-                const p = PRODUCTS.find(x => x.id === pid);
-                if (!p) return;
-                const label = getItemLabel(p, durIdx, fmtIdx);
-                history.push({
-                    name: `${p.name} (${label}) x${qty}`,
-                    date: new Date().toLocaleString('id-ID'),
-                    status: 'MENUNGGU',
-                    voucher: appliedVoucher ? appliedVoucher.code : '-',
-                    notes: orderNotes
-                });
+            history.push({
+                orderId: data?.order_id || payload.order_id,
+                name: payload.items.length > 1
+                    ? `${payload.items[0].name} + ${payload.items.length - 1} produk lainnya`
+                    : `${payload.items[0]?.name || 'Pesanan'} (${payload.items[0]?.label || '-'}) x${payload.items[0]?.quantity || 1}`,
+                date: new Date().toLocaleString('id-ID'),
+                status: payload.status,
+                voucher: payload.voucher || '-',
+                notes: payload.notes,
+                total: payload.total
             });
             saveHistory();
 
@@ -4403,10 +4840,11 @@
             appliedVoucher = null;
             voucherMsg = { text: '', type: '' };
             orderNotes = '';
+            pendingCheckout = null;
             updateCartBadge();
             closeModal();
             goPage('history');
-            showToast('Pesanan berhasil dikirim ke WhatsApp', 'success');
+            showToast('Pesanan berhasil disimpan & dikirim ke WhatsApp', 'success');
         }
 
         function closeModal() {
@@ -4520,7 +4958,7 @@
             const today = todayStr();
             const visible = promos.filter(p => {
                 if (!p.active) return false;
-                const claimed = Array.isArray(p.claimedBy) && p.claimedBy.includes(currentUser.email);
+                const claimed = Array.isArray(p.claimedBy) && p.claimedBy.includes(LOCAL_CUSTOMER_ID);
                 return !claimed;
             });
 
@@ -4583,14 +5021,14 @@
             if (promo.expiry < today) { showToast('Promo sudah kedaluwarsa', 'error'); return; }
             if (promo.claimCount >= promo.maxClaim) { showToast('Kuota klaim promo sudah habis', 'error'); return; }
             if (!Array.isArray(promo.claimedBy)) promo.claimedBy = [];
-            if (promo.claimedBy.includes(currentUser.email)) { showToast('Promo sudah pernah diklaim', 'info'); return; }
+            if (promo.claimedBy.includes(LOCAL_CUSTOMER_ID)) { showToast('Promo sudah pernah diklaim', 'info'); return; }
 
             const voucher = vouchers.find(v => v.code === promo.code);
             if (!voucher) { showToast(`Voucher ${promo.code} belum tersedia`, 'error'); return; }
             if (voucher.expiry < today) { showToast('Voucher promo sudah kedaluwarsa', 'error'); return; }
             if (voucher.usageCount >= voucher.maxuse) { showToast('Batas penggunaan voucher sudah penuh', 'error'); return; }
 
-            promo.claimedBy.push(currentUser.email);
+            promo.claimedBy.push(LOCAL_CUSTOMER_ID);
             promo.claimCount = promo.claimedBy.length;
             savePromos();
 
@@ -4610,7 +5048,7 @@
         function useClaimedPromo(id) {
             const promo = promos.find(p => p.id === id);
             if (!promo) return;
-            const claimed = Array.isArray(promo.claimedBy) && promo.claimedBy.includes(currentUser.email);
+            const claimed = Array.isArray(promo.claimedBy) && promo.claimedBy.includes(LOCAL_CUSTOMER_ID);
             if (!claimed) { showToast('Klaim promo terlebih dahulu', 'error'); return; }
             const voucher = vouchers.find(v => v.code === promo.code);
             if (!voucher) { showToast(`Voucher ${promo.code} tidak ditemukan`, 'error'); return; }
@@ -4880,10 +5318,16 @@
             videoEl.addEventListener('contextmenu', e => e.preventDefault());
         }
 
+
+        window.addEventListener('beforeunload', () => {
+            stopAdminOrderSync();
+            stopHistorySync();
+        });
+
         /* ===== INIT ===== */
         window.onload = function () {
-            document.getElementById('user-name').textContent = currentUser.name;
-            document.getElementById('user-phone').textContent = currentUser.phone;
+            document.getElementById('user-name').textContent = currentUser.name || 'Pelanggan';
+            document.getElementById('user-phone').textContent = currentUser.phone || '';
             renderProducts();
             savePromos();
 
