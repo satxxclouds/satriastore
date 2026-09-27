@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SatzStore</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -15,179 +17,101 @@
         }
 
         :root {
-            --bg-dark: #0d1117;
-            --bg-primary: #161b22;
-            --surface: #1c2128;
-            --surface-alt: #262c33;
-            --text-primary: #e6edf3;
-            --text-secondary: #8b949e;
-            --text-tertiary: #6e7681;
-            --accent: #58a6ff;
-            --accent-light: #79c0ff;
-            --accent-dark: #1f6feb;
-            --success: #3fb950;
-            --danger: #f85149;
-            --warning: #d29922;
-            --shadow-sm: 0 8px 16px rgba(0, 0, 0, 0.3);
-            --shadow-md: 0 12px 24px rgba(0, 0, 0, 0.4);
-            --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.5);
+            --bg: #0a0a0a;
+            --bg-elev: #111111;
+            --surface: #161616;
+            --surface-alt: #1e1e1e;
+            --border: #262626;
+            --border-strong: #333333;
+            --text: #ffffff;
+            --text-sec: #a3a3a3;
+            --text-ter: #6b6b6b;
+            --accent: #ffffff;
+            --success: #d4d4d4;
+            --danger: #f87171;
+            --warning: #fbbf24;
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.4);
+            --shadow-md: 0 6px 20px rgba(0, 0, 0, 0.5);
+            --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.6);
         }
 
         html,
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
-            background: var(--bg-dark);
-            color: var(--text-primary);
+            background: var(--bg);
+            color: var(--text);
             line-height: 1.6;
             min-height: 100vh;
         }
 
-        /* ===== AUTH ===== */
-        .auth-page {
-            position: fixed;
-            inset: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: var(--bg-dark);
-            z-index: 1000;
-            padding: 20px;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s, visibility 0.3s;
-        }
-
-        .auth-page.active {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .auth-card {
-            width: 100%;
-            max-width: 420px;
-            background: var(--surface);
-            padding: 48px 32px;
-            border-radius: 32px;
-            box-shadow: var(--shadow-lg);
-        }
-
-        .auth-logo {
-            font-size: 48px;
-            font-weight: 800;
-            letter-spacing: 2px;
-            margin-bottom: 24px;
-            color: var(--accent-light);
-        }
-
-        .auth-title {
-            font-size: 28px;
-            font-weight: 700;
-            margin-bottom: 8px;
-            color: var(--text-primary);
-        }
-
-        .auth-subtitle {
-            font-size: 13px;
-            color: var(--text-secondary);
-            margin-bottom: 36px;
-        }
-
+        /* ===== FORM ===== */
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 18px;
         }
 
         .form-label {
             display: block;
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 600;
             margin-bottom: 8px;
-            color: var(--text-secondary);
+            color: var(--text-sec);
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.8px;
         }
 
         .form-input,
         .form-textarea {
             width: 100%;
-            padding: 14px 16px;
+            padding: 12px 14px;
             background: var(--surface-alt);
-            border: none;
-            border-radius: 16px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
             font-family: inherit;
-            font-size: 14px;
-            color: var(--text-primary);
-            transition: all 0.3s;
-            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+            font-size: 13px;
+            color: var(--text);
+            transition: all 0.25s;
         }
 
         .form-textarea {
             resize: vertical;
             min-height: 80px;
-            font-size: 13px;
         }
 
         .form-input::placeholder,
         .form-textarea::placeholder {
-            color: var(--text-tertiary);
+            color: var(--text-ter);
         }
 
         .form-input:focus,
         .form-textarea:focus {
             outline: none;
+            border-color: #555;
             background: var(--surface);
-            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2), 0 0 0 3px rgba(88, 166, 255, 0.1);
-            border-bottom: 2px solid var(--accent);
         }
 
         .btn {
             width: 100%;
-            padding: 14px 20px;
-            background: linear-gradient(135deg, var(--accent-dark), var(--accent));
-            color: #fff;
+            padding: 13px 20px;
+            background: var(--accent);
+            color: #000;
             border: none;
-            border-radius: 16px;
+            border-radius: 10px;
             font-family: inherit;
-            font-size: 14px;
-            font-weight: 600;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
             cursor: pointer;
-            margin-top: 24px;
-            transition: all 0.3s;
-            box-shadow: 0 8px 16px rgba(88, 166, 255, 0.2);
+            margin-top: 12px;
+            transition: all 0.2s;
         }
 
         .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 24px rgba(88, 166, 255, 0.3);
+            background: #e5e5e5;
+            transform: translateY(-1px);
         }
 
         .btn:active {
             transform: translateY(0);
-        }
-
-        .btn-small {
-            width: auto;
-            padding: 8px 16px;
-            margin: 0;
-            font-size: 12px;
-            margin-top: 8px;
-        }
-
-        .auth-footer {
-            text-align: center;
-            margin-top: 24px;
-            font-size: 13px;
-            color: var(--text-secondary);
-        }
-
-        .auth-footer a {
-            cursor: pointer;
-            color: var(--accent-light);
-            font-weight: 600;
-            text-decoration: none;
-        }
-
-        .auth-footer a:hover {
-            color: var(--accent);
         }
 
         /* ===== CONTAINER ===== */
@@ -199,23 +123,24 @@
         /* ===== SIDEBAR ===== */
         .sidebar {
             width: 260px;
-            background: var(--surface);
+            background: var(--bg-elev);
             display: flex;
             flex-direction: column;
             position: fixed;
             height: 100vh;
             overflow-y: auto;
             z-index: 100;
-            border-right: 1px solid var(--surface-alt);
+            border-right: 1px solid var(--border);
             transition: transform 0.3s;
         }
 
         .sidebar-header {
             padding: 28px 24px;
-            font-size: 24px;
+            font-size: 22px;
             font-weight: 800;
-            color: var(--accent-light);
-            border-bottom: 1px solid var(--surface-alt);
+            letter-spacing: 3px;
+            color: var(--text);
+            border-bottom: 1px solid var(--border);
         }
 
         .sidebar-menu {
@@ -226,75 +151,55 @@
         .menu-item {
             display: block;
             width: 100%;
-            padding: 14px 20px;
+            padding: 13px 18px;
             background: none;
             border: none;
-            border-radius: 12px;
+            border-radius: 8px;
             font-family: inherit;
             font-size: 13px;
             font-weight: 500;
             cursor: pointer;
             text-align: left;
-            color: var(--text-secondary);
-            margin-bottom: 6px;
-            transition: all 0.3s;
-            position: relative;
+            color: var(--text-sec);
+            margin-bottom: 4px;
+            transition: all 0.2s;
         }
 
         .menu-item:hover {
-            background: rgba(88, 166, 255, 0.08);
-            color: var(--text-primary);
-            transform: translateX(4px);
+            background: var(--surface-alt);
+            color: var(--text);
         }
 
         .menu-item.active {
-            background: rgba(88, 166, 255, 0.15);
-            color: var(--accent-light);
+            background: var(--surface-alt);
+            color: var(--text);
             font-weight: 600;
-            box-shadow: inset 0 0 12px rgba(88, 166, 255, 0.1);
+            box-shadow: inset 2px 0 0 var(--text);
         }
 
         .sidebar-footer {
-            border-top: 1px solid var(--surface-alt);
+            border-top: 1px solid var(--border);
             padding: 16px 12px;
         }
 
         .user-info {
             background: var(--surface-alt);
-            border-radius: 12px;
-            padding: 14px 16px;
-            margin-bottom: 12px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 12px 14px;
+            margin-bottom: 10px;
             font-size: 12px;
         }
 
         .user-name {
             font-weight: 600;
-            color: var(--text-primary);
-            margin-bottom: 4px;
+            color: var(--text);
+            margin-bottom: 2px;
         }
 
         .user-phone {
             font-size: 11px;
-            color: var(--text-tertiary);
-        }
-
-        .logout-btn {
-            width: 100%;
-            padding: 12px 16px;
-            background: rgba(248, 81, 73, 0.15);
-            color: var(--danger);
-            border: none;
-            border-radius: 12px;
-            font-family: inherit;
-            font-size: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .logout-btn:hover {
-            background: rgba(248, 81, 73, 0.25);
-            transform: translateY(-2px);
+            color: var(--text-ter);
         }
 
         /* ===== MAIN ===== */
@@ -307,20 +212,21 @@
 
         .page-header {
             padding: 32px 40px;
-            border-bottom: 1px solid var(--surface-alt);
-            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            background: var(--bg);
         }
 
         .page-title {
-            font-size: 28px;
+            font-size: 26px;
             font-weight: 700;
-            margin-bottom: 6px;
-            color: var(--text-primary);
+            margin-bottom: 4px;
+            color: var(--text);
+            letter-spacing: -0.5px;
         }
 
         .page-subtitle {
             font-size: 13px;
-            color: var(--text-secondary);
+            color: var(--text-sec);
         }
 
         .page {
@@ -341,43 +247,41 @@
 
         /* ===== HERO ===== */
         .hero {
-            background: linear-gradient(135deg, rgba(88, 166, 255, 0.08), rgba(79, 39, 245, 0.08));
-            border-radius: 24px;
-            padding: 48px 40px;
-            margin-bottom: 32px;
+            background: var(--bg-elev);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 44px 36px;
+            margin-bottom: 28px;
             text-align: center;
-            box-shadow: var(--shadow-sm);
-            border: 1px solid rgba(88, 166, 255, 0.1);
         }
 
         .hero-badge {
             display: inline-block;
-            background: rgba(88, 166, 255, 0.15);
-            color: var(--accent-light);
-            padding: 8px 16px;
+            background: var(--surface-alt);
+            color: var(--text-sec);
+            padding: 6px 14px;
             border-radius: 20px;
-            font-size: 11px;
+            font-size: 10px;
             font-weight: 600;
-            margin-bottom: 20px;
-            border: 1px solid rgba(88, 166, 255, 0.2);
+            margin-bottom: 18px;
+            border: 1px solid var(--border);
+            letter-spacing: 1px;
+            text-transform: uppercase;
         }
 
         .hero-title {
-            font-size: 36px;
+            font-size: 34px;
             font-weight: 800;
-            margin-bottom: 12px;
-            color: var(--text-primary);
-            background: linear-gradient(135deg, var(--accent-light), var(--accent));
-            background-clip: text;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+            color: var(--text);
+            letter-spacing: -1px;
         }
 
         .hero-desc {
-            font-size: 14px;
-            color: var(--text-secondary);
-            margin-bottom: 32px;
-            max-width: 560px;
+            font-size: 13px;
+            color: var(--text-sec);
+            margin-bottom: 28px;
+            max-width: 500px;
             margin-left: auto;
             margin-right: auto;
         }
@@ -385,73 +289,71 @@
         .hero-stats {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 16px;
-            max-width: 480px;
+            gap: 12px;
+            max-width: 460px;
             margin: 0 auto;
         }
 
         .stat {
             background: var(--surface);
-            border-radius: 16px;
+            border-radius: 12px;
             padding: 16px;
-            box-shadow: var(--shadow-sm);
-            border: 1px solid var(--surface-alt);
+            border: 1px solid var(--border);
         }
 
         .stat-value {
-            font-size: 24px;
+            font-size: 22px;
             font-weight: 700;
-            color: var(--accent-light);
-            margin-bottom: 4px;
+            color: var(--text);
+            margin-bottom: 2px;
         }
 
         .stat-label {
-            font-size: 11px;
-            color: var(--text-tertiary);
+            font-size: 10px;
+            color: var(--text-ter);
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 1px;
         }
 
         /* ===== FILTERS ===== */
         .filters {
             display: flex;
-            gap: 10px;
-            margin-bottom: 32px;
+            gap: 8px;
+            margin-bottom: 28px;
             flex-wrap: wrap;
         }
 
         .filter-btn {
-            padding: 10px 16px;
-            background: var(--surface);
-            border: none;
-            border-radius: 12px;
+            padding: 9px 16px;
+            background: transparent;
+            border: 1px solid var(--border);
+            border-radius: 8px;
             font-family: inherit;
             font-size: 12px;
-            font-weight: 600;
-            color: var(--text-secondary);
+            font-weight: 500;
+            color: var(--text-sec);
             cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: var(--shadow-sm);
+            transition: all 0.2s;
         }
 
         .filter-btn:hover {
-            background: var(--surface-alt);
-            color: var(--text-primary);
-            transform: translateY(-2px);
+            border-color: var(--border-strong);
+            color: var(--text);
         }
 
         .filter-btn.active {
-            background: linear-gradient(135deg, var(--accent-dark), var(--accent));
-            color: #fff;
-            box-shadow: 0 8px 16px rgba(88, 166, 255, 0.3);
+            background: var(--accent);
+            color: #000;
+            border-color: var(--accent);
+            font-weight: 700;
         }
 
         /* ===== SECTION ===== */
         .section-title {
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 700;
-            margin-bottom: 20px;
-            color: var(--text-primary);
+            margin-bottom: 18px;
+            color: var(--text);
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -459,177 +361,123 @@
 
         .prod-count {
             background: var(--surface);
-            color: var(--text-secondary);
-            padding: 6px 12px;
-            border-radius: 12px;
+            border: 1px solid var(--border);
+            color: var(--text-sec);
+            padding: 4px 10px;
+            border-radius: 8px;
             font-size: 11px;
             font-weight: 600;
-            box-shadow: var(--shadow-sm);
         }
 
         /* ===== PRODUCTS ===== */
         .products-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+            gap: 16px;
             margin-bottom: 40px;
         }
 
         .product {
             background: var(--surface);
-            border-radius: 20px;
+            border-radius: 14px;
             padding: 20px;
-            box-shadow: var(--shadow-sm);
-            border: 1px solid var(--surface-alt);
-            transition: all 0.3s;
+            border: 1px solid var(--border);
+            transition: all 0.25s;
             position: relative;
-            overflow: hidden;
             cursor: pointer;
         }
 
         .product:hover {
-            transform: translateY(-8px);
-            box-shadow: var(--shadow-md);
-            border-color: rgba(88, 166, 255, 0.2);
-        }
-
-        .product::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(88, 166, 255, 0.1), transparent);
-            transition: left 0.5s;
-        }
-
-        .product:hover::before {
-            left: 100%;
+            border-color: var(--border-strong);
+            transform: translateY(-3px);
+            background: var(--surface-alt);
         }
 
         .product-badge {
             position: absolute;
-            top: 16px;
-            right: 16px;
-            background: linear-gradient(135deg, var(--accent-dark), var(--accent));
-            color: #fff;
-            padding: 6px 12px;
-            border-radius: 12px;
-            font-size: 10px;
-            font-weight: 700;
+            top: 14px;
+            right: 14px;
+            background: var(--accent);
+            color: #000;
+            padding: 3px 9px;
+            border-radius: 6px;
+            font-size: 9px;
+            font-weight: 800;
             text-transform: uppercase;
-            box-shadow: 0 4px 8px rgba(88, 166, 255, 0.3);
+            letter-spacing: 1px;
         }
 
         .product-category {
-            font-size: 11px;
+            font-size: 10px;
             font-weight: 600;
-            color: var(--accent-light);
+            color: var(--text-ter);
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 1.5px;
             margin-bottom: 8px;
         }
 
         .product-name {
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 8px;
+            color: var(--text);
+            margin-bottom: 6px;
         }
 
         .product-desc {
             font-size: 12px;
-            color: var(--text-secondary);
+            color: var(--text-sec);
             margin-bottom: 16px;
             line-height: 1.5;
             min-height: 36px;
-        }
-
-        .durations {
-            display: flex;
-            gap: 6px;
-            margin-bottom: 16px;
-            flex-wrap: wrap;
-        }
-
-        .duration-btn {
-            padding: 6px 12px;
-            background: var(--surface-alt);
-            border: 1px solid var(--surface-alt);
-            border-radius: 10px;
-            font-family: inherit;
-            font-size: 11px;
-            font-weight: 600;
-            color: var(--text-secondary);
-            cursor: pointer;
-            flex: 1;
-            min-width: 60px;
-            transition: all 0.3s;
-        }
-
-        .duration-btn:hover {
-            background: rgba(88, 166, 255, 0.1);
-            color: var(--accent-light);
-            border-color: var(--accent);
-        }
-
-        .duration-btn.selected {
-            background: var(--accent);
-            color: #fff;
-            border-color: var(--accent);
-            font-weight: 700;
         }
 
         .product-footer {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            gap: 12px;
-            margin-top: 16px;
-            padding-top: 16px;
-            border-top: 1px solid var(--surface-alt);
+            gap: 10px;
+            padding-top: 14px;
+            border-top: 1px solid var(--border);
         }
 
         .product-price {
-            font-size: 16px;
+            font-size: 13px;
             font-weight: 700;
-            color: var(--accent-light);
+            color: var(--text);
         }
 
         .btn-add {
-            flex: 1;
-            padding: 10px 14px;
-            background: linear-gradient(135deg, var(--accent-dark), var(--accent));
-            color: #fff;
-            border: none;
-            border-radius: 12px;
+            padding: 8px 14px;
+            background: transparent;
+            color: var(--text);
+            border: 1px solid var(--border-strong);
+            border-radius: 8px;
             font-family: inherit;
-            font-size: 12px;
-            font-weight: 600;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
             cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: 0 4px 12px rgba(88, 166, 255, 0.2);
+            transition: all 0.2s;
         }
 
         .btn-add:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(88, 166, 255, 0.3);
+            background: var(--accent);
+            color: #000;
+            border-color: var(--accent);
         }
 
-        /* ===== PRODUCT DETAIL MODAL ===== */
+        /* ===== PRODUCT MODAL ===== */
         .product-modal-overlay {
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(4px);
+            background: rgba(0, 0, 0, 0.85);
             display: flex;
             align-items: center;
             justify-content: center;
             z-index: 1500;
             opacity: 0;
             visibility: hidden;
-            transition: opacity 0.3s, visibility 0.3s;
+            transition: opacity 0.25s, visibility 0.25s;
             padding: 20px;
         }
 
@@ -640,103 +488,103 @@
 
         .product-modal {
             background: var(--surface);
-            border-radius: 20px;
-            padding: 40px;
-            max-width: 500px;
+            border-radius: 16px;
+            padding: 32px;
+            max-width: 480px;
             width: 100%;
             box-shadow: var(--shadow-lg);
-            border: 1px solid var(--surface-alt);
+            border: 1px solid var(--border);
             position: relative;
+            transform: scale(0.97);
+            transition: transform 0.25s;
+        }
+
+        .product-modal-overlay.active .product-modal {
+            transform: scale(1);
         }
 
         .product-modal-close {
             position: absolute;
-            top: 20px;
-            right: 20px;
+            top: 16px;
+            right: 16px;
             background: transparent;
             border: none;
-            color: var(--text-secondary);
-            font-size: 28px;
+            color: var(--text-sec);
+            font-size: 18px;
             cursor: pointer;
-            transition: all 0.3s;
-            padding: 0;
-            width: 36px;
-            height: 36px;
+            transition: all 0.2s;
+            width: 32px;
+            height: 32px;
             display: flex;
             align-items: center;
             justify-content: center;
-        }
-
-        .product-modal-close:hover {
-            color: var(--text-primary);
-            background: var(--surface-alt);
             border-radius: 8px;
         }
 
+        .product-modal-close:hover {
+            color: var(--text);
+            background: var(--surface-alt);
+        }
+
         .modal-category {
-            font-size: 12px;
+            font-size: 10px;
             font-weight: 700;
-            color: var(--accent-light);
+            color: var(--text-ter);
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 1.5px;
             margin-bottom: 8px;
         }
 
         .modal-title {
-            font-size: 24px;
+            font-size: 22px;
             font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 12px;
+            color: var(--text);
+            margin-bottom: 10px;
         }
 
         .modal-desc {
-            font-size: 14px;
-            color: var(--text-secondary);
-            margin-bottom: 24px;
+            font-size: 13px;
+            color: var(--text-sec);
+            margin-bottom: 22px;
             line-height: 1.6;
         }
 
-        .modal-durations {
-            margin-bottom: 24px;
-        }
-
         .modal-duration-label {
-            font-size: 12px;
+            font-size: 10px;
             font-weight: 700;
-            color: var(--text-secondary);
+            color: var(--text-sec);
             text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 12px;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
         }
 
         .modal-duration-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-            margin-bottom: 20px;
+            gap: 8px;
+            margin-bottom: 18px;
         }
 
         .modal-duration-option {
-            padding: 12px 16px;
+            padding: 10px 12px;
             background: var(--surface-alt);
-            border: 2px solid var(--surface-alt);
-            border-radius: 12px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
             font-family: inherit;
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 600;
-            color: var(--text-primary);
+            color: var(--text);
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.2s;
         }
 
         .modal-duration-option:hover {
-            border-color: var(--accent);
-            background: rgba(88, 166, 255, 0.1);
+            border-color: var(--border-strong);
         }
 
         .modal-duration-option.selected {
             background: var(--accent);
-            color: #fff;
+            color: #000;
             border-color: var(--accent);
         }
 
@@ -744,83 +592,81 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 16px;
-            background: rgba(88, 166, 255, 0.1);
-            border-radius: 12px;
-            margin-bottom: 24px;
+            padding: 14px 16px;
+            background: var(--surface-alt);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            margin-bottom: 20px;
         }
 
         .modal-price-label {
-            font-size: 13px;
-            color: var(--text-secondary);
+            font-size: 12px;
+            color: var(--text-sec);
         }
 
         .modal-price-value {
-            font-size: 24px;
+            font-size: 22px;
             font-weight: 800;
-            color: var(--accent-light);
+            color: var(--text);
         }
 
         .modal-buttons {
             display: flex;
-            gap: 12px;
+            gap: 10px;
         }
 
         .modal-btn {
             flex: 1;
-            padding: 14px 20px;
+            padding: 12px 18px;
             border: none;
-            border-radius: 12px;
+            border-radius: 10px;
             font-family: inherit;
-            font-size: 13px;
-            font-weight: 600;
+            font-size: 12px;
+            font-weight: 700;
             cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .modal-btn-cancel {
+            transition: all 0.2s;
             background: var(--surface-alt);
-            color: var(--text-primary);
+            color: var(--text);
+            border: 1px solid var(--border);
         }
 
-        .modal-btn-cancel:hover {
-            background: rgba(88, 166, 255, 0.1);
+        .modal-btn:hover {
+            background: var(--border);
         }
 
         .modal-btn-confirm {
-            background: linear-gradient(135deg, var(--accent-dark), var(--accent));
-            color: #fff;
-            box-shadow: 0 6px 16px rgba(88, 166, 255, 0.3);
+            background: var(--accent);
+            color: #000;
+            border-color: var(--accent);
         }
 
         .modal-btn-confirm:hover {
-            transform: translateY(-2px);
+            background: #e5e5e5;
         }
 
         /* ===== CART ===== */
         .cart-layout {
             display: grid;
             grid-template-columns: 1fr 380px;
-            gap: 24px;
+            gap: 20px;
             align-items: start;
         }
 
         .cart-items {
             display: flex;
             flex-direction: column;
-            gap: 16px;
+            gap: 12px;
         }
 
         .cart-item {
             background: var(--surface);
-            border-radius: 16px;
+            border-radius: 12px;
             padding: 16px;
-            box-shadow: var(--shadow-sm);
-            border: 1px solid var(--surface-alt);
+            border: 1px solid var(--border);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            gap: 16px;
+            gap: 14px;
         }
 
         .cart-item-info {
@@ -831,113 +677,128 @@
         .cart-item-name {
             font-size: 13px;
             font-weight: 600;
-            color: var(--text-primary);
-            margin-bottom: 4px;
+            color: var(--text);
+            margin-bottom: 3px;
         }
 
         .cart-item-meta {
             font-size: 11px;
-            color: var(--text-tertiary);
+            color: var(--text-ter);
         }
 
         .cart-controls {
             display: flex;
-            gap: 8px;
+            gap: 6px;
             align-items: center;
         }
 
         .qty-btn {
-            width: 32px;
-            height: 32px;
-            border: none;
+            width: 30px;
+            height: 30px;
+            border: 1px solid var(--border);
             background: var(--surface-alt);
-            border-radius: 10px;
-            color: var(--text-primary);
+            border-radius: 8px;
+            color: var(--text);
             font-family: inherit;
+            font-size: 14px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.2s;
         }
 
         .qty-btn:hover {
             background: var(--accent);
-            color: #fff;
+            color: #000;
+            border-color: var(--accent);
         }
 
         .qty-display {
-            min-width: 28px;
+            min-width: 24px;
             text-align: center;
             font-weight: 600;
+            font-size: 13px;
         }
 
         .cart-price {
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 700;
-            color: var(--accent-light);
-            min-width: 90px;
+            color: var(--text);
+            min-width: 85px;
             text-align: right;
         }
 
         .cart-summary {
             background: var(--surface);
-            border-radius: 16px;
-            padding: 24px;
-            box-shadow: var(--shadow-sm);
-            border: 1px solid var(--surface-alt);
+            border-radius: 12px;
+            padding: 22px;
+            border: 1px solid var(--border);
             position: sticky;
             top: 20px;
         }
 
         .summary-title {
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 16px;
+            color: var(--text);
+            margin-bottom: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .summary-row {
             display: flex;
             justify-content: space-between;
             font-size: 12px;
-            color: var(--text-secondary);
-            margin-bottom: 10px;
+            color: var(--text-sec);
+            margin-bottom: 8px;
         }
 
         .summary-row.discount {
-            color: var(--success);
+            color: #c4c4c4;
             font-weight: 600;
         }
 
         .summary-total {
-            border-top: 1px solid var(--surface-alt);
+            border-top: 1px solid var(--border);
             padding-top: 12px;
             margin-top: 12px;
             display: flex;
             justify-content: space-between;
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 700;
-            color: var(--accent-light);
+            color: var(--text);
         }
 
+        /* ===== VOUCHER ===== */
         .voucher-section {
-            margin-top: 16px;
-            padding-top: 16px;
-            border-top: 1px solid var(--surface-alt);
+            margin-top: 18px;
+            padding-top: 18px;
+            border-top: 1px solid var(--border);
+        }
+
+        .voucher-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
         }
 
         .voucher-label {
-            font-size: 11px;
+            font-size: 10px;
             font-weight: 700;
-            color: var(--text-secondary);
-            margin-bottom: 8px;
-            display: block;
+            color: var(--text-sec);
             text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .voucher-hint {
+            font-size: 10px;
+            color: var(--text-ter);
         }
 
         .voucher-input-group {
             display: flex;
             gap: 6px;
-            margin-bottom: 8px;
         }
 
         .voucher-input-group .form-input {
@@ -945,111 +806,190 @@
             margin: 0;
             padding: 10px 12px;
             font-size: 12px;
-            border-radius: 10px;
+            border-radius: 8px;
             text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
         }
 
         .btn-apply-voucher {
             padding: 10px 14px;
-            background: linear-gradient(135deg, var(--accent-dark), var(--accent));
-            color: #fff;
+            background: var(--accent);
+            color: #000;
             border: none;
-            border-radius: 10px;
+            border-radius: 8px;
             font-family: inherit;
             font-size: 11px;
-            font-weight: 600;
+            font-weight: 800;
+            letter-spacing: 0.5px;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.2s;
             white-space: nowrap;
         }
 
         .btn-apply-voucher:hover {
-            transform: translateY(-2px);
+            background: #e5e5e5;
+        }
+
+        .voucher-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 10px;
+        }
+
+        .voucher-chip {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 10px;
+            background: transparent;
+            border: 1px dashed var(--border-strong);
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all 0.2s;
+        }
+
+        .voucher-chip:hover {
+            border-style: solid;
+            border-color: var(--text-sec);
+            background: var(--surface-alt);
+        }
+
+        .chip-code {
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--text);
+            letter-spacing: 0.5px;
+        }
+
+        .chip-disc {
+            font-size: 10px;
+            font-weight: 800;
+            color: #000;
+            background: var(--accent);
+            padding: 1px 6px;
+            border-radius: 4px;
+        }
+
+        .voucher-applied {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            padding: 12px 14px;
+            background: var(--surface-alt);
+            border: 1px solid var(--border-strong);
+            border-radius: 10px;
+        }
+
+        .va-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .va-icon {
+            font-size: 16px;
+        }
+
+        .va-code {
+            font-size: 12px;
+            font-weight: 800;
+            color: var(--text);
+            letter-spacing: 1px;
+        }
+
+        .va-sub {
+            font-size: 10px;
+            color: var(--text-ter);
+        }
+
+        .va-remove {
+            background: transparent;
+            border: 1px solid var(--border-strong);
+            color: var(--text-sec);
+            width: 26px;
+            height: 26px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.2s;
+        }
+
+        .va-remove:hover {
+            background: var(--danger);
+            color: #fff;
+            border-color: var(--danger);
         }
 
         .voucher-message {
             font-size: 11px;
-            margin-top: 6px;
+            margin-top: 8px;
             font-weight: 600;
         }
 
         .voucher-message.success {
-            color: var(--success);
+            color: #c4c4c4;
         }
 
         .voucher-message.error {
             color: var(--danger);
         }
 
+        /* ===== NOTES ===== */
         .notes-section {
             margin-top: 16px;
             padding-top: 16px;
-            border-top: 1px solid var(--surface-alt);
+            border-top: 1px solid var(--border);
         }
 
         .notes-textarea {
             width: 100%;
             padding: 10px 12px;
             background: var(--surface-alt);
-            border: none;
-            border-radius: 10px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
             font-family: inherit;
             font-size: 12px;
-            color: var(--text-primary);
+            color: var(--text);
             resize: vertical;
             min-height: 70px;
-            transition: all 0.3s;
+            transition: all 0.2s;
         }
 
         .notes-textarea::placeholder {
-            color: var(--text-tertiary);
+            color: var(--text-ter);
         }
 
         .notes-textarea:focus {
             outline: none;
-            background: var(--surface);
-            box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.1);
+            border-color: var(--border-strong);
         }
 
         .checkout-btn {
             width: 100%;
-            padding: 14px 20px;
-            background: linear-gradient(135deg, var(--success), #1fb955);
-            color: #fff;
+            padding: 13px 20px;
+            background: var(--accent);
+            color: #000;
             border: none;
-            border-radius: 12px;
+            border-radius: 10px;
             font-family: inherit;
             font-size: 13px;
-            font-weight: 600;
+            font-weight: 800;
+            letter-spacing: 0.5px;
             cursor: pointer;
-            margin-top: 20px;
-            transition: all 0.3s;
-            box-shadow: 0 6px 16px rgba(63, 185, 80, 0.3);
+            margin-top: 18px;
+            transition: all 0.2s;
         }
 
         .checkout-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(63, 185, 80, 0.4);
+            background: #e5e5e5;
+            transform: translateY(-1px);
         }
 
         /* ===== ADMIN ===== */
-        .admin-login {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 400px;
-        }
-
-        .admin-card {
-            background: var(--surface);
-            border-radius: 20px;
-            padding: 32px;
-            max-width: 380px;
-            width: 100%;
-            box-shadow: var(--shadow-md);
-            border: 1px solid var(--surface-alt);
-        }
-
         .admin-panel {
             display: none;
         }
@@ -1060,25 +1000,26 @@
 
         .admin-section {
             background: var(--surface);
-            border-radius: 16px;
+            border-radius: 12px;
             padding: 24px;
-            margin-bottom: 20px;
-            box-shadow: var(--shadow-sm);
-            border: 1px solid var(--surface-alt);
+            margin-bottom: 18px;
+            border: 1px solid var(--border);
         }
 
         .admin-title {
-            font-size: 16px;
+            font-size: 14px;
             font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 20px;
+            color: var(--text);
+            margin-bottom: 18px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .form-row {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 16px;
-            margin-bottom: 16px;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 14px;
+            margin-bottom: 14px;
         }
 
         .voucher-table {
@@ -1092,94 +1033,101 @@
             padding: 12px;
             text-align: left;
             font-weight: 600;
-            color: var(--text-secondary);
-            border-bottom: 1px solid var(--surface-alt);
+            color: var(--text-sec);
+            border-bottom: 1px solid var(--border);
+            white-space: nowrap;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .voucher-table td {
             padding: 12px;
-            border-bottom: 1px solid var(--surface-alt);
-            color: var(--text-primary);
+            border-bottom: 1px solid var(--border);
+            color: var(--text);
+            white-space: nowrap;
+        }
+
+        .voucher-table tbody tr:hover {
+            background: var(--surface-alt);
         }
 
         .badge-active {
-            background: rgba(63, 185, 80, 0.15);
-            color: var(--success);
-            padding: 5px 10px;
-            border-radius: 8px;
+            background: rgba(212, 212, 212, 0.15);
+            color: #e5e5e5;
+            padding: 4px 9px;
+            border-radius: 6px;
             font-size: 10px;
-            font-weight: 600;
+            font-weight: 700;
             display: inline-block;
+            letter-spacing: 0.5px;
         }
 
         .badge-expired {
-            background: rgba(248, 81, 73, 0.15);
+            background: rgba(248, 113, 113, 0.15);
             color: var(--danger);
-            padding: 5px 10px;
-            border-radius: 8px;
+            padding: 4px 9px;
+            border-radius: 6px;
             font-size: 10px;
-            font-weight: 600;
+            font-weight: 700;
             display: inline-block;
-        }
-
-        .badge-used {
-            background: rgba(210, 153, 34, 0.15);
-            color: var(--warning);
-            padding: 5px 10px;
-            border-radius: 8px;
-            font-size: 10px;
-            font-weight: 600;
-            display: inline-block;
+            letter-spacing: 0.5px;
         }
 
         .btn-danger {
-            background: rgba(248, 81, 73, 0.15);
+            background: transparent;
             color: var(--danger);
-            border: none;
+            border: 1px solid rgba(248, 113, 113, 0.4);
             padding: 6px 12px;
-            border-radius: 8px;
+            border-radius: 6px;
             font-family: inherit;
             font-size: 11px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.2s;
         }
 
         .btn-danger:hover {
-            background: rgba(248, 81, 73, 0.25);
-            transform: translateY(-2px);
+            background: var(--danger);
+            color: #fff;
+            border-color: var(--danger);
         }
 
         .btn-reset {
-            background: rgba(88, 166, 255, 0.15);
-            color: var(--accent-light);
-            border: none;
+            background: transparent;
+            color: var(--text);
+            border: 1px solid var(--border-strong);
             padding: 6px 12px;
-            border-radius: 8px;
+            border-radius: 6px;
             font-family: inherit;
             font-size: 11px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.2s;
         }
 
         .btn-reset:hover {
-            background: rgba(88, 166, 255, 0.25);
+            background: var(--surface-alt);
+            border-color: var(--text-sec);
+        }
+
+        .admin-actions {
+            display: flex;
+            gap: 6px;
         }
 
         /* ===== MODAL ===== */
         .modal-overlay {
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(4px);
+            background: rgba(0, 0, 0, 0.85);
             display: flex;
             align-items: center;
             justify-content: center;
             z-index: 2000;
             opacity: 0;
             visibility: hidden;
-            transition: opacity 0.3s, visibility 0.3s;
+            transition: opacity 0.25s, visibility 0.25s;
             padding: 20px;
         }
 
@@ -1190,56 +1138,39 @@
 
         .modal {
             background: var(--surface);
-            border-radius: 20px;
-            padding: 32px;
+            border-radius: 16px;
+            padding: 28px;
             max-width: 420px;
             width: 100%;
             box-shadow: var(--shadow-lg);
-            border: 1px solid var(--surface-alt);
+            border: 1px solid var(--border);
+            transform: scale(0.97);
+            transition: transform 0.25s;
+        }
+
+        .modal-overlay.active .modal {
+            transform: scale(1);
         }
 
         .modal-title {
-            font-size: 20px;
+            font-size: 18px;
             font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 12px;
+            color: var(--text);
+            margin-bottom: 10px;
         }
 
         .modal-text {
-            font-size: 13px;
-            color: var(--text-secondary);
-            margin: 20px 0;
-            line-height: 1.8;
-        }
-
-        .modal-buttons {
-            display: flex;
-            gap: 12px;
-            margin-top: 24px;
-        }
-
-        .modal-btn {
-            flex: 1;
-            padding: 12px 16px;
-            border: none;
-            border-radius: 12px;
-            font-family: inherit;
             font-size: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            background: var(--surface-alt);
-            color: var(--text-primary);
+            color: var(--text-sec);
+            margin: 18px 0;
+            line-height: 1.8;
+            white-space: pre-line;
         }
 
         .modal-btn.confirm {
-            background: linear-gradient(135deg, var(--success), #1fb955);
-            color: #fff;
-            box-shadow: 0 6px 16px rgba(63, 185, 80, 0.3);
-        }
-
-        .modal-btn:hover {
-            transform: translateY(-2px);
+            background: var(--accent);
+            color: #000;
+            border-color: var(--accent);
         }
 
         /* ===== TOAST ===== */
@@ -1248,10 +1179,10 @@
             bottom: 24px;
             right: 24px;
             background: var(--surface);
-            border: 1px solid var(--surface-alt);
-            color: var(--text-primary);
-            padding: 16px 24px;
-            border-radius: 12px;
+            border: 1px solid var(--border-strong);
+            color: var(--text);
+            padding: 14px 22px;
+            border-radius: 10px;
             font-size: 13px;
             font-weight: 600;
             box-shadow: var(--shadow-md);
@@ -1260,6 +1191,7 @@
             visibility: hidden;
             transform: translateY(20px);
             transition: all 0.3s;
+            max-width: calc(100vw - 48px);
         }
 
         .toast.show {
@@ -1268,55 +1200,63 @@
             transform: translateY(0);
         }
 
-        /* ===== EMPTY STATE ===== */
+        .toast.error {
+            border-color: rgba(248, 113, 113, 0.5);
+            color: var(--danger);
+        }
+
+        /* ===== EMPTY ===== */
         .empty-state {
             background: var(--surface);
-            border-radius: 16px;
+            border-radius: 12px;
             padding: 60px 40px;
             text-align: center;
-            box-shadow: var(--shadow-sm);
-            border: 1px solid var(--surface-alt);
+            border: 1px solid var(--border);
         }
 
         .empty-icon {
-            font-size: 48px;
-            margin-bottom: 16px;
+            font-size: 42px;
+            margin-bottom: 14px;
+            opacity: 0.7;
         }
 
         .empty-title {
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 8px;
+            color: var(--text);
+            margin-bottom: 6px;
         }
 
         .empty-desc {
-            font-size: 13px;
-            color: var(--text-secondary);
-            margin-bottom: 24px;
+            font-size: 12px;
+            color: var(--text-sec);
+            margin-bottom: 22px;
         }
 
-        /* ===== MOBILE ===== */
+        /* ===== MOBILE TOGGLE ===== */
         .mobile-toggle {
             display: none;
             position: fixed;
-            bottom: 24px;
-            right: 24px;
-            width: 56px;
-            height: 56px;
-            background: linear-gradient(135deg, var(--accent-dark), var(--accent));
-            border: none;
-            border-radius: 16px;
-            color: #fff;
-            font-size: 24px;
+            top: 14px;
+            left: 14px;
+            width: 44px;
+            height: 44px;
+            background: var(--surface);
+            border: 1px solid var(--border-strong);
+            border-radius: 10px;
+            color: var(--text);
+            font-size: 22px;
+            line-height: 1;
             cursor: pointer;
-            z-index: 102;
-            box-shadow: var(--shadow-md);
-            transition: all 0.3s;
+            z-index: 120;
+            transition: all 0.2s;
+            align-items: center;
+            justify-content: center;
+            padding-bottom: 4px;
         }
 
         .mobile-toggle:hover {
-            transform: scale(1.08);
+            background: var(--surface-alt);
         }
 
         /* ===== RESPONSIVE ===== */
@@ -1331,8 +1271,8 @@
             }
 
             .products-grid {
-                grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-                gap: 16px;
+                grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+                gap: 14px;
             }
 
             .page-content {
@@ -1356,11 +1296,14 @@
             .sidebar {
                 transform: translateX(-100%);
                 width: 240px;
-                box-shadow: 4px 0 20px rgba(0, 0, 0, 0.5);
             }
 
             .sidebar.mobile-open {
                 transform: translateX(0);
+            }
+
+            .sidebar-header {
+                padding-left: 68px;
             }
 
             .main {
@@ -1369,8 +1312,10 @@
 
             .mobile-toggle {
                 display: flex;
-                align-items: center;
-                justify-content: center;
+            }
+
+            .page-header {
+                padding: 18px 20px 18px 68px;
             }
 
             .products-grid {
@@ -1379,26 +1324,16 @@
             }
 
             .product {
-                padding: 16px;
+                padding: 14px;
             }
 
             .product-name {
-                font-size: 14px;
+                font-size: 13px;
             }
 
             .product-desc {
                 font-size: 11px;
                 min-height: 32px;
-            }
-
-            .durations {
-                gap: 4px;
-            }
-
-            .duration-btn {
-                min-width: 50px;
-                padding: 5px 8px;
-                font-size: 10px;
             }
 
             .hero-title {
@@ -1412,7 +1347,7 @@
             .cart-item {
                 flex-direction: column;
                 align-items: flex-start;
-                gap: 12px;
+                gap: 10px;
             }
 
             .cart-controls {
@@ -1424,24 +1359,10 @@
                 width: 100%;
                 text-align: left;
             }
-
-            .modal,
-            .product-modal {
-                padding: 24px;
-            }
-
-            .auth-card {
-                padding: 32px 24px;
-            }
         }
 
         @media (max-width: 480px) {
             .products-grid {
-                grid-template-columns: 1fr;
-                gap: 12px;
-            }
-
-            .hero-stats {
                 grid-template-columns: 1fr;
             }
 
@@ -1454,7 +1375,7 @@
             }
 
             .page-header {
-                padding: 16px;
+                padding: 16px 16px 16px 68px;
             }
 
             .hero {
@@ -1470,45 +1391,26 @@
             }
 
             .sidebar-header {
-                font-size: 20px;
-                padding: 20px 16px;
+                font-size: 18px;
+                padding: 20px 16px 20px 68px;
             }
 
-            .menu-item {
-                padding: 12px 16px;
-                font-size: 12px;
-            }
-
-            .modal-buttons,
             .modal-buttons {
                 flex-direction: column;
-            }
-
-            .auth-card {
-                padding: 24px 16px;
-            }
-
-            .cart-summary {
-                margin-top: 20px;
             }
 
             .toast {
                 bottom: 16px;
                 right: 16px;
                 left: 16px;
-                border-radius: 12px;
             }
 
             .mobile-toggle {
-                bottom: 16px;
-                right: 16px;
-                width: 48px;
-                height: 48px;
+                top: 12px;
+                left: 12px;
+                width: 42px;
+                height: 42px;
                 font-size: 20px;
-            }
-
-            .product-modal {
-                padding: 20px;
             }
 
             .modal-duration-grid {
@@ -1517,110 +1419,48 @@
         }
 
         ::-webkit-scrollbar {
-            width: 8px;
+            width: 6px;
         }
 
         ::-webkit-scrollbar-track {
-            background: var(--bg-primary);
+            background: var(--bg);
         }
 
         ::-webkit-scrollbar-thumb {
-            background: var(--surface-alt);
-            border-radius: 4px;
+            background: var(--border-strong);
+            border-radius: 3px;
         }
 
         ::-webkit-scrollbar-thumb:hover {
-            background: var(--text-tertiary);
+            background: var(--text-ter);
         }
     </style>
 </head>
+
 <body>
-    <!-- LOGIN -->
-    <div class="auth-page active" id="auth-login">
-        <div class="auth-card">
-            <div class="auth-logo">SATZ</div>
-            <h1 class="auth-title">Masuk Akun</h1>
-            <p class="auth-subtitle">Nikmati Layanan Digital Premium</p>
-
-            <form onsubmit="handleLogin(event)">
-                <div class="form-group">
-                    <label class="form-label">Nomor Telepon / Username</label>
-                    <input type="text" id="login-phone" class="form-input" placeholder="08123456789" required>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">Password</label>
-                    <input type="password" id="login-pass" class="form-input" placeholder="Password" required>
-                </div>
-
-                <button type="submit" class="btn">Masuk</button>
-            </form>
-
-            <div class="auth-footer">
-                Belum punya akun? <a onclick="goToRegister()">Daftar di sini</a>
-            </div>
-        </div>
-    </div>
-
-    <!-- REGISTER -->
-    <div class="auth-page" id="auth-register">
-        <div class="auth-card">
-            <div class="auth-logo">SATZ</div>
-            <h1 class="auth-title">Daftar Akun</h1>
-            <p class="auth-subtitle">Buat Akun Baru Sekarang</p>
-
-            <form onsubmit="handleRegister(event)">
-                <div class="form-group">
-                    <label class="form-label">Nama Lengkap</label>
-                    <input type="text" id="reg-name" class="form-input" placeholder="Nama Anda" required>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">Nomor Telepon</label>
-                    <input type="tel" id="reg-phone" class="form-input" placeholder="08123456789" required>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">Password</label>
-                    <input type="password" id="reg-pass" class="form-input" placeholder="Min. 6 Karakter" required>
-                </div>
-
-                <button type="submit" class="btn">Daftar</button>
-            </form>
-
-            <div class="auth-footer">
-                Sudah punya akun? <a onclick="goToLogin()">Masuk di sini</a>
-            </div>
-        </div>
-    </div>
 
     <!-- MAIN APP -->
-    <div class="container" id="main-app" style="display: none;">
+    <div class="container" id="main-app">
         <!-- SIDEBAR -->
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">SATZ</div>
 
             <nav class="sidebar-menu">
-                <button class="menu-item active" onclick="goPage('store')" id="menu-store">
-                    🛍️ Toko
-                </button>
+                <button class="menu-item active" onclick="goPage('store')" id="menu-store">Toko</button>
                 <button class="menu-item" onclick="goPage('cart')" id="menu-cart">
-                    🛒 Keranjang <span id="cart-badge" style="display: none; margin-left: 4px; background: var(--accent); color: #fff; padding: 2px 6px; border-radius: 6px; font-size: 10px;">0</span>
+                    Keranjang <span id="cart-badge"
+                        style="display: none; margin-left: 4px; background: var(--accent); color: #000; padding: 2px 6px; border-radius: 4px; font-size: 10px; font-weight: 700;">0</span>
                 </button>
-                <button class="menu-item" onclick="goPage('history')" id="menu-history">
-                    📋 Riwayat
-                </button>
-                <button class="menu-item" onclick="goPage('admin')" id="menu-admin" style="display: none;">
-                    ⚙️ Admin
-                </button>
+                <button class="menu-item" onclick="goPage('history')" id="menu-history">Riwayat</button>
+                <button class="menu-item" onclick="goPage('admin')" id="menu-admin"
+                    style="display: none;">Admin</button>
             </nav>
 
             <div class="sidebar-footer">
                 <div class="user-info">
-                    <div class="user-name" id="user-name">-</div>
-                    <div class="user-phone" id="user-phone">-</div>
+                    <div class="user-name" id="user-name">Guest</div>
+                    <div class="user-phone" id="user-phone">Tamu</div>
                 </div>
-                <button class="logout-btn" onclick="handleLogout()">Logout</button>
             </div>
         </aside>
 
@@ -1635,7 +1475,7 @@
 
                 <div class="page-content">
                     <div class="hero">
-                        <div class="hero-badge">✨ TERSEDIA 24/7 ✨</div>
+                        <div class="hero-badge">Tersedia 24/7</div>
                         <h2 class="hero-title">Layanan Digital Terbaik</h2>
                         <p class="hero-desc">Dapatkan solusi otomasi dengan kualitas terjangkau dan dukungan 24/7</p>
                         <div class="hero-stats">
@@ -1678,7 +1518,6 @@
                     <h1 class="page-title">Keranjang Belanja</h1>
                     <p class="page-subtitle">Periksa pesanan, gunakan voucher, dan checkout via WhatsApp</p>
                 </div>
-
                 <div class="page-content">
                     <div id="cart-content"></div>
                 </div>
@@ -1690,7 +1529,6 @@
                     <h1 class="page-title">Riwayat Pesanan</h1>
                     <p class="page-subtitle">Arsip lengkap seluruh transaksi Anda</p>
                 </div>
-
                 <div class="page-content">
                     <div id="history-content"></div>
                 </div>
@@ -1700,33 +1538,23 @@
             <div class="page" id="page-admin">
                 <div class="page-header">
                     <h1 class="page-title">Admin Panel</h1>
-                    <p class="page-subtitle">Kelola Voucher Promo & Tracking Penggunaan</p>
+                    <p class="page-subtitle">Kelola Voucher Promo &amp; Tracking Penggunaan</p>
                 </div>
 
                 <div class="page-content">
-                    <div id="admin-login" class="admin-login">
-                        <div class="admin-card">
-                            <h2 style="font-size: 24px; font-weight: 700; margin-bottom: 20px; color: var(--text-primary);">Login Admin</h2>
-                            <p style="font-size: 12px; color: var(--text-secondary); margin-bottom: 24px;">Masukkan password untuk mengakses panel</p>
-                            <div class="form-group">
-                                <label class="form-label">Password Admin</label>
-                                <input type="password" id="admin-pass" class="form-input" placeholder="Password">
-                            </div>
-                            <button class="btn" onclick="adminLogin()">Masuk</button>
-                        </div>
-                    </div>
-
-                    <div id="admin-panel" class="admin-panel">
+                    <div id="admin-panel" class="admin-panel active">
                         <div class="admin-section">
-                            <div class="admin-title">📌 Tambah Voucher Baru</div>
+                            <div class="admin-title">Tambah Voucher Baru</div>
                             <div class="form-row">
                                 <div class="form-group" style="margin-bottom: 0;">
                                     <label class="form-label">Kode Voucher</label>
-                                    <input type="text" id="voucher-code" class="form-input" placeholder="PROMO100" style="text-transform: uppercase;">
+                                    <input type="text" id="voucher-code" class="form-input" placeholder="PROMO100"
+                                        style="text-transform: uppercase;">
                                 </div>
                                 <div class="form-group" style="margin-bottom: 0;">
-                                    <label class="form-label">Diskon %</label>
-                                    <input type="number" id="voucher-discount" class="form-input" placeholder="25" min="1" max="100">
+                                    <label class="form-label">Diskon (%)</label>
+                                    <input type="number" id="voucher-discount" class="form-input" placeholder="25"
+                                        min="1" max="100">
                                 </div>
                                 <div class="form-group" style="margin-bottom: 0;">
                                     <label class="form-label">Maks Penggunaan</label>
@@ -1737,11 +1565,12 @@
                                     <input type="date" id="voucher-expiry" class="form-input">
                                 </div>
                             </div>
-                            <button class="btn" onclick="addVoucher()" style="margin-top: 16px; margin-bottom: 0;">Tambah Voucher</button>
+                            <button class="btn" onclick="addVoucher()" style="margin-top: 8px; margin-bottom: 0;">Tambah
+                                Voucher</button>
                         </div>
 
                         <div class="admin-section">
-                            <div class="admin-title">📋 Daftar Voucher Aktif</div>
+                            <div class="admin-title">Daftar Voucher</div>
                             <div style="overflow-x: auto;">
                                 <table class="voucher-table">
                                     <thead>
@@ -1760,7 +1589,9 @@
                             </div>
                         </div>
 
-                        <button class="btn" onclick="adminLogout()" style="background: linear-gradient(135deg, var(--danger), #e84c3d); box-shadow: 0 6px 16px rgba(248, 81, 73, 0.3); margin-top: 0;">Logout Admin</button>
+                        <button class="btn" onclick="exitAdmin()"
+                            style="background: transparent; color: var(--danger); border: 1px solid rgba(248, 113, 113, 0.4); margin-top: 0;">Keluar
+                            Admin</button>
                     </div>
                 </div>
             </div>
@@ -1786,7 +1617,7 @@
             </div>
 
             <div class="modal-buttons">
-                <button class="modal-btn modal-btn-cancel" onclick="closeProductModal()">Batal</button>
+                <button class="modal-btn" onclick="closeProductModal()">Batal</button>
                 <button class="modal-btn modal-btn-confirm" onclick="addFromModal()">Tambah ke Keranjang</button>
             </div>
         </div>
@@ -1795,7 +1626,7 @@
     <!-- CHECKOUT MODAL -->
     <div class="modal-overlay" id="modal">
         <div class="modal">
-            <h2 class="modal-title">✓ Konfirmasi Pesanan</h2>
+            <h2 class="modal-title">Konfirmasi Pesanan</h2>
             <p class="modal-text" id="modal-text"></p>
             <div class="modal-buttons">
                 <button class="modal-btn" onclick="closeModal()">Batal</button>
@@ -1808,110 +1639,125 @@
     <div class="toast" id="toast"></div>
 
     <!-- Mobile Toggle -->
-    <button class="mobile-toggle" id="mobile-toggle" onclick="toggleMobileSidebar()">☰</button>
+    <button class="mobile-toggle" id="mobile-toggle" onclick="toggleMobileSidebar()" title="Menu">⋮</button>
 
     <script>
-        let currentUser = null;
+        /* ===== STATE ===== */
+        let currentUser = { name: 'Guest', phone: 'Tamu', email: 'guest@satz.local' };
         let cart = {};
-        let selectedDuration = {};
         let currentFilter = 'all';
         let isAdminLoggedIn = false;
         let appliedVoucher = null;
+        let voucherMsg = { text: '', type: '' };
         let orderNotes = '';
         let currentModalProduct = null;
-        const ADMIN_PASSWORD = 'admin123';
-        const WA_NUMBER = '6285111612909';
+        let toastTimer = null;
+        const WA_NUMBER = '6285891103110';
 
         const PRODUCTS = [
-            {id:1,cat:'sewabot',name:'SewaBot Lite',desc:'Bot WhatsApp siap pakai dengan fitur basic seperti auto-reply, broadcast, dan group management. Cocok untuk pemula.',badge:'hot',durations:[{l:'1 Jam',p:2000},{l:'1 Hari',p:5000},{l:'7 Hari',p:25000}]},
-            {id:2,cat:'sewabot',name:'SewaBot Standard',desc:'Bot lengkap dengan banyak fitur seperti custom command, API integration, dan advanced automation.',badge:'',durations:[{l:'1 Jam',p:5000},{l:'1 Hari',p:10000},{l:'7 Hari',p:50000}]},
-            {id:3,cat:'sewabot',name:'SewaBot Premium',desc:'Bot advanced dengan anti-banned protection, AI integration, dan full customization untuk bisnis besar.',badge:'best',durations:[{l:'1 Hari',p:15000},{l:'7 Hari',p:75000},{l:'30 Hari',p:200000}]},
-            {id:4,cat:'jadibot',name:'JadiBot Starter',desc:'Paket untuk membuat bot WhatsApp sendiri. Dengan panel mudah dan template siap pakai untuk pemula.',badge:'',durations:[{l:'30 Hari',p:50000},{l:'90 Hari',p:120000},{l:'180 Hari',p:200000}]},
-            {id:5,cat:'jadibot',name:'JadiBot Personal',desc:'Bot pribadi dengan panel kontrol lengkap, custom domain, dan dukungan unlimited command untuk penggunaan personal.',badge:'new',durations:[{l:'30 Hari',p:100000},{l:'90 Hari',p:250000},{l:'180 Hari',p:450000}]},
-            {id:6,cat:'jadibot',name:'JadiBot Business',desc:'Solusi enterprise dengan SLA support, custom branding, dan akses development penuh untuk bisnis profesional.',badge:'best',durations:[{l:'30 Hari',p:200000},{l:'90 Hari',p:500000},{l:'180 Hari',p:900000}]},
-            {id:7,cat:'nokos',name:'Nokos Standar',desc:'Nomor kosong standar untuk verifikasi akun sosial media, game, dan aplikasi lainnya.',badge:'',price:1500,unit:'/nomor'},
-            {id:8,cat:'nokos',name:'Nokos Premium',desc:'Nomor kosong premium dengan kualitas terbaik, jaminan berhasil, dan free replace jika gagal.',badge:'hot',price:3000,unit:'/nomor'},
-            {id:9,cat:'smm',name:'SMM Instagram',desc:'Layanan SMM lengkap untuk Instagram: tambah followers, likes, comments dengan paket hemat.',badge:'best',price:15000,unit:'/bulan'},
-            {id:10,cat:'smm',name:'SMM TikTok',desc:'Tingkatkan engagement TikTok Anda dengan followers, views, dan likes dari akun real.',badge:'hot',price:18000,unit:'/bulan'},
-            {id:11,cat:'smm',name:'SMM YouTube',desc:'Paket SMM YouTube untuk menambah subscribers, views, dan meningkatkan engagement channel Anda.',badge:'',price:25000,unit:'/bulan'},
-            {id:12,cat:'apikey',name:'API WhatsApp Basic',desc:'API WhatsApp dengan unlimited request, low latency, dan support lengkap untuk automation.',badge:'hot',price:75000,unit:'/bulan'},
-            {id:13,cat:'apikey',name:'API WhatsApp Pro',desc:'API WhatsApp advanced dengan multi-device support, custom webhook, dan priority support.',badge:'best',price:150000,unit:'/bulan'},
-            {id:14,cat:'apikey',name:'API SMM Panel',desc:'API lengkap untuk SMM services dengan dokumentasi lengkap dan support 24/7.',badge:'',price:100000,unit:'/bulan'},
+            { id: 1, cat: 'sewabot', name: 'SewaBot Lite', desc: 'Bot WhatsApp siap pakai dengan fitur basic seperti auto-reply, broadcast, dan group management. Cocok untuk pemula.', badge: 'hot', durations: [{ l: '1 Jam', p: 2000 }, { l: '1 Hari', p: 5000 }, { l: '7 Hari', p: 25000 }] },
+            { id: 2, cat: 'sewabot', name: 'SewaBot Standard', desc: 'Bot lengkap dengan banyak fitur seperti custom command, API integration, dan advanced automation.', badge: '', durations: [{ l: '1 Jam', p: 5000 }, { l: '1 Hari', p: 10000 }, { l: '7 Hari', p: 50000 }] },
+            { id: 3, cat: 'sewabot', name: 'SewaBot Premium', desc: 'Bot advanced dengan anti-banned protection, AI integration, dan full customization untuk bisnis besar.', badge: 'best', durations: [{ l: '1 Hari', p: 15000 }, { l: '7 Hari', p: 75000 }, { l: '30 Hari', p: 200000 }] },
+            { id: 4, cat: 'jadibot', name: 'JadiBot Starter', desc: 'Paket untuk membuat bot WhatsApp sendiri. Dengan panel mudah dan template siap pakai untuk pemula.', badge: '', durations: [{ l: '30 Hari', p: 50000 }, { l: '90 Hari', p: 120000 }, { l: '180 Hari', p: 200000 }] },
+            { id: 5, cat: 'jadibot', name: 'JadiBot Personal', desc: 'Bot pribadi dengan panel kontrol lengkap, custom domain, dan dukungan unlimited command untuk penggunaan personal.', badge: 'new', durations: [{ l: '30 Hari', p: 100000 }, { l: '90 Hari', p: 250000 }, { l: '180 Hari', p: 450000 }] },
+            { id: 6, cat: 'jadibot', name: 'JadiBot Business', desc: 'Solusi enterprise dengan SLA support, custom branding, dan akses development penuh untuk bisnis profesional.', badge: 'best', durations: [{ l: '30 Hari', p: 200000 }, { l: '90 Hari', p: 500000 }, { l: '180 Hari', p: 900000 }] },
+            { id: 7, cat: 'nokos', name: 'Nokos Standar', desc: 'Nomor kosong standar untuk verifikasi akun sosial media, game, dan aplikasi lainnya.', badge: '', price: 1500, unit: '/nomor' },
+            { id: 8, cat: 'nokos', name: 'Nokos Premium', desc: 'Nomor kosong premium dengan kualitas terbaik, jaminan berhasil, dan free replace jika gagal.', badge: 'hot', price: 3000, unit: '/nomor' },
+            { id: 9, cat: 'smm', name: 'SMM Instagram', desc: 'Layanan SMM lengkap untuk Instagram: tambah followers, likes, comments dengan paket hemat.', badge: 'best', price: 15000, unit: '/bulan' },
+            { id: 10, cat: 'smm', name: 'SMM TikTok', desc: 'Tingkatkan engagement TikTok Anda dengan followers, views, dan likes dari akun real.', badge: 'hot', price: 18000, unit: '/bulan' },
+            { id: 11, cat: 'smm', name: 'SMM YouTube', desc: 'Paket SMM YouTube untuk menambah subscribers, views, dan meningkatkan engagement channel Anda.', badge: '', price: 25000, unit: '/bulan' },
+            { id: 12, cat: 'apikey', name: 'API WhatsApp Basic', desc: 'API WhatsApp dengan unlimited request, low latency, dan support lengkap untuk automation.', badge: 'hot', price: 75000, unit: '/bulan' },
+            { id: 13, cat: 'apikey', name: 'API WhatsApp Pro', desc: 'API WhatsApp advanced dengan multi-device support, custom webhook, dan priority support.', badge: 'best', price: 150000, unit: '/bulan' },
+            { id: 14, cat: 'apikey', name: 'API SMM Panel', desc: 'API lengkap untuk SMM services dengan dokumentasi lengkap dan support 24/7.', badge: '', price: 100000, unit: '/bulan' },
         ];
 
-        let vouchers = [
-            {code:'SATZPROMO',discount:15,maxuse:3,expiry:'2025-12-31',usageCount:0,usedBy:[]},
-            {code:'HEMAT100',discount:20,maxuse:5,expiry:'2025-06-30',usageCount:0,usedBy:[]},
-            {code:'NEWUSER',discount:25,maxuse:1,expiry:'2025-05-31',usageCount:0,usedBy:[]},
+        /* Voucher tersimpan di localStorage supaya permanen */
+        let vouchers = JSON.parse(localStorage.getItem('satz_vouchers') || 'null') || [
+            { code: 'SATZPROMO', discount: 15, maxuse: 3, expiry: '2026-12-31', usageCount: 0, usedBy: [] },
+            { code: 'HEMAT100', discount: 20, maxuse: 5, expiry: '2026-12-31', usageCount: 0, usedBy: [] },
+            { code: 'NEWUSER', discount: 25, maxuse: 1, expiry: '2026-12-31', usageCount: 0, usedBy: [] },
         ];
 
-        let history = [];
-
-        function fmt(n) {
-            return 'Rp' + n.toLocaleString('id-ID');
+        function saveVouchers() {
+            localStorage.setItem('satz_vouchers', JSON.stringify(vouchers));
         }
 
-        function goToLogin() {
-            document.getElementById('auth-register').classList.remove('active');
-            document.getElementById('auth-login').classList.add('active');
+        let history = JSON.parse(localStorage.getItem('satz_history') || '[]');
+
+        function saveHistory() {
+            localStorage.setItem('satz_history', JSON.stringify(history));
         }
 
-        function goToRegister() {
-            document.getElementById('auth-login').classList.remove('active');
-            document.getElementById('auth-register').classList.add('active');
+        /* ===== HELPERS ===== */
+        function fmt(n) { return 'Rp' + n.toLocaleString('id-ID'); }
+        function todayStr() { return new Date().toISOString().split('T')[0]; }
+
+        function showToast(msg, type = 'success') {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.className = 'toast show ' + (type === 'error' ? 'error' : '');
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => toast.classList.remove('show'), 3000);
         }
 
-        function handleLogin(e) {
-            e.preventDefault();
-            const phone = document.getElementById('login-phone').value.trim();
-            const pass = document.getElementById('login-pass').value.trim();
-            if (!phone || !pass) {
-                showToast('Lengkapi data login', 'error');
-                return;
+        /* ===== KEYBOARD SHORTCUTS (hidden) ===== */
+        document.addEventListener('keydown', function (e) {
+            const tag = (e.target.tagName || '').toUpperCase();
+            if (tag === 'INPUT' || tag === 'TEXTAREA' || e.target.isContentEditable) return;
+
+            if (e.shiftKey && (e.key === 'A' || e.key === 'a')) {
+                e.preventDefault();
+                openAdmin();
             }
-            currentUser = {name:'User '+phone.slice(-4), phone, email: phone + '@satz.local'};
-            localStorage.setItem('satz_user', JSON.stringify(currentUser));
-            goToApp();
-        }
-
-        function handleRegister(e) {
-            e.preventDefault();
-            const name = document.getElementById('reg-name').value.trim();
-            const phone = document.getElementById('reg-phone').value.trim();
-            const pass = document.getElementById('reg-pass').value.trim();
-            if (!name || !phone || pass.length < 6) {
-                showToast('Data tidak lengkap', 'error');
-                return;
+            if (e.shiftKey && (e.key === 'X' || e.key === 'x')) {
+                e.preventDefault();
+                exitAdmin();
             }
-            currentUser = {name, phone, email: phone + '@satz.local'};
-            localStorage.setItem('satz_user', JSON.stringify(currentUser));
-            goToApp();
+        });
+
+        function openAdmin() {
+            if (isAdminLoggedIn) { goPage('admin'); return; }
+            isAdminLoggedIn = true;
+            document.getElementById('menu-admin').style.display = 'block';
+            goPage('admin');
+            renderVouchers();
+            showToast('Admin mode aktif');
         }
 
-        function handleLogout() {
-            if (confirm('Yakin ingin logout?')) {
-                currentUser = null;
-                isAdminLoggedIn = false;
-                appliedVoucher = null;
-                orderNotes = '';
-                localStorage.removeItem('satz_user');
-                document.getElementById('main-app').style.display = 'none';
-                document.getElementById('auth-login').classList.add('active');
+        function exitAdmin() {
+            if (!isAdminLoggedIn) return;
+            isAdminLoggedIn = false;
+            document.getElementById('menu-admin').style.display = 'none';
+            goPage('store');
+            showToast('Keluar dari admin mode');
+        }
+
+        /* ===== NAV ===== */
+        function goPage(page) {
+            if (page === 'admin' && !isAdminLoggedIn) return;
+
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.menu-item').forEach(m => m.classList.remove('active'));
+
+            const targetPage = document.getElementById('page-' + page);
+            if (targetPage) targetPage.classList.add('active');
+            const targetMenu = document.getElementById('menu-' + page);
+            if (targetMenu) targetMenu.classList.add('active');
+
+            if (page === 'cart') renderCart();
+            if (page === 'history') renderHistory();
+            if (page === 'admin') renderVouchers();
+
+            if (window.innerWidth <= 768) {
+                document.getElementById('sidebar').classList.remove('mobile-open');
             }
         }
 
-        function goToApp() {
-            document.getElementById('auth-login').classList.remove('active');
-            document.getElementById('auth-register').classList.remove('active');
-            document.getElementById('main-app').style.display = 'flex';
-            document.getElementById('user-name').textContent = currentUser.name;
-            document.getElementById('user-phone').textContent = currentUser.phone;
-            renderProducts();
-            if (currentUser.phone === 'admin') {
-                document.getElementById('menu-admin').style.display = 'block';
-            }
+        function toggleMobileSidebar() {
+            document.getElementById('sidebar').classList.toggle('mobile-open');
         }
 
+        /* ===== PRODUCTS ===== */
         function setFilter(cat, btn) {
             currentFilter = cat;
             document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
@@ -1925,7 +1771,7 @@
             document.getElementById('prod-count').textContent = filtered.length;
 
             grid.innerHTML = filtered.map(p => {
-                let badge = p.badge ? `<div class="product-badge">${p.badge.toUpperCase()}</div>` : '';
+                const badge = p.badge ? `<div class="product-badge">${p.badge.toUpperCase()}</div>` : '';
                 const price = p.durations ? fmt(p.durations[0].p) : fmt(p.price);
                 return `
                     <div class="product" onclick="openProductModal(${p.id})">
@@ -1935,28 +1781,23 @@
                         <div class="product-desc">${p.desc}</div>
                         <div class="product-footer">
                             <div class="product-price">Mulai ${price}</div>
-                            <button class="btn-add" onclick="event.stopPropagation(); quickAdd(${p.id})">+ BELI</button>
+                            <button class="btn-add" onclick="event.stopPropagation(); quickAdd(${p.id})">BELI</button>
                         </div>
                     </div>
                 `;
             }).join('');
         }
 
-        // Fungsi untuk menambah langsung ke keranjang (tanpa modal)
         function quickAdd(productId) {
             const p = PRODUCTS.find(x => x.id === productId);
             if (!p) return;
-            let durIdx = 0;
-            if (p.durations) {
-                // Ambil durasi pertama sebagai default
-                durIdx = 0;
-            }
-            const key = p.durations ? `${p.id}_${durIdx}` : `${p.id}_0`;
+            const key = `${p.id}_0`;
             cart[key] = (cart[key] || 0) + 1;
             updateCartBadge();
-            showToast(`${p.name} ditambahkan ke keranjang`);
+            showToast(`${p.name} ditambahkan`);
         }
 
+        /* ===== PRODUCT MODAL ===== */
         function openProductModal(productId) {
             currentModalProduct = PRODUCTS.find(p => p.id === productId);
             if (!currentModalProduct) return;
@@ -1968,7 +1809,9 @@
             if (currentModalProduct.durations) {
                 const grid = document.getElementById('modal-duration-grid');
                 grid.innerHTML = currentModalProduct.durations.map((d, i) => `
-                    <button class="modal-duration-option ${i === 0 ? 'selected' : ''}" onclick="selectModalDuration(${i})">${d.l}<br><small style="font-size:11px;color:var(--text-secondary)">${fmt(d.p)}</small></button>
+                    <button class="modal-duration-option ${i === 0 ? 'selected' : ''}" onclick="selectModalDuration(${i})">
+                        ${d.l}<br><small style="font-size:11px;color:var(--text-sec)">${fmt(d.p)}</small>
+                    </button>
                 `).join('');
                 document.getElementById('modal-durations-section').style.display = 'block';
                 updateModalPrice(0);
@@ -1982,25 +1825,25 @@
 
         function selectModalDuration(idx) {
             document.querySelectorAll('.modal-duration-option').forEach(b => b.classList.remove('selected'));
-            document.querySelectorAll('.modal-duration-option')[idx].classList.add('selected');
+            const opts = document.querySelectorAll('.modal-duration-option');
+            if (opts[idx]) opts[idx].classList.add('selected');
             updateModalPrice(idx);
         }
 
         function updateModalPrice(idx) {
-            if (currentModalProduct.durations) {
+            if (currentModalProduct && currentModalProduct.durations) {
                 document.getElementById('modal-price-value').textContent = fmt(currentModalProduct.durations[idx].p);
             }
         }
 
         function addFromModal() {
             if (!currentModalProduct) return;
-
-            const durIdx = currentModalProduct.durations ? Array.from(document.querySelectorAll('.modal-duration-option')).findIndex(b => b.classList.contains('selected')) : 0;
-            const key = currentModalProduct.durations ? `${currentModalProduct.id}_${durIdx}` : `${currentModalProduct.id}_0`;
-
+            const opts = Array.from(document.querySelectorAll('.modal-duration-option'));
+            const durIdx = currentModalProduct.durations ? Math.max(0, opts.findIndex(b => b.classList.contains('selected'))) : 0;
+            const key = `${currentModalProduct.id}_${durIdx}`;
             cart[key] = (cart[key] || 0) + 1;
             updateCartBadge();
-            showToast(`${currentModalProduct.name} ditambahkan ke keranjang`);
+            showToast(`${currentModalProduct.name} ditambahkan`);
             closeProductModal();
         }
 
@@ -2010,7 +1853,7 @@
         }
 
         function updateCartBadge() {
-            const total = Object.values(cart).reduce((a,b)=>a+b,0);
+            const total = Object.values(cart).reduce((a, b) => a + b, 0);
             const badge = document.getElementById('cart-badge');
             if (total > 0) {
                 badge.textContent = total;
@@ -2020,85 +1863,79 @@
             }
         }
 
-        function applyVoucher() {
-            const code = document.getElementById('cart-voucher-code')?.value.trim().toUpperCase();
-            const msgEl = document.getElementById('voucher-message');
+        /* ===== VOUCHER ===== */
+        function applyVoucher(codeFromChip) {
+            const inputEl = document.getElementById('cart-voucher-code');
+            const raw = (typeof codeFromChip === 'string') ? codeFromChip : (inputEl ? inputEl.value : '');
+            const code = raw.trim().toUpperCase();
 
             if (!code) {
                 appliedVoucher = null;
-                if (msgEl) {
-                    msgEl.textContent = '';
-                    msgEl.className = 'voucher-message';
-                }
+                voucherMsg = { text: '', type: '' };
                 renderCart();
                 return;
             }
 
             const voucher = vouchers.find(v => v.code === code);
-            const today = new Date().toISOString().split('T')[0];
+            const today = todayStr();
 
             if (!voucher) {
                 appliedVoucher = null;
-                if (msgEl) {
-                    msgEl.className = 'voucher-message error';
-                    msgEl.textContent = '❌ Kode voucher tidak valid';
-                }
-                renderCart();
-                return;
+                voucherMsg = { text: 'Kode voucher tidak valid', type: 'error' };
+                renderCart(); return;
             }
 
             if (voucher.expiry < today) {
                 appliedVoucher = null;
-                if (msgEl) {
-                    msgEl.className = 'voucher-message error';
-                    msgEl.textContent = '❌ Voucher sudah kedaluwarsa';
-                }
-                renderCart();
-                return;
+                voucherMsg = { text: 'Voucher sudah kedaluwarsa', type: 'error' };
+                renderCart(); return;
             }
 
             if (voucher.usageCount >= voucher.maxuse) {
                 appliedVoucher = null;
-                if (msgEl) {
-                    msgEl.className = 'voucher-message error';
-                    msgEl.textContent = `❌ Voucher sudah mencapai batas penggunaan (${voucher.maxuse}x)`;
-                }
-                renderCart();
-                return;
+                voucherMsg = { text: `Voucher sudah mencapai batas penggunaan (${voucher.maxuse}x)`, type: 'error' };
+                renderCart(); return;
             }
 
             if (voucher.usedBy.includes(currentUser.email)) {
                 appliedVoucher = null;
-                if (msgEl) {
-                    msgEl.className = 'voucher-message error';
-                    msgEl.textContent = '❌ Anda sudah menggunakan voucher ini';
-                }
-                renderCart();
-                return;
+                voucherMsg = { text: 'Anda sudah menggunakan voucher ini', type: 'error' };
+                renderCart(); return;
             }
 
-            appliedVoucher = {code: voucher.code, discount: voucher.discount};
-            if (msgEl) {
-                msgEl.className = 'voucher-message success';
-                msgEl.textContent = '✓ Voucher berhasil diterapkan!';
-            }
+            appliedVoucher = { code: voucher.code, discount: voucher.discount };
+            voucherMsg = { text: '', type: '' };
             renderCart();
-            showToast('Diskon ' + voucher.discount + '% diterapkan');
+            showToast(`Diskon ${voucher.discount}% diterapkan`);
         }
 
+        function removeVoucher() {
+            appliedVoucher = null;
+            voucherMsg = { text: '', type: '' };
+            renderCart();
+            showToast('Voucher dilepas');
+        }
+
+        /* ===== CART ===== */
         function renderCart() {
             const content = document.getElementById('cart-content');
-            const items = Object.entries(cart).filter(([_,q])=>q>0);
+            const items = Object.entries(cart).filter(([_, q]) => q > 0);
 
             if (!items.length) {
-                content.innerHTML = '<div class="empty-state"><div class="empty-icon">🛒</div><div class="empty-title">Keranjang Kosong</div><div class="empty-desc">Mulai belanja dan temukan produk yang Anda butuhkan</div><button class="btn" onclick="goPage(\'store\')" style="margin-top: 0;">Belanja Sekarang</button></div>';
+                content.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">🛒</div>
+                        <div class="empty-title">Keranjang Kosong</div>
+                        <div class="empty-desc">Mulai belanja dan temukan produk yang Anda butuhkan</div>
+                        <button class="btn" onclick="goPage('store')" style="margin-top: 0;">Belanja Sekarang</button>
+                    </div>`;
                 return;
             }
 
             let subtotal = 0;
-            const itemsHtml = items.map(([key,qty])=>{
-                const [pid,durIdx] = key.split('_');
-                const p = PRODUCTS.find(x=>x.id==parseInt(pid));
+            const itemsHtml = items.map(([key, qty]) => {
+                const [pid, durIdx] = key.split('_');
+                const p = PRODUCTS.find(x => x.id == parseInt(pid));
                 if (!p) return '';
                 const price = p.durations ? p.durations[parseInt(durIdx)].p : p.price;
                 const itemTotal = price * qty;
@@ -2108,7 +1945,7 @@
                     <div class="cart-item">
                         <div class="cart-item-info">
                             <div class="cart-item-name">${p.name}</div>
-                            <div class="cart-item-meta">${label}</div>
+                            <div class="cart-item-meta">${label} · ${fmt(price)}</div>
                         </div>
                         <div class="cart-controls">
                             <button class="qty-btn" onclick="updateQty('${key}',-1)">−</button>
@@ -2121,22 +1958,54 @@
             }).join('');
 
             let discount = 0;
-            if (appliedVoucher) {
-                discount = Math.floor((subtotal * appliedVoucher.discount) / 100);
-            }
+            if (appliedVoucher) discount = Math.floor((subtotal * appliedVoucher.discount) / 100);
             const total = subtotal - discount;
+
+            const today = todayStr();
+            const usable = vouchers.filter(v =>
+                v.expiry >= today &&
+                v.usageCount < v.maxuse &&
+                !v.usedBy.includes(currentUser.email) &&
+                (!appliedVoucher || appliedVoucher.code !== v.code)
+            );
+
+            const chipsHtml = usable.length ? `
+                <div class="voucher-chips">
+                    ${usable.map(v => `
+                        <button class="voucher-chip" onclick="applyVoucher('${v.code}')">
+                            <span class="chip-code">${v.code}</span>
+                            <span class="chip-disc">-${v.discount}%</span>
+                        </button>
+                    `).join('')}
+                </div>` : '';
+
+            const appliedHtml = appliedVoucher ? `
+                <div class="voucher-applied">
+                    <div class="va-left">
+                        <span class="va-icon">🎟️</span>
+                        <div>
+                            <div class="va-code">${appliedVoucher.code}</div>
+                            <div class="va-sub">Diskon ${appliedVoucher.discount}% dipakai</div>
+                        </div>
+                    </div>
+                    <button class="va-remove" onclick="removeVoucher()" title="Hapus">✕</button>
+                </div>` : `
+                <div class="voucher-input-group">
+                    <input type="text" id="cart-voucher-code" class="form-input" placeholder="KODE PROMO" value="">
+                    <button class="btn-apply-voucher" onclick="applyVoucher()">PAKAI</button>
+                </div>`;
 
             content.innerHTML = `
                 <div class="cart-layout">
                     <div class="cart-items">${itemsHtml}</div>
                     <div class="cart-summary">
-                        <div class="summary-title">Ringkasan Pembayaran</div>
+                        <div class="summary-title">Ringkasan</div>
                         <div class="summary-row">
                             <span>Subtotal (${items.length} item)</span>
                             <span>${fmt(subtotal)}</span>
                         </div>
                         ${appliedVoucher ? `<div class="summary-row discount">
-                            <span>Diskon (${appliedVoucher.code} -${appliedVoucher.discount}%)</span>
+                            <span>Diskon ${appliedVoucher.code} (-${appliedVoucher.discount}%)</span>
                             <span>-${fmt(discount)}</span>
                         </div>` : ''}
                         <div class="summary-total">
@@ -2145,20 +2014,21 @@
                         </div>
 
                         <div class="voucher-section">
-                            <label class="voucher-label">Kode Voucher Promo</label>
-                            <div class="voucher-input-group">
-                                <input type="text" id="cart-voucher-code" class="form-input" placeholder="PROMO100" value="${appliedVoucher ? appliedVoucher.code : ''}">
-                                <button class="btn-apply-voucher" onclick="applyVoucher()">PAKAI</button>
+                            <div class="voucher-head">
+                                <span class="voucher-label">Voucher Promo</span>
+                                <span class="voucher-hint">${appliedVoucher ? 'Terpasang' : 'Klik untuk pakai'}</span>
                             </div>
-                            <div id="voucher-message" class="voucher-message ${appliedVoucher ? 'success' : ''}"></div>
+                            ${appliedHtml}
+                            ${voucherMsg.text ? `<div class="voucher-message ${voucherMsg.type}">${voucherMsg.text}</div>` : ''}
+                            ${chipsHtml}
                         </div>
 
                         <div class="notes-section">
-                            <label class="voucher-label">Catatan Tambahan</label>
-                            <textarea class="notes-textarea" id="order-notes" placeholder="Contoh: Nomor WA tujuan bot, nama pengguna, atau keterangan khusus..." oninput="orderNotes = this.value">${orderNotes}</textarea>
+                            <label class="voucher-label">Catatan</label>
+                            <textarea class="notes-textarea" id="order-notes" placeholder="Nomor WA tujuan, nama pengguna, dll..." oninput="orderNotes = this.value">${orderNotes}</textarea>
                         </div>
 
-                        <button class="checkout-btn" onclick="checkout()">Lanjut Checkout</button>
+                        <button class="checkout-btn" onclick="checkout()">Checkout</button>
                     </div>
                 </div>
             `;
@@ -2172,15 +2042,16 @@
             renderCart();
         }
 
+        /* ===== CHECKOUT ===== */
         function checkout() {
-            const items = Object.entries(cart).filter(([_,q])=>q>0);
+            const items = Object.entries(cart).filter(([_, q]) => q > 0);
             if (!items.length) return;
 
             let text = '*PESANAN BARU - SatzStore*\n\n';
             let subtotal = 0;
-            items.forEach(([key,qty])=>{
-                const [pid,durIdx] = key.split('_');
-                const p = PRODUCTS.find(x=>x.id==parseInt(pid));
+            items.forEach(([key, qty]) => {
+                const [pid, durIdx] = key.split('_');
+                const p = PRODUCTS.find(x => x.id == parseInt(pid));
                 if (!p) return;
                 const price = p.durations ? p.durations[parseInt(durIdx)].p : p.price;
                 const label = p.durations ? p.durations[parseInt(durIdx)].l : p.unit;
@@ -2192,16 +2063,14 @@
             let discount = 0;
             if (appliedVoucher) {
                 discount = Math.floor((subtotal * appliedVoucher.discount) / 100);
-                text += `\n✓ Voucher: ${appliedVoucher.code} (-${appliedVoucher.discount}%)\nDiskon: -${fmt(discount)}\n`;
+                text += `\nVoucher: ${appliedVoucher.code} (-${appliedVoucher.discount}%)\nDiskon: -${fmt(discount)}\n`;
             }
 
             const finalTotal = subtotal - discount;
             text += `\n*TOTAL: ${fmt(finalTotal)}*`;
             text += `\n\nPemesan: ${currentUser.name}`;
             text += `\nNo. HP: ${currentUser.phone}`;
-            if (orderNotes.trim()) {
-                text += `\nCatatan: ${orderNotes}`;
-            }
+            if (orderNotes.trim()) text += `\nCatatan: ${orderNotes}`;
 
             const detailText = `Subtotal: ${fmt(subtotal)}\n${appliedVoucher ? `Diskon ${appliedVoucher.code} (${appliedVoucher.discount}%): -${fmt(discount)}\n` : ''}Total: ${fmt(finalTotal)}\n\nPemesan: ${currentUser.name}\nNo. HP: ${currentUser.phone}${orderNotes ? '\nCatatan: ' + orderNotes : ''}`;
 
@@ -2211,57 +2080,69 @@
         }
 
         function goWhatsApp() {
-            if (window.wa_url) {
-                window.open(window.wa_url, '_blank');
+            if (!window.wa_url) return;
+            window.open(window.wa_url, '_blank');
 
-                if (appliedVoucher) {
-                    const voucherIdx = vouchers.findIndex(v => v.code === appliedVoucher.code);
-                    if (voucherIdx !== -1) {
-                        vouchers[voucherIdx].usageCount++;
-                        if (!vouchers[voucherIdx].usedBy.includes(currentUser.email)) {
-                            vouchers[voucherIdx].usedBy.push(currentUser.email);
-                        }
+            if (appliedVoucher) {
+                const idx = vouchers.findIndex(v => v.code === appliedVoucher.code);
+                if (idx !== -1) {
+                    vouchers[idx].usageCount++;
+                    if (!vouchers[idx].usedBy.includes(currentUser.email)) {
+                        vouchers[idx].usedBy.push(currentUser.email);
                     }
+                    saveVouchers();
                 }
-
-                const items = Object.entries(cart);
-                items.forEach(([key])=>{
-                    history.push({
-                        name: key,
-                        date: new Date().toLocaleDateString('id-ID'),
-                        status: 'DIPROSES',
-                        voucher: appliedVoucher ? appliedVoucher.code : '-',
-                        notes: orderNotes
-                    });
-                });
-                cart = {};
-                appliedVoucher = null;
-                orderNotes = '';
-                updateCartBadge();
-                closeModal();
-                goPage('history');
-                showToast('Pesanan Dikirim ke WhatsApp');
             }
+
+            Object.entries(cart).forEach(([key, qty]) => {
+                const [pid, durIdx] = key.split('_');
+                const p = PRODUCTS.find(x => x.id == parseInt(pid));
+                if (!p) return;
+                const label = p.durations ? p.durations[parseInt(durIdx)].l : p.unit;
+                history.push({
+                    name: `${p.name} (${label}) x${qty}`,
+                    date: new Date().toLocaleString('id-ID'),
+                    status: 'DIPROSES',
+                    voucher: appliedVoucher ? appliedVoucher.code : '-',
+                    notes: orderNotes
+                });
+            });
+            saveHistory();
+
+            cart = {};
+            appliedVoucher = null;
+            voucherMsg = { text: '', type: '' };
+            orderNotes = '';
+            updateCartBadge();
+            closeModal();
+            goPage('history');
+            showToast('Pesanan dikirim ke WhatsApp');
         }
 
         function closeModal() {
             document.getElementById('modal').classList.remove('active');
         }
 
+        /* ===== HISTORY ===== */
         function renderHistory() {
             const content = document.getElementById('history-content');
             if (!history.length) {
-                content.innerHTML = '<div class="empty-state"><div class="empty-icon">📋</div><div class="empty-title">Riwayat Kosong</div><div class="empty-desc">Anda belum melakukan pemesanan</div></div>';
+                content.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">📋</div>
+                        <div class="empty-title">Riwayat Kosong</div>
+                        <div class="empty-desc">Anda belum melakukan pemesanan</div>
+                    </div>`;
                 return;
             }
-            content.innerHTML = history.map((h,i)=>`
+            content.innerHTML = history.slice().reverse().map(h => `
                 <div class="admin-section" style="margin-bottom: 12px;">
-                    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;">
+                    <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;">
                         <div>
-                            <div style="font-weight:600;font-size:13px;color:var(--text-primary);margin-bottom:4px;">${h.name}</div>
-                            <div style="font-size:11px;color:var(--text-tertiary);margin-bottom:4px;">${h.date}</div>
-                            ${h.voucher !== '-' ? `<div style="font-size:11px;color:var(--success);margin-bottom:4px;">✓ Voucher: ${h.voucher}</div>` : ''}
-                            ${h.notes ? `<div style="font-size:11px;color:var(--text-secondary);margin-top:6px;font-style:italic;">Catatan: ${h.notes}</div>` : ''}
+                            <div style="font-weight:600;font-size:13px;color:var(--text);margin-bottom:4px;">${h.name}</div>
+                            <div style="font-size:11px;color:var(--text-ter);margin-bottom:4px;">${h.date}</div>
+                            ${h.voucher !== '-' ? `<div style="font-size:11px;color:var(--text-sec);margin-bottom:4px;">Voucher: ${h.voucher}</div>` : ''}
+                            ${h.notes ? `<div style="font-size:11px;color:var(--text-sec);margin-top:6px;font-style:italic;">Catatan: ${h.notes}</div>` : ''}
                         </div>
                         <div class="badge-active">${h.status}</div>
                     </div>
@@ -2269,45 +2150,36 @@
             `).join('');
         }
 
-        function adminLogin() {
-            const pass = document.getElementById('admin-pass').value;
-            if (pass !== ADMIN_PASSWORD) {
-                showToast('Password Salah', 'error');
-                return;
-            }
-            isAdminLoggedIn = true;
-            document.getElementById('admin-login').style.display = 'none';
-            document.getElementById('admin-panel').classList.add('active');
-            renderVouchers();
-            showToast('Login Admin Berhasil');
-        }
-
-        function adminLogout() {
-            isAdminLoggedIn = false;
-            document.getElementById('admin-panel').classList.remove('active');
-            document.getElementById('admin-login').style.display = 'flex';
-            document.getElementById('admin-pass').value = '';
-            showToast('Logout Admin');
-        }
-
+        /* ===== ADMIN VOUCHERS ===== */
         function renderVouchers() {
             const list = document.getElementById('voucher-list');
-            list.innerHTML = vouchers.map((v,i)=>{
-                const isActive = new Date(v.expiry) >= new Date();
+            if (!list) return;
+
+            if (!vouchers.length) {
+                list.innerHTML = `<tr><td colspan="7" style="text-align:center;color:var(--text-ter);padding:24px;">Belum ada voucher</td></tr>`;
+                return;
+            }
+
+            list.innerHTML = vouchers.map((v, i) => {
+                const isActive = v.expiry >= todayStr();
                 const status = isActive ? '<div class="badge-active">AKTIF</div>' : '<div class="badge-expired">EXPIRED</div>';
                 const isFull = v.usageCount >= v.maxuse;
-                const usageStatus = isFull ? `<div class="badge-expired">PENUH (${v.usageCount}/${v.maxuse})</div>` : `<div style="font-size:11px;color:var(--text-secondary);">${v.usageCount}/${v.maxuse} digunakan</div>`;
+                const usageStatus = isFull
+                    ? `<div class="badge-expired">PENUH (${v.usageCount}/${v.maxuse})</div>`
+                    : `<div style="font-size:11px;color:var(--text-sec);">${v.usageCount}/${v.maxuse} pakai</div>`;
                 return `
                     <tr>
-                        <td style="font-weight: 600;">${v.code}</td>
+                        <td style="font-weight: 700;">${v.code}</td>
                         <td>${v.discount}%</td>
                         <td>${v.maxuse}x</td>
                         <td>${v.expiry}</td>
                         <td>${status}</td>
                         <td>${usageStatus}</td>
-                        <td style="display:flex;gap:4px;">
-                            <button class="btn-reset" onclick="resetVoucher(${i})">Reset</button>
-                            <button class="btn-danger" onclick="deleteVoucher(${i})">Hapus</button>
+                        <td>
+                            <div class="admin-actions">
+                                <button class="btn-reset" onclick="resetVoucher(${i})">Reset</button>
+                                <button class="btn-danger" onclick="deleteVoucher(${i})">Hapus</button>
+                            </div>
                         </td>
                     </tr>
                 `;
@@ -2318,8 +2190,9 @@
             if (confirm('Reset penggunaan voucher ini?')) {
                 vouchers[idx].usageCount = 0;
                 vouchers[idx].usedBy = [];
+                saveVouchers();
                 renderVouchers();
-                showToast('Voucher Direset');
+                showToast('Voucher direset');
             }
         }
 
@@ -2330,70 +2203,44 @@
             const expiry = document.getElementById('voucher-expiry').value;
 
             if (!code || !discount || !maxuse || !expiry) {
-                showToast('Lengkapi semua data', 'error');
-                return;
+                showToast('Lengkapi semua data', 'error'); return;
+            }
+            if (discount < 1 || discount > 100) {
+                showToast('Diskon harus 1-100%', 'error'); return;
+            }
+            if (maxuse < 1) {
+                showToast('Maks penggunaan minimal 1', 'error'); return;
+            }
+            if (vouchers.find(v => v.code === code)) {
+                showToast('Kode sudah ada', 'error'); return;
             }
 
-            if (vouchers.find(v=>v.code===code)) {
-                showToast('Kode sudah ada', 'error');
-                return;
-            }
-
-            vouchers.unshift({code,discount,maxuse,expiry,usageCount:0,usedBy:[]});
+            vouchers.unshift({ code, discount, maxuse, expiry, usageCount: 0, usedBy: [] });
+            saveVouchers();
             document.getElementById('voucher-code').value = '';
             document.getElementById('voucher-discount').value = '';
             document.getElementById('voucher-maxuse').value = '';
             document.getElementById('voucher-expiry').value = '';
             renderVouchers();
-            showToast('Voucher Ditambahkan');
+            showToast('Voucher ditambahkan');
         }
 
         function deleteVoucher(idx) {
             if (confirm('Hapus voucher ini?')) {
-                vouchers.splice(idx,1);
+                vouchers.splice(idx, 1);
+                saveVouchers();
                 renderVouchers();
-                showToast('Voucher Dihapus');
+                showToast('Voucher dihapus');
             }
         }
 
-        function goPage(page) {
-            document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-            document.querySelectorAll('.menu-item').forEach(m=>m.classList.remove('active'));
-            const targetPage = document.getElementById('page-'+page);
-            if (targetPage) targetPage.classList.add('active');
-            const targetMenu = document.getElementById('menu-'+page);
-            if (targetMenu) targetMenu.classList.add('active');
-
-            if (page === 'cart') renderCart();
-            if (page === 'history') renderHistory();
-            if (page === 'admin' && !isAdminLoggedIn) {
-                document.getElementById('admin-login').style.display = 'flex';
-                document.getElementById('admin-panel').classList.remove('active');
-            }
-
-            if (window.innerWidth <= 768) {
-                document.getElementById('sidebar').classList.remove('mobile-open');
-            }
-        }
-
-        function showToast(msg, type='success') {
-            const toast = document.getElementById('toast');
-            toast.textContent = msg;
-            toast.className = 'toast show';
-            setTimeout(()=>toast.classList.remove('show'), 3000);
-        }
-
-        function toggleMobileSidebar() {
-            document.getElementById('sidebar').classList.toggle('mobile-open');
-        }
-
-        window.onload = ()=>{
-            const saved = localStorage.getItem('satz_user');
-            if (saved) {
-                currentUser = JSON.parse(saved);
-                goToApp();
-            }
+        /* ===== INIT ===== */
+        window.onload = function () {
+            document.getElementById('user-name').textContent = currentUser.name;
+            document.getElementById('user-phone').textContent = currentUser.phone;
+            renderProducts();
         };
     </script>
 </body>
+
 </html>
