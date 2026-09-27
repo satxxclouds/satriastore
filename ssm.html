@@ -24,7 +24,6 @@
         body {
             touch-action: pan-y;
             overscroll-behavior-x: none;
-            overscroll-behavior-y: none;
             -webkit-user-select: none;
             -moz-user-select: none;
             -ms-user-select: none;
@@ -1985,22 +1984,16 @@
     </footer>
 
     <script>
-        /* ===== ZOOM LOCK (JS) ===== */
+        /* ===== ZOOM LOCK (JS) — FIXED: tidak blocking scroll ===== */
         (function lockZoom() {
             // 1. Blokir gesture pinch-zoom (iOS Safari)
-            document.addEventListener('gesturestart', function (e) {
-                e.preventDefault();
-            }, { passive: false });
+            ['gesturestart', 'gesturechange', 'gestureend'].forEach(function (evt) {
+                document.addEventListener(evt, function (e) {
+                    e.preventDefault();
+                }, { passive: false });
+            });
 
-            document.addEventListener('gesturechange', function (e) {
-                e.preventDefault();
-            }, { passive: false });
-
-            document.addEventListener('gestureend', function (e) {
-                e.preventDefault();
-            }, { passive: false });
-
-            // 2. Blokir multi-touch (2 jari atau lebih)
+            // 2. Blokir multi-touch (2 jari atau lebih) — hanya pinch-zoom
             document.addEventListener('touchstart', function (e) {
                 if (e.touches.length > 1) {
                     e.preventDefault();
@@ -2013,13 +2006,37 @@
                 }
             }, { passive: false });
 
-            // 3. Blokir double-tap zoom
+            // 3. Blokir double-tap zoom — HANYA jika jari tidak bergerak (bukan scroll)
             let lastTouchEnd = 0;
+            let touchMoved = false;
+            let touchStartTime = 0;
+
+            document.addEventListener('touchstart', function (e) {
+                if (e.touches.length === 1) {
+                    touchMoved = false;
+                    touchStartTime = Date.now();
+                }
+            }, { passive: true });
+
+            document.addEventListener('touchmove', function (e) {
+                // Jika jari bergerak → dianggap scroll, bukan tap
+                if (e.touches.length === 1) {
+                    touchMoved = true;
+                }
+            }, { passive: true });
+
             document.addEventListener('touchend', function (e) {
                 const now = Date.now();
-                if (now - lastTouchEnd <= 300) {
+                const duration = now - touchStartTime;
+
+                // Blokir HANYA jika:
+                // - tidak ada pergerakan jari (murni tap)
+                // - durasi tap singkat (<250ms)
+                // - dan tap kedua dalam 300ms dari tap pertama
+                if (!touchMoved && duration < 250 && now - lastTouchEnd <= 300) {
                     e.preventDefault();
                 }
+
                 lastTouchEnd = now;
             }, { passive: false });
 
