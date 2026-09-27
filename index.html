@@ -150,13 +150,12 @@
         /* ===== SIDEBAR ===== */
         .sidebar {
             width: 260px;
+            flex: 0 0 260px;
             background: var(--bg-elev);
             display: flex;
             flex-direction: column;
-            position: fixed;
-            top: 0;
-            left: 0;
-            height: 100%;
+            position: relative;
+            height: 100dvh;
             overflow-y: auto;
             overscroll-behavior: contain;
             -webkit-overflow-scrolling: touch;
@@ -235,13 +234,14 @@
 
         /* ===== MAIN ===== */
         .main {
-            margin-left: 260px;
-            flex: 1;
+            margin-left: 0;
+            flex: 1 1 auto;
+            width: auto;
+            min-width: 0;
             display: flex;
             flex-direction: column;
             height: 100%;
             overflow: hidden;
-            min-width: 0;
         }
 
         .page {
@@ -1191,6 +1191,415 @@
             display: block;
         }
 
+        .admin-subnav {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 10px;
+            margin-bottom: 18px;
+            padding: 6px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+        }
+
+        .admin-subtab {
+            border: 1px solid transparent;
+            background: transparent;
+            color: var(--text-sec);
+            min-height: 46px;
+            padding: 10px 14px;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 0.4px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .admin-subtab:hover {
+            color: var(--text);
+            background: var(--surface-alt);
+        }
+
+        .admin-subtab.active {
+            color: var(--text);
+            background: var(--surface-alt);
+            border-color: var(--border-strong);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .admin-subpanel { display: none; }
+        .admin-subpanel.active { display: block; }
+
+        .admin-orders-note {
+            margin-bottom: 14px;
+            padding: 10px 13px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background: var(--surface-alt);
+            color: var(--text-ter);
+            font-size: 10px;
+            line-height: 1.6;
+        }
+
+        .admin-orders-toolbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 14px;
+            padding: 12px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+        }
+
+        .admin-orders-counts {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 7px;
+            min-width: 0;
+        }
+
+        .admin-order-filter {
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--text-ter);
+            padding: 7px 10px;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 10px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.18s ease;
+            white-space: nowrap;
+        }
+
+        .admin-order-filter:hover {
+            color: var(--text);
+            background: var(--surface-alt);
+            border-color: var(--border-strong);
+        }
+
+        .admin-order-filter.active {
+            color: #000;
+            background: var(--accent);
+            border-color: var(--accent);
+        }
+
+        .admin-order-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 13px;
+            padding: 15px 16px;
+            margin-bottom: 9px;
+            transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .admin-order-card:hover {
+            border-color: var(--border-strong);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .admin-order-top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .admin-order-id {
+            color: var(--text-ter);
+            font-size: 9px;
+            font-weight: 800;
+            letter-spacing: 1.1px;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        .admin-order-name { color: var(--text); font-size: 13px; font-weight: 750; line-height: 1.45; }
+        .admin-order-date { margin-top: 3px; color: var(--text-ter); font-size: 10px; }
+
+        .admin-order-status-badge {
+            flex: 0 0 auto;
+            padding: 6px 9px;
+            border-radius: 8px;
+            font-size: 9px;
+            font-weight: 900;
+            letter-spacing: .45px;
+            border: 1px solid var(--border-strong);
+            background: var(--surface-alt);
+            color: var(--text-sec);
+        }
+
+        .admin-order-status-badge.waiting {
+            color: #fbbf24;
+            border-color: rgba(251,191,36,.24);
+            background: rgba(251,191,36,.08);
+        }
+
+        .admin-order-status-badge.processing {
+            color: #60a5fa;
+            border-color: rgba(96,165,250,.24);
+            background: rgba(96,165,250,.08);
+        }
+
+        .admin-order-status-badge.done {
+            color: #4ade80;
+            border-color: rgba(74,222,128,.24);
+            background: rgba(74,222,128,.08);
+        }
+
+        .admin-order-status-badge.cancelled {
+            color: #f87171;
+            border-color: rgba(248,113,113,.24);
+            background: rgba(248,113,113,.08);
+        }
+
+        .admin-order-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 7px;
+            margin-top: 11px;
+        }
+
+        .admin-order-meta-box {
+            min-width: 0;
+            flex: 1 1 180px;
+            padding: 9px 10px;
+            border: 1px solid var(--border);
+            border-radius: 9px;
+            background: var(--surface-alt);
+        }
+
+        .admin-order-meta-label {
+            margin-bottom: 3px;
+            color: var(--text-ter);
+            font-size: 8px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .admin-order-meta-value {
+            color: var(--text);
+            font-size: 10px;
+            font-weight: 600;
+            word-break: break-word;
+            line-height: 1.45;
+        }
+
+        .admin-order-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            margin-top: 11px;
+            padding-top: 11px;
+            border-top: 1px solid var(--border);
+        }
+
+        .admin-order-footer-label {
+            color: var(--text-ter);
+            font-size: 9px;
+            font-weight: 700;
+        }
+
+        .admin-order-status-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            min-width: 150px;
+            padding: 8px 11px;
+            border: 1px solid var(--border-strong);
+            border-radius: 9px;
+            background: var(--surface-alt);
+            color: var(--text);
+            font-family: inherit;
+            font-size: 10px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all .18s ease;
+        }
+
+        .admin-order-status-btn:hover {
+            background: #1b1b1b;
+            border-color: #555;
+            transform: translateY(-1px);
+        }
+
+        /* ===== ORDER STATUS PICKER ===== */
+        .status-picker-overlay {
+            position: fixed;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 18px;
+            background: rgba(0,0,0,.76);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            z-index: 13000;
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: opacity .25s ease, visibility .25s ease;
+        }
+
+        .status-picker-overlay.active {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
+
+        .status-picker-modal {
+            width: min(460px, 100%);
+            background: var(--surface);
+            border: 1px solid rgba(255,255,255,.10);
+            border-radius: 18px;
+            padding: 20px;
+            box-shadow: 0 30px 90px rgba(0,0,0,.62);
+            transform: translateY(12px) scale(.97);
+            transition: transform .3s cubic-bezier(.22,1,.36,1);
+        }
+
+        .status-picker-overlay.active .status-picker-modal {
+            transform: translateY(0) scale(1);
+        }
+
+        .status-picker-kicker {
+            color: var(--text-ter);
+            font-size: 9px;
+            font-weight: 900;
+            letter-spacing: 1.4px;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+
+        .status-picker-title {
+            margin: 0;
+            color: var(--text);
+            font-size: 18px;
+            font-weight: 800;
+        }
+
+        .status-picker-subtitle {
+            margin: 7px 0 15px;
+            color: var(--text-sec);
+            font-size: 11px;
+            line-height: 1.6;
+        }
+
+        .status-picker-order {
+            padding: 10px 12px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background: var(--surface-alt);
+            margin-bottom: 12px;
+        }
+
+        .status-picker-order-label {
+            color: var(--text-ter);
+            font-size: 8px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 3px;
+        }
+
+        .status-picker-order-name {
+            color: var(--text);
+            font-size: 11px;
+            font-weight: 700;
+            line-height: 1.45;
+        }
+
+        .status-picker-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 9px;
+        }
+
+        .status-picker-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            min-height: 62px;
+            padding: 11px;
+            border: 1px solid var(--border);
+            border-radius: 11px;
+            background: var(--surface-alt);
+            color: var(--text);
+            text-align: left;
+            font-family: inherit;
+            cursor: pointer;
+            transition: all .18s ease;
+        }
+
+        .status-picker-option:hover {
+            border-color: var(--border-strong);
+            transform: translateY(-1px);
+        }
+
+        .status-picker-dot {
+            width: 29px;
+            height: 29px;
+            flex: 0 0 29px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 9px;
+            border: 1px solid var(--border-strong);
+            font-size: 13px;
+            background: var(--surface);
+        }
+
+        .status-picker-option.waiting .status-picker-dot { color:#fbbf24; }
+        .status-picker-option.processing .status-picker-dot { color:#60a5fa; }
+        .status-picker-option.done .status-picker-dot { color:#4ade80; }
+        .status-picker-option.cancelled .status-picker-dot { color:#f87171; }
+
+        .status-picker-option strong {
+            display:block;
+            font-size: 10px;
+            font-weight: 900;
+            letter-spacing: .4px;
+        }
+
+        .status-picker-option small {
+            display:block;
+            margin-top: 2px;
+            color: var(--text-ter);
+            font-size: 8px;
+            line-height: 1.4;
+        }
+
+        .status-picker-close {
+            width: 100%;
+            margin-top: 10px;
+            padding: 10px 12px;
+            border-radius: 10px;
+            border: 1px solid var(--border-strong);
+            background: transparent;
+            color: var(--text-sec);
+            font-family: inherit;
+            font-size: 10px;
+            font-weight: 800;
+            cursor: pointer;
+        }
+
+        @media (max-width: 600px) {
+            .admin-subnav { grid-template-columns: 1fr; }
+            .admin-orders-toolbar { flex-direction: column; align-items: stretch; }
+            .admin-order-top, .admin-order-footer { flex-direction: column; align-items: stretch; }
+            .admin-order-status-btn { width: 100%; }
+            .status-picker-grid { grid-template-columns: 1fr; }
+        }
+
         .admin-section {
             background: var(--surface);
             border-radius: 12px;
@@ -1540,6 +1949,780 @@
             background: var(--surface-alt);
         }
 
+        /* ===== FAQ ===== */
+        .faq-list {
+            max-width: 900px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .faq-item {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.25s ease;
+        }
+
+        .faq-item:hover {
+            border-color: var(--border-strong);
+        }
+
+        .faq-item.open {
+            background: var(--surface-alt);
+            border-color: var(--border-strong);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .faq-question {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 14px;
+            padding: 17px 18px;
+            background: transparent;
+            border: 0;
+            color: var(--text);
+            font: inherit;
+            font-size: 13px;
+            font-weight: 700;
+            text-align: left;
+            cursor: pointer;
+        }
+
+        .faq-question span:first-child {
+            flex: 1;
+        }
+
+        .faq-icon {
+            width: 28px;
+            height: 28px;
+            flex: 0 0 28px;
+            border: 1px solid var(--border-strong);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-sec);
+            font-size: 16px;
+            line-height: 1;
+            transition: transform 0.25s ease, color 0.2s ease, background 0.2s ease;
+        }
+
+        .faq-item.open .faq-icon {
+            transform: rotate(45deg);
+            color: #000;
+            background: var(--accent);
+            border-color: var(--accent);
+        }
+
+        .faq-answer {
+            display: grid;
+            grid-template-rows: 0fr;
+            transition: grid-template-rows 0.28s ease;
+        }
+
+        .faq-answer-inner {
+            overflow: hidden;
+            min-height: 0;
+            padding: 0 18px;
+            color: var(--text-sec);
+            font-size: 12px;
+            line-height: 1.7;
+            transition: padding 0.28s ease;
+        }
+
+        .faq-item.open .faq-answer {
+            grid-template-rows: 1fr;
+        }
+
+        .faq-item.open .faq-answer-inner {
+            padding: 0 18px 18px;
+        }
+
+        .faq-help-card {
+            max-width: 900px;
+            margin: 18px auto 0;
+            padding: 18px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: var(--surface);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 14px;
+        }
+
+        .faq-help-title {
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 3px;
+        }
+
+        .faq-help-desc {
+            font-size: 11px;
+            color: var(--text-ter);
+        }
+
+        .faq-help-btn {
+            flex: 0 0 auto;
+            padding: 10px 14px;
+            border: 1px solid var(--border-strong);
+            border-radius: 8px;
+            background: transparent;
+            color: var(--text);
+            font: inherit;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .faq-help-btn:hover {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: #000;
+        }
+
+        @media (max-width: 600px) {
+            .faq-question {
+                padding: 15px 14px;
+                font-size: 12px;
+            }
+
+            .faq-answer-inner {
+                padding-left: 14px;
+                padding-right: 14px;
+            }
+
+            .faq-item.open .faq-answer-inner {
+                padding: 0 14px 16px;
+            }
+
+            .faq-help-card {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .faq-help-btn {
+                width: 100%;
+            }
+        }
+
+        /* ===== CARA ORDER ===== */
+        .order-guide {
+            max-width: 960px;
+            margin: 0 auto;
+        }
+
+        .order-hero {
+            background: linear-gradient(145deg, var(--surface) 0%, var(--surface-alt) 100%);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 18px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .order-hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 5px 9px;
+            border: 1px solid var(--border-strong);
+            border-radius: 7px;
+            background: rgba(255, 255, 255, 0.04);
+            color: var(--text-sec);
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+
+        .order-hero-title {
+            font-size: 24px;
+            line-height: 1.2;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .order-hero-desc {
+            color: var(--text-sec);
+            font-size: 12px;
+            line-height: 1.7;
+            max-width: 760px;
+        }
+
+        .order-steps {
+            display: grid;
+            gap: 10px;
+        }
+
+        .order-step {
+            display: grid;
+            grid-template-columns: 42px 1fr;
+            align-items: start;
+            gap: 14px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 13px;
+            padding: 16px;
+            transition: transform 0.22s ease, border-color 0.22s ease, background 0.22s ease;
+        }
+
+        .order-step:hover {
+            transform: translateY(-2px);
+            border-color: var(--border-strong);
+            background: var(--surface-alt);
+        }
+
+        .order-step-number {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--accent);
+            color: #000;
+            font-size: 13px;
+            font-weight: 900;
+            flex-shrink: 0;
+        }
+
+        .order-step-title {
+            font-size: 13px;
+            font-weight: 800;
+            margin-bottom: 4px;
+            color: var(--text);
+        }
+
+        .order-step-desc {
+            font-size: 11px;
+            line-height: 1.65;
+            color: var(--text-sec);
+        }
+
+        .order-note {
+            margin-top: 18px;
+            padding: 16px 18px;
+            background: var(--surface);
+            border: 1px solid var(--border-strong);
+            border-radius: 13px;
+        }
+
+        .order-note-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            font-weight: 800;
+            margin-bottom: 7px;
+        }
+
+        .order-note-text {
+            font-size: 11px;
+            color: var(--text-sec);
+            line-height: 1.7;
+        }
+
+        .order-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 18px;
+        }
+
+        .order-action-btn {
+            flex: 1;
+            padding: 12px 16px;
+            border-radius: 10px;
+            border: 1px solid var(--border-strong);
+            background: transparent;
+            color: var(--text);
+            font-family: inherit;
+            font-size: 12px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .order-action-btn:hover {
+            background: var(--surface-alt);
+        }
+
+        .order-action-btn.primary {
+            background: var(--accent);
+            color: #000;
+            border-color: var(--accent);
+        }
+
+        .order-action-btn.primary:hover {
+            background: #e5e5e5;
+        }
+
+        @media (max-width: 600px) {
+            .order-hero {
+                padding: 18px;
+            }
+
+            .order-hero-title {
+                font-size: 20px;
+            }
+
+            .order-step {
+                grid-template-columns: 36px 1fr;
+                gap: 11px;
+                padding: 14px;
+            }
+
+            .order-step-number {
+                width: 36px;
+                height: 36px;
+                border-radius: 10px;
+                font-size: 11px;
+            }
+
+            .order-actions {
+                flex-direction: column;
+            }
+        }
+
+        /* ===== PROMO ===== */
+        .promo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+        }
+
+        .promo-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 20px;
+            position: relative;
+            transition: all 0.25s ease;
+            transform-origin: center;
+            will-change: opacity, transform, filter, max-height, margin, padding;
+        }
+
+        .promo-card.promo-claiming {
+            pointer-events: none;
+            animation: promoClaimOut 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+
+        @keyframes promoClaimOut {
+            0% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+                filter: blur(0);
+                max-height: 520px;
+                margin-bottom: 0;
+            }
+            45% {
+                opacity: 0.55;
+                transform: scale(0.97) translateY(-4px);
+                filter: blur(3px);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(0.88) translateY(-14px);
+                filter: blur(12px);
+                max-height: 0;
+                margin-bottom: 0;
+                padding-top: 0;
+                padding-bottom: 0;
+                border-width: 0;
+            }
+        }
+
+        .promo-card:hover {
+            border-color: var(--border-strong);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .promo-card.expired,
+        .promo-card.inactive {
+            opacity: 0.58;
+        }
+
+        .promo-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+
+        .promo-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 9px;
+            border-radius: 6px;
+            background: var(--accent);
+            color: #000;
+            font-size: 9px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
+
+        .promo-discount {
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--text);
+            white-space: nowrap;
+        }
+
+        .promo-title {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 7px;
+            color: var(--text);
+        }
+
+        .promo-desc {
+            font-size: 12px;
+            color: var(--text-sec);
+            line-height: 1.6;
+            min-height: 38px;
+            margin-bottom: 16px;
+        }
+
+        .promo-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 7px;
+            margin-bottom: 16px;
+        }
+
+        .promo-chip {
+            padding: 6px 9px;
+            border: 1px solid var(--border);
+            border-radius: 7px;
+            font-size: 10px;
+            color: var(--text-sec);
+            background: var(--surface-alt);
+        }
+
+        .promo-code {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            padding: 10px 12px;
+            background: var(--surface-alt);
+            border: 1px dashed var(--border-strong);
+            border-radius: 9px;
+            margin-bottom: 12px;
+        }
+
+        .promo-code strong {
+            font-size: 12px;
+            letter-spacing: 1px;
+            color: var(--text);
+        }
+
+        .promo-claimed {
+            padding: 7px 10px;
+            border-radius: 7px;
+            background: rgba(212, 212, 212, 0.12);
+            color: var(--text-sec);
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .promo-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .promo-btn {
+            flex: 1;
+            padding: 11px 14px;
+            border-radius: 9px;
+            border: 1px solid var(--border-strong);
+            background: transparent;
+            color: var(--text);
+            font-family: inherit;
+            font-size: 11px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .promo-btn:hover {
+            background: var(--surface-alt);
+        }
+
+        .promo-btn.primary {
+            background: var(--accent);
+            color: #000;
+            border-color: var(--accent);
+        }
+
+        .promo-btn.primary:hover {
+            background: #e5e5e5;
+        }
+
+        .promo-btn:disabled {
+            cursor: not-allowed;
+            opacity: 0.55;
+        }
+
+        .promo-status {
+            margin-top: 10px;
+            font-size: 10px;
+            color: var(--text-ter);
+        }
+
+        .admin-toggle {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 8px 10px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--text-sec);
+            font-family: inherit;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .admin-toggle.on {
+            color: var(--text);
+            border-color: var(--border-strong);
+            background: var(--surface-alt);
+        }
+
+        /* ===== CUSTOM CONFIRMATION MODAL ===== */
+        .confirm-overlay {
+            position: fixed;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.72);
+            backdrop-filter: blur(14px) saturate(120%);
+            -webkit-backdrop-filter: blur(14px) saturate(120%);
+            z-index: 12000;
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition:
+                opacity 0.28s ease,
+                visibility 0.28s ease;
+        }
+
+        .confirm-overlay.active {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
+
+        .confirm-modal {
+            width: min(430px, 100%);
+            padding: 26px;
+            position: relative;
+            overflow: hidden;
+            background:
+                radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.06), transparent 42%),
+                var(--surface);
+            border: 1px solid rgba(255, 255, 255, 0.10);
+            border-radius: 18px;
+            box-shadow:
+                0 30px 80px rgba(0, 0, 0, 0.60),
+                0 8px 26px rgba(0, 0, 0, 0.35),
+                inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            transform: translateY(12px) scale(0.94);
+            transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .confirm-overlay.active .confirm-modal {
+            transform: translateY(0) scale(1);
+        }
+
+        .confirm-modal::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 12%;
+            right: 12%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(248, 113, 113, 0.75), transparent);
+            opacity: 0.8;
+        }
+
+        .confirm-icon-wrap {
+            width: 54px;
+            height: 54px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 16px;
+            border-radius: 16px;
+            background: rgba(248, 113, 113, 0.08);
+            border: 1px solid rgba(248, 113, 113, 0.18);
+        }
+
+        .confirm-icon {
+            width: 34px;
+            height: 34px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 11px;
+            background: linear-gradient(135deg, #f87171, #dc2626);
+            color: #fff;
+            font-size: 17px;
+            font-weight: 800;
+            box-shadow:
+                0 8px 22px rgba(248, 113, 113, 0.30),
+                inset 0 1px 0 rgba(255, 255, 255, 0.25);
+            animation: confirmIconIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .confirm-kicker {
+            margin-bottom: 7px;
+            color: #a3a3a3;
+            font-size: 9px;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        .confirm-title {
+            margin: 0;
+            color: var(--text);
+            font-size: 20px;
+            font-weight: 800;
+            letter-spacing: -0.25px;
+        }
+
+        .confirm-message {
+            margin: 9px 0 16px;
+            color: var(--text-sec);
+            font-size: 12px;
+            line-height: 1.7;
+        }
+
+        .confirm-target {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            margin-bottom: 20px;
+            padding: 12px 13px;
+            background: var(--surface-alt);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+        }
+
+        .confirm-target-label {
+            color: var(--text-ter);
+            font-size: 9px;
+            font-weight: 800;
+            letter-spacing: 1.2px;
+        }
+
+        .confirm-target strong {
+            overflow: hidden;
+            color: var(--text);
+            font-size: 12px;
+            font-weight: 700;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .confirm-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 9px;
+        }
+
+        .confirm-btn {
+            min-height: 44px;
+            border-radius: 10px;
+            border: 1px solid var(--border-strong);
+            font-family: inherit;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 0.2px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .confirm-btn.cancel {
+            background: transparent;
+            color: var(--text-sec);
+        }
+
+        .confirm-btn.cancel:hover {
+            background: var(--surface-alt);
+            color: var(--text);
+            border-color: #4a4a4a;
+        }
+
+        .confirm-btn.danger {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: #fff;
+            border-color: transparent;
+            box-shadow: 0 8px 20px rgba(220, 38, 38, 0.22);
+        }
+
+        .confirm-btn.danger:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 12px 26px rgba(220, 38, 38, 0.30);
+        }
+
+        .confirm-btn:active {
+            transform: translateY(0) scale(0.99);
+        }
+
+        @keyframes confirmIconIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.4) rotate(-12deg);
+            }
+            65% {
+                opacity: 1;
+                transform: scale(1.12) rotate(2deg);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) rotate(0);
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .confirm-overlay,
+            .confirm-modal,
+            .confirm-btn {
+                transition: none !important;
+            }
+
+            .confirm-icon {
+                animation: none !important;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .confirm-modal {
+                padding: 22px;
+                border-radius: 16px;
+            }
+
+            .confirm-title {
+                font-size: 18px;
+            }
+        }
+
         /* ===== RESPONSIVE ===== */
         @media (max-width: 1024px) {
             .cart-layout {
@@ -1567,8 +2750,13 @@
 
         @media (max-width: 768px) {
             .sidebar {
-                transform: translateX(-100%);
+                position: fixed;
+                top: 0;
+                left: 0;
                 width: 240px;
+                height: 100dvh;
+                flex: 0 0 240px;
+                transform: translateX(-100%);
             }
 
             .sidebar.mobile-open {
@@ -1581,6 +2769,7 @@
 
             .main {
                 margin-left: 0;
+                width: 100%;
             }
 
             .mobile-toggle {
@@ -1784,6 +2973,9 @@
                         style="display: none; margin-left: 4px; background: var(--accent); color: #000; padding: 2px 6px; border-radius: 4px; font-size: 10px; font-weight: 700;">0</span>
                 </button>
                 <button class="menu-item" onclick="goPage('history')" id="menu-history">Riwayat</button>
+                <button class="menu-item" onclick="goPage('promo')" id="menu-promo">Promo</button>
+                <button class="menu-item" onclick="goPage('cara-order')" id="menu-cara-order">Cara Order</button>
+                <button class="menu-item" onclick="goPage('faq')" id="menu-faq">FAQ</button>
                 <button class="menu-item" onclick="goPage('admin')" id="menu-admin"
                     style="display: none;">Admin</button>
             </nav>
@@ -1878,71 +3070,257 @@
                 </div>
             </div>
 
+            <!-- PROMO PAGE -->
+            <div class="page" id="page-promo">
+                <div class="page-header" style="padding: 28px 40px; border-bottom: 1px solid var(--border); background: var(--bg); flex-shrink: 0;">
+                    <h1 class="page-title">Promo</h1>
+                    <p class="page-subtitle">Klaim promo aktif dan gunakan saat checkout</p>
+                </div>
+                <div class="page-content">
+                    <div id="promo-content"></div>
+                </div>
+            </div>
+
+            <!-- CARA ORDER PAGE -->
+            <div class="page" id="page-cara-order">
+                <div class="page-header" style="padding: 28px 40px; border-bottom: 1px solid var(--border); background: var(--bg); flex-shrink: 0;">
+                    <h1 class="page-title">Cara Order</h1>
+                    <p class="page-subtitle">Ikuti langkah berikut untuk melakukan pemesanan di ZEVORA</p>
+                </div>
+                <div class="page-content">
+                    <div class="order-guide">
+                        <div class="order-hero">
+                            <div class="order-hero-badge">✦ EASY CHECKOUT</div>
+                            <div class="order-hero-title">Cara belanja di ZEVORA</div>
+                            <div class="order-hero-desc">Pesanan dilakukan lewat keranjang lalu diteruskan ke WhatsApp Admin. Pastikan detail produk dan catatan pesanan sudah benar sebelum checkout.</div>
+                        </div>
+
+                        <div class="order-steps">
+                            <div class="order-step">
+                                <div class="order-step-number">01</div>
+                                <div>
+                                    <div class="order-step-title">Pilih produk</div>
+                                    <div class="order-step-desc">Buka menu Toko, pilih produk yang kamu butuhkan, lalu tentukan format atau durasi bila tersedia.</div>
+                                </div>
+                            </div>
+
+                            <div class="order-step">
+                                <div class="order-step-number">02</div>
+                                <div>
+                                    <div class="order-step-title">Tambahkan ke keranjang</div>
+                                    <div class="order-step-desc">Tekan tombol Beli atau Tambah ke Keranjang. Setelah produk masuk, kamu bisa mengatur jumlah pesanan dari menu Keranjang.</div>
+                                </div>
+                            </div>
+
+                            <div class="order-step">
+                                <div class="order-step-number">03</div>
+                                <div>
+                                    <div class="order-step-title">Cek promo</div>
+                                    <div class="order-step-desc">Buka menu Promo untuk melihat promo yang tersedia. Klaim promo yang kamu inginkan sebelum checkout.</div>
+                                </div>
+                            </div>
+
+                            <div class="order-step">
+                                <div class="order-step-number">04</div>
+                                <div>
+                                    <div class="order-step-title">Buka keranjang</div>
+                                    <div class="order-step-desc">Periksa nama produk, jumlah, pilihan paket, harga, dan voucher. Pastikan semuanya sudah sesuai sebelum melanjutkan.</div>
+                                </div>
+                            </div>
+
+                            <div class="order-step">
+                                <div class="order-step-number">05</div>
+                                <div>
+                                    <div class="order-step-title">Isi catatan pesanan</div>
+                                    <div class="order-step-desc">Masukkan informasi tambahan yang dibutuhkan, seperti nomor WhatsApp tujuan, username, link, atau detail lainnya sesuai produk.</div>
+                                </div>
+                            </div>
+
+                            <div class="order-step">
+                                <div class="order-step-number">06</div>
+                                <div>
+                                    <div class="order-step-title">Checkout</div>
+                                    <div class="order-step-desc">Tekan Checkout untuk melihat ringkasan pembayaran. Setelah itu pilih Kirim ke WhatsApp untuk meneruskan detail pesanan ke Admin.</div>
+                                </div>
+                            </div>
+
+                            <div class="order-step">
+                                <div class="order-step-number">07</div>
+                                <div>
+                                    <div class="order-step-title">Tunggu konfirmasi Admin</div>
+                                    <div class="order-step-desc">Setelah pesanan terkirim ke WhatsApp, tunggu balasan Admin untuk informasi pembayaran, verifikasi, dan proses pesanan.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="order-note">
+                            <div class="order-note-title">⚠️ Catatan penting</div>
+                            <div class="order-note-text">Sebelum checkout, pastikan produk, pilihan paket, catatan, dan voucher sudah benar. Simpan bukti pembayaran dan jangan ragu menghubungi Admin jika ada kendala.</div>
+                        </div>
+
+                        <div class="order-actions">
+                            <button class="order-action-btn" type="button" onclick="goPage('store')">← Kembali ke Toko</button>
+                            <button class="order-action-btn primary" type="button" onclick="openOrderWhatsApp()">💬 Tanya Admin</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FAQ PAGE -->
+            <div class="page" id="page-faq">
+                <div class="page-header" style="padding: 28px 40px; border-bottom: 1px solid var(--border); background: var(--bg); flex-shrink: 0;">
+                    <h1 class="page-title">FAQ</h1>
+                    <p class="page-subtitle">Pertanyaan yang sering ditanyakan tentang ZEVORA</p>
+                </div>
+                <div class="page-content">
+                    <div class="faq-list" id="faq-list">
+                        <div class="faq-item">
+                            <button class="faq-question" type="button" onclick="toggleFaq(this)">
+                                <span>Bagaimana cara membeli produk?</span>
+                                <span class="faq-icon">+</span>
+                            </button>
+                            <div class="faq-answer">
+                                <div class="faq-answer-inner">Pilih produk yang kamu inginkan, tentukan format atau durasinya bila tersedia, lalu tambahkan ke keranjang. Setelah itu buka Keranjang dan tekan Checkout untuk melanjutkan pesanan melalui WhatsApp Admin.</div>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <button class="faq-question" type="button" onclick="toggleFaq(this)">
+                                <span>Bagaimana proses setelah checkout?</span>
+                                <span class="faq-icon">+</span>
+                            </button>
+                            <div class="faq-answer">
+                                <div class="faq-answer-inner">Setelah checkout, detail pesanan akan disiapkan dan kamu akan diarahkan ke WhatsApp Admin. Kirim pesanan tersebut dan tunggu konfirmasi dari Admin mengenai pembayaran serta proses pesanan.</div>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <button class="faq-question" type="button" onclick="toggleFaq(this)">
+                                <span>Bagaimana cara menggunakan promo?</span>
+                                <span class="faq-icon">+</span>
+                            </button>
+                            <div class="faq-answer">
+                                <div class="faq-answer-inner">Buka menu Promo, pilih promo yang tersedia, lalu tekan Klaim Promo. Setelah berhasil diklaim, promo dapat digunakan pada proses checkout selama voucher masih memenuhi syarat penggunaannya.</div>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <button class="faq-question" type="button" onclick="toggleFaq(this)">
+                                <span>Kenapa promo atau voucher tidak bisa digunakan?</span>
+                                <span class="faq-icon">+</span>
+                            </button>
+                            <div class="faq-answer">
+                                <div class="faq-answer-inner">Promo atau voucher bisa tidak tersedia karena masa berlaku sudah habis, kuota penggunaan sudah penuh, atau promo tersebut sudah pernah diklaim oleh akun yang sama. Periksa kembali detail promo sebelum checkout.</div>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <button class="faq-question" type="button" onclick="toggleFaq(this)">
+                                <span>Di mana saya bisa melihat pesanan yang sudah dibuat?</span>
+                                <span class="faq-icon">+</span>
+                            </button>
+                            <div class="faq-answer">
+                                <div class="faq-answer-inner">Buka menu Riwayat untuk melihat arsip pesanan yang sudah dikirim melalui sistem checkout ZEVORA.</div>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <button class="faq-question" type="button" onclick="toggleFaq(this)">
+                                <span>Bagaimana jika saya mengalami masalah saat membeli?</span>
+                                <span class="faq-icon">+</span>
+                            </button>
+                            <div class="faq-answer">
+                                <div class="faq-answer-inner">Hubungi Admin melalui WhatsApp dan sertakan informasi pesanan atau kendala yang kamu alami agar Admin dapat membantu mengeceknya.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="faq-help-card">
+                        <div>
+                            <div class="faq-help-title">Masih punya pertanyaan?</div>
+                            <div class="faq-help-desc">Hubungi Admin langsung melalui WhatsApp untuk bantuan.</div>
+                        </div>
+                        <button class="faq-help-btn" type="button" onclick="openFaqWhatsApp()">💬 HUBUNGI ADMIN</button>
+                    </div>
+                </div>
+            </div>
+
             <!-- ADMIN PAGE -->
             <div class="page" id="page-admin">
                 <div class="page-header" style="padding: 28px 40px; border-bottom: 1px solid var(--border); background: var(--bg); flex-shrink: 0;">
                     <h1 class="page-title">Admin Panel</h1>
-                    <p class="page-subtitle">Kelola Voucher Promo &amp; Tracking Penggunaan</p>
+                    <p class="page-subtitle">Kelola voucher, promo, dan orderan</p>
                 </div>
 
                 <div class="page-content">
                     <div id="admin-panel" class="admin-panel active">
-                        <div class="admin-section">
-                            <div class="admin-title">Tambah Voucher Baru</div>
-                            <div class="form-row">
-                                <div class="form-group" style="margin-bottom: 0;">
-                                    <label class="form-label">Kode Voucher</label>
-                                    <input type="text" id="voucher-code" class="form-input" placeholder="PROMO100"
-                                        style="text-transform: uppercase;">
-                                </div>
-                                <div class="form-group" style="margin-bottom: 0;">
-                                    <label class="form-label">Diskon (%)</label>
-                                    <input type="number" id="voucher-discount" class="form-input" placeholder="25"
-                                        min="1" max="100">
-                                </div>
-                                <div class="form-group" style="margin-bottom: 0;">
-                                    <label class="form-label">Maks Penggunaan</label>
-                                    <input type="number" id="voucher-maxuse" class="form-input" placeholder="3" min="1">
-                                </div>
-                                <div class="form-group" style="margin-bottom: 0;">
-                                    <label class="form-label">Berlaku Sampai</label>
-                                    <input type="date" id="voucher-expiry" class="form-input">
-                                </div>
-                            </div>
-                            <button class="btn" onclick="addVoucher()" style="margin-top: 8px; margin-bottom: 0;">Tambah
-                                Voucher</button>
+                        <div class="admin-subnav" role="tablist" aria-label="Menu Admin">
+                            <button class="admin-subtab active" type="button" id="admin-tab-voucher" onclick="showAdminSection('voucher')">🎟️ Tambah Voucher Baru</button>
+                            <button class="admin-subtab" type="button" id="admin-tab-promo" onclick="showAdminSection('promo')">🏷️ Kelola Promo</button>
+                            <button class="admin-subtab" type="button" id="admin-tab-orders" onclick="showAdminSection('orders')">📦 Orderan</button>
                         </div>
 
-                        <div class="admin-section">
-                            <div class="admin-title">Daftar Voucher</div>
-                            <div style="overflow-x: auto;">
-                                <table class="voucher-table">
-                                    <thead>
-                                        <tr>
-                                            <th>Kode</th>
-                                            <th>Diskon</th>
-                                            <th>Maks Pakai</th>
-                                            <th>Berlaku</th>
-                                            <th>Status</th>
-                                            <th>Penggunaan</th>
-                                            <th>Aksi</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="voucher-list"></tbody>
-                                </table>
+                        <section class="admin-subpanel active" id="admin-section-voucher">
+                            <div class="admin-section">
+                                <div class="admin-title">Tambah Voucher Baru</div>
+                                <div class="form-row">
+                                    <div class="form-group" style="margin-bottom: 0;"><label class="form-label">Kode Voucher</label><input type="text" id="voucher-code" class="form-input" placeholder="PROMO100" style="text-transform: uppercase;"></div>
+                                    <div class="form-group" style="margin-bottom: 0;"><label class="form-label">Diskon (%)</label><input type="number" id="voucher-discount" class="form-input" placeholder="25" min="1" max="100"></div>
+                                    <div class="form-group" style="margin-bottom: 0;"><label class="form-label">Maks Penggunaan</label><input type="number" id="voucher-maxuse" class="form-input" placeholder="3" min="1"></div>
+                                    <div class="form-group" style="margin-bottom: 0;"><label class="form-label">Berlaku Sampai</label><input type="date" id="voucher-expiry" class="form-input"></div>
+                                </div>
+                                <button class="btn" onclick="addVoucher()" style="margin-top: 8px; margin-bottom: 0;">Tambah Voucher</button>
                             </div>
-                        </div>
 
-                        <button class="btn" onclick="exitAdmin()"
-                            style="background: transparent; color: var(--danger); border: 1px solid rgba(248, 113, 113, 0.4); margin-top: 0;">Keluar
-                            Admin</button>
+                            <div class="admin-section">
+                                <div class="admin-title">Daftar Voucher</div>
+                                <div style="overflow-x: auto;">
+                                    <table class="voucher-table">
+                                        <thead><tr><th>Kode</th><th>Diskon</th><th>Maks Pakai</th><th>Berlaku</th><th>Status</th><th>Penggunaan</th><th>Aksi</th></tr></thead>
+                                        <tbody id="voucher-list"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </section>
+
+                        <section class="admin-subpanel" id="admin-section-promo">
+                            <div class="admin-section">
+                                <div class="admin-title">Kelola Promo</div>
+                                <div class="form-row">
+                                    <div class="form-group" style="margin-bottom: 0;"><label class="form-label">Judul Promo</label><input type="text" id="promo-title-input" class="form-input" placeholder="Promo SewaBot Minggu Ini"></div>
+                                    <div class="form-group" style="margin-bottom: 0;"><label class="form-label">Kode Voucher</label><input type="text" id="promo-code-input" class="form-input" placeholder="SEWABOT20" style="text-transform: uppercase;"></div>
+                                    <div class="form-group" style="margin-bottom: 0;"><label class="form-label">Diskon (%)</label><input type="number" id="promo-discount-input" class="form-input" placeholder="20" min="1" max="100"></div>
+                                    <div class="form-group" style="margin-bottom: 0;"><label class="form-label">Label Badge</label><input type="text" id="promo-badge-input" class="form-input" placeholder="HOT / NEW / TERBATAS"></div>
+                                    <div class="form-group" style="margin-bottom: 0;"><label class="form-label">Deskripsi</label><input type="text" id="promo-desc-input" class="form-input" placeholder="Diskon khusus untuk pelanggan minggu ini"></div>
+                                    <div class="form-group" style="margin-bottom: 0;"><label class="form-label">Berlaku Sampai</label><input type="date" id="promo-expiry-input" class="form-input"></div>
+                                    <div class="form-group" style="margin-bottom: 0;"><label class="form-label">Maks Klaim</label><input type="number" id="promo-maxclaim-input" class="form-input" placeholder="50" min="1"></div>
+                                </div>
+                                <button class="btn" onclick="addPromo()" style="margin-top: 8px; margin-bottom: 0;">Tambah Promo</button>
+                            </div>
+                            <div class="admin-section"><div class="admin-title">Daftar Promo</div><div id="admin-promo-list"></div></div>
+                        </section>
+
+                        <section class="admin-subpanel" id="admin-section-orders">
+                            <div class="admin-orders-note">Orderan ditampilkan ringkas agar tidak terlihat penuh. Klik tombol status pada order untuk mengubah status tanpa memakai alert atau dropdown bawaan browser.</div>
+                            <div class="admin-orders-toolbar">
+                                <div class="admin-orders-counts" id="admin-orders-counts"></div>
+                                <div class="admin-orders-filters" id="admin-orders-filters">
+                                    <button class="admin-order-filter active" type="button" data-order-filter="ALL" onclick="setAdminOrderFilter('ALL')">SEMUA</button>
+                                    <button class="admin-order-filter" type="button" data-order-filter="MENUNGGU" onclick="setAdminOrderFilter('MENUNGGU')">MENUNGGU</button>
+                                    <button class="admin-order-filter" type="button" data-order-filter="DIPROSES" onclick="setAdminOrderFilter('DIPROSES')">DIPROSES</button>
+                                    <button class="admin-order-filter" type="button" data-order-filter="SELESAI" onclick="setAdminOrderFilter('SELESAI')">SELESAI</button>
+                                    <button class="admin-order-filter" type="button" data-order-filter="DIBATALKAN" onclick="setAdminOrderFilter('DIBATALKAN')">DIBATALKAN</button>
+                                </div>
+                            </div>
+                            <div id="admin-orders-list"></div>
+                        </section>
+
+                        <button class="btn" onclick="exitAdmin()" style="background: transparent; color: var(--danger); border: 1px solid rgba(248, 113, 113, 0.4); margin-top: 0;">Keluar Admin</button>
                     </div>
                 </div>
             </div>
-        </main>
-    </div>
 
-    <!-- PRODUCT DETAIL MODAL -->
+            <!-- PRODUCT DETAIL MODAL -->
     <div class="product-modal-overlay" id="product-modal-overlay">
         <div class="product-modal">
             <button class="product-modal-close" onclick="closeProductModal()">✕</button>
@@ -1984,6 +3362,61 @@
         </div>
     </div>
 
+    <!-- CUSTOM CONFIRMATION MODAL -->
+    <div class="confirm-overlay" id="confirm-modal" role="dialog" aria-modal="true" aria-labelledby="confirm-title">
+        <div class="confirm-modal">
+            <div class="confirm-icon-wrap">
+                <div class="confirm-icon">!</div>
+            </div>
+
+            <div class="confirm-kicker" id="confirm-kicker">KONFIRMASI</div>
+            <h2 class="confirm-title" id="confirm-title">Hapus item?</h2>
+            <p class="confirm-message" id="confirm-message">Tindakan ini tidak dapat dibatalkan.</p>
+
+            <div class="confirm-target" id="confirm-target">
+                <span class="confirm-target-label">ITEM</span>
+                <strong id="confirm-target-name"></strong>
+            </div>
+
+            <div class="confirm-buttons">
+                <button class="confirm-btn cancel" type="button" onclick="closeConfirmModal()">Batal</button>
+                <button class="confirm-btn danger" type="button" id="confirm-action-btn" onclick="confirmActionProceed()">Hapus Promo</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ORDER STATUS PICKER -->
+    <div class="status-picker-overlay" id="status-picker-modal" role="dialog" aria-modal="true" aria-labelledby="status-picker-title">
+        <div class="status-picker-modal">
+            <div class="status-picker-kicker">UBAH STATUS ORDER</div>
+            <h2 class="status-picker-title" id="status-picker-title">Pilih status pesanan</h2>
+            <p class="status-picker-subtitle">Pilih status baru untuk pesanan ini. Perubahan langsung disimpan ke riwayat.</p>
+            <div class="status-picker-order">
+                <div class="status-picker-order-label">PESANAN</div>
+                <div class="status-picker-order-name" id="status-picker-order-name">-</div>
+            </div>
+            <div class="status-picker-grid">
+                <button class="status-picker-option waiting" type="button" onclick="chooseAdminOrderStatus('MENUNGGU')">
+                    <span class="status-picker-dot">◷</span>
+                    <span><strong>MENUNGGU</strong><small>Pesanan baru / belum mulai</small></span>
+                </button>
+                <button class="status-picker-option processing" type="button" onclick="chooseAdminOrderStatus('DIPROSES')">
+                    <span class="status-picker-dot">↻</span>
+                    <span><strong>DIPROSES</strong><small>Pesanan sedang dikerjakan</small></span>
+                </button>
+                <button class="status-picker-option done" type="button" onclick="chooseAdminOrderStatus('SELESAI')">
+                    <span class="status-picker-dot">✓</span>
+                    <span><strong>SELESAI</strong><small>Pesanan sudah selesai</small></span>
+                </button>
+                <button class="status-picker-option cancelled" type="button" onclick="chooseAdminOrderStatus('DIBATALKAN')">
+                    <span class="status-picker-dot">×</span>
+                    <span><strong>DIBATALKAN</strong><small>Pesanan dibatalkan</small></span>
+                </button>
+            </div>
+            <button class="status-picker-close" type="button" onclick="closeStatusPicker()">BATAL</button>
+        </div>
+    </div>
+
     <!-- TOAST (NEW DESIGN) -->
     <div class="toast" id="toast" role="status" aria-live="polite">
         <div class="toast-icon" id="toast-icon">✓</div>
@@ -2008,6 +3441,10 @@
         let selectedDurationIdx = 0;
         let toastTimer = null;
         let productObserver = null;
+        let confirmAction = null;
+        let activeAdminSection = 'voucher';
+        let activeOrderFilter = 'ALL';
+        let pendingOrderStatusIndex = null;
         const WA_NUMBER = '6285891103110';
         const TOAST_DURATION = 3000;
 
@@ -2021,7 +3458,7 @@
                     { l: 'Anti-Banned', mult: 1.4 },
                     { l: 'Full Custom', mult: 2 }
                 ],
-                durations: [{ l: '1 Jam', p: 2000 }, { l: '1 Hari', p: 5000 }, { l: '7 Hari', p: 25000 }]
+                durations: [{ l: '1 Jam', p: 1000 }, { l: '1 Hari', p: 3000 }, { l: '7 Hari', p: 15000 }]
             },
             {
                 id: 2, cat: 'sewabot', name: 'SewaBot Standard', badge: '',
@@ -2031,7 +3468,7 @@
                     { l: 'Anti-Banned', mult: 1.4 },
                     { l: 'Full Custom', mult: 2 }
                 ],
-                durations: [{ l: '1 Jam', p: 5000 }, { l: '1 Hari', p: 10000 }, { l: '7 Hari', p: 50000 }]
+                durations: [{ l: '1 Jam', p: 3000 }, { l: '1 Hari', p: 7000 }, { l: '7 Hari', p: 30000 }]
             },
             {
                 id: 3, cat: 'sewabot', name: 'SewaBot Premium', badge: 'best',
@@ -2041,7 +3478,7 @@
                     { l: 'AI Powered', mult: 1.6 },
                     { l: 'Enterprise', mult: 2.4 }
                 ],
-                durations: [{ l: '1 Hari', p: 15000 }, { l: '7 Hari', p: 75000 }, { l: '30 Hari', p: 200000 }]
+                durations: [{ l: '1 Hari', p: 10000 }, { l: '7 Hari', p: 45000 }, { l: '30 Hari', p: 120000 }]
             },
             {
                 id: 4, cat: 'jadibot', name: 'JadiBot Starter', badge: '',
@@ -2051,7 +3488,7 @@
                     { l: 'Personal', mult: 1.5 },
                     { l: 'White Label', mult: 2.5 }
                 ],
-                durations: [{ l: '30 Hari', p: 50000 }, { l: '90 Hari', p: 120000 }, { l: '180 Hari', p: 200000 }]
+                durations: [{ l: '30 Hari', p: 35000 }, { l: '90 Hari', p: 85000 }, { l: '180 Hari', p: 150000 }]
             },
             {
                 id: 5, cat: 'jadibot', name: 'JadiBot Personal', badge: 'new',
@@ -2061,7 +3498,7 @@
                     { l: 'Personal', mult: 1.5 },
                     { l: 'White Label', mult: 2.5 }
                 ],
-                durations: [{ l: '30 Hari', p: 100000 }, { l: '90 Hari', p: 250000 }, { l: '180 Hari', p: 450000 }]
+                durations: [{ l: '30 Hari', p: 75000 }, { l: '90 Hari', p: 180000 }, { l: '180 Hari', p: 320000 }]
             },
             {
                 id: 6, cat: 'jadibot', name: 'JadiBot Business', badge: 'best',
@@ -2071,7 +3508,7 @@
                     { l: 'Branded', mult: 1.4 },
                     { l: 'Full Service', mult: 2 }
                 ],
-                durations: [{ l: '30 Hari', p: 200000 }, { l: '90 Hari', p: 500000 }, { l: '180 Hari', p: 900000 }]
+                durations: [{ l: '30 Hari', p: 150000 }, { l: '90 Hari', p: 350000 }, { l: '180 Hari', p: 650000 }]
             },
             {
                 id: 7, cat: 'nokos', name: 'Nokos Standar', badge: '',
@@ -2081,7 +3518,7 @@
                     { l: 'Malaysia', mult: 1.3 },
                     { l: 'USA', mult: 1.8 }
                 ],
-                price: 1500, unit: '/nomor'
+                price: 1000, unit: '/nomor'
             },
             {
                 id: 8, cat: 'nokos', name: 'Nokos Premium', badge: 'hot',
@@ -2091,7 +3528,7 @@
                     { l: 'USA', mult: 1.6 },
                     { l: 'UK', mult: 2 }
                 ],
-                price: 3000, unit: '/nomor'
+                price: 2000, unit: '/nomor'
             },
             {
                 id: 9, cat: 'smm', name: 'SMM Instagram', badge: 'best',
@@ -2101,7 +3538,7 @@
                     { l: 'Premium', mult: 1.5 },
                     { l: 'VIP Real', mult: 2.2 }
                 ],
-                price: 15000, unit: '/bulan'
+                price: 10000, unit: '/bulan'
             },
             {
                 id: 10, cat: 'smm', name: 'SMM TikTok', badge: 'hot',
@@ -2111,7 +3548,7 @@
                     { l: 'Premium', mult: 1.5 },
                     { l: 'VIP Real', mult: 2.2 }
                 ],
-                price: 18000, unit: '/bulan'
+                price: 12000, unit: '/bulan'
             },
             {
                 id: 11, cat: 'smm', name: 'SMM YouTube', badge: '',
@@ -2121,7 +3558,7 @@
                     { l: 'Premium', mult: 1.5 },
                     { l: 'VIP Real', mult: 2.2 }
                 ],
-                price: 25000, unit: '/bulan'
+                price: 18000, unit: '/bulan'
             },
             {
                 id: 12, cat: 'apikey', name: 'API WhatsApp Basic', badge: 'hot',
@@ -2131,7 +3568,7 @@
                     { l: 'Priority', mult: 1.5 },
                     { l: 'Dedicated', mult: 2.5 }
                 ],
-                price: 75000, unit: '/bulan'
+                price: 50000, unit: '/bulan'
             },
             {
                 id: 13, cat: 'apikey', name: 'API WhatsApp Pro', badge: 'best',
@@ -2141,7 +3578,7 @@
                     { l: 'Priority', mult: 1.5 },
                     { l: 'Dedicated', mult: 2.5 }
                 ],
-                price: 150000, unit: '/bulan'
+                price: 75000, unit: '/bulan'
             },
             {
                 id: 14, cat: 'apikey', name: 'API SMM Panel', badge: '',
@@ -2151,7 +3588,7 @@
                     { l: 'Priority', mult: 1.5 },
                     { l: 'Dedicated', mult: 2.5 }
                 ],
-                price: 100000, unit: '/bulan'
+                price: 75000, unit: '/bulan'
             },
         ];
 
@@ -2163,6 +3600,15 @@
 
         function saveVouchers() {
             localStorage.setItem('satz_vouchers', JSON.stringify(vouchers));
+        }
+
+        let promos = JSON.parse(localStorage.getItem('satz_promos') || 'null') || [
+            { id: 1, title: 'Promo SewaBot Minggu Ini', code: 'SATZPROMO', badge: 'HOT', desc: 'Klaim promo ini untuk mendapatkan diskon saat checkout.', expiry: '2026-12-31', maxClaim: 100, claimCount: 0, claimedBy: [], active: true },
+            { id: 2, title: 'Promo Member Baru', code: 'NEWUSER', badge: 'NEW', desc: 'Promo khusus untuk pelanggan baru ZEVORA.', expiry: '2026-12-31', maxClaim: 1, claimCount: 0, claimedBy: [], active: true }
+        ];
+
+        function savePromos() {
+            localStorage.setItem('satz_promos', JSON.stringify(promos));
         }
 
         let history = JSON.parse(localStorage.getItem('satz_history') || '[]');
@@ -2238,6 +3684,37 @@
             document.body.classList.remove('modal-open');
         }
 
+        /* ===== FAQ ===== */
+        function toggleFaq(button) {
+            const item = button.closest('.faq-item');
+            if (!item) return;
+
+            const isOpen = item.classList.contains('open');
+            document.querySelectorAll('#faq-list .faq-item.open').forEach(openItem => {
+                openItem.classList.remove('open');
+            });
+
+            if (!isOpen) {
+                item.classList.add('open');
+            }
+        }
+
+        function initFaq() {
+            document.querySelectorAll('#faq-list .faq-item').forEach(item => {
+                item.classList.remove('open');
+            });
+        }
+
+        function openFaqWhatsApp() {
+            const text = 'Halo Admin ZEVORA, saya ingin bertanya mengenai produk atau pesanan saya.';
+            window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(text)}`, '_blank');
+        }
+
+        function openOrderWhatsApp() {
+            const text = 'Halo Admin ZEVORA, saya ingin bertanya mengenai cara order atau produk di ZEVORA.';
+            window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(text)}`, '_blank');
+        }
+
         /* ===== KEYBOARD SHORTCUTS ===== */
         document.addEventListener('keydown', function (e) {
             const tag = (e.target.tagName || '').toUpperCase();
@@ -2257,6 +3734,7 @@
             if (isAdminLoggedIn) { goPage('admin'); return; }
             isAdminLoggedIn = true;
             document.getElementById('menu-admin').style.display = 'block';
+            activeAdminSection = 'voucher';
             goPage('admin');
             renderVouchers();
             showToast('Admin mode aktif', 'info');
@@ -2268,6 +3746,162 @@
             document.getElementById('menu-admin').style.display = 'none';
             goPage('store');
             showToast('Keluar dari admin mode', 'info');
+        }
+
+        /* ===== ADMIN SUBMENU ===== */
+        function showAdminSection(section) {
+            if (!isAdminLoggedIn) return;
+            const allowed = ['voucher', 'promo', 'orders'];
+            if (!allowed.includes(section)) section = 'voucher';
+            activeAdminSection = section;
+
+            document.querySelectorAll('.admin-subpanel').forEach(panel => {
+                panel.classList.toggle('active', panel.id === `admin-section-${section}`);
+            });
+            document.querySelectorAll('.admin-subtab').forEach(tab => {
+                tab.classList.toggle('active', tab.id === `admin-tab-${section}`);
+            });
+
+            if (section === 'voucher') renderVouchers();
+            if (section === 'promo') renderAdminPromos();
+            if (section === 'orders') renderAdminOrders();
+        }
+
+        function setAdminOrderFilter(filter) {
+            const allowed = ['ALL', 'MENUNGGU', 'DIPROSES', 'SELESAI', 'DIBATALKAN'];
+            activeOrderFilter = allowed.includes(filter) ? filter : 'ALL';
+
+            document.querySelectorAll('.admin-order-filter').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.orderFilter === activeOrderFilter);
+            });
+
+            renderAdminOrders();
+        }
+
+        function getAdminOrderStatusMeta(status) {
+            const map = {
+                MENUNGGU: { cls: 'waiting', icon: '◷', label: 'MENUNGGU' },
+                DIPROSES: { cls: 'processing', icon: '↻', label: 'DIPROSES' },
+                SELESAI: { cls: 'done', icon: '✓', label: 'SELESAI' },
+                DIBATALKAN: { cls: 'cancelled', icon: '×', label: 'DIBATALKAN' }
+            };
+            return map[status] || map.MENUNGGU;
+        }
+
+        function renderAdminOrderCounts() {
+            const el = document.getElementById('admin-orders-counts');
+            if (!el) return;
+
+            const counts = { MENUNGGU: 0, DIPROSES: 0, SELESAI: 0, DIBATALKAN: 0 };
+            history.forEach(h => {
+                const status = h.status || 'MENUNGGU';
+                if (counts[status] !== undefined) counts[status]++;
+            });
+
+            const total = history.length;
+            el.innerHTML = `
+                <div style="font-size:10px;color:var(--text-sec);font-weight:800;">TOTAL <strong style="color:var(--text);">${total}</strong></div>
+                <div style="font-size:10px;color:#fbbf24;font-weight:800;">MENUNGGU <strong>${counts.MENUNGGU}</strong></div>
+                <div style="font-size:10px;color:#60a5fa;font-weight:800;">DIPROSES <strong>${counts.DIPROSES}</strong></div>
+                <div style="font-size:10px;color:#4ade80;font-weight:800;">SELESAI <strong>${counts.SELESAI}</strong></div>`;
+        }
+
+        function renderAdminOrders() {
+            const list = document.getElementById('admin-orders-list');
+            if (!list) return;
+
+            renderAdminOrderCounts();
+
+            if (!history.length) {
+                list.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">📦</div>
+                        <div class="empty-title">Belum Ada Orderan</div>
+                        <div class="empty-desc">Orderan dari checkout browser ini akan muncul di sini.</div>
+                    </div>`;
+                return;
+            }
+
+            const filtered = history.map((h, index) => ({ h, index }))
+                .filter(({ h }) => activeOrderFilter === 'ALL' || (h.status || 'MENUNGGU') === activeOrderFilter)
+                .reverse();
+
+            if (!filtered.length) {
+                list.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">🔎</div>
+                        <div class="empty-title">Tidak Ada Order</div>
+                        <div class="empty-desc">Belum ada order dengan status ${activeOrderFilter}.</div>
+                    </div>`;
+                return;
+            }
+
+            list.innerHTML = filtered.map(({ h, index }) => {
+                const status = h.status || 'MENUNGGU';
+                const meta = getAdminOrderStatusMeta(status);
+                return `
+                    <div class="admin-order-card">
+                        <div class="admin-order-top">
+                            <div style="min-width:0;">
+                                <div class="admin-order-id">ORDER #${index + 1}</div>
+                                <div class="admin-order-name">${h.name || 'Pesanan'}</div>
+                                <div class="admin-order-date">${h.date || '-'}</div>
+                            </div>
+                            <span class="admin-order-status-badge ${meta.cls}">${meta.label}</span>
+                        </div>
+                        <div class="admin-order-meta">
+                            <div class="admin-order-meta-box">
+                                <div class="admin-order-meta-label">Voucher</div>
+                                <div class="admin-order-meta-value">${h.voucher && h.voucher !== '-' ? h.voucher : 'Tidak ada'}</div>
+                            </div>
+                            <div class="admin-order-meta-box">
+                                <div class="admin-order-meta-label">Catatan</div>
+                                <div class="admin-order-meta-value">${h.notes ? h.notes : 'Tidak ada catatan'}</div>
+                            </div>
+                        </div>
+                        <div class="admin-order-footer">
+                            <div class="admin-order-footer-label">Status saat ini: ${meta.label}</div>
+                            <button class="admin-order-status-btn" type="button" onclick="openStatusPicker(${index})">${meta.icon} Ubah Status <span style="opacity:.55;">›</span></button>
+                        </div>
+                    </div>`;
+            }).join('');
+        }
+
+        function openStatusPicker(index) {
+            if (!history[index]) return;
+            pendingOrderStatusIndex = index;
+            const modal = document.getElementById('status-picker-modal');
+            const name = document.getElementById('status-picker-order-name');
+            if (!modal || !name) return;
+
+            name.textContent = history[index].name || `Order #${index + 1}`;
+            modal.classList.add('active');
+            lockBodyScroll();
+        }
+
+        function closeStatusPicker() {
+            const modal = document.getElementById('status-picker-modal');
+            if (!modal) return;
+            modal.classList.remove('active');
+            pendingOrderStatusIndex = null;
+            unlockBodyScroll();
+        }
+
+        function chooseAdminOrderStatus(status) {
+            if (pendingOrderStatusIndex === null) return;
+            updateAdminOrderStatus(pendingOrderStatusIndex, status);
+            closeStatusPicker();
+        }
+
+        function updateAdminOrderStatus(index, status) {
+            const allowed = ['MENUNGGU', 'DIPROSES', 'SELESAI', 'DIBATALKAN'];
+            if (!history[index] || !allowed.includes(status)) return;
+
+            history[index].status = status;
+            saveHistory();
+            renderAdminOrders();
+            renderHistory();
+            showToast(`Status order diperbarui: ${status}`, 'success');
         }
 
         /* ===== NAV ===== */
@@ -2284,7 +3918,15 @@
 
             if (page === 'cart') renderCart();
             if (page === 'history') renderHistory();
-            if (page === 'admin') renderVouchers();
+            if (page === 'promo') renderPromos();
+            if (page === 'cara-order') { /* static guide page */ }
+            if (page === 'faq') initFaq();
+            if (page === 'admin') {
+                renderVouchers();
+                renderAdminPromos();
+                renderAdminOrders();
+                showAdminSection(activeAdminSection);
+            }
             if (page === 'store') {
                 setTimeout(initProductAnimations, 60);
             }
@@ -2674,7 +4316,12 @@
             const items = Object.entries(cart).filter(([_, q]) => q > 0);
             if (!items.length) return;
 
-            let text = '*PESANAN BARU - ZEVORASTORE*\n\n';
+            let text = '╭━━━〔 🛒 ZEVORASTORE 〕━━━╮\n';
+            text += '┃     ✦ ORDER DETAILS ✦\n';
+            text += '╰━━━━━━━━━━━━━━━━━━━━━━╯\n\n';
+            text += '📦 *PESANAN*\n';
+            text += '┌────────────────────\n';
+            let no = 1;
             let subtotal = 0;
             items.forEach(([key, qty]) => {
                 const parts = key.split('_');
@@ -2687,20 +4334,29 @@
                 const label = getItemLabel(p, durIdx, fmtIdx);
                 const total = price * qty;
                 subtotal += total;
-                text += `• ${p.name} (${label}) x${qty} = ${fmt(total)}\n`;
+                text += `│ ${String(no).padStart(2, '0')}  ${p.name}\n`;
+                text += `│     ${label} × ${qty}\n`;
+                text += `│     ${fmt(total)}\n`;
+                text += '│\n';
+                no++;
             });
+            text += '└────────────────────\n\n';
 
             let discount = 0;
             if (appliedVoucher) {
                 discount = Math.floor((subtotal * appliedVoucher.discount) / 100);
-                text += `\nVoucher: ${appliedVoucher.code} (-${appliedVoucher.discount}%)\nDiskon: -${fmt(discount)}\n`;
             }
 
             const finalTotal = subtotal - discount;
-            text += `\n*TOTAL: ${fmt(finalTotal)}*`;
-            text += `\n\nPemesan: ${currentUser.name}`;
-            text += `\nNo. HP: ${currentUser.phone}`;
-            if (orderNotes.trim()) text += `\nCatatan: ${orderNotes}`;
+            text += '╭────────────────────╮\n';
+            text += '│ 💰 *TOTAL PEMBAYARAN*\n│\n';
+            text += `│ Subtotal   ${fmt(subtotal)}\n`;
+            if (appliedVoucher) text += `│ Diskon    −${fmt(discount)}\n`;
+            text += '│\n';
+            text += `│ ✦ *${fmt(finalTotal)}*\n`;
+            text += '╰────────────────────╯\n';
+            if (orderNotes.trim()) text += `\n📝 *CATATAN*\n${orderNotes.trim()}\n`;
+            text += '\n✦ _Menunggu konfirmasi admin..._';
 
             const detailText = `Subtotal: ${fmt(subtotal)}\n${appliedVoucher ? `Diskon ${appliedVoucher.code} (${appliedVoucher.discount}%): -${fmt(discount)}\n` : ''}Total: ${fmt(finalTotal)}\n\nPemesan: ${currentUser.name}\nNo. HP: ${currentUser.phone}${orderNotes ? '\nCatatan: ' + orderNotes : ''}`;
 
@@ -2736,7 +4392,7 @@
                 history.push({
                     name: `${p.name} (${label}) x${qty}`,
                     date: new Date().toLocaleString('id-ID'),
-                    status: 'DIPROSES',
+                    status: 'MENUNGGU',
                     voucher: appliedVoucher ? appliedVoucher.code : '-',
                     notes: orderNotes
                 });
@@ -2785,6 +4441,302 @@
             `).join('');
         }
 
+        /* ===== CUSTOM CONFIRMATION ===== */
+        function openConfirmModal(options = {}) {
+            const modal = document.getElementById('confirm-modal');
+            const title = document.getElementById('confirm-title');
+            const message = document.getElementById('confirm-message');
+            const target = document.getElementById('confirm-target');
+            const targetName = document.getElementById('confirm-target-name');
+            const actionBtn = document.getElementById('confirm-action-btn');
+            const kicker = document.getElementById('confirm-kicker');
+
+            if (!modal || !title || !message || !actionBtn) return;
+
+            confirmAction = typeof options.action === 'function' ? options.action : null;
+
+            kicker.textContent = options.kicker || 'KONFIRMASI';
+            title.textContent = options.title || 'Konfirmasi tindakan';
+            message.textContent = options.message || 'Apakah kamu yakin ingin melanjutkan?';
+            actionBtn.textContent = options.confirmText || 'Konfirmasi';
+
+            if (target && targetName) {
+                const targetText = options.target ? String(options.target) : '';
+                targetName.textContent = targetText;
+                target.style.display = targetText ? 'flex' : 'none';
+            }
+
+            actionBtn.classList.toggle('danger', options.danger !== false);
+            modal.classList.add('active');
+            lockBodyScroll();
+
+            requestAnimationFrame(() => actionBtn.focus());
+        }
+
+        function closeConfirmModal() {
+            const modal = document.getElementById('confirm-modal');
+            if (!modal) return;
+
+            modal.classList.remove('active');
+            confirmAction = null;
+            unlockBodyScroll();
+        }
+
+        function confirmActionProceed() {
+            const action = confirmAction;
+            closeConfirmModal();
+
+            if (typeof action === 'function') {
+                setTimeout(action, 20);
+            }
+        }
+
+        document.addEventListener('click', function (e) {
+            const modal = document.getElementById('status-picker-modal');
+            if (modal && e.target === modal) closeStatusPicker();
+        });
+
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') {
+                const statusModal = document.getElementById('status-picker-modal');
+                if (statusModal && statusModal.classList.contains('active')) {
+                    e.preventDefault();
+                    closeStatusPicker();
+                    return;
+                }
+                const modal = document.getElementById('confirm-modal');
+                if (modal && modal.classList.contains('active')) {
+                    e.preventDefault();
+                    closeConfirmModal();
+                }
+            }
+        });
+
+        /* ===== PROMOS ===== */
+        function renderPromos() {
+            const content = document.getElementById('promo-content');
+            if (!content) return;
+
+            const today = todayStr();
+            const visible = promos.filter(p => {
+                if (!p.active) return false;
+                const claimed = Array.isArray(p.claimedBy) && p.claimedBy.includes(currentUser.email);
+                return !claimed;
+            });
+
+            if (!visible.length) {
+                content.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">🏷️</div>
+                        <div class="empty-title">Belum Ada Promo</div>
+                        <div class="empty-desc">Promo aktif akan muncul di halaman ini.</div>
+                    </div>`;
+                return;
+            }
+
+            content.innerHTML = `
+                <div class="promo-grid">
+                    ${visible.map(p => {
+                        const expired = p.expiry < today;
+                        const claimed = false;
+                        const full = p.claimCount >= p.maxClaim;
+                        const disabled = expired || full;
+                        const badge = p.badge ? `<span class="promo-badge">${p.badge.toUpperCase()}</span>` : '';
+                        const status = expired ? 'Promo sudah berakhir' : full ? 'Kuota klaim habis' : claimed ? 'Sudah diklaim akun ini' : `${p.maxClaim - p.claimCount} klaim tersisa`;
+                        return `
+                            <div class="promo-card ${expired ? 'expired' : ''} ${!p.active ? 'inactive' : ''}" data-promo-id="${p.id}">
+                                <div class="promo-top">
+                                    <div>${badge}</div>
+                                    <div class="promo-discount">${getPromoDiscount(p.code)}</div>
+                                </div>
+                                <div class="promo-title">${p.title}</div>
+                                <div class="promo-desc">${p.desc}</div>
+                                <div class="promo-meta">
+                                    <span class="promo-chip">Berlaku s/d ${p.expiry}</span>
+                                    <span class="promo-chip">${p.claimCount}/${p.maxClaim} klaim</span>
+                                </div>
+                                <div class="promo-code">
+                                    <strong>${p.code}</strong>
+                                    <span class="promo-claimed">${claimed ? 'SUDAH DIKLAIM' : 'KODE PROMO'}</span>
+                                </div>
+                                <div class="promo-actions">
+                                    <button class="promo-btn ${disabled ? '' : 'primary'}" onclick="claimPromo(${p.id})" ${disabled ? 'disabled' : ''}>${expired ? 'Kadaluarsa' : full ? 'Kuota Habis' : 'Klaim Promo'}</button>
+                                </div>
+                                <div class="promo-status">${status}</div>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>`;
+        }
+
+        function getPromoDiscount(code) {
+            const voucher = vouchers.find(v => v.code === code);
+            return voucher ? `-${voucher.discount}%` : 'PROMO';
+        }
+
+        function claimPromo(id) {
+            const promo = promos.find(p => p.id === id);
+            if (!promo) return;
+
+            const today = todayStr();
+            if (!promo.active) { showToast('Promo sedang tidak aktif', 'error'); return; }
+            if (promo.expiry < today) { showToast('Promo sudah kedaluwarsa', 'error'); return; }
+            if (promo.claimCount >= promo.maxClaim) { showToast('Kuota klaim promo sudah habis', 'error'); return; }
+            if (!Array.isArray(promo.claimedBy)) promo.claimedBy = [];
+            if (promo.claimedBy.includes(currentUser.email)) { showToast('Promo sudah pernah diklaim', 'info'); return; }
+
+            const voucher = vouchers.find(v => v.code === promo.code);
+            if (!voucher) { showToast(`Voucher ${promo.code} belum tersedia`, 'error'); return; }
+            if (voucher.expiry < today) { showToast('Voucher promo sudah kedaluwarsa', 'error'); return; }
+            if (voucher.usageCount >= voucher.maxuse) { showToast('Batas penggunaan voucher sudah penuh', 'error'); return; }
+
+            promo.claimedBy.push(currentUser.email);
+            promo.claimCount = promo.claimedBy.length;
+            savePromos();
+
+            const card = document.querySelector(`.promo-card[data-promo-id="${promo.id}"]`);
+            if (card) {
+                card.classList.add('promo-claiming');
+            }
+
+            showToast(`Promo ${promo.code} berhasil diklaim`, 'success');
+
+            // Tunggu animasi blur + fade selesai, lalu hapus dari daftar.
+            setTimeout(() => {
+                renderPromos();
+            }, 560);
+        }
+
+        function useClaimedPromo(id) {
+            const promo = promos.find(p => p.id === id);
+            if (!promo) return;
+            const claimed = Array.isArray(promo.claimedBy) && promo.claimedBy.includes(currentUser.email);
+            if (!claimed) { showToast('Klaim promo terlebih dahulu', 'error'); return; }
+            const voucher = vouchers.find(v => v.code === promo.code);
+            if (!voucher) { showToast(`Voucher ${promo.code} tidak ditemukan`, 'error'); return; }
+            appliedVoucher = { code: voucher.code, discount: voucher.discount };
+            voucherMsg = { text: '', type: '' };
+            goPage('cart');
+            showToast(`Promo ${promo.code} siap digunakan`, 'success');
+        }
+
+        function renderAdminPromos() {
+            const list = document.getElementById('admin-promo-list');
+            if (!list) return;
+
+            if (!promos.length) {
+                list.innerHTML = `<div style="color:var(--text-ter);font-size:12px;">Belum ada promo.</div>`;
+                return;
+            }
+
+            list.innerHTML = promos.map((p, i) => `
+                <div class="admin-section" style="padding:16px;margin-bottom:10px;background:var(--surface-alt);">
+                    <div style="display:flex;justify-content:space-between;gap:12px;align-items:flex-start;">
+                        <div style="flex:1;min-width:0;">
+                            <div style="font-weight:700;font-size:13px;margin-bottom:4px;">${p.title}</div>
+                            <div style="font-size:11px;color:var(--text-sec);margin-bottom:4px;">${p.code} · ${getPromoDiscount(p.code)} · s/d ${p.expiry}</div>
+                            <div style="font-size:11px;color:var(--text-ter);">Klaim: ${p.claimCount}/${p.maxClaim}</div>
+                        </div>
+                        <button class="admin-toggle ${p.active ? 'on' : ''}" onclick="togglePromo(${i})">${p.active ? 'AKTIF' : 'NONAKTIF'}</button>
+                    </div>
+                    <div class="admin-actions" style="margin-top:12px;">
+                        <button class="btn-danger" onclick="deletePromo(${i})">Hapus</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function addPromo() {
+            const title = document.getElementById('promo-title-input').value.trim();
+            const code = document.getElementById('promo-code-input').value.trim().toUpperCase();
+            const discount = parseInt(document.getElementById('promo-discount-input').value);
+            const badge = document.getElementById('promo-badge-input').value.trim();
+            const desc = document.getElementById('promo-desc-input').value.trim();
+            const expiry = document.getElementById('promo-expiry-input').value;
+            const maxClaim = parseInt(document.getElementById('promo-maxclaim-input').value);
+
+            if (!title || !code || !discount || !desc || !expiry || !maxClaim) {
+                showToast('Lengkapi data promo terlebih dahulu', 'error');
+                return;
+            }
+            if (discount < 1 || discount > 100) {
+                showToast('Diskon promo harus 1-100%', 'error');
+                return;
+            }
+            if (maxClaim < 1) {
+                showToast('Maks klaim minimal 1', 'error');
+                return;
+            }
+            if (promos.some(p => p.code === code)) {
+                showToast('Kode promo sudah digunakan oleh promo lain', 'error');
+                return;
+            }
+
+            // Promo otomatis membuat / menyinkronkan voucher yang dipakai saat checkout.
+            const existingVoucher = vouchers.find(v => v.code === code);
+            if (existingVoucher) {
+                existingVoucher.discount = discount;
+                existingVoucher.maxuse = maxClaim;
+                existingVoucher.expiry = expiry;
+            } else {
+                vouchers.unshift({ code, discount, maxuse: maxClaim, expiry, usageCount: 0, usedBy: [] });
+            }
+            saveVouchers();
+
+            promos.unshift({ id: Date.now(), title, code, badge, desc, expiry, maxClaim, claimCount: 0, claimedBy: [], active: true });
+            savePromos();
+
+            document.getElementById('promo-title-input').value = '';
+            document.getElementById('promo-code-input').value = '';
+            document.getElementById('promo-discount-input').value = '';
+            document.getElementById('promo-badge-input').value = '';
+            document.getElementById('promo-desc-input').value = '';
+            document.getElementById('promo-expiry-input').value = '';
+            document.getElementById('promo-maxclaim-input').value = '';
+            renderAdminPromos();
+            renderVouchers();
+            showToast(`Promo ${title} berhasil ditambahkan`, 'success');
+        }
+
+        function togglePromo(idx) {
+            if (!promos[idx]) return;
+            promos[idx].active = !promos[idx].active;
+            savePromos();
+            renderAdminPromos();
+            if (document.getElementById('page-promo').classList.contains('active')) renderPromos();
+            showToast(promos[idx].active ? 'Promo diaktifkan' : 'Promo dinonaktifkan', 'info');
+        }
+
+        function deletePromo(idx) {
+            if (!promos[idx]) return;
+
+            const title = promos[idx].title;
+
+            openConfirmModal({
+                kicker: 'HAPUS PROMO',
+                title: 'Hapus promo ini?',
+                message: 'Promo akan dihapus dari daftar admin dan tidak dapat dipulihkan setelah tindakan ini dilakukan.',
+                target: title,
+                confirmText: 'Hapus Promo',
+                danger: true,
+                action: () => {
+                    const current = promos.findIndex(p => p.id === promos[idx].id);
+                    if (current === -1) return;
+
+                    promos.splice(current, 1);
+                    savePromos();
+                    renderAdminPromos();
+
+                    const promoPage = document.getElementById('page-promo');
+                    if (promoPage && promoPage.classList.contains('active')) {
+                        renderPromos();
+                    }
+
+                    showToast(`Promo ${title} dihapus`, 'info');
+                }
+            });
+        }
+
         /* ===== ADMIN VOUCHERS ===== */
         function renderVouchers() {
             const list = document.getElementById('voucher-list');
@@ -2822,13 +4774,28 @@
         }
 
         function resetVoucher(idx) {
-            if (confirm('Reset penggunaan voucher ini?')) {
-                vouchers[idx].usageCount = 0;
-                vouchers[idx].usedBy = [];
-                saveVouchers();
-                renderVouchers();
-                showToast('Voucher direset', 'info');
-            }
+            if (!vouchers[idx]) return;
+
+            const code = vouchers[idx].code;
+
+            openConfirmModal({
+                kicker: 'RESET VOUCHER',
+                title: 'Reset penggunaan?',
+                message: 'Jumlah penggunaan dan daftar pengguna voucher ini akan dikembalikan ke kondisi awal.',
+                target: code,
+                confirmText: 'Reset Voucher',
+                danger: true,
+                action: () => {
+                    const current = vouchers.findIndex(v => v.code === code);
+                    if (current === -1) return;
+
+                    vouchers[current].usageCount = 0;
+                    vouchers[current].usedBy = [];
+                    saveVouchers();
+                    renderVouchers();
+                    showToast('Penggunaan voucher direset', 'info');
+                }
+            });
         }
 
         function addVoucher() {
@@ -2865,13 +4832,27 @@
         }
 
         function deleteVoucher(idx) {
-            if (confirm('Hapus voucher ini?')) {
-                const code = vouchers[idx].code;
-                vouchers.splice(idx, 1);
-                saveVouchers();
-                renderVouchers();
-                showToast(`Voucher ${code} dihapus`, 'info');
-            }
+            if (!vouchers[idx]) return;
+
+            const code = vouchers[idx].code;
+
+            openConfirmModal({
+                kicker: 'HAPUS VOUCHER',
+                title: 'Hapus voucher ini?',
+                message: 'Voucher akan dihapus permanen dari sistem promo dan tidak dapat digunakan lagi.',
+                target: code,
+                confirmText: 'Hapus Voucher',
+                danger: true,
+                action: () => {
+                    const current = vouchers.findIndex(v => v.code === code);
+                    if (current === -1) return;
+
+                    vouchers.splice(current, 1);
+                    saveVouchers();
+                    renderVouchers();
+                    showToast(`Voucher ${code} dihapus`, 'info');
+                }
+            });
         }
 
         /* ===== VIDEO AUTO-PLAY ===== */
@@ -2904,6 +4885,7 @@
             document.getElementById('user-name').textContent = currentUser.name;
             document.getElementById('user-phone').textContent = currentUser.phone;
             renderProducts();
+            savePromos();
 
             document.getElementById('product-modal-overlay').addEventListener('click', function (e) {
                 if (e.target === this) closeProductModal();
