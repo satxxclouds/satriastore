@@ -73,10 +73,6 @@ button{
   outline:0;
 }
 
-/* =========================================================
-   APP
-========================================================= */
-
 .app{
   width:100%;
   height:100dvh;
@@ -94,9 +90,9 @@ button{
     var(--bg);
 }
 
-/* =========================================================
+/* ================================
    INTRO
-========================================================= */
+================================ */
 
 .intro{
   position:fixed;
@@ -205,13 +201,12 @@ button{
   }
 }
 
-/* =========================================================
+/* ================================
    HEADER
-========================================================= */
+================================ */
 
 .header{
   flex:0 0 auto;
-
   width:100%;
 
   display:flex;
@@ -224,7 +219,6 @@ button{
     14px;
 
   background:rgba(255,255,255,.94);
-
   border-bottom:1px solid var(--line);
 
   backdrop-filter:blur(16px);
@@ -305,13 +299,12 @@ button{
   font-weight:700;
 }
 
-/* =========================================================
-   CHAT SCROLL
-========================================================= */
+/* ================================
+   CHAT
+================================ */
 
 .chat-scroll{
   flex:1 1 auto;
-
   min-height:0;
 
   overflow-y:auto;
@@ -319,10 +312,7 @@ button{
 
   scroll-behavior:smooth;
 
-  padding:
-    22px
-    18px
-    18px;
+  padding:22px 18px 18px;
 }
 
 .chat-scroll::-webkit-scrollbar{
@@ -341,13 +331,12 @@ button{
 .chat{
   width:100%;
   max-width:850px;
-
   margin:0 auto;
 }
 
-/* =========================================================
+/* ================================
    WELCOME
-========================================================= */
+================================ */
 
 .welcome{
   min-height:100%;
@@ -359,10 +348,7 @@ button{
 
   text-align:center;
 
-  padding:
-    35px
-    10px
-    45px;
+  padding:35px 10px 45px;
 }
 
 .welcome-orb{
@@ -395,6 +381,7 @@ button{
 
   font-size:30px;
   line-height:1.1;
+
   letter-spacing:-1.2px;
 }
 
@@ -409,16 +396,14 @@ button{
   line-height:1.6;
 }
 
-/* =========================================================
-   SUGGESTIONS
-========================================================= */
-
 .suggestions{
   width:100%;
   max-width:700px;
 
   display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
+
+  grid-template-columns:
+    repeat(2,minmax(0,1fr));
 
   gap:10px;
 
@@ -434,7 +419,6 @@ button{
   border-radius:14px;
 
   background:#fff;
-
   color:var(--ink);
 
   cursor:pointer;
@@ -471,9 +455,9 @@ button{
   line-height:1.4;
 }
 
-/* =========================================================
+/* ================================
    MESSAGE
-========================================================= */
+================================ */
 
 .message-row{
   width:100%;
@@ -493,6 +477,7 @@ button{
 
 .message{
   width:auto;
+
   max-width:min(760px,88%);
 
   border-radius:17px;
@@ -508,7 +493,6 @@ button{
 
 .message.user{
   background:var(--blue);
-
   color:#fff;
 
   border-bottom-right-radius:5px;
@@ -521,7 +505,6 @@ button{
   width:fit-content;
 
   background:#fff;
-
   color:var(--ink-soft);
 
   border:1px solid var(--line);
@@ -532,15 +515,9 @@ button{
     0 5px 18px rgba(15,23,42,.035);
 }
 
-/* =========================================================
-   TYPING INDICATOR
-========================================================= */
-
-/*
-  Ini bagian yang diperbaiki.
-  Bubble berpikir sekarang selalu kecil:
-  58px x 42px.
-*/
+/* ================================
+   TYPING
+================================ */
 
 .message.ai.typing-message{
   width:58px;
@@ -557,6 +534,7 @@ button{
   justify-content:center;
 
   border-radius:14px;
+
   border-bottom-left-radius:5px;
 
   overflow:hidden;
@@ -585,7 +563,8 @@ button{
 
   background:var(--blue);
 
-  animation:typing .9s infinite ease-in-out;
+  animation:
+    typing .9s infinite ease-in-out;
 }
 
 .typing span:nth-child(2){
@@ -598,9 +577,7 @@ button{
 
 @keyframes typing{
 
-  0%,
-  60%,
-  100%{
+  0%,60%,100%{
     transform:translateY(0);
     opacity:.3;
   }
@@ -609,12 +586,11 @@ button{
     transform:translateY(-4px);
     opacity:1;
   }
-
 }
 
-/* =========================================================
+/* ================================
    GENERATED IMAGE
-========================================================= */
+================================ */
 
 .generated-image{
   width:100%;
@@ -648,9 +624,9 @@ button{
   font-size:12px;
 }
 
-/* =========================================================
-   COMPOSER WRAP
-========================================================= */
+/* ================================
+   COMPOSER
+================================ */
 
 .composer-wrap{
   flex:0 0 auto;
@@ -671,10 +647,6 @@ button{
 
   z-index:30;
 }
-
-/* =========================================================
-   MODE BAR
-========================================================= */
 
 .mode-bar{
   width:100%;
@@ -708,13 +680,8 @@ button{
 
 .mode-btn.active{
   background:var(--blue-soft);
-
   color:var(--blue);
 }
-
-/* =========================================================
-   PREVIEW
-========================================================= */
 
 .preview-wrap{
   display:none;
@@ -776,10 +743,6 @@ button{
     0 3px 10px rgba(0,0,0,.10);
 }
 
-/* =========================================================
-   COMPOSER
-========================================================= */
-
 .composer{
   width:100%;
   max-width:850px;
@@ -813,10 +776,6 @@ button{
   box-shadow:
     0 10px 30px rgba(37,99,235,.09);
 }
-
-/* =========================================================
-   TOOL BUTTON
-========================================================= */
 
 .tool-btn{
   flex:0 0 40px;
@@ -857,13 +816,8 @@ button{
   height:19px;
 }
 
-/* =========================================================
-   INPUT
-========================================================= */
-
 .input-area{
   flex:1;
-
   min-width:0;
 }
 
@@ -887,17 +841,12 @@ textarea{
   color:var(--ink);
 
   font-size:14px;
-
   line-height:20px;
 }
 
 textarea::placeholder{
   color:#94a3b8;
 }
-
-/* =========================================================
-   SEND
-========================================================= */
 
 .send-btn{
   flex:0 0 40px;
@@ -947,12 +896,13 @@ textarea::placeholder{
   height:19px;
 }
 
-/* =========================================================
+/* ================================
    IMAGE MODAL
-========================================================= */
+================================ */
 
 .image-modal{
   position:fixed;
+
   inset:0;
 
   z-index:99999;
@@ -996,7 +946,6 @@ textarea::placeholder{
 
 .modal-image-wrap{
   flex:1;
-
   min-height:0;
 
   display:flex;
@@ -1021,6 +970,7 @@ textarea::placeholder{
 
 .modal-actions{
   display:flex;
+
   justify-content:flex-end;
 
   gap:8px;
@@ -1082,9 +1032,9 @@ textarea::placeholder{
     0 5px 15px rgba(0,0,0,.10);
 }
 
-/* =========================================================
+/* ================================
    MOBILE
-========================================================= */
+================================ */
 
 @media(max-width:650px){
 
@@ -1098,17 +1048,11 @@ textarea::placeholder{
   }
 
   .chat-scroll{
-    padding:
-      16px
-      12px
-      14px;
+    padding:16px 12px 14px;
   }
 
   .welcome{
-    padding:
-      25px
-      5px
-      35px;
+    padding:25px 5px 35px;
   }
 
   .welcome h1{
@@ -1117,13 +1061,11 @@ textarea::placeholder{
 
   .suggestions{
     grid-template-columns:1fr;
-
     gap:8px;
   }
 
   .message{
     max-width:92%;
-
     font-size:13.5px;
   }
 
@@ -1141,12 +1083,7 @@ textarea::placeholder{
   .composer{
     border-radius:16px;
   }
-
 }
-
-/* =========================================================
-   SMALL HEIGHT
-========================================================= */
 
 @media(max-height:600px){
 
@@ -1157,7 +1094,6 @@ textarea::placeholder{
 
   .welcome h1{
     margin-top:13px;
-
     font-size:24px;
   }
 
@@ -1168,16 +1104,15 @@ textarea::placeholder{
   .suggestions{
     margin-top:17px;
   }
-
 }
 </style>
 </head>
 
 <body>
 
-<!-- =======================================================
+<!-- ================================
      INTRO
-======================================================= -->
+================================ -->
 
 <div class="intro" id="intro">
 
@@ -1197,12 +1132,11 @@ textarea::placeholder{
 
 </div>
 
-
 <div class="app">
 
-  <!-- =====================================================
+  <!-- ================================
        HEADER
-  ====================================================== -->
+  ================================= -->
 
   <header class="header">
 
@@ -1219,11 +1153,8 @@ textarea::placeholder{
         </div>
 
         <div class="brand-status">
-
           <span class="status-dot"></span>
-
           Online
-
         </div>
 
       </div>
@@ -1236,10 +1167,9 @@ textarea::placeholder{
 
   </header>
 
-
-  <!-- =====================================================
-       CHAT
-  ====================================================== -->
+  <!-- ================================
+       CHAT AREA
+  ================================= -->
 
   <main class="chat-scroll" id="chatScroll">
 
@@ -1260,7 +1190,6 @@ textarea::placeholder{
           menganalisis gambar, dan membuat gambar dari prompt.
         </p>
 
-
         <div class="suggestions">
 
           <button
@@ -1278,7 +1207,6 @@ textarea::placeholder{
 
           </button>
 
-
           <button
             class="suggestion"
             data-prompt="Bantu saya membuat website sederhana."
@@ -1294,7 +1222,6 @@ textarea::placeholder{
 
           </button>
 
-
           <button
             class="suggestion"
             data-prompt="Jelaskan konsep JavaScript untuk pemula."
@@ -1309,7 +1236,6 @@ textarea::placeholder{
             </div>
 
           </button>
-
 
           <button
             class="suggestion"
@@ -1334,10 +1260,9 @@ textarea::placeholder{
 
   </main>
 
-
-  <!-- =====================================================
+  <!-- ================================
        COMPOSER
-  ====================================================== -->
+  ================================= -->
 
   <div class="composer-wrap">
 
@@ -1360,7 +1285,6 @@ textarea::placeholder{
       </button>
 
     </div>
-
 
     <div
       class="preview-wrap"
@@ -1385,7 +1309,6 @@ textarea::placeholder{
       </div>
 
     </div>
-
 
     <div class="composer">
 
@@ -1428,14 +1351,12 @@ textarea::placeholder{
 
       </button>
 
-
       <input
         type="file"
         id="fileInput"
         accept="image/*"
         hidden
       >
-
 
       <div class="input-area">
 
@@ -1448,7 +1369,6 @@ textarea::placeholder{
         ></textarea>
 
       </div>
-
 
       <button
         class="send-btn"
@@ -1483,10 +1403,9 @@ textarea::placeholder{
 
 </div>
 
-
-<!-- =======================================================
+<!-- ================================
      IMAGE MODAL
-======================================================= -->
+================================ -->
 
 <div
   class="image-modal"
@@ -1537,11 +1456,11 @@ textarea::placeholder{
 
 </div>
 
-
 <script>
-/* =========================================================
-   CONFIG
-========================================================= */
+
+/* ==========================================================
+   KONFIGURASI SATXAI
+========================================================== */
 
 const API_URL =
   "https://satria-proxy.satxbase.workers.dev/";
@@ -1553,22 +1472,11 @@ const MODEL =
   "qwen/qwen3.8-27b";
 
 /*
-===========================================================
-BATAS OUTPUT
+  Batas output token SATXAI.
 
-Groq kamu:
-Limit = 1000 OTPM
-
-Kita gunakan:
-900 token
-
-Jadi:
-900 < 1000
-===========================================================
+  700 dibuat lebih aman terhadap limit OTPM 1000.
 */
-
-const MAX_TOKENS = 900;
-
+const MAX_TOKENS = 700;
 
 const SYSTEM_PROMPT =
   "Kamu adalah SATXAI, asisten AI pribadi yang ramah, pintar, dan selalu siap membantu. " +
@@ -1578,9 +1486,60 @@ const SYSTEM_PROMPT =
   "Jangan mengarang detail yang tidak terlihat pada gambar.";
 
 
-/* =========================================================
-   ELEMENTS
-========================================================= */
+/* ==========================================================
+   ⭐ CUSTOM ERROR MESSAGES
+   ==========================================================
+
+   SEMUA PESAN ERROR YANG DILIHAT PENGGUNA ADA DI SINI.
+
+   Kalau ingin mengganti pesan, ubah teks setelah tanda "=".
+
+========================================================== */
+
+const ERROR_MESSAGES = {
+
+  // Limit Groq / token / terlalu banyak request
+  limit:
+    "⚠️ Sabar Lagi Perbaiki Tunggu 1-2 Menit.",
+
+  // API key / autentikasi
+  auth:
+    "🔐 SATXAI sedang mengalami masalah autentikasi. Silakan coba lagi nanti.",
+
+  // Tidak mempunyai izin
+  permission:
+    "🔒 Gaboleh Kaya Gitu Ya.",
+
+  // Server bermasalah
+  server:
+    "🔧 Server Lagi Gangguan.",
+
+  // Internet / koneksi
+  network:
+    "📡 Sinyal Kamu Lag Ni.",
+
+  // Permintaan tidak valid
+  badRequest:
+    "⚠️ Permintaan belum dapat diproses. Coba ubah pesan lalu kirim kembali.",
+
+  // Pembuatan gambar
+  image:
+    "🎨 SATXAI belum berhasil membuat gambar. Coba gunakan prompt yang berbeda.",
+
+  // Error gambar lainnya
+  imageGeneral:
+    "🎨 Terjadi kendala saat membuat gambar. Silakan coba lagi.",
+
+  // Error umum
+  general:
+    "⚠️ SATXAI sedang mengalami gangguan. Silakan coba lagi beberapa saat."
+
+};
+
+
+/* ==========================================================
+   ELEMENT
+========================================================== */
 
 const intro =
   document.getElementById("intro");
@@ -1590,9 +1549,6 @@ const chatScroll =
 
 const chat =
   document.getElementById("chat");
-
-const welcome =
-  document.getElementById("welcome");
 
 const messageInput =
   document.getElementById("messageInput");
@@ -1637,9 +1593,9 @@ const modalDownload =
   document.getElementById("modalDownload");
 
 
-/* =========================================================
+/* ==========================================================
    STATE
-========================================================= */
+========================================================== */
 
 let currentMode =
   "chat";
@@ -1656,11 +1612,6 @@ let isGenerating =
 let currentModalImage =
   "";
 
-
-/* =========================================================
-   MESSAGE HISTORY
-========================================================= */
-
 let messages = [
   {
     role:"system",
@@ -1669,20 +1620,177 @@ let messages = [
 ];
 
 
-/* =========================================================
+/* ==========================================================
+   CUSTOM ERROR HANDLER
+========================================================== */
+
+function getCustomErrorMessage(
+  error,
+  type = "chat"
+){
+
+  const errorText =
+    String(
+      error?.message ||
+      error ||
+      ""
+    ).toLowerCase();
+
+
+  /*
+    LIMIT
+  */
+
+  if(
+    errorText.includes("request too large") ||
+    errorText.includes("output tokens per minute") ||
+    errorText.includes("otpm") ||
+    errorText.includes("rate limit") ||
+    errorText.includes("too many requests") ||
+    errorText.includes("429")
+  ){
+
+    return ERROR_MESSAGES.limit;
+
+  }
+
+
+  /*
+    AUTH
+  */
+
+  if(
+    errorText.includes("401") ||
+    errorText.includes("unauthorized") ||
+    errorText.includes("invalid api key") ||
+    errorText.includes("authentication")
+  ){
+
+    return ERROR_MESSAGES.auth;
+
+  }
+
+
+  /*
+    PERMISSION
+  */
+
+  if(
+    errorText.includes("403") ||
+    errorText.includes("forbidden") ||
+    errorText.includes("permission")
+  ){
+
+    return ERROR_MESSAGES.permission;
+
+  }
+
+
+  /*
+    SERVER
+  */
+
+  if(
+    errorText.includes("500") ||
+    errorText.includes("502") ||
+    errorText.includes("503") ||
+    errorText.includes("504") ||
+    errorText.includes("internal server") ||
+    errorText.includes("bad gateway") ||
+    errorText.includes("service unavailable")
+  ){
+
+    if(type === "image"){
+      return ERROR_MESSAGES.imageGeneral;
+    }
+
+    return ERROR_MESSAGES.server;
+
+  }
+
+
+  /*
+    NETWORK
+  */
+
+  if(
+    errorText.includes("failed to fetch") ||
+    errorText.includes("networkerror") ||
+    errorText.includes("network error") ||
+    errorText.includes("connection") ||
+    errorText.includes("timeout") ||
+    errorText.includes("timed out")
+  ){
+
+    return ERROR_MESSAGES.network;
+
+  }
+
+
+  /*
+    IMAGE
+  */
+
+  if(type === "image"){
+
+    if(
+      errorText.includes(
+        "worker tidak mengembalikan gambar"
+      ) ||
+      errorText.includes("image") ||
+      errorText.includes("generate")
+    ){
+
+      return ERROR_MESSAGES.image;
+
+    }
+
+    return ERROR_MESSAGES.imageGeneral;
+
+  }
+
+
+  /*
+    BAD REQUEST
+  */
+
+  if(
+    errorText.includes("400") ||
+    errorText.includes("bad request") ||
+    errorText.includes("invalid request")
+  ){
+
+    return ERROR_MESSAGES.badRequest;
+
+  }
+
+
+  /*
+    DEFAULT
+  */
+
+  return ERROR_MESSAGES.general;
+
+}
+
+
+/* ==========================================================
    INTRO
-========================================================= */
+========================================================== */
 
-setTimeout(() => {
+setTimeout(
+  () => {
 
-  intro.classList.add("hide");
+    intro.classList.add("hide");
 
-}, 1400);
+  },
+  1400
+);
 
 
-/* =========================================================
+/* ==========================================================
    VIEWPORT
-========================================================= */
+========================================================== */
 
 function updateViewportHeight(){
 
@@ -1714,25 +1822,27 @@ if(window.visualViewport){
 updateViewportHeight();
 
 
-/* =========================================================
+/* ==========================================================
    SCROLL
-========================================================= */
+========================================================== */
 
 function scrollToBottom(){
 
-  requestAnimationFrame(() => {
+  requestAnimationFrame(
+    () => {
 
-    chatScroll.scrollTop =
-      chatScroll.scrollHeight;
+      chatScroll.scrollTop =
+        chatScroll.scrollHeight;
 
-  });
+    }
+  );
 
 }
 
 
-/* =========================================================
-   REMOVE WELCOME
-========================================================= */
+/* ==========================================================
+   WELCOME
+========================================================== */
 
 function removeWelcome(){
 
@@ -1740,17 +1850,15 @@ function removeWelcome(){
     document.getElementById("welcome");
 
   if(element){
-
     element.remove();
-
   }
 
 }
 
 
-/* =========================================================
-   ADD MESSAGE
-========================================================= */
+/* ==========================================================
+   APPEND MESSAGE
+========================================================== */
 
 function appendMessage(
   role,
@@ -1762,24 +1870,25 @@ function appendMessage(
 
   row.className =
     "message-row " +
-    (role === "user"
-      ? "user"
-      : "ai");
-
+    (
+      role === "user"
+        ? "user"
+        : "ai"
+    );
 
   const bubble =
     document.createElement("div");
 
   bubble.className =
     "message " +
-    (role === "user"
-      ? "user"
-      : "ai");
-
+    (
+      role === "user"
+        ? "user"
+        : "ai"
+    );
 
   bubble.textContent =
     text;
-
 
   row.appendChild(
     bubble
@@ -1796,9 +1905,9 @@ function appendMessage(
 }
 
 
-/* =========================================================
-   TYPING INDICATOR
-========================================================= */
+/* ==========================================================
+   TYPING
+========================================================== */
 
 function showTyping(){
 
@@ -1811,18 +1920,11 @@ function showTyping(){
   row.id =
     "typingRow";
 
-
   const bubble =
     document.createElement("div");
 
-  /*
-   Class khusus supaya CSS
-   tidak membuat bubble menjadi panjang.
-  */
-
   bubble.className =
     "message ai typing-message";
-
 
   bubble.innerHTML = `
     <div class="typing">
@@ -1831,7 +1933,6 @@ function showTyping(){
       <span></span>
     </div>
   `;
-
 
   row.appendChild(
     bubble
@@ -1854,17 +1955,15 @@ function hideTyping(){
     );
 
   if(typing){
-
     typing.remove();
-
   }
 
 }
 
 
-/* =========================================================
+/* ==========================================================
    GENERATED IMAGE MESSAGE
-========================================================= */
+========================================================== */
 
 function appendGeneratedImageMessage(
   imageUrl,
@@ -1877,13 +1976,11 @@ function appendGeneratedImageMessage(
   row.className =
     "message-row ai";
 
-
   const bubble =
     document.createElement("div");
 
   bubble.className =
     "message ai";
-
 
   const label =
     document.createElement("div");
@@ -1893,7 +1990,6 @@ function appendGeneratedImageMessage(
 
   label.textContent =
     "Gambar berhasil dibuat";
-
 
   const img =
     document.createElement("img");
@@ -1911,7 +2007,6 @@ function appendGeneratedImageMessage(
   img.loading =
     "lazy";
 
-
   img.addEventListener(
     "click",
     () => {
@@ -1922,7 +2017,6 @@ function appendGeneratedImageMessage(
 
     }
   );
-
 
   bubble.appendChild(
     label
@@ -1945,9 +2039,9 @@ function appendGeneratedImageMessage(
 }
 
 
-/* =========================================================
+/* ==========================================================
    IMAGE MODAL
-========================================================= */
+========================================================== */
 
 function openImageModal(
   imageUrl
@@ -1980,7 +2074,6 @@ modalClose.addEventListener(
   closeImageModal
 );
 
-
 modalCloseBottom.addEventListener(
   "click",
   closeImageModal
@@ -2003,9 +2096,9 @@ imageModal.addEventListener(
 );
 
 
-/* =========================================================
+/* ==========================================================
    DOWNLOAD IMAGE
-========================================================= */
+========================================================== */
 
 modalDownload.addEventListener(
   "click",
@@ -2029,7 +2122,6 @@ modalDownload.addEventListener(
         URL.createObjectURL(
           blob
         );
-
 
       const link =
         document.createElement(
@@ -2067,9 +2159,9 @@ modalDownload.addEventListener(
 );
 
 
-/* =========================================================
+/* ==========================================================
    MODE
-========================================================= */
+========================================================== */
 
 function setMode(
   mode
@@ -2077,7 +2169,6 @@ function setMode(
 
   currentMode =
     mode;
-
 
   if(mode === "image"){
 
@@ -2120,9 +2211,7 @@ chatModeBtn.addEventListener(
   "click",
   () => {
 
-    setMode(
-      "chat"
-    );
+    setMode("chat");
 
   }
 );
@@ -2132,17 +2221,15 @@ imageModeBtn.addEventListener(
   "click",
   () => {
 
-    setMode(
-      "image"
-    );
+    setMode("image");
 
   }
 );
 
 
-/* =========================================================
-   FILE UPLOAD
-========================================================= */
+/* ==========================================================
+   UPLOAD IMAGE
+========================================================== */
 
 uploadBtn.addEventListener(
   "click",
@@ -2161,11 +2248,9 @@ fileInput.addEventListener(
     const file =
       event.target.files?.[0];
 
-
     if(!file){
       return;
     }
-
 
     if(
       !file.type.startsWith(
@@ -2181,7 +2266,6 @@ fileInput.addEventListener(
 
     }
 
-
     try{
 
       const compressed =
@@ -2191,13 +2275,11 @@ fileInput.addEventListener(
           0.82
         );
 
-
       selectedImageFile =
         file;
 
       selectedImageData =
         compressed;
-
 
       previewImage.src =
         compressed;
@@ -2222,9 +2304,9 @@ fileInput.addEventListener(
 );
 
 
-/* =========================================================
+/* ==========================================================
    REMOVE IMAGE
-========================================================= */
+========================================================== */
 
 removeImageBtn.addEventListener(
   "click",
@@ -2250,9 +2332,9 @@ removeImageBtn.addEventListener(
 );
 
 
-/* =========================================================
+/* ==========================================================
    RESIZE IMAGE
-========================================================= */
+========================================================== */
 
 function resizeImage(
   file,
@@ -2269,13 +2351,11 @@ function resizeImage(
       const reader =
         new FileReader();
 
-
       reader.onload =
         event => {
 
           const img =
             new Image();
-
 
           img.onload =
             () => {
@@ -2285,7 +2365,6 @@ function resizeImage(
 
               let height =
                 img.height;
-
 
               if(
                 width > maxSize ||
@@ -2297,7 +2376,6 @@ function resizeImage(
                     maxSize / width,
                     maxSize / height
                   );
-
 
                 width =
                   Math.round(
@@ -2311,12 +2389,10 @@ function resizeImage(
 
               }
 
-
               const canvas =
                 document.createElement(
                   "canvas"
                 );
-
 
               canvas.width =
                 width;
@@ -2324,12 +2400,10 @@ function resizeImage(
               canvas.height =
                 height;
 
-
               const ctx =
                 canvas.getContext(
                   "2d"
                 );
-
 
               ctx.drawImage(
                 img,
@@ -2338,7 +2412,6 @@ function resizeImage(
                 width,
                 height
               );
-
 
               resolve(
                 canvas.toDataURL(
@@ -2349,20 +2422,16 @@ function resizeImage(
 
             };
 
-
           img.onerror =
             reject;
-
 
           img.src =
             event.target.result;
 
         };
 
-
       reader.onerror =
         reject;
-
 
       reader.readAsDataURL(
         file
@@ -2374,22 +2443,20 @@ function resizeImage(
 }
 
 
-/* =========================================================
+/* ==========================================================
    TEXTAREA AUTO RESIZE
-========================================================= */
+========================================================== */
 
 function autoResize(){
 
   messageInput.style.height =
     "auto";
 
-
   const height =
     Math.min(
       messageInput.scrollHeight,
       130
     );
-
 
   messageInput.style.height =
     `${height}px`;
@@ -2403,9 +2470,9 @@ messageInput.addEventListener(
 );
 
 
-/* =========================================================
+/* ==========================================================
    SUGGESTIONS
-========================================================= */
+========================================================== */
 
 document
   .querySelectorAll(
@@ -2421,10 +2488,8 @@ document
           const prompt =
             button.dataset.prompt;
 
-
           messageInput.value =
             prompt;
-
 
           autoResize();
 
@@ -2437,9 +2502,9 @@ document
   );
 
 
-/* =========================================================
+/* ==========================================================
    GENERATE IMAGE
-========================================================= */
+========================================================== */
 
 async function generateImage(
   prompt
@@ -2462,13 +2527,10 @@ async function generateImage(
       }
     );
 
-
   const text =
     await response.text();
 
-
   let data;
-
 
   try{
 
@@ -2484,7 +2546,6 @@ async function generateImage(
 
   }
 
-
   if(!response.ok){
 
     const errorMessage =
@@ -2493,17 +2554,14 @@ async function generateImage(
       text ||
       `HTTP ${response.status}`;
 
-
     throw new Error(
       errorMessage
     );
 
   }
 
-
   let imageUrl =
     null;
-
 
   if(
     typeof data === "string"
@@ -2520,7 +2578,6 @@ async function generateImage(
       data.url ||
       data.result;
 
-
     if(
       data.result &&
       typeof data.result === "object"
@@ -2536,11 +2593,6 @@ async function generateImage(
     }
 
   }
-
-
-  /*
-   Jika hasil berupa base64
-  */
 
   if(
     imageUrl &&
@@ -2559,7 +2611,6 @@ async function generateImage(
 
   }
 
-
   if(!imageUrl){
 
     throw new Error(
@@ -2568,15 +2619,14 @@ async function generateImage(
 
   }
 
-
   return imageUrl;
 
 }
 
 
-/* =========================================================
+/* ==========================================================
    SEND MESSAGE
-========================================================= */
+========================================================== */
 
 async function sendMessage(){
 
@@ -2584,10 +2634,8 @@ async function sendMessage(){
     return;
   }
 
-
   const text =
     messageInput.value.trim();
-
 
   if(
     !text &&
@@ -2598,9 +2646,7 @@ async function sendMessage(){
 
   }
 
-
   removeWelcome();
-
 
   isGenerating =
     true;
@@ -2609,9 +2655,9 @@ async function sendMessage(){
     true;
 
 
-  /* =======================================================
+  /* ========================================================
      IMAGE MODE
-  ======================================================= */
+  ======================================================== */
 
   if(
     currentMode === "image"
@@ -2629,21 +2675,17 @@ async function sendMessage(){
 
     }
 
-
     appendMessage(
       "user",
       text
     );
-
 
     messageInput.value =
       "";
 
     autoResize();
 
-
     showTyping();
-
 
     try{
 
@@ -2652,9 +2694,7 @@ async function sendMessage(){
           text
         );
 
-
       hideTyping();
-
 
       appendGeneratedImageMessage(
         imageUrl,
@@ -2665,13 +2705,13 @@ async function sendMessage(){
 
       hideTyping();
 
-
       appendMessage(
         "ai",
-        "⚠️ Terjadi kesalahan: " +
-        error.message
+        getCustomErrorMessage(
+          error,
+          "image"
+        )
       );
-
 
       console.error(
         "Image generation error:",
@@ -2679,7 +2719,6 @@ async function sendMessage(){
       );
 
     }
-
 
     isGenerating =
       false;
@@ -2692,9 +2731,9 @@ async function sendMessage(){
   }
 
 
-  /* =======================================================
-     CHAT MODE
-  ======================================================= */
+  /* ========================================================
+     CHAT / VISION MODE
+  ======================================================== */
 
   let userContent;
 
@@ -2739,11 +2778,8 @@ async function sendMessage(){
 
 
   messages.push({
-
     role:"user",
-
     content:userContent
-
   });
 
 
@@ -2792,24 +2828,11 @@ async function sendMessage(){
 
             messages:messages,
 
-            /*
-             =============================================
-             FIX OTPM
-             =============================================
-
-             1024 ❌
-             900  ✅
-
-             Limit = 1000
-             =============================================
-            */
-
             max_tokens:MAX_TOKENS,
 
             temperature:0.7
 
           })
-
         }
       );
 
@@ -2819,7 +2842,6 @@ async function sendMessage(){
 
 
     let data;
-
 
     try{
 
@@ -2844,7 +2866,6 @@ async function sendMessage(){
         data?.message ||
         rawText ||
         `HTTP ${response.status}`;
-
 
       throw new Error(
         errorMessage
@@ -2876,11 +2897,8 @@ async function sendMessage(){
 
 
     messages.push({
-
       role:"assistant",
-
       content:reply
-
     });
 
 
@@ -2891,10 +2909,17 @@ async function sendMessage(){
 
     appendMessage(
       "ai",
-      "⚠️ Terjadi kesalahan: " +
-      error.message
+      getCustomErrorMessage(
+        error,
+        "chat"
+      )
     );
 
+
+    /*
+      Error asli tetap dicatat di console
+      untuk debugging kamu.
+    */
 
     console.error(
       "SATXAI error:",
@@ -2913,9 +2938,9 @@ async function sendMessage(){
 }
 
 
-/* =========================================================
+/* ==========================================================
    SEND BUTTON
-========================================================= */
+========================================================== */
 
 sendBtn.addEventListener(
   "click",
@@ -2923,9 +2948,9 @@ sendBtn.addEventListener(
 );
 
 
-/* =========================================================
-   ENTER
-========================================================= */
+/* ==========================================================
+   ENTER TO SEND
+========================================================== */
 
 messageInput.addEventListener(
   "keydown",
@@ -2946,9 +2971,9 @@ messageInput.addEventListener(
 );
 
 
-/* =========================================================
-   ESC
-========================================================= */
+/* ==========================================================
+   ESC CLOSE MODAL
+========================================================== */
 
 document.addEventListener(
   "keydown",
@@ -2966,9 +2991,9 @@ document.addEventListener(
 );
 
 
-/* =========================================================
-   ANTI ZOOM
-========================================================= */
+/* ==========================================================
+   PREVENT MOBILE GESTURE ZOOM
+========================================================== */
 
 document.addEventListener(
   "gesturestart",
@@ -2982,7 +3007,6 @@ document.addEventListener(
   }
 );
 
-
 document.addEventListener(
   "gesturechange",
   event => {
@@ -2994,7 +3018,6 @@ document.addEventListener(
     passive:false
   }
 );
-
 
 document.addEventListener(
   "gestureend",
@@ -3009,9 +3032,9 @@ document.addEventListener(
 );
 
 
-/* =========================================================
-   INITIAL
-========================================================= */
+/* ==========================================================
+   INITIALIZE
+========================================================== */
 
 setMode(
   "chat"
