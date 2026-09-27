@@ -1,958 +1,1713 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Satria Music — Audio Visualizer</title>
-<style>
-  :root {
-    --bg: #07050f;
-    --panel: rgba(14, 10, 26, 0.7);
-    --accent: #a855f7;
-    --neon: #e879f9;
-    --cyan: #06b6d4;
-    --lime: #84cc16;
-    --rose: #f43f5e;
-    --gold: #fbbf24;
-    --text: #f0eaff;
-    --muted: rgba(240, 234, 255, 0.5);
-    --border: rgba(168, 85, 247, 0.25);
-  }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Dasar Pemrograman — Panduan Lengkap</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  html, body {
-    min-height: 100vh;
-    background: var(--bg);
-    font-family: 'Segoe UI', system-ui, sans-serif;
-    color: var(--text);
-    overflow-x: hidden;
-  }
+        :root {
+            --bg: #08080a;
+            --bg-alt: #0d0d10;
+            --surface: #121216;
+            --surface-2: #17171c;
+            --border: #1f1f24;
+            --border-2: #2a2a30;
+            --text: #f5f5f7;
+            --text-2: #a1a1a6;
+            --text-3: #6e6e73;
+            --accent: #5e9eff;
+            --accent-2: #a78bfa;
+            --accent-3: #34d399;
+            --warn: #fbbf24;
+            --code-kw: #c084fc;
+            --code-str: #86efac;
+            --code-num: #fbbf24;
+            --code-fn: #5e9eff;
+            --code-com: #52525b;
+            --code-var: #f5f5f7;
+            --code-op: #f472b6;
+        }
 
-  body::before {
-    content: '';
-    position: fixed;
-    top: -20%; left: 50%;
-    transform: translateX(-50%);
-    width: 900px; height: 700px;
-    background: radial-gradient(ellipse, rgba(168,85,247,0.15) 0%, transparent 70%);
-    pointer-events: none;
-    z-index: 0;
-  }
+        html {
+            scroll-behavior: smooth;
+            -webkit-text-size-adjust: 100%;
+        }
 
-  .container {
-    position: relative;
-    z-index: 1;
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 30px 20px;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-  }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            overflow-x: hidden;
+            font-weight: 400;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
 
-  /* Header */
-  .header {
-    text-align: center;
-    margin-bottom: 30px;
-    animation: fadeUp 0.8s ease both;
-  }
-  .header .eyebrow {
-    font-size: 12px;
-    letter-spacing: 4px;
-    text-transform: uppercase;
-    color: var(--cyan);
-    margin-bottom: 8px;
-  }
-  .header h1 {
-    font-size: 32px;
-    font-weight: 900;
-    background: linear-gradient(135deg, var(--accent), var(--neon));
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    margin-bottom: 6px;
-  }
-  .header p {
-    color: var(--muted);
-    font-size: 13px;
-  }
+        /* ===== SCROLL PROGRESS BAR ===== */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent), var(--accent-2));
+            z-index: 9999;
+            width: 0%;
+            transition: width 0.1s linear;
+            box-shadow: 0 0 12px rgba(94, 158, 255, 0.6);
+        }
 
-  /* Visualizer Canvas */
-  .visualizer-container {
-    position: relative;
-    width: 100%;
-    height: 300px;
-    background: var(--panel);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    overflow: hidden;
-    margin-bottom: 24px;
-    backdrop-filter: blur(14px);
-    box-shadow: 0 0 60px rgba(168, 85, 247, 0.1);
-    animation: fadeUp 0.8s 0.1s ease both;
-  }
-  #visualizer {
-    width: 100%;
-    height: 100%;
-    display: block;
-  }
-  .visualizer-overlay {
-    position: absolute;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
-    pointer-events: none;
-    transition: opacity 0.5s;
-  }
-  .visualizer-overlay.hidden {
-    opacity: 0;
-  }
-  .visualizer-overlay .icon {
-    font-size: 48px;
-    margin-bottom: 12px;
-    filter: drop-shadow(0 0 20px rgba(168,85,247,0.5));
-  }
-  .visualizer-overlay p {
-    color: var(--muted);
-    font-size: 14px;
-  }
+        /* ===== NAVBAR ===== */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 18px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 1000;
+            background: rgba(8, 8, 10, 0.65);
+            backdrop-filter: blur(20px) saturate(160%);
+            -webkit-backdrop-filter: blur(20px) saturate(160%);
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.3s, background 0.3s;
+        }
 
-  /* Upload Area */
-  .upload-area {
-    border: 2px dashed var(--border);
-    border-radius: 16px;
-    padding: 28px;
-    text-align: center;
-    margin-bottom: 24px;
-    transition: all 0.3s;
-    cursor: pointer;
-    animation: fadeUp 0.8s 0.2s ease both;
-  }
-  .upload-area:hover {
-    border-color: var(--neon);
-    background: rgba(168, 85, 247, 0.08);
-  }
-  .upload-area.dragover {
-    border-color: var(--neon);
-    background: rgba(168, 85, 247, 0.15);
-    transform: scale(1.02);
-  }
-  .upload-area .icon {
-    font-size: 36px;
-    margin-bottom: 12px;
-  }
-  .upload-area p {
-    color: var(--muted);
-    font-size: 14px;
-    margin-bottom: 8px;
-  }
-  .upload-area small {
-    color: rgba(240, 234, 255, 0.3);
-    font-size: 12px;
-  }
-  #file-input {
-    display: none;
-  }
+        .nav.scrolled {
+            border-bottom-color: var(--border);
+            background: rgba(8, 8, 10, 0.85);
+        }
 
-  /* Controls */
-  .controls-panel {
-    background: var(--panel);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 24px;
-    backdrop-filter: blur(14px);
-    margin-bottom: 24px;
-    animation: fadeUp 0.8s 0.3s ease both;
-  }
+        .nav-logo {
+            font-weight: 800;
+            font-size: 15px;
+            letter-spacing: 0.02em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
 
-  .track-info {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    margin-bottom: 20px;
-  }
-  .track-cover {
-    width: 56px; height: 56px;
-    border-radius: 14px;
-    background: linear-gradient(135deg, var(--accent), var(--neon));
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 24px;
-    flex-shrink: 0;
-  }
-  .track-details h3 {
-    font-size: 15px;
-    font-weight: 700;
-    margin-bottom: 4px;
-  }
-  .track-details p {
-    font-size: 12px;
-    color: var(--muted);
-  }
+        .nav-logo::before {
+            content: '';
+            width: 22px;
+            height: 22px;
+            border-radius: 6px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-2));
+            box-shadow: 0 0 20px rgba(94, 158, 255, 0.4);
+        }
 
-  /* Progress */
-  .progress-row {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 20px;
-  }
-  .time {
-    font-size: 12px;
-    color: var(--muted);
-    min-width: 40px;
-    text-align: center;
-    font-variant-numeric: tabular-nums;
-  }
-  .progress-bar {
-    flex: 1;
-    height: 6px;
-    border-radius: 3px;
-    background: rgba(255,255,255,0.1);
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-  }
-  .progress-fill {
-    height: 100%;
-    border-radius: 3px;
-    background: linear-gradient(90deg, var(--accent), var(--neon));
-    width: 0%;
-    transition: width 0.1s linear;
-    position: relative;
-  }
-  .progress-fill::after {
-    content: '';
-    position: absolute;
-    right: -6px; top: 50%;
-    transform: translateY(-50%);
-    width: 12px; height: 12px;
-    border-radius: 50%;
-    background: var(--neon);
-    box-shadow: 0 0 10px var(--neon);
-    opacity: 0;
-    transition: opacity 0.3s;
-  }
-  .progress-bar:hover .progress-fill::after {
-    opacity: 1;
-  }
+        .nav-links {
+            display: flex;
+            gap: 4px;
+            list-style: none;
+            font-size: 12.5px;
+            font-weight: 500;
+        }
 
-  /* Buttons */
-  .control-buttons {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 20px;
-    margin-bottom: 20px;
-  }
-  .ctrl-btn {
-    background: none;
-    border: none;
-    color: var(--text);
-    cursor: pointer;
-    font-size: 20px;
-    transition: all 0.3s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 8px;
-  }
-  .ctrl-btn:hover {
-    color: var(--neon);
-    transform: scale(1.1);
-  }
-  .ctrl-btn.play {
-    width: 56px; height: 56px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--accent), var(--neon));
-    color: #fff;
-    font-size: 24px;
-    box-shadow: 0 0 30px rgba(168,85,247,0.3);
-  }
-  .ctrl-btn.play:hover {
-    transform: scale(1.08);
-    box-shadow: 0 0 40px rgba(168,85,247,0.5);
-  }
+        .nav-links a {
+            color: var(--text-2);
+            text-decoration: none;
+            padding: 8px 14px;
+            border-radius: 8px;
+            transition: color 0.2s, background 0.2s;
+        }
 
-  /* Volume */
-  .volume-row {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-  .volume-row i {
-    color: var(--muted);
-    font-size: 16px;
-  }
-  .volume-slider {
-    flex: 1;
-    -webkit-appearance: none;
-    appearance: none;
-    height: 4px;
-    border-radius: 2px;
-    background: rgba(255,255,255,0.1);
-    outline: none;
-  }
-  .volume-slider::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 14px; height: 14px;
-    border-radius: 50%;
-    background: var(--neon);
-    cursor: pointer;
-    box-shadow: 0 0 10px rgba(232,121,249,0.5);
-  }
+        .nav-links a:hover {
+            color: var(--text);
+            background: var(--surface);
+        }
 
-  /* Theme Colors */
-  .theme-row {
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-    flex-wrap: wrap;
-    margin-bottom: 24px;
-    animation: fadeUp 0.8s 0.4s ease both;
-  }
-  .theme-btn {
-    padding: 10px 20px;
-    border-radius: 10px;
-    border: 1px solid var(--border);
-    background: rgba(255,255,255,0.03);
-    color: var(--muted);
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s;
-    font-family: inherit;
-  }
-  .theme-btn:hover {
-    border-color: var(--neon);
-    color: var(--text);
-  }
-  .theme-btn.active {
-    background: linear-gradient(135deg, var(--accent), var(--neon));
-    border-color: transparent;
-    color: #fff;
-    box-shadow: 0 0 20px rgba(168,85,247,0.3);
-  }
+        @media (max-width: 768px) {
+            .nav { padding: 14px 18px; }
+            .nav-links { display: none; }
+        }
 
-  /* Playlist */
-  .playlist-panel {
-    background: var(--panel);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 24px;
-    backdrop-filter: blur(14px);
-    flex: 1;
-    animation: fadeUp 0.8s 0.5s ease both;
-  }
-  .playlist-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 16px;
-  }
-  .playlist-header h3 {
-    font-size: 14px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    color: var(--muted);
-  }
-  .playlist-count {
-    font-size: 12px;
-    color: var(--muted);
-    background: rgba(255,255,255,0.05);
-    padding: 4px 12px;
-    border-radius: 20px;
-  }
-  .playlist {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    max-height: 250px;
-    overflow-y: auto;
-  }
-  .playlist::-webkit-scrollbar {
-    width: 4px;
-  }
-  .playlist::-webkit-scrollbar-thumb {
-    background: var(--border);
-    border-radius: 2px;
-  }
-  .track-item {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 12px 14px;
-    border-radius: 12px;
-    cursor: pointer;
-    transition: all 0.3s;
-  }
-  .track-item:hover {
-    background: rgba(168, 85, 247, 0.1);
-  }
-  .track-item.active {
-    background: rgba(168, 85, 247, 0.15);
-    border: 1px solid var(--border);
-  }
-  .track-item .num {
-    font-size: 12px;
-    color: var(--muted);
-    min-width: 24px;
-    text-align: center;
-  }
-  .track-item .num.playing {
-    color: var(--neon);
-  }
-  .track-item .name {
-    flex: 1;
-    font-size: 14px;
-    font-weight: 500;
-  }
-  .track-item .dur {
-    font-size: 12px;
-    color: var(--muted);
-    font-variant-numeric: tabular-nums;
-  }
-  .track-item .remove {
-    background: none;
-    border: none;
-    color: var(--muted);
-    cursor: pointer;
-    font-size: 14px;
-    padding: 4px;
-    opacity: 0;
-    transition: all 0.3s;
-  }
-  .track-item:hover .remove {
-    opacity: 1;
-  }
-  .track-item .remove:hover {
-    color: var(--rose);
-  }
+        /* ===== HERO ===== */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 120px 24px 80px;
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+        }
 
-  /* Empty state */
-  .empty-playlist {
-    text-align: center;
-    padding: 40px 20px;
-    color: var(--muted);
-  }
-  .empty-playlist .icon {
-    font-size: 36px;
-    margin-bottom: 12px;
-    opacity: 0.5;
-  }
-  .empty-playlist p {
-    font-size: 14px;
-  }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle,
+                    rgba(94, 158, 255, 0.14) 0%,
+                    rgba(167, 139, 250, 0.08) 30%,
+                    transparent 65%);
+            pointer-events: none;
+            animation: pulseGlow 8s ease-in-out infinite;
+            filter: blur(20px);
+        }
 
-  /* Footer */
-  footer {
-    text-align: center;
-    margin-top: 30px;
-    font-size: 11px;
-    color: var(--muted);
-    letter-spacing: 1px;
-  }
+        @keyframes pulseGlow {
+            0%, 100% { opacity: 0.7; transform: translate(-50%, -50%) scale(0.95); }
+            50% { opacity: 1; transform: translate(-50%, -50%) scale(1.08); }
+        }
 
-  /* Animations */
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(24px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
+        .grid-overlay {
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(255, 255, 255, 0.028) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.028) 1px, transparent 1px);
+            background-size: 60px 60px;
+            mask-image: radial-gradient(circle at center, black 30%, transparent 75%);
+            -webkit-mask-image: radial-gradient(circle at center, black 30%, transparent 75%);
+            pointer-events: none;
+        }
 
-  @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.5; }
-  }
-  .playing .num {
-    animation: pulse 1s infinite;
-  }
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+            animation: heroEnter 1.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+        }
 
-  /* Responsive */
-  @media (max-width: 600px) {
-    .header h1 { font-size: 24px; }
-    .visualizer-container { height: 220px; }
-    .control-buttons { gap: 16px; }
-    .ctrl-btn.play { width: 48px; height: 48px; font-size: 20px; }
-  }
-  #maintenanceScreen {
-    position: fixed;
-    inset: 0;
-    z-index: 999999;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    text-align: center;
+        @keyframes heroEnter {
+            0% { opacity: 0; transform: translateY(40px); filter: blur(10px); }
+            100% { opacity: 1; transform: translateY(0); filter: blur(0); }
+        }
 
-    background:
-        radial-gradient(
-            circle at 20% 20%,
-            rgba(201, 162, 39, 0.15),
-            transparent 35%
-        ),
-        radial-gradient(
-            circle at 80% 80%,
-            rgba(201, 162, 39, 0.10),
-            transparent 35%
-        ),
-        #0f0f0f;
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 7px 14px;
+            border-radius: 999px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--text-2);
+            margin-bottom: 28px;
+            letter-spacing: 0.01em;
+            animation: heroEnter 1.4s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both;
+        }
 
-    color: white;
-}
+        .hero-badge::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--accent-3);
+            box-shadow: 0 0 8px var(--accent-3);
+            animation: dotPulse 2s ease-in-out infinite;
+        }
 
-.maintenance-box {
-    width: 100%;
-    max-width: 550px;
-    padding: 50px 35px;
-    border-radius: 24px;
+        @keyframes dotPulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
 
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(201,162,39,0.3);
+        .hero-title {
+            font-size: clamp(38px, 8vw, 88px);
+            font-weight: 900;
+            letter-spacing: -0.035em;
+            line-height: 1.05;
+            margin-bottom: 24px;
+        }
 
-    backdrop-filter: blur(20px);
+        .hero-title .gradient {
+            background: linear-gradient(120deg, #ffffff 0%, #5e9eff 40%, #a78bfa 70%, #ffffff 100%);
+            background-size: 250% 100%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shimmer 6s linear infinite;
+        }
 
-    box-shadow:
-        0 30px 80px rgba(0,0,0,0.5);
-}
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
 
-.maintenance-icon {
-    width: 80px;
-    height: 80px;
+        .hero-subtitle {
+            font-size: clamp(15px, 1.6vw, 18px);
+            color: var(--text-2);
+            max-width: 620px;
+            margin: 0 auto 40px;
+            line-height: 1.7;
+            animation: heroEnter 1.4s cubic-bezier(0.22, 1, 0.36, 1) 0.25s both;
+        }
 
-    margin: 0 auto 25px;
+        .hero-cta {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: heroEnter 1.4s cubic-bezier(0.22, 1, 0.36, 1) 0.35s both;
+        }
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 13px 24px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+            border: 1px solid transparent;
+            cursor: pointer;
+            font-family: inherit;
+        }
 
-    border-radius: 50%;
+        .btn-primary {
+            background: var(--text);
+            color: var(--bg);
+        }
 
-    background: linear-gradient(
-        135deg,
-        #c9a227,
-        #f5d76e
-    );
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(255, 255, 255, 0.15);
+        }
 
-    font-size: 38px;
+        .btn-ghost {
+            background: transparent;
+            color: var(--text);
+            border-color: var(--border-2);
+        }
 
-    box-shadow:
-        0 10px 30px rgba(201,162,39,0.3);
-}
+        .btn-ghost:hover {
+            background: var(--surface);
+            border-color: var(--text-3);
+            transform: translateY(-2px);
+        }
 
-.maintenance-box h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: 38px;
-    margin-bottom: 15px;
-}
+        .scroll-hint {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            font-size: 11px;
+            color: var(--text-3);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            animation: heroEnter 1.4s ease 1s both;
+        }
 
-.maintenance-box p {
-    color: rgba(255,255,255,0.65);
-    line-height: 1.8;
-    margin-bottom: 25px;
-}
+        .scroll-hint-line {
+            width: 1px;
+            height: 40px;
+            background: linear-gradient(to bottom, var(--text-3), transparent);
+            animation: scrollLine 2s ease-in-out infinite;
+        }
 
-.maintenance-status {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
+        @keyframes scrollLine {
+            0% { transform: scaleY(0); transform-origin: top; }
+            50% { transform: scaleY(1); transform-origin: top; }
+            51% { transform-origin: bottom; }
+            100% { transform: scaleY(0); transform-origin: bottom; }
+        }
 
-    padding: 9px 16px;
+        /* ===== MAIN LAYOUT ===== */
+        main {
+            position: relative;
+            z-index: 1;
+        }
 
-    border-radius: 50px;
+        section {
+            padding: 110px 24px;
+            position: relative;
+        }
 
-    background: rgba(201,162,39,0.1);
-    border: 1px solid rgba(201,162,39,0.25);
+        .container {
+            max-width: 1080px;
+            margin: 0 auto;
+        }
 
-    color: #f5d76e;
+        .container-narrow {
+            max-width: 780px;
+            margin: 0 auto;
+        }
 
-    font-size: 12px;
-    font-weight: 600;
-}
+        /* ===== SECTION HEADER ===== */
+        .section-label {
+            display: inline-block;
+            font-size: 11.5px;
+            font-weight: 700;
+            color: var(--accent);
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+            padding: 4px 0;
+            position: relative;
+        }
 
-.maintenance-status span {
-    width: 8px;
-    height: 8px;
+        .section-title {
+            font-size: clamp(28px, 4.5vw, 46px);
+            font-weight: 800;
+            letter-spacing: -0.025em;
+            line-height: 1.15;
+            margin-bottom: 18px;
+            color: var(--text);
+        }
 
-    border-radius: 50%;
+        .section-desc {
+            font-size: 16px;
+            color: var(--text-2);
+            max-width: 640px;
+            line-height: 1.75;
+        }
 
-    background: #f5d76e;
+        .section-header {
+            margin-bottom: 64px;
+        }
 
-    box-shadow: 0 0 10px #f5d76e;
-}
-</style>
-<base target="_blank">
+        /* ===== REVEAL ANIMATIONS ===== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition:
+                opacity 1s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 1s cubic-bezier(0.22, 1, 0.36, 1);
+            will-change: opacity, transform;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal-blur {
+            opacity: 0;
+            transform: translateY(30px);
+            filter: blur(8px);
+            transition:
+                opacity 1.1s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 1.1s cubic-bezier(0.22, 1, 0.36, 1),
+                filter 1.1s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .reveal-blur.visible {
+            opacity: 1;
+            transform: translateY(0);
+            filter: blur(0);
+        }
+
+        .reveal-left {
+            opacity: 0;
+            transform: translateX(-40px);
+            transition: opacity 1s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 1s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .reveal-left.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .reveal-right {
+            opacity: 0;
+            transform: translateX(40px);
+            transition: opacity 1s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 1s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .reveal-right.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .reveal-scale {
+            opacity: 0;
+            transform: scale(0.94);
+            transition: opacity 1s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 1s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .reveal-scale.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* ===== INTRO GRID (2 columns) ===== */
+        .intro-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        @media (max-width: 900px) {
+            .intro-grid { grid-template-columns: 1fr; gap: 40px; }
+        }
+
+        .intro-text p {
+            color: var(--text-2);
+            margin-bottom: 20px;
+            font-size: 15.5px;
+            line-height: 1.8;
+        }
+
+        .intro-text p strong {
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        /* ===== CODE CARD ===== */
+        .code-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+        }
+
+        .code-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            opacity: 0.6;
+        }
+
+        .code-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 18px;
+            border-bottom: 1px solid var(--border);
+            background: var(--bg-alt);
+        }
+
+        .dot {
+            width: 11px;
+            height: 11px;
+            border-radius: 50%;
+            background: #333;
+        }
+
+        .dot.red { background: #ff5f56; }
+        .dot.yellow { background: #ffbd2e; }
+        .dot.green { background: #27c93f; }
+
+        .code-filename {
+            margin-left: auto;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            color: var(--text-3);
+            letter-spacing: 0.02em;
+        }
+
+        .code-body {
+            padding: 22px;
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
+            font-size: 13px;
+            line-height: 1.75;
+            overflow-x: auto;
+            color: var(--code-var);
+        }
+
+        .code-body pre {
+            margin: 0;
+            font-family: inherit;
+        }
+
+        .kw { color: var(--code-kw); font-weight: 500; }
+        .str { color: var(--code-str); }
+        .num { color: var(--code-num); }
+        .fn { color: var(--code-fn); }
+        .com { color: var(--code-com); font-style: italic; }
+        .op { color: var(--code-op); }
+        .var { color: var(--code-var); }
+
+        /* ===== CONCEPT CARDS GRID ===== */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 18px;
+        }
+
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 28px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+            cursor: default;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(400px circle at var(--mouse-x, 50%) var(--mouse-y, 0%),
+                    rgba(94, 158, 255, 0.09),
+                    transparent 40%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            border-color: var(--border-2);
+            background: var(--surface-2);
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        .card-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, rgba(94, 158, 255, 0.15), rgba(167, 139, 250, 0.15));
+            border: 1px solid rgba(94, 158, 255, 0.2);
+            color: var(--accent);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 15px;
+            font-weight: 700;
+            margin-bottom: 18px;
+        }
+
+        .card-title {
+            font-size: 17px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            letter-spacing: -0.01em;
+        }
+
+        .card-desc {
+            font-size: 13.5px;
+            color: var(--text-2);
+            line-height: 1.7;
+        }
+
+        /* ===== TOPIC SECTION ===== */
+        .topic {
+            padding: 90px 24px;
+            border-top: 1px solid var(--border);
+            position: relative;
+        }
+
+        .topic:first-of-type {
+            border-top: none;
+        }
+
+        .topic-header {
+            display: flex;
+            align-items: baseline;
+            gap: 20px;
+            margin-bottom: 44px;
+            flex-wrap: wrap;
+        }
+
+        .topic-number {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            color: var(--accent);
+            font-weight: 600;
+            letter-spacing: 0.05em;
+        }
+
+        .topic-title {
+            font-size: clamp(24px, 3.5vw, 36px);
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+        }
+
+        .topic-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 44px;
+            align-items: start;
+        }
+
+        .topic-content.full {
+            grid-template-columns: 1fr;
+            max-width: 780px;
+        }
+
+        @media (max-width: 900px) {
+            .topic-content { grid-template-columns: 1fr; gap: 30px; }
+        }
+
+        .topic-text p {
+            color: var(--text-2);
+            font-size: 15px;
+            line-height: 1.85;
+            margin-bottom: 18px;
+        }
+
+        .topic-text p strong {
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        .topic-text ul {
+            list-style: none;
+            margin: 20px 0;
+            padding: 0;
+        }
+
+        .topic-text ul li {
+            color: var(--text-2);
+            font-size: 14.5px;
+            padding: 10px 0 10px 28px;
+            position: relative;
+            line-height: 1.7;
+            border-bottom: 1px solid var(--border);
+            transition: color 0.3s, padding 0.3s;
+        }
+
+        .topic-text ul li:last-child {
+            border-bottom: none;
+        }
+
+        .topic-text ul li::before {
+            content: '';
+            position: absolute;
+            left: 6px;
+            top: 20px;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--accent);
+            transition: box-shadow 0.3s;
+        }
+
+        .topic-text ul li:hover {
+            color: var(--text);
+            padding-left: 32px;
+        }
+
+        .topic-text ul li:hover::before {
+            box-shadow: 0 0 12px var(--accent);
+        }
+
+        .topic-text ul li strong {
+            color: var(--text);
+        }
+
+        .inline-code {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.88em;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            padding: 2px 7px;
+            border-radius: 5px;
+            color: var(--accent);
+        }
+
+        /* ===== TYPES GRID ===== */
+        .types-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .type-item {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 16px;
+            text-align: center;
+            transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+            cursor: default;
+        }
+
+        .type-item:hover {
+            border-color: var(--accent);
+            transform: translateY(-2px);
+            background: var(--surface-2);
+        }
+
+        .type-name {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12.5px;
+            font-weight: 600;
+            color: var(--accent);
+            margin-bottom: 4px;
+        }
+
+        .type-label {
+            font-size: 11px;
+            color: var(--text-3);
+            letter-spacing: 0.02em;
+        }
+
+        /* ===== COMPARISON TABLE ===== */
+        .compare-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            background: var(--surface);
+        }
+
+        @media (max-width: 700px) {
+            .compare-grid { grid-template-columns: 1fr; }
+        }
+
+        .compare-col {
+            padding: 28px;
+            position: relative;
+        }
+
+        .compare-col:first-child {
+            border-right: 1px solid var(--border);
+        }
+
+        @media (max-width: 700px) {
+            .compare-col:first-child {
+                border-right: none;
+                border-bottom: 1px solid var(--border);
+            }
+        }
+
+        .compare-title {
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 16px;
+        }
+
+        .compare-col:last-child .compare-title {
+            color: var(--accent-2);
+        }
+
+        .compare-list {
+            list-style: none;
+        }
+
+        .compare-list li {
+            font-size: 13.5px;
+            color: var(--text-2);
+            padding: 9px 0 9px 22px;
+            position: relative;
+            line-height: 1.6;
+        }
+
+        .compare-list li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--text-3);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .compare-list li strong {
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        /* ===== FLOW / TIMELINE ===== */
+        .flow-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-top: 32px;
+        }
+
+        .flow-step {
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+            padding: 22px 24px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+            position: relative;
+        }
+
+        .flow-step:hover {
+            border-color: var(--border-2);
+            transform: translateX(6px);
+            background: var(--surface-2);
+        }
+
+        .flow-num {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--accent), var(--accent-2));
+            color: #fff;
+            font-size: 13px;
+            font-weight: 700;
+            flex-shrink: 0;
+            box-shadow: 0 6px 20px rgba(94, 158, 255, 0.3);
+        }
+
+        .flow-body {
+            flex: 1;
+        }
+
+        .flow-title {
+            font-size: 14.5px;
+            font-weight: 700;
+            margin-bottom: 5px;
+            color: var(--text);
+        }
+
+        .flow-desc {
+            font-size: 13px;
+            color: var(--text-2);
+            line-height: 1.65;
+        }
+
+        /* ===== QUOTE / HIGHLIGHT ===== */
+        .highlight {
+            background: linear-gradient(135deg, var(--surface), var(--surface-2));
+            border: 1px solid var(--border);
+            border-left: 3px solid var(--accent);
+            border-radius: 10px;
+            padding: 22px 26px;
+            margin: 24px 0;
+            font-size: 14.5px;
+            line-height: 1.75;
+            color: var(--text-2);
+            position: relative;
+        }
+
+        .highlight strong {
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        /* ===== LANGUAGE GRID ===== */
+        .lang-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+        }
+
+        .lang-item {
+            padding: 24px 22px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .lang-item:hover {
+            border-color: var(--border-2);
+            transform: translateY(-3px);
+            background: var(--surface-2);
+        }
+
+        .lang-name {
+            font-size: 15px;
+            font-weight: 700;
+            margin-bottom: 6px;
+            color: var(--text);
+        }
+
+        .lang-desc {
+            font-size: 12.5px;
+            color: var(--text-2);
+            line-height: 1.6;
+        }
+
+        /* ===== CLOSING CTA ===== */
+        .closing {
+            padding: 130px 24px 100px;
+            text-align: center;
+            position: relative;
+            border-top: 1px solid var(--border);
+        }
+
+        .closing::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 600px;
+            height: 300px;
+            background: radial-gradient(ellipse at center, rgba(94, 158, 255, 0.1), transparent 70%);
+            pointer-events: none;
+        }
+
+        .closing h2 {
+            font-size: clamp(26px, 4vw, 42px);
+            font-weight: 800;
+            letter-spacing: -0.025em;
+            margin-bottom: 20px;
+            line-height: 1.2;
+            position: relative;
+        }
+
+        .closing p {
+            color: var(--text-2);
+            font-size: 16px;
+            max-width: 560px;
+            margin: 0 auto 36px;
+            line-height: 1.75;
+            position: relative;
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            padding: 40px 24px;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            font-size: 12.5px;
+            color: var(--text-3);
+        }
+
+        footer a {
+            color: var(--text-2);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        footer a:hover {
+            color: var(--accent);
+        }
+
+        /* ===== FLOATING ORBS (decorative) ===== */
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            pointer-events: none;
+            opacity: 0.35;
+            z-index: 0;
+        }
+
+        /* ===== REDUCED MOTION ===== */
+        @media (prefers-reduced-motion: reduce) {
+            html { scroll-behavior: auto; }
+            .reveal, .reveal-blur, .reveal-left, .reveal-right, .reveal-scale {
+                opacity: 1 !important;
+                transform: none !important;
+                filter: none !important;
+                transition: none !important;
+            }
+            .hero-content, .hero-badge, .hero-subtitle, .hero-cta, .scroll-hint {
+                animation: none !important;
+                opacity: 1 !important;
+                transform: none !important;
+            }
+            .hero::before { animation: none; }
+            .hero-title .gradient { animation: none; }
+            .scroll-hint-line { animation: none; }
+            .dot::before { animation: none; }
+        }
+
+        ::selection {
+            background: var(--accent);
+            color: #fff;
+        }
+
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-2);
+            border-radius: 5px;
+            border: 2px solid var(--bg);
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--text-3);
+        }
+    </style>
 </head>
+
 <body>
 
-<div class="container">
-  <div class="header">
-    <div class="eyebrow">Satria Network</div>
-    <h1>🎵 SATRIA MUSIC</h1>
-    <p>Audio Visualizer — Upload & Feel the Beat</p>
-  </div>
+    <!-- PROGRESS BAR -->
+    <div class="progress-bar" id="progressBar"></div>
 
-  <div class="visualizer-container">
-    <canvas id="visualizer"></canvas>
-    <div class="visualizer-overlay" id="overlay">
-      <div class="icon">🎧</div>
-      <p>Upload lagu untuk melihat visualizer</p>
-    </div>
-  </div>
+    <!-- NAVBAR -->
+    <nav class="nav" id="nav">
+        <div class="nav-logo">DasarKode</div>
+        <ul class="nav-links">
+            <li><a href="#pengantar">Pengantar</a></li>
+            <li><a href="#variabel">Variabel</a></li>
+            <li><a href="#kontrol">Kontrol</a></li>
+            <li><a href="#fungsi">Fungsi</a></li>
+            <li><a href="#struktur">Struktur Data</a></li>
+            <li><a href="#oop">OOP</a></li>
+        </ul>
+    </nav>
 
-  <div class="upload-area" id="upload-area" onclick="document.getElementById('file-input').click()">
-    <div class="icon">📁</div>
-    <p>Klik atau drag & drop file MP3 di sini</p>
-    <small>Format: MP3, WAV, OGG | Max 50MB</small>
-    <input type="file" id="file-input" accept="audio/*" multiple onchange="handleFiles(this.files)">
-  </div>
-
-  <div class="controls-panel">
-    <div class="track-info">
-      <div class="track-cover">🎵</div>
-      <div class="track-details">
-        <h3 id="track-name">Belum ada lagu</h3>
-        <p id="track-artist">Upload file audio untuk mulai</p>
-      </div>
-    </div>
-
-    <div class="progress-row">
-      <span class="time" id="current-time">0:00</span>
-      <div class="progress-bar" id="progress-bar" onclick="seek(event)">
-        <div class="progress-fill" id="progress-fill"></div>
-      </div>
-      <span class="time" id="duration">0:00</span>
-    </div>
-
-    <div class="control-buttons">
-      <button class="ctrl-btn" onclick="prevTrack()">⏮️</button>
-      <button class="ctrl-btn play" id="play-btn" onclick="togglePlay()">▶️</button>
-      <button class="ctrl-btn" onclick="nextTrack()">⏭️</button>
-    </div>
-
-    <div class="volume-row">
-      <i>🔊</i>
-      <input type="range" class="volume-slider" id="volume" min="0" max="100" value="70" oninput="setVolume(this.value)">
-    </div>
-  </div>
-
-  <div class="theme-row">
-    <button class="theme-btn active" onclick="setTheme('purple')">💜 Purple</button>
-    <button class="theme-btn" onclick="setTheme('cyan')">💙 Cyan</button>
-    <button class="theme-btn" onclick="setTheme('pink')">💗 Pink</button>
-    <button class="theme-btn" onclick="setTheme('lime')">💚 Lime</button>
-    <button class="theme-btn" onclick="setTheme('rainbow')">🌈 Rainbow</button>
-  </div>
-
-  <div class="playlist-panel">
-    <div class="playlist-header">
-      <h3>Playlist</h3>
-      <span class="playlist-count" id="playlist-count">0 lagu</span>
-    </div>
-    <div class="playlist" id="playlist">
-      <div class="empty-playlist">
-        <div class="icon">🎶</div>
-        <p>Playlist kosong. Upload lagu untuk memulai.</p>
-      </div>
-    </div>
-  </div>
-
-  <footer>SATRIA SYSTEM // MUSIC VISUALIZER</footer>
-</div>
-
-<audio id="audio" crossorigin="anonymous"></audio>
-
-<script>
-  const audio = document.getElementById('audio');
-  const canvas = document.getElementById('visualizer');
-  const ctx = canvas.getContext('2d');
-  const playBtn = document.getElementById('play-btn');
-  const overlay = document.getElementById('overlay');
-  const progressBar = document.getElementById('progress-bar');
-  const progressFill = document.getElementById('progress-fill');
-  const currentTimeEl = document.getElementById('current-time');
-  const durationEl = document.getElementById('duration');
-  const trackNameEl = document.getElementById('track-name');
-  const trackArtistEl = document.getElementById('track-artist');
-  const playlistEl = document.getElementById('playlist');
-  const playlistCountEl = document.getElementById('playlist-count');
-  const uploadArea = document.getElementById('upload-area');
-
-  let audioCtx, analyser, source, dataArray;
-  let playlist = [];
-  let currentTrack = -1;
-  let isPlaying = false;
-  let animationId;
-  let theme = 'purple';
-  const themes = {
-    purple: ['#a855f7', '#e879f9', '#c084fc'],
-    cyan: ['#06b6d4', '#22d3ee', '#67e8f9'],
-    pink: ['#f43f5e', '#fb7185', '#fda4af'],
-    lime: ['#84cc16', '#a3e635', '#bef264'],
-    rainbow: null
-  };
-
-  function resizeCanvas() {
-    const rect = canvas.parentElement.getBoundingClientRect();
-    canvas.width = rect.width;
-    canvas.height = rect.height;
-  }
-  window.addEventListener('resize', resizeCanvas);
-  resizeCanvas();
-
-  function initAudioContext() {
-    if (!audioCtx) {
-      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-      analyser = audioCtx.createAnalyser();
-      analyser.fftSize = 256;
-      source = audioCtx.createMediaElementSource(audio);
-      source.connect(analyser);
-      analyser.connect(audioCtx.destination);
-      dataArray = new Uint8Array(analyser.frequencyBinCount);
-    }
-  }
-
-  function drawVisualizer() {
-    animationId = requestAnimationFrame(drawVisualizer);
-    if (!analyser) return;
-
-    analyser.getByteFrequencyData(dataArray);
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    const barCount = 64;
-    const barWidth = canvas.width / barCount;
-    const colors = themes[theme];
-
-    for (let i = 0; i < barCount; i++) {
-      const dataIndex = Math.floor(i * (dataArray.length / barCount));
-      const value = dataArray[dataIndex];
-      const percent = value / 255;
-      const barHeight = percent * canvas.height * 0.85;
-      const x = i * barWidth;
-      const y = canvas.height - barHeight;
-
-      let gradient;
-      if (theme === 'rainbow') {
-        const hue = (i / barCount) * 360;
-        gradient = ctx.createLinearGradient(x, canvas.height, x, y);
-        gradient.addColorStop(0, `hsl(${hue}, 80%, 50%)`);
-        gradient.addColorStop(1, `hsl(${hue}, 80%, 70%)`);
-      } else {
-        gradient = ctx.createLinearGradient(x, canvas.height, x, y);
-        gradient.addColorStop(0, colors[0]);
-        gradient.addColorStop(0.5, colors[1]);
-        gradient.addColorStop(1, colors[2] || colors[1]);
-      }
-
-      ctx.fillStyle = gradient;
-      ctx.beginPath();
-      ctx.roundRect(x + 1, y, barWidth - 2, barHeight, 4);
-      ctx.fill();
-
-      // Glow effect
-      ctx.shadowColor = theme === 'rainbow' ? `hsl(${(i/barCount)*360}, 80%, 50%)` : colors[1];
-      ctx.shadowBlur = 10 * percent;
-      ctx.fill();
-      ctx.shadowBlur = 0;
-    }
-  }
-
-  function handleFiles(files) {
-    Array.from(files).forEach(file => {
-      if (file.type.startsWith('audio/')) {
-        const url = URL.createObjectURL(file);
-        playlist.push({
-          name: file.name.replace(/\.[^/.]+$/, ''),
-          url: url,
-          duration: '0:00'
-        });
-      }
-    });
-    updatePlaylist();
-    if (currentTrack === -1 && playlist.length > 0) {
-      loadTrack(0);
-    }
-  }
-
-  function updatePlaylist() {
-    playlistCountEl.textContent = playlist.length + ' lagu';
-    if (playlist.length === 0) {
-      playlistEl.innerHTML = `
-        <div class="empty-playlist">
-          <div class="icon">🎶</div>
-          <p>Playlist kosong. Upload lagu untuk memulai.</p>
-        </div>`;
-      return;
-    }
-
-    playlistEl.innerHTML = playlist.map((track, i) => `
-      <div class="track-item ${i === currentTrack ? 'active' : ''}" onclick="loadTrack(${i})">
-        <span class="num ${i === currentTrack && isPlaying ? 'playing' : ''}">${i === currentTrack && isPlaying ? '▶' : i + 1}</span>
-        <span class="name">${track.name}</span>
-        <span class="dur">${track.duration}</span>
-        <button class="remove" onclick="event.stopPropagation(); removeTrack(${i})">✕</button>
-      </div>
-    `).join('');
-  }
-
-  function loadTrack(index) {
-    if (index < 0 || index >= playlist.length) return;
-    currentTrack = index;
-    audio.src = playlist[index].url;
-    trackNameEl.textContent = playlist[index].name;
-    trackArtistEl.textContent = 'File lokal';
-    overlay.classList.add('hidden');
-    initAudioContext();
-    if (audioCtx.state === 'suspended') audioCtx.resume();
-    play();
-    updatePlaylist();
-  }
-
-  function removeTrack(index) {
-    URL.revokeObjectURL(playlist[index].url);
-    playlist.splice(index, 1);
-    if (currentTrack === index) {
-      audio.pause();
-      isPlaying = false;
-      playBtn.textContent = '▶️';
-      if (playlist.length > 0) loadTrack(Math.min(index, playlist.length - 1));
-      else {
-        currentTrack = -1;
-        trackNameEl.textContent = 'Belum ada lagu';
-        trackArtistEl.textContent = 'Upload file audio untuk mulai';
-        overlay.classList.remove('hidden');
-      }
-    } else if (currentTrack > index) {
-      currentTrack--;
-    }
-    updatePlaylist();
-  }
-
-  function togglePlay() {
-    if (playlist.length === 0) return;
-    if (!audio.src) loadTrack(0);
-    initAudioContext();
-    if (audioCtx.state === 'suspended') audioCtx.resume();
-
-    if (isPlaying) {
-      audio.pause();
-      isPlaying = false;
-      playBtn.textContent = '▶️';
-      cancelAnimationFrame(animationId);
-    } else {
-      play();
-    }
-    updatePlaylist();
-  }
-
-  function play() {
-    audio.play();
-    isPlaying = true;
-    playBtn.textContent = '⏸️';
-    drawVisualizer();
-  }
-
-  function prevTrack() {
-    if (playlist.length === 0) return;
-    loadTrack((currentTrack - 1 + playlist.length) % playlist.length);
-  }
-
-  function nextTrack() {
-    if (playlist.length === 0) return;
-    loadTrack((currentTrack + 1) % playlist.length);
-  }
-
-  function seek(event) {
-    if (!audio.duration) return;
-    const rect = progressBar.getBoundingClientRect();
-    const percent = (event.clientX - rect.left) / rect.width;
-    audio.currentTime = percent * audio.duration;
-  }
-
-  function setVolume(value) {
-    audio.volume = value / 100;
-  }
-
-  function setTheme(newTheme) {
-    theme = newTheme;
-    document.querySelectorAll('.theme-btn').forEach(btn => btn.classList.remove('active'));
-    event.target.classList.add('active');
-  }
-
-  function formatTime(seconds) {
-    if (isNaN(seconds)) return '0:00';
-    const m = Math.floor(seconds / 60);
-    const s = Math.floor(seconds % 60);
-    return m + ':' + (s < 10 ? '0' : '') + s;
-  }
-
-  audio.addEventListener('timeupdate', () => {
-    const percent = (audio.currentTime / audio.duration) * 100 || 0;
-    progressFill.style.width = percent + '%';
-    currentTimeEl.textContent = formatTime(audio.currentTime);
-    durationEl.textContent = formatTime(audio.duration);
-  });
-
-  audio.addEventListener('ended', () => {
-    nextTrack();
-  });
-
-  audio.addEventListener('loadedmetadata', () => {
-    if (currentTrack >= 0) {
-      playlist[currentTrack].duration = formatTime(audio.duration);
-      updatePlaylist();
-    }
-  });
-
-  // Drag & drop
-  uploadArea.addEventListener('dragover', (e) => {
-    e.preventDefault();
-    uploadArea.classList.add('dragover');
-  });
-  uploadArea.addEventListener('dragleave', () => {
-    uploadArea.classList.remove('dragover');
-  });
-  uploadArea.addEventListener('drop', (e) => {
-    e.preventDefault();
-    uploadArea.classList.remove('dragover');
-    handleFiles(e.dataTransfer.files);
-  });
-
-  // Keyboard shortcuts
-  document.addEventListener('keydown', (e) => {
-    if (e.code === 'Space') { e.preventDefault(); togglePlay(); }
-    if (e.code === 'ArrowLeft') prevTrack();
-    if (e.code === 'ArrowRight') nextTrack();
-  });
-
-  console.log('%c SATRIA MUSIC ', 'background: linear-gradient(135deg, #a855f7, #e879f9); color: #fff; font-size: 20px; font-weight: bold; padding: 10px 20px; border-radius: 10px;');
-  console.log('%c Upload lagu & enjoy the visualizer! ', 'color: #e879f9; font-size: 14px;');
-</script>
-<div id="maintenanceScreen">
-    <div class="maintenance-box">
-        <div class="maintenance-icon">🛠️</div>
-
-        <h1>Website Sedang Maintenance</h1>
-
-        <p>
-            Kami sedang melakukan perbaikan dan peningkatan
-            pada website. Silakan kembali lagi nanti.
-        </p>
-
-        <div class="maintenance-status">
-            <span></span>
-            Sistem Dalam Perbaikan
+    <!-- HERO -->
+    <header class="hero">
+        <div class="grid-overlay"></div>
+        <div class="hero-content">
+            <div class="hero-badge">Panduan Lengkap Untuk Pemula</div>
+            <h1 class="hero-title">
+                Fondasi <span class="gradient">Pemrograman</span><br>
+                yang Wajib Dikuasai
+            </h1>
+            <p class="hero-subtitle">
+                Dari variabel hingga objek — pelajari konsep dasar yang berlaku di semua bahasa pemrograman. Disusun ringkas, jelas, dan langsung pada intinya.
+            </p>
+            <div class="hero-cta">
+                <a href="#pengantar" class="btn btn-primary">
+                    Mulai Belajar
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+                        <path d="M5 12h14M13 5l7 7-7 7"/>
+                    </svg>
+                </a>
+                <a href="#bahasa" class="btn btn-ghost">Lihat Bahasa</a>
+            </div>
         </div>
-    </div>
-</div>
-<script>
-    const MAINTENANCE_MODE = true;
+        <div class="scroll-hint">
+            <span>Scroll</span>
+            <div class="scroll-hint-line"></div>
+        </div>
+    </header>
 
-    if (MAINTENANCE_MODE) {
-        document.body.style.overflow = 'hidden';
+    <main>
+
+        <!-- PENGANTAR -->
+        <section id="pengantar" class="topic">
+            <div class="container">
+                <div class="topic-header reveal">
+                    <span class="topic-number">01 — Pengantar</span>
+                </div>
+                <div class="topic-content">
+                    <div class="topic-text reveal-left">
+                        <h2 class="section-title">Apa itu Pemrograman?</h2>
+                        <p>
+                            Pemrograman adalah proses <strong>memberi instruksi</strong> kepada komputer untuk melakukan tugas tertentu. Komputer tidak bisa memahami bahasa manusia secara langsung, jadi kita menulis kode menggunakan bahasa pemrograman yang kemudian diterjemahkan menjadi perintah mesin.
+                        </p>
+                        <p>
+                            Setiap program pada dasarnya adalah kumpulan dari <strong>instruksi berurutan</strong> yang membentuk logika. Semakin kompleks logika yang ingin dijalankan, semakin penting memahami konsep dasar terlebih dahulu.
+                        </p>
+                        <div class="highlight">
+                            <strong>Intinya:</strong> kamu menulis kode → komputer menerjemahkan → komputer menjalankan hasilnya. Semua bahasa pemrograman hanyalah alat untuk menyusun logika dengan cara yang bisa dibaca manusia maupun mesin.
+                        </div>
+                        <ul>
+                            <li><strong>Algoritma</strong> — urutan langkah logis untuk menyelesaikan masalah</li>
+                            <li><strong>Bahasa Pemrograman</strong> — alat untuk menulis algoritma dalam bentuk kode</li>
+                            <li><strong>Kompiler / Interpreter</strong> — penerjemah kode menjadi bahasa mesin</li>
+                        </ul>
+                    </div>
+                    <div class="reveal-right">
+                        <div class="code-card">
+                            <div class="code-header">
+                                <span class="dot red"></span>
+                                <span class="dot yellow"></span>
+                                <span class="dot green"></span>
+                                <span class="code-filename">hello.js</span>
+                            </div>
+                            <div class="code-body">
+<pre><span class="com">// Program pertama: Hello World</span>
+<span class="kw">function</span> <span class="fn">sapa</span>(<span class="var">nama</span>) {
+    <span class="kw">return</span> <span class="str">`Halo, ${nama}!`</span>;
+}
+
+<span class="kw">const</span> <span class="var">pesan</span> <span class="op">=</span> <span class="fn">sapa</span>(<span class="str">"Dunia"</span>);
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="var">pesan</span>);
+
+<span class="com">// Output: Halo, Dunia!</span></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- VARIABEL & TIPE DATA -->
+        <section id="variabel" class="topic">
+            <div class="container">
+                <div class="topic-header reveal">
+                    <span class="topic-number">02 — Variabel & Tipe Data</span>
+                </div>
+                <div class="topic-content">
+                    <div class="topic-text reveal-left">
+                        <h2 class="section-title">Menyimpan Nilai dalam Memori</h2>
+                        <p>
+                            <strong>Variabel</strong> adalah wadah untuk menyimpan nilai di memori komputer. Setiap variabel memiliki nama dan tipe data yang menentukan jenis nilai apa yang bisa disimpan di dalamnya.
+                        </p>
+                        <p>
+                            Memahami tipe data sangat penting karena setiap tipe memiliki perilaku, operasi, dan kegunaan yang berbeda. Salah memilih tipe data bisa menyebabkan error atau hasil yang tidak diharapkan.
+                        </p>
+                        <div class="types-grid">
+                            <div class="type-item">
+                                <div class="type-name">int</div>
+                                <div class="type-label">Bilangan bulat</div>
+                            </div>
+                            <div class="type-item">
+                                <div class="type-name">float</div>
+                                <div class="type-label">Bilangan desimal</div>
+                            </div>
+                            <div class="type-item">
+                                <div class="type-name">string</div>
+                                <div class="type-label">Teks</div>
+                            </div>
+                            <div class="type-item">
+                                <div class="type-name">boolean</div>
+                                <div class="type-label">True / False</div>
+                            </div>
+                            <div class="type-item">
+                                <div class="type-name">array</div>
+                                <div class="type-label">Kumpulan nilai</div>
+                            </div>
+                            <div class="type-item">
+                                <div class="type-name">object</div>
+                                <div class="type-label">Struktur kompleks</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="reveal-right">
+                        <div class="code-card">
+                            <div class="code-header">
+                                <span class="dot red"></span>
+                                <span class="dot yellow"></span>
+                                <span class="dot green"></span>
+                                <span class="code-filename">variabel.js</span>
+                            </div>
+                            <div class="code-body">
+<pre><span class="com">// Mendeklarasikan variabel</span>
+<span class="kw">let</span> <span class="var">umur</span> <span class="op">=</span> <span class="num">25</span>;              <span class="com">// number</span>
+<span class="kw">const</span> <span class="var">nama</span> <span class="op">=</span> <span class="str">"Andi"</span>;       <span class="com">// string</span>
+<span class="kw">let</span> <span class="var">aktif</span> <span class="op">=</span> <span class="kw">true</span>;          <span class="com">// boolean</span>
+<span class="kw">let</span> <span class="var">hobi</span> <span class="op">=</span> [<span class="str">"baca"</span>, <span class="str">"koding"</span>]; <span class="com">// array</span>
+
+<span class="com">// Menggabungkan nilai</span>
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="str">`${nama} berumur ${umur} tahun`</span>);
+
+<span class="com">// Output: Andi berumur 25 tahun</span></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- OPERATOR -->
+        <section id="operator" class="topic">
+            <div class="container">
+                <div class="topic-header reveal">
+                    <span class="topic-number">03 — Operator</span>
+                </div>
+                <div class="topic-content full">
+                    <div class="reveal-blur">
+                        <h2 class="section-title" style="margin-bottom: 12px;">Simbol yang Melakukan Aksi</h2>
+                        <p class="section-desc">
+                            Operator adalah simbol yang digunakan untuk melakukan operasi pada nilai. Ada beberapa kategori operator dasar yang selalu ada di setiap bahasa pemrograman.
+                        </p>
+                    </div>
+                </div>
+                <div class="cards-grid" style="margin-top: 48px;">
+                    <div class="card reveal" style="transition-delay: 0.05s">
+                        <div class="card-icon">+</div>
+                        <div class="card-title">Aritmatika</div>
+                        <div class="card-desc">Operasi matematika dasar: penjumlahan, pengurangan, perkalian, pembagian, dan modulus (sisa bagi).</div>
+                    </div>
+                    <div class="card reveal" style="transition-delay: 0.1s">
+                        <div class="card-icon">=</div>
+                        <div class="card-title">Perbandingan</div>
+                        <div class="card-desc">Membandingkan dua nilai dan menghasilkan boolean: sama dengan, lebih besar, lebih kecil, dan sebagainya.</div>
+                    </div>
+                    <div class="card reveal" style="transition-delay: 0.15s">
+                        <div class="card-icon">&amp;&amp;</div>
+                        <div class="card-title">Logika</div>
+                        <div class="card-desc">Menggabungkan kondisi: AND, OR, dan NOT. Sangat penting untuk membentuk logika percabangan yang kompleks.</div>
+                    </div>
+                    <div class="card reveal" style="transition-delay: 0.2s">
+                        <div class="card-icon">+=</div>
+                        <div class="card-title">Penugasan</div>
+                        <div class="card-desc">Memberi nilai ke variabel. Bentuk gabungan seperti <span class="inline-code">+=</span> mempersingkat operasi umum.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- KONTROL ALUR -->
+        <section id="kontrol" class="topic">
+            <div class="container">
+                <div class="topic-header reveal">
+                    <span class="topic-number">04 — Kontrol Alur</span>
+                </div>
+                <div class="topic-content">
+                    <div class="topic-text reveal-left">
+                        <h2 class="section-title">Mengatur Arah Program</h2>
+                        <p>
+                            Secara default, program berjalan dari atas ke bawah. <strong>Kontrol alur</strong> memungkinkan kita mengubah urutan eksekusi berdasarkan kondisi atau mengulang blok kode tertentu.
+                        </p>
+                        <p>
+                            Ada dua bentuk utama kontrol alur: <strong>percabangan</strong> (if/else, switch) dan <strong>perulangan</strong> (for, while). Keduanya adalah alat wajib untuk membangun logika program apa pun.
+                        </p>
+                        <ul>
+                            <li><strong>if / else</strong> — jalankan blok jika kondisi terpenuhi</li>
+                            <li><strong>switch</strong> — pilih satu dari banyak kemungkinan</li>
+                            <li><strong>for</strong> — ulangi dengan jumlah yang diketahui</li>
+                            <li><strong>while / do-while</strong> — ulangi selama kondisi terpenuhi</li>
+                        </ul>
+                    </div>
+                    <div class="reveal-right">
+                        <div class="code-card">
+                            <div class="code-header">
+                                <span class="dot red"></span>
+                                <span class="dot yellow"></span>
+                                <span class="dot green"></span>
+                                <span class="code-filename">kontrol.js</span>
+                            </div>
+                            <div class="code-body">
+<pre><span class="com">// Percabangan</span>
+<span class="kw">if</span> (<span class="var">nilai</span> <span class="op">&gt;=</span> <span class="num">75</span>) {
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"Lulus"</span>);
+} <span class="kw">else if</span> (<span class="var">nilai</span> <span class="op">&gt;=</span> <span class="num">60</span>) {
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"Perbaikan"</span>);
+} <span class="kw">else</span> {
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"Gagal"</span>);
+}
+
+<span class="com">// Perulangan</span>
+<span class="kw">for</span> (<span class="kw">let</span> <span class="var">i</span> <span class="op">=</span> <span class="num">1</span>; <span class="var">i</span> <span class="op">&lt;=</span> <span class="num">3</span>; <span class="var">i</span><span class="op">++</span>) {
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">`Putaran ke-${i}`</span>);
+}</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FUNGSI -->
+        <section id="fungsi" class="topic">
+            <div class="container">
+                <div class="topic-header reveal">
+                    <span class="topic-number">05 — Fungsi</span>
+                </div>
+                <div class="topic-content">
+                    <div class="topic-text reveal-left">
+                        <h2 class="section-title">Blok Kode yang Bisa Digunakan Ulang</h2>
+                        <p>
+                            <strong>Fungsi</strong> adalah sekumpulan instruksi yang diberi nama, sehingga bisa dipanggil berkali-kali tanpa menulis ulang kode yang sama. Ini adalah konsep inti dari <em>DRY</em> — Don't Repeat Yourself.
+                        </p>
+                        <p>
+                            Fungsi dapat menerima <strong>parameter</strong> (input) dan mengembalikan <strong>nilai</strong> (output). Sebuah fungsi yang baik melakukan satu tugas dengan jelas, sehingga mudah diuji dan dirawat.
+                        </p>
+                        <div class="highlight">
+                            <strong>Tips:</strong> jika sebuah blok kode kamu tulis lebih dari dua kali, sebaiknya jadikan fungsi. Ini membuat kode lebih pendek, lebih mudah dibaca, dan lebih mudah diperbaiki.
+                        </div>
+                    </div>
+                    <div class="reveal-right">
+                        <div class="code-card">
+                            <div class="code-header">
+                                <span class="dot red"></span>
+                                <span class="dot yellow"></span>
+                                <span class="dot green"></span>
+                                <span class="code-filename">fungsi.js</span>
+                            </div>
+                            <div class="code-body">
+<pre><span class="com">// Deklarasi fungsi</span>
+<span class="kw">function</span> <span class="fn">hitungLuas</span>(<span class="var">panjang</span>, <span class="var">lebar</span>) {
+    <span class="kw">return</span> <span class="var">panjang</span> <span class="op">*</span> <span class="var">lebar</span>;
+}
+
+<span class="com">// Arrow function (lebih singkat)</span>
+<span class="kw">const</span> <span class="fn">hitungLuas2</span> <span class="op">=</span> (<span class="var">p</span>, <span class="var">l</span>) <span class="op">=&gt;</span> <span class="var">p</span> <span class="op">*</span> <span class="var">l</span>;
+
+<span class="com">// Memanggil fungsi</span>
+<span class="kw">const</span> <span class="var">luas</span> <span class="op">=</span> <span class="fn">hitungLuas</span>(<span class="num">5</span>, <span class="num">3</span>);
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="var">luas</span>); <span class="com">// 15</span></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- STRUKTUR DATA -->
+        <section id="struktur" class="topic">
+            <div class="container">
+                <div class="topic-header reveal">
+                    <span class="topic-number">06 — Struktur Data</span>
+                </div>
+                <div class="topic-content full">
+                    <div class="reveal-blur">
+                        <h2 class="section-title" style="margin-bottom: 12px;">Cara Mengorganisir Banyak Data</h2>
+                        <p class="section-desc">
+                            Struktur data menentukan bagaimana data disimpan dan diakses. Memilih struktur yang tepat bisa membuat program lebih cepat dan lebih mudah dipahami.
+                        </p>
+                    </div>
+                </div>
+
+                <div style="margin-top: 52px;">
+                    <div class="flow-steps">
+                        <div class="flow-step reveal">
+                            <div class="flow-num">A</div>
+                            <div class="flow-body">
+                                <div class="flow-title">Array / List</div>
+                                <div class="flow-desc">Kumpulan nilai yang berurutan dan dapat diakses dengan indeks. Cocok untuk data yang jumlahnya banyak dan sejenis, seperti daftar nama atau angka.</div>
+                            </div>
+                        </div>
+                        <div class="flow-step reveal" style="transition-delay: 0.08s">
+                            <div class="flow-num">B</div>
+                            <div class="flow-body">
+                                <div class="flow-title">Object / Dictionary</div>
+                                <div class="flow-desc">Kumpulan pasangan kunci-nilai. Cocok untuk merepresentasikan entitas yang memiliki banyak atribut, seperti data pengguna atau produk.</div>
+                            </div>
+                        </div>
+                        <div class="flow-step reveal" style="transition-delay: 0.16s">
+                            <div class="flow-num">C</div>
+                            <div class="flow-body">
+                                <div class="flow-title">Stack & Queue</div>
+                                <div class="flow-desc">Struktur data khusus dengan aturan akses: Stack (LIFO — terakhir masuk, pertama keluar) dan Queue (FIFO — pertama masuk, pertama keluar).</div>
+                            </div>
+                        </div>
+                        <div class="flow-step reveal" style="transition-delay: 0.24s">
+                            <div class="flow-num">D</div>
+                            <div class="flow-body">
+                                <div class="flow-title">Map / Set</div>
+                                <div class="flow-desc">Untuk pencarian cepat dan penyimpanan nilai unik. Set menyimpan nilai tanpa duplikat, Map menyimpan pasangan kunci-nilai dengan akses cepat.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- OOP -->
+        <section id="oop" class="topic">
+            <div class="container">
+                <div class="topic-header reveal">
+                    <span class="topic-number">07 — Pemrograman Berorientasi Objek</span>
+                </div>
+                <div class="topic-content">
+                    <div class="topic-text reveal-left">
+                        <h2 class="section-title">Membuat Kode Mirip Dunia Nyata</h2>
+                        <p>
+                            <strong>OOP (Object-Oriented Programming)</strong> adalah paradigma yang mengorganisir kode menjadi objek-objek yang merepresentasikan entitas nyata. Setiap objek memiliki <strong>atribut</strong> (data) dan <strong>metode</strong> (perilaku).
+                        </p>
+                        <p>
+                            Dengan OOP, program yang kompleks bisa dipecah menjadi bagian-bagian kecil yang mandiri, sehingga lebih mudah dikembangkan dan dipelihara dalam jangka panjang.
+                        </p>
+                        <ul>
+                            <li><strong>Class</strong> — blueprint atau cetak biru dari objek</li>
+                            <li><strong>Object</strong> — instance nyata hasil dari class</li>
+                            <li><strong>Encapsulation</strong> — menyembunyikan detail internal</li>
+                            <li><strong>Inheritance</strong> — mewarisi sifat dari class lain</li>
+                            <li><strong>Polymorphism</strong> — satu interface, banyak bentuk</li>
+                        </ul>
+                    </div>
+                    <div class="reveal-right">
+                        <div class="code-card">
+                            <div class="code-header">
+                                <span class="dot red"></span>
+                                <span class="dot yellow"></span>
+                                <span class="dot green"></span>
+                                <span class="code-filename">oop.js</span>
+                            </div>
+                            <div class="code-body">
+<pre><span class="kw">class</span> <span class="fn">Mahasiswa</span> {
+    <span class="fn">constructor</span>(<span class="var">nama</span>, <span class="var">nim</span>) {
+        <span class="kw">this</span>.<span class="var">nama</span> <span class="op">=</span> <span class="var">nama</span>;
+        <span class="kw">this</span>.<span class="var">nim</span> <span class="op">=</span> <span class="var">nim</span>;
     }
-</script>
+
+    <span class="fn">perkenalan</span>() {
+        <span class="kw">return</span> <span class="str">`Hai, saya ${this.nama}`</span>;
+    }
+}
+
+<span class="kw">const</span> <span class="var">mhs</span> <span class="op">=</span> <span class="kw">new</span> <span class="fn">Mahasiswa</span>(<span class="str">"Budi"</span>, <span class="str">"A11"</span>);
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="var">mhs</span>.<span class="fn">perkenalan</span>());
+<span class="com">// Output: Hai, saya Budi</span></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ERROR HANDLING -->
+        <section id="error" class="topic">
+            <div class="container">
+                <div class="topic-header reveal">
+                    <span class="topic-number">08 — Penanganan Error</span>
+                </div>
+                <div class="topic-content">
+                    <div class="topic-text reveal-left">
+                        <h2 class="section-title">Menghadapi Kesalahan dengan Elegan</h2>
+                        <p>
+                            Error adalah bagian tak terpisahkan dari pemrograman. Alih-alih membiarkan program berhenti mendadak, kita bisa <strong>menangkap</strong> error dan memberikan respons yang tepat kepada pengguna.
+                        </p>
+                        <p>
+                            Blok <span class="inline-code">try / catch</span> adalah pola standar di hampir semua bahasa modern untuk menangani kemungkinan kesalahan.
+                        </p>
+                        <div class="highlight">
+                            <strong>Prinsip:</strong> jangan pernah mengabaikan error. Tangkap, catat, dan berikan pesan yang jelas kepada pengguna — bukan pesan teknis yang membingungkan.
+                        </div>
+                    </div>
+                    <div class="reveal-right">
+                        <div class="code-card">
+                            <div class="code-header">
+                                <span class="dot red"></span>
+                                <span class="dot yellow"></span>
+                                <span class="dot green"></span>
+                                <span class="code-filename">error.js</span>
+                            </div>
+                            <div class="code-body">
+<pre><span class="kw">try</span> {
+    <span class="kw">const</span> <span class="var">hasil</span> <span class="op">=</span> <span class="fn">bagi</span>(<span class="num">10</span>, <span class="num">0</span>);
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="var">hasil</span>);
+} <span class="kw">catch</span> (<span class="var">err</span>) {
+    <span class="fn">console</span>.<span class="fn">error</span>(<span class="str">"Terjadi error:"</span>, <span class="var">err</span>.<span class="var">message</span>);
+} <span class="kw">finally</span> {
+    <span class="com">// Selalu dijalankan</span>
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"Selesai"</span>);
+}</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- BAHASA -->
+        <section id="bahasa" class="topic">
+            <div class="container">
+                <div class="topic-header reveal">
+                    <span class="topic-number">09 — Bahasa Populer</span>
+                </div>
+                <div class="reveal-blur" style="margin-bottom: 44px;">
+                    <h2 class="section-title" style="margin-bottom: 12px;">Mulai dari Mana?</h2>
+                    <p class="section-desc">
+                        Konsep dasar yang sudah kamu pelajari berlaku di semua bahasa. Pilih bahasa sesuai tujuanmu — bukan berdasarkan tren.
+                    </p>
+                </div>
+                <div class="lang-grid">
+                    <div class="lang-item reveal" style="transition-delay: 0.05s">
+                        <div class="lang-name">Python</div>
+                        <div class="lang-desc">Sintaks sederhana, cocok untuk pemula, data science, dan AI.</div>
+                    </div>
+                    <div class="lang-item reveal" style="transition-delay: 0.1s">
+                        <div class="lang-name">JavaScript</div>
+                        <div class="lang-desc">Wajib untuk web, bisa juga untuk backend dan mobile.</div>
+                    </div>
+                    <div class="lang-item reveal" style="transition-delay: 0.15s">
+                        <div class="lang-name">Java</div>
+                        <div class="lang-desc">Kuat untuk aplikasi enterprise dan Android.</div>
+                    </div>
+                    <div class="lang-item reveal" style="transition-delay: 0.2s">
+                        <div class="lang-name">Go</div>
+                        <div class="lang-desc">Cepat, ringan, populer untuk backend dan cloud.</div>
+                    </div>
+                    <div class="lang-item reveal" style="transition-delay: 0.25s">
+                        <div class="lang-name">C++</div>
+                        <div class="lang-desc">Performa tinggi, untuk game dan sistem.</div>
+                    </div>
+                    <div class="lang-item reveal" style="transition-delay: 0.3s">
+                        <div class="lang-name">Rust</div>
+                        <div class="lang-desc">Aman dan cepat, alternatif modern untuk C++.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PARADIGMA -->
+        <section id="paradigma" class="topic">
+            <div class="container">
+                <div class="topic-header reveal">
+                    <span class="topic-number">10 — Paradigma</span>
+                </div>
+                <div class="topic-content full reveal-blur">
+                    <h2 class="section-title" style="margin-bottom: 12px;">Cara Berpikir dalam Menulis Kode</h2>
+                    <p class="section-desc" style="margin-bottom: 44px;">
+                        Paradigma adalah gaya atau pendekatan dalam menyusun program. Masing-masing punya kelebihan tergantung jenis masalah yang dihadapi.
+                    </p>
+                </div>
+                <div class="compare-grid reveal">
+                    <div class="compare-col">
+                        <div class="compare-title">Imperatif</div>
+                        <ul class="compare-list">
+                            <li>Fokus pada <strong>bagaimana</strong> langkah-langkahnya</li>
+                            <li>Kode berisi urutan perintah eksplisit</li>
+                            <li>Contoh: C, Pascal, Assembly</li>
+                            <li>Mudah dipahami untuk masalah sederhana</li>
+                        </ul>
+                    </div>
+                    <div class="compare-col">
+                        <div class="compare-title">Deklaratif</div>
+                        <ul class="compare-list">
+                            <li>Fokus pada <strong>apa</strong> hasil yang diinginkan</li>
+                            <li>Kode lebih ringkas dan ekspresif</li>
+                            <li>Contoh: SQL, HTML, Haskell</li>
+                            <li>Kuat untuk transformasi data</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CLOSING -->
+        <section class="closing">
+            <div class="container-narrow reveal">
+                <h2>Belajar Pemrograman adalah Maraton</h2>
+                <p>
+                    Konsep dasar yang sudah kamu pelajari di sini adalah fondasi yang berlaku selamanya, apapun bahasa atau framework yang kamu pilih nanti. Kuasai dasarnya, dan sisanya akan terasa jauh lebih mudah.
+                </p>
+                <a href="#pengantar" class="btn btn-primary">
+                    Baca Ulang Dari Awal
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+                        <path d="M12 19V5M5 12l7-7 7 7"/>
+                    </svg>
+                </a>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>Dibuat untuk kamu yang sedang memulai. Teruslah belajar.</p>
+    </footer>
+
+    <script>
+        /* ===== SCROLL PROGRESS BAR ===== */
+        const progressBar = document.getElementById('progressBar');
+        const nav = document.getElementById('nav');
+
+        function updateScroll() {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const percent = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
+            progressBar.style.width = percent + '%';
+
+            if (scrollTop > 20) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        }
+
+        window.addEventListener('scroll', updateScroll, { passive: true });
+        updateScroll();
+
+        /* ===== REVEAL ON SCROLL (IntersectionObserver) ===== */
+        const revealSelectors = '.reveal, .reveal-blur, .reveal-left, .reveal-right, .reveal-scale';
+        const revealEls = document.querySelectorAll(revealSelectors);
+
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    revealObserver.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.12,
+            rootMargin: '0px 0px -80px 0px'
+        });
+
+        revealEls.forEach(el => {
+            revealObserver.observe(el);
+        });
+
+        /* ===== MOUSE-TRACKING GLOW ON CARDS ===== */
+        document.querySelectorAll('.card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = ((e.clientX - rect.left) / rect.width) * 100;
+                const y = ((e.clientY - rect.top) / rect.height) * 100;
+                card.style.setProperty('--mouse-x', x + '%');
+                card.style.setProperty('--mouse-y', y + '%');
+            });
+        });
+
+        /* ===== NAV SMOOTH SCROLL (with offset for fixed navbar) ===== */
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                if (href === '#') return;
+                const target = document.querySelector(href);
+                if (target) {
+                    e.preventDefault();
+                    const offset = 70;
+                    const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - offset;
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        /* ===== PARALLAX SUBTLE ON HERO GLOW ===== */
+        const heroGlow = document.querySelector('.hero::before');
+        const hero = document.querySelector('.hero');
+        if (hero) {
+            let ticking = false;
+            window.addEventListener('scroll', () => {
+                if (!ticking) {
+                    window.requestAnimationFrame(() => {
+                        const scrolled = window.pageYOffset;
+                        if (scrolled < window.innerHeight) {
+                            const glow = hero.querySelector('.hero-content');
+                            if (glow) {
+                                glow.style.transform = `translateY(${scrolled * 0.15}px)`;
+                                glow.style.opacity = Math.max(0, 1 - scrolled / 700);
+                            }
+                        }
+                        ticking = false;
+                    });
+                    ticking = true;
+                }
+            }, { passive: true });
+        }
+
+        /* ===== REDUCED MOTION CHECK ===== */
+        const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (prefersReduced) {
+            document.querySelectorAll(revealSelectors).forEach(el => {
+                el.classList.add('visible');
+            });
+        }
+    </script>
 </body>
+
 </html>
