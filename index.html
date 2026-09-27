@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>SatzStore</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -35,13 +35,38 @@
             --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.6);
         }
 
+        /* ===== ZOOM & SCROLL LOCK ===== */
+        html {
+            -webkit-text-size-adjust: 100%;
+            -ms-text-size-adjust: 100%;
+            text-size-adjust: 100%;
+            touch-action: manipulation;
+            scroll-behavior: smooth;
+        }
+
         html,
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
             background: var(--bg);
             color: var(--text);
             line-height: 1.6;
-            min-height: 100vh;
+            height: 100%;
+            overflow: hidden;
+            overscroll-behavior: none;
+            touch-action: pan-y;
+        }
+
+        body.modal-open {
+            overflow: hidden;
+        }
+
+        button,
+        a,
+        input,
+        textarea,
+        .product,
+        .menu-item {
+            touch-action: manipulation;
         }
 
         /* ===== FORM ===== */
@@ -117,7 +142,9 @@
         /* ===== CONTAINER ===== */
         .container {
             display: flex;
-            min-height: 100vh;
+            height: 100vh;
+            height: 100dvh;
+            overflow: hidden;
         }
 
         /* ===== SIDEBAR ===== */
@@ -127,8 +154,12 @@
             display: flex;
             flex-direction: column;
             position: fixed;
-            height: 100vh;
+            top: 0;
+            left: 0;
+            height: 100%;
             overflow-y: auto;
+            overscroll-behavior: contain;
+            -webkit-overflow-scrolling: touch;
             z-index: 100;
             border-right: 1px solid var(--border);
             transition: transform 0.3s;
@@ -208,12 +239,16 @@
             flex: 1;
             display: flex;
             flex-direction: column;
+            height: 100%;
+            overflow: hidden;
+            min-width: 0;
         }
 
         .page-header {
-            padding: 32px 40px;
+            padding: 28px 40px;
             border-bottom: 1px solid var(--border);
             background: var(--bg);
+            flex-shrink: 0;
         }
 
         .page-title {
@@ -233,86 +268,46 @@
             display: none;
             flex: 1;
             overflow-y: auto;
+            overscroll-behavior: contain;
+            -webkit-overflow-scrolling: touch;
+            flex-direction: column;
+            scroll-behavior: smooth;
         }
 
         .page.active {
             display: flex;
-            flex-direction: column;
         }
 
         .page-content {
-            padding: 32px 40px;
+            padding: 28px 40px;
             flex: 1;
         }
 
-        /* ===== HERO ===== */
-        .hero {
-            background: var(--bg-elev);
+        /* ===== VIDEO 16:9 AUTO-PLAY (CLEAN) ===== */
+        .video-wrapper {
+            width: 100%;
+            max-width: 960px;
+            margin: 0 auto 32px;
+            aspect-ratio: 16 / 9;
+            background: #000;
             border: 1px solid var(--border);
             border-radius: 16px;
-            padding: 44px 36px;
-            margin-bottom: 28px;
-            text-align: center;
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            position: relative;
+            pointer-events: none;
         }
 
-        .hero-badge {
-            display: inline-block;
-            background: var(--surface-alt);
-            color: var(--text-sec);
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 10px;
-            font-weight: 600;
-            margin-bottom: 18px;
-            border: 1px solid var(--border);
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
-
-        .hero-title {
-            font-size: 34px;
-            font-weight: 800;
-            margin-bottom: 10px;
-            color: var(--text);
-            letter-spacing: -1px;
-        }
-
-        .hero-desc {
-            font-size: 13px;
-            color: var(--text-sec);
-            margin-bottom: 28px;
-            max-width: 500px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .hero-stats {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-            max-width: 460px;
-            margin: 0 auto;
-        }
-
-        .stat {
-            background: var(--surface);
-            border-radius: 12px;
-            padding: 16px;
-            border: 1px solid var(--border);
-        }
-
-        .stat-value {
-            font-size: 22px;
-            font-weight: 700;
-            color: var(--text);
-            margin-bottom: 2px;
-        }
-
-        .stat-label {
-            font-size: 10px;
-            color: var(--text-ter);
-            text-transform: uppercase;
-            letter-spacing: 1px;
+        .video-wrapper video {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: block;
+            object-fit: cover;
+            background: #000;
+            pointer-events: none;
         }
 
         /* ===== FILTERS ===== */
@@ -382,15 +377,36 @@
             border-radius: 14px;
             padding: 20px;
             border: 1px solid var(--border);
-            transition: all 0.25s;
             position: relative;
             cursor: pointer;
+
+            /* Kondisi awal: transparan, turun, sedikit mengecil, blur */
+            opacity: 0;
+            transform: translateY(40px) scale(0.96);
+            filter: blur(6px);
+
+            transition:
+                opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+                filter 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+                border-color 0.25s ease,
+                background 0.25s ease,
+                box-shadow 0.35s ease;
+
+            will-change: opacity, transform, filter;
         }
 
-        .product:hover {
+        .product.visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            filter: blur(0);
+        }
+
+        .product.visible:hover {
             border-color: var(--border-strong);
-            transform: translateY(-3px);
+            transform: translateY(-4px) scale(1);
             background: var(--surface-alt);
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45);
         }
 
         .product-badge {
@@ -479,6 +495,7 @@
             visibility: hidden;
             transition: opacity 0.25s, visibility 0.25s;
             padding: 20px;
+            overscroll-behavior: contain;
         }
 
         .product-modal-overlay.active {
@@ -489,7 +506,7 @@
         .product-modal {
             background: var(--surface);
             border-radius: 16px;
-            padding: 32px;
+            padding: 28px;
             max-width: 480px;
             width: 100%;
             box-shadow: var(--shadow-lg);
@@ -497,6 +514,10 @@
             position: relative;
             transform: scale(0.97);
             transition: transform 0.25s;
+            max-height: 88vh;
+            overflow-y: auto;
+            overscroll-behavior: contain;
+            -webkit-overflow-scrolling: touch;
         }
 
         .product-modal-overlay.active .product-modal {
@@ -505,8 +526,8 @@
 
         .product-modal-close {
             position: absolute;
-            top: 16px;
-            right: 16px;
+            top: 14px;
+            right: 14px;
             background: transparent;
             border: none;
             color: var(--text-sec);
@@ -519,6 +540,7 @@
             align-items: center;
             justify-content: center;
             border-radius: 8px;
+            z-index: 2;
         }
 
         .product-modal-close:hover {
@@ -540,6 +562,7 @@
             font-weight: 700;
             color: var(--text);
             margin-bottom: 10px;
+            padding-right: 30px;
         }
 
         .modal-desc {
@@ -558,11 +581,14 @@
             margin-bottom: 10px;
         }
 
+        .modal-section {
+            margin-bottom: 20px;
+        }
+
         .modal-duration-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 8px;
-            margin-bottom: 18px;
         }
 
         .modal-duration-option {
@@ -576,6 +602,7 @@
             color: var(--text);
             cursor: pointer;
             transition: all 0.2s;
+            text-align: center;
         }
 
         .modal-duration-option:hover {
@@ -588,6 +615,18 @@
             border-color: var(--accent);
         }
 
+        .modal-duration-option small {
+            font-size: 10px;
+            font-weight: 500;
+            color: var(--text-sec);
+            display: block;
+            margin-top: 2px;
+        }
+
+        .modal-duration-option.selected small {
+            color: #333;
+        }
+
         .modal-price {
             display: flex;
             justify-content: space-between;
@@ -596,7 +635,7 @@
             background: var(--surface-alt);
             border: 1px solid var(--border);
             border-radius: 10px;
-            margin-bottom: 20px;
+            margin-bottom: 18px;
         }
 
         .modal-price-label {
@@ -1129,6 +1168,7 @@
             visibility: hidden;
             transition: opacity 0.25s, visibility 0.25s;
             padding: 20px;
+            overscroll-behavior: contain;
         }
 
         .modal-overlay.active {
@@ -1146,6 +1186,9 @@
             border: 1px solid var(--border);
             transform: scale(0.97);
             transition: transform 0.25s;
+            max-height: 88vh;
+            overflow-y: auto;
+            overscroll-behavior: contain;
         }
 
         .modal-overlay.active .modal {
@@ -1283,12 +1326,8 @@
                 padding: 20px 24px;
             }
 
-            .hero {
-                padding: 32px 24px;
-            }
-
-            .hero-stats {
-                grid-template-columns: 1fr;
+            .video-wrapper {
+                max-width: 100%;
             }
         }
 
@@ -1318,26 +1357,23 @@
                 padding: 18px 20px 18px 68px;
             }
 
+            /* Produk 1 kolom (tampil 1-1 berurutan ke bawah) */
             .products-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 12px;
+                grid-template-columns: 1fr;
+                gap: 14px;
             }
 
             .product {
-                padding: 14px;
+                padding: 18px;
             }
 
             .product-name {
-                font-size: 13px;
+                font-size: 15px;
             }
 
             .product-desc {
-                font-size: 11px;
-                min-height: 32px;
-            }
-
-            .hero-title {
-                font-size: 24px;
+                font-size: 12px;
+                min-height: auto;
             }
 
             .page-title {
@@ -1359,6 +1395,12 @@
                 width: 100%;
                 text-align: left;
             }
+
+            .video-wrapper {
+                max-width: 100%;
+                border-radius: 12px;
+                margin-bottom: 20px;
+            }
         }
 
         @media (max-width: 480px) {
@@ -1371,19 +1413,11 @@
             }
 
             .page-content {
-                padding: 16px;
+                padding: 14px;
             }
 
             .page-header {
-                padding: 16px 16px 16px 68px;
-            }
-
-            .hero {
-                padding: 24px 16px;
-            }
-
-            .hero-title {
-                font-size: 20px;
+                padding: 16px 14px 16px 68px;
             }
 
             .page-title {
@@ -1413,8 +1447,32 @@
                 font-size: 20px;
             }
 
+            .product-modal {
+                padding: 20px;
+            }
+
             .modal-duration-grid {
                 grid-template-columns: 1fr;
+            }
+
+            .video-wrapper {
+                border-radius: 10px;
+                margin-bottom: 16px;
+            }
+        }
+
+        /* Hormati preferensi reduce motion */
+        @media (prefers-reduced-motion: reduce) {
+            html,
+            .page {
+                scroll-behavior: auto;
+            }
+
+            .product {
+                opacity: 1 !important;
+                transform: none !important;
+                filter: none !important;
+                transition: none !important;
             }
         }
 
@@ -1474,25 +1532,24 @@
                 </div>
 
                 <div class="page-content">
-                    <div class="hero">
-                        <div class="hero-badge">Tersedia 24/7</div>
-                        <h2 class="hero-title">Layanan Digital Terbaik</h2>
-                        <p class="hero-desc">Dapatkan solusi otomasi dengan kualitas terjangkau dan dukungan 24/7</p>
-                        <div class="hero-stats">
-                            <div class="stat">
-                                <div class="stat-value">5K+</div>
-                                <div class="stat-label">Klien Puas</div>
-                            </div>
-                            <div class="stat">
-                                <div class="stat-value">99%</div>
-                                <div class="stat-label">Uptime</div>
-                            </div>
-                            <div class="stat">
-                                <div class="stat-value">24/7</div>
-                                <div class="stat-label">Support</div>
-                            </div>
-                        </div>
+
+                    <!-- ============================================================= -->
+                    <!-- ===== VIDEO 16:9 AUTO-PLAY — GANTI SRC VIDEO DI BAWAH ===== -->
+                    <!-- ============================================================= -->
+                    <div class="video-wrapper">
+                        <video
+                            id="store-video"
+                            src="mata.mp4"
+                            autoplay
+                            muted
+                            loop
+                            playsinline
+                            preload="auto"
+                            disablepictureinpicture
+                            controlslist="nodownload nofullscreen noremoteplayback"
+                            webkit-playsinline></video>
                     </div>
+                    <!-- ===== AKHIR VIDEO ===== -->
 
                     <div class="filters">
                         <button class="filter-btn active" onclick="setFilter('all', this)">Semua</button>
@@ -1606,7 +1663,14 @@
             <h2 class="modal-title" id="modal-title"></h2>
             <p class="modal-desc" id="modal-desc"></p>
 
-            <div class="modal-durations" id="modal-durations-section">
+            <!-- FORMAT PILIHAN -->
+            <div class="modal-section" id="modal-formats-section">
+                <div class="modal-duration-label">Pilih Format</div>
+                <div class="modal-duration-grid" id="modal-format-grid"></div>
+            </div>
+
+            <!-- DURASI PILIHAN -->
+            <div class="modal-section" id="modal-durations-section">
                 <div class="modal-duration-label">Pilih Durasi</div>
                 <div class="modal-duration-grid" id="modal-duration-grid"></div>
             </div>
@@ -1651,24 +1715,154 @@
         let voucherMsg = { text: '', type: '' };
         let orderNotes = '';
         let currentModalProduct = null;
+        let selectedFormatIdx = 0;
+        let selectedDurationIdx = 0;
         let toastTimer = null;
+        let productObserver = null;
         const WA_NUMBER = '6285891103110';
 
+        /* ===== PRODUCT DATA (dengan Format & Durasi) ===== */
         const PRODUCTS = [
-            { id: 1, cat: 'sewabot', name: 'SewaBot Lite', desc: 'Bot WhatsApp siap pakai dengan fitur basic seperti auto-reply, broadcast, dan group management. Cocok untuk pemula.', badge: 'hot', durations: [{ l: '1 Jam', p: 2000 }, { l: '1 Hari', p: 5000 }, { l: '7 Hari', p: 25000 }] },
-            { id: 2, cat: 'sewabot', name: 'SewaBot Standard', desc: 'Bot lengkap dengan banyak fitur seperti custom command, API integration, dan advanced automation.', badge: '', durations: [{ l: '1 Jam', p: 5000 }, { l: '1 Hari', p: 10000 }, { l: '7 Hari', p: 50000 }] },
-            { id: 3, cat: 'sewabot', name: 'SewaBot Premium', desc: 'Bot advanced dengan anti-banned protection, AI integration, dan full customization untuk bisnis besar.', badge: 'best', durations: [{ l: '1 Hari', p: 15000 }, { l: '7 Hari', p: 75000 }, { l: '30 Hari', p: 200000 }] },
-            { id: 4, cat: 'jadibot', name: 'JadiBot Starter', desc: 'Paket untuk membuat bot WhatsApp sendiri. Dengan panel mudah dan template siap pakai untuk pemula.', badge: '', durations: [{ l: '30 Hari', p: 50000 }, { l: '90 Hari', p: 120000 }, { l: '180 Hari', p: 200000 }] },
-            { id: 5, cat: 'jadibot', name: 'JadiBot Personal', desc: 'Bot pribadi dengan panel kontrol lengkap, custom domain, dan dukungan unlimited command untuk penggunaan personal.', badge: 'new', durations: [{ l: '30 Hari', p: 100000 }, { l: '90 Hari', p: 250000 }, { l: '180 Hari', p: 450000 }] },
-            { id: 6, cat: 'jadibot', name: 'JadiBot Business', desc: 'Solusi enterprise dengan SLA support, custom branding, dan akses development penuh untuk bisnis profesional.', badge: 'best', durations: [{ l: '30 Hari', p: 200000 }, { l: '90 Hari', p: 500000 }, { l: '180 Hari', p: 900000 }] },
-            { id: 7, cat: 'nokos', name: 'Nokos Standar', desc: 'Nomor kosong standar untuk verifikasi akun sosial media, game, dan aplikasi lainnya.', badge: '', price: 1500, unit: '/nomor' },
-            { id: 8, cat: 'nokos', name: 'Nokos Premium', desc: 'Nomor kosong premium dengan kualitas terbaik, jaminan berhasil, dan free replace jika gagal.', badge: 'hot', price: 3000, unit: '/nomor' },
-            { id: 9, cat: 'smm', name: 'SMM Instagram', desc: 'Layanan SMM lengkap untuk Instagram: tambah followers, likes, comments dengan paket hemat.', badge: 'best', price: 15000, unit: '/bulan' },
-            { id: 10, cat: 'smm', name: 'SMM TikTok', desc: 'Tingkatkan engagement TikTok Anda dengan followers, views, dan likes dari akun real.', badge: 'hot', price: 18000, unit: '/bulan' },
-            { id: 11, cat: 'smm', name: 'SMM YouTube', desc: 'Paket SMM YouTube untuk menambah subscribers, views, dan meningkatkan engagement channel Anda.', badge: '', price: 25000, unit: '/bulan' },
-            { id: 12, cat: 'apikey', name: 'API WhatsApp Basic', desc: 'API WhatsApp dengan unlimited request, low latency, dan support lengkap untuk automation.', badge: 'hot', price: 75000, unit: '/bulan' },
-            { id: 13, cat: 'apikey', name: 'API WhatsApp Pro', desc: 'API WhatsApp advanced dengan multi-device support, custom webhook, dan priority support.', badge: 'best', price: 150000, unit: '/bulan' },
-            { id: 14, cat: 'apikey', name: 'API SMM Panel', desc: 'API lengkap untuk SMM services dengan dokumentasi lengkap dan support 24/7.', badge: '', price: 100000, unit: '/bulan' },
+            {
+                id: 1, cat: 'sewabot', name: 'SewaBot Lite', badge: 'hot',
+                desc: 'Bot WhatsApp siap pakai dengan fitur basic seperti auto-reply, broadcast, dan group management. Cocok untuk pemula.',
+                formats: [
+                    { l: 'Basic', mult: 1 },
+                    { l: 'Anti-Banned', mult: 1.4 },
+                    { l: 'Full Custom', mult: 2 }
+                ],
+                durations: [{ l: '1 Jam', p: 2000 }, { l: '1 Hari', p: 5000 }, { l: '7 Hari', p: 25000 }]
+            },
+            {
+                id: 2, cat: 'sewabot', name: 'SewaBot Standard', badge: '',
+                desc: 'Bot lengkap dengan banyak fitur seperti custom command, API integration, dan advanced automation.',
+                formats: [
+                    { l: 'Basic', mult: 1 },
+                    { l: 'Anti-Banned', mult: 1.4 },
+                    { l: 'Full Custom', mult: 2 }
+                ],
+                durations: [{ l: '1 Jam', p: 5000 }, { l: '1 Hari', p: 10000 }, { l: '7 Hari', p: 50000 }]
+            },
+            {
+                id: 3, cat: 'sewabot', name: 'SewaBot Premium', badge: 'best',
+                desc: 'Bot advanced dengan anti-banned protection, AI integration, dan full customization untuk bisnis besar.',
+                formats: [
+                    { l: 'Standard', mult: 1 },
+                    { l: 'AI Powered', mult: 1.6 },
+                    { l: 'Enterprise', mult: 2.4 }
+                ],
+                durations: [{ l: '1 Hari', p: 15000 }, { l: '7 Hari', p: 75000 }, { l: '30 Hari', p: 200000 }]
+            },
+            {
+                id: 4, cat: 'jadibot', name: 'JadiBot Starter', badge: '',
+                desc: 'Paket untuk membuat bot WhatsApp sendiri. Dengan panel mudah dan template siap pakai untuk pemula.',
+                formats: [
+                    { l: 'Shared', mult: 1 },
+                    { l: 'Personal', mult: 1.5 },
+                    { l: 'White Label', mult: 2.5 }
+                ],
+                durations: [{ l: '30 Hari', p: 50000 }, { l: '90 Hari', p: 120000 }, { l: '180 Hari', p: 200000 }]
+            },
+            {
+                id: 5, cat: 'jadibot', name: 'JadiBot Personal', badge: 'new',
+                desc: 'Bot pribadi dengan panel kontrol lengkap, custom domain, dan dukungan unlimited command untuk penggunaan personal.',
+                formats: [
+                    { l: 'Shared', mult: 1 },
+                    { l: 'Personal', mult: 1.5 },
+                    { l: 'White Label', mult: 2.5 }
+                ],
+                durations: [{ l: '30 Hari', p: 100000 }, { l: '90 Hari', p: 250000 }, { l: '180 Hari', p: 450000 }]
+            },
+            {
+                id: 6, cat: 'jadibot', name: 'JadiBot Business', badge: 'best',
+                desc: 'Solusi enterprise dengan SLA support, custom branding, dan akses development penuh untuk bisnis profesional.',
+                formats: [
+                    { l: 'Standard', mult: 1 },
+                    { l: 'Branded', mult: 1.4 },
+                    { l: 'Full Service', mult: 2 }
+                ],
+                durations: [{ l: '30 Hari', p: 200000 }, { l: '90 Hari', p: 500000 }, { l: '180 Hari', p: 900000 }]
+            },
+            {
+                id: 7, cat: 'nokos', name: 'Nokos Standar', badge: '',
+                desc: 'Nomor kosong standar untuk verifikasi akun sosial media, game, dan aplikasi lainnya.',
+                formats: [
+                    { l: 'Indonesia', mult: 1 },
+                    { l: 'Malaysia', mult: 1.3 },
+                    { l: 'USA', mult: 1.8 }
+                ],
+                price: 1500, unit: '/nomor'
+            },
+            {
+                id: 8, cat: 'nokos', name: 'Nokos Premium', badge: 'hot',
+                desc: 'Nomor kosong premium dengan kualitas terbaik, jaminan berhasil, dan free replace jika gagal.',
+                formats: [
+                    { l: 'Indonesia', mult: 1 },
+                    { l: 'USA', mult: 1.6 },
+                    { l: 'UK', mult: 2 }
+                ],
+                price: 3000, unit: '/nomor'
+            },
+            {
+                id: 9, cat: 'smm', name: 'SMM Instagram', badge: 'best',
+                desc: 'Layanan SMM lengkap untuk Instagram: tambah followers, likes, comments dengan paket hemat.',
+                formats: [
+                    { l: 'Standard', mult: 1 },
+                    { l: 'Premium', mult: 1.5 },
+                    { l: 'VIP Real', mult: 2.2 }
+                ],
+                price: 15000, unit: '/bulan'
+            },
+            {
+                id: 10, cat: 'smm', name: 'SMM TikTok', badge: 'hot',
+                desc: 'Tingkatkan engagement TikTok Anda dengan followers, views, dan likes dari akun real.',
+                formats: [
+                    { l: 'Standard', mult: 1 },
+                    { l: 'Premium', mult: 1.5 },
+                    { l: 'VIP Real', mult: 2.2 }
+                ],
+                price: 18000, unit: '/bulan'
+            },
+            {
+                id: 11, cat: 'smm', name: 'SMM YouTube', badge: '',
+                desc: 'Paket SMM YouTube untuk menambah subscribers, views, dan meningkatkan engagement channel Anda.',
+                formats: [
+                    { l: 'Standard', mult: 1 },
+                    { l: 'Premium', mult: 1.5 },
+                    { l: 'VIP Real', mult: 2.2 }
+                ],
+                price: 25000, unit: '/bulan'
+            },
+            {
+                id: 12, cat: 'apikey', name: 'API WhatsApp Basic', badge: 'hot',
+                desc: 'API WhatsApp dengan unlimited request, low latency, dan support lengkap untuk automation.',
+                formats: [
+                    { l: 'Basic', mult: 1 },
+                    { l: 'Priority', mult: 1.5 },
+                    { l: 'Dedicated', mult: 2.5 }
+                ],
+                price: 75000, unit: '/bulan'
+            },
+            {
+                id: 13, cat: 'apikey', name: 'API WhatsApp Pro', badge: 'best',
+                desc: 'API WhatsApp advanced dengan multi-device support, custom webhook, dan priority support.',
+                formats: [
+                    { l: 'Basic', mult: 1 },
+                    { l: 'Priority', mult: 1.5 },
+                    { l: 'Dedicated', mult: 2.5 }
+                ],
+                price: 150000, unit: '/bulan'
+            },
+            {
+                id: 14, cat: 'apikey', name: 'API SMM Panel', badge: '',
+                desc: 'API lengkap untuk SMM services dengan dokumentasi lengkap dan support 24/7.',
+                formats: [
+                    { l: 'Basic', mult: 1 },
+                    { l: 'Priority', mult: 1.5 },
+                    { l: 'Dedicated', mult: 2.5 }
+                ],
+                price: 100000, unit: '/bulan'
+            },
         ];
 
         /* Voucher tersimpan di localStorage supaya permanen */
@@ -1692,12 +1886,34 @@
         function fmt(n) { return 'Rp' + n.toLocaleString('id-ID'); }
         function todayStr() { return new Date().toISOString().split('T')[0]; }
 
+        /* Hitung harga berdasarkan produk, durasi, dan format */
+        function calcPrice(product, durIdx, fmtIdx) {
+            const base = product.durations ? product.durations[durIdx].p : product.price;
+            const mult = product.formats ? product.formats[fmtIdx].mult : 1;
+            return Math.round(base * mult);
+        }
+
+        /* Label durasi+format */
+        function getItemLabel(product, durIdx, fmtIdx) {
+            const durLabel = product.durations ? product.durations[durIdx].l : product.unit;
+            const fmtLabel = product.formats ? product.formats[fmtIdx].l : '';
+            return fmtLabel ? `${durLabel} · ${fmtLabel}` : durLabel;
+        }
+
         function showToast(msg, type = 'success') {
             const toast = document.getElementById('toast');
             toast.textContent = msg;
             toast.className = 'toast show ' + (type === 'error' ? 'error' : '');
             clearTimeout(toastTimer);
             toastTimer = setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        function lockBodyScroll() {
+            document.body.classList.add('modal-open');
+        }
+
+        function unlockBodyScroll() {
+            document.body.classList.remove('modal-open');
         }
 
         /* ===== KEYBOARD SHORTCUTS (hidden) ===== */
@@ -1747,6 +1963,10 @@
             if (page === 'cart') renderCart();
             if (page === 'history') renderHistory();
             if (page === 'admin') renderVouchers();
+            if (page === 'store') {
+                // Re-run animasi produk tiap balik ke halaman toko
+                setTimeout(initProductAnimations, 60);
+            }
 
             if (window.innerWidth <= 768) {
                 document.getElementById('sidebar').classList.remove('mobile-open');
@@ -1772,7 +1992,7 @@
 
             grid.innerHTML = filtered.map(p => {
                 const badge = p.badge ? `<div class="product-badge">${p.badge.toUpperCase()}</div>` : '';
-                const price = p.durations ? fmt(p.durations[0].p) : fmt(p.price);
+                const price = fmt(calcPrice(p, 0, 0));
                 return `
                     <div class="product" onclick="openProductModal(${p.id})">
                         ${badge}
@@ -1786,61 +2006,145 @@
                     </div>
                 `;
             }).join('');
+
+            // Aktifkan animasi fade-in + stagger satu per satu
+            initProductAnimations();
+        }
+
+        /* IntersectionObserver untuk animasi produk muncul satu-per-satu */
+        function initProductAnimations() {
+            // Disconnect observer lama biar tidak dobel
+            if (productObserver) {
+                productObserver.disconnect();
+                productObserver = null;
+            }
+
+            const items = document.querySelectorAll('#prod-grid .product');
+            if (!items.length) return;
+
+            const reduceMotion = window.matchMedia &&
+                window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+            // Kalau user matikan animasi → langsung tampilkan semua
+            if (reduceMotion || typeof IntersectionObserver === 'undefined') {
+                items.forEach(el => el.classList.add('visible'));
+                return;
+            }
+
+            // Reset counter stagger tiap kali render ulang
+            window.__staggerIdx = 0;
+
+            productObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) return;
+
+                    const el = entry.target;
+
+                    // Stagger: hitung berapa card yang baru muncul bersamaan,
+                    // lalu delay satu-satu biar munculnya kerasa berurutan
+                    if (!el.dataset.staggerSet) {
+                        el.dataset.staggerSet = '1';
+                        const delay = (window.__staggerIdx = (window.__staggerIdx || 0) + 1) * 0.12;
+                        el.style.transitionDelay = Math.min(delay, 0.6) + 's';
+                    }
+
+                    el.classList.add('visible');
+                    productObserver.unobserve(el);
+
+                    // Reset counter stagger kalau sudah lewat jeda
+                    clearTimeout(window.__staggerReset);
+                    window.__staggerReset = setTimeout(() => {
+                        window.__staggerIdx = 0;
+                    }, 300);
+                });
+            }, {
+                threshold: 0.15,
+                rootMargin: '0px 0px -80px 0px'
+            });
+
+            items.forEach((el) => {
+                el.classList.remove('visible');
+                el.removeAttribute('data-stagger-set');
+                el.style.transitionDelay = '0s';
+                productObserver.observe(el);
+            });
         }
 
         function quickAdd(productId) {
             const p = PRODUCTS.find(x => x.id === productId);
             if (!p) return;
-            const key = `${p.id}_0`;
+            const key = `${p.id}_0_0`;
             cart[key] = (cart[key] || 0) + 1;
             updateCartBadge();
             showToast(`${p.name} ditambahkan`);
         }
 
-        /* ===== PRODUCT MODAL ===== */
+        /* ===== PRODUCT MODAL (Format + Durasi) ===== */
         function openProductModal(productId) {
             currentModalProduct = PRODUCTS.find(p => p.id === productId);
             if (!currentModalProduct) return;
+
+            selectedFormatIdx = 0;
+            selectedDurationIdx = 0;
 
             document.getElementById('modal-category').textContent = currentModalProduct.cat.toUpperCase();
             document.getElementById('modal-title').textContent = currentModalProduct.name;
             document.getElementById('modal-desc').textContent = currentModalProduct.desc;
 
-            if (currentModalProduct.durations) {
+            /* --- Format --- */
+            if (currentModalProduct.formats && currentModalProduct.formats.length) {
+                const grid = document.getElementById('modal-format-grid');
+                grid.innerHTML = currentModalProduct.formats.map((f, i) => `
+                    <button class="modal-duration-option ${i === 0 ? 'selected' : ''}" onclick="selectModalFormat(${i})">
+                        ${f.l}
+                    </button>
+                `).join('');
+                document.getElementById('modal-formats-section').style.display = 'block';
+            } else {
+                document.getElementById('modal-formats-section').style.display = 'none';
+            }
+
+            /* --- Durasi --- */
+            if (currentModalProduct.durations && currentModalProduct.durations.length) {
                 const grid = document.getElementById('modal-duration-grid');
                 grid.innerHTML = currentModalProduct.durations.map((d, i) => `
                     <button class="modal-duration-option ${i === 0 ? 'selected' : ''}" onclick="selectModalDuration(${i})">
-                        ${d.l}<br><small style="font-size:11px;color:var(--text-sec)">${fmt(d.p)}</small>
+                        ${d.l}<small>${fmt(d.p)}</small>
                     </button>
                 `).join('');
                 document.getElementById('modal-durations-section').style.display = 'block';
-                updateModalPrice(0);
             } else {
                 document.getElementById('modal-durations-section').style.display = 'none';
-                document.getElementById('modal-price-value').textContent = fmt(currentModalProduct.price);
             }
 
+            updateModalPrice();
             document.getElementById('product-modal-overlay').classList.add('active');
+            lockBodyScroll();
+        }
+
+        function selectModalFormat(idx) {
+            selectedFormatIdx = idx;
+            const opts = document.querySelectorAll('#modal-format-grid .modal-duration-option');
+            opts.forEach((b, i) => b.classList.toggle('selected', i === idx));
+            updateModalPrice();
         }
 
         function selectModalDuration(idx) {
-            document.querySelectorAll('.modal-duration-option').forEach(b => b.classList.remove('selected'));
-            const opts = document.querySelectorAll('.modal-duration-option');
-            if (opts[idx]) opts[idx].classList.add('selected');
-            updateModalPrice(idx);
+            selectedDurationIdx = idx;
+            const opts = document.querySelectorAll('#modal-duration-grid .modal-duration-option');
+            opts.forEach((b, i) => b.classList.toggle('selected', i === idx));
+            updateModalPrice();
         }
 
-        function updateModalPrice(idx) {
-            if (currentModalProduct && currentModalProduct.durations) {
-                document.getElementById('modal-price-value').textContent = fmt(currentModalProduct.durations[idx].p);
-            }
+        function updateModalPrice() {
+            if (!currentModalProduct) return;
+            const price = calcPrice(currentModalProduct, selectedDurationIdx, selectedFormatIdx);
+            document.getElementById('modal-price-value').textContent = fmt(price);
         }
 
         function addFromModal() {
             if (!currentModalProduct) return;
-            const opts = Array.from(document.querySelectorAll('.modal-duration-option'));
-            const durIdx = currentModalProduct.durations ? Math.max(0, opts.findIndex(b => b.classList.contains('selected'))) : 0;
-            const key = `${currentModalProduct.id}_${durIdx}`;
+            const key = `${currentModalProduct.id}_${selectedDurationIdx}_${selectedFormatIdx}`;
             cart[key] = (cart[key] || 0) + 1;
             updateCartBadge();
             showToast(`${currentModalProduct.name} ditambahkan`);
@@ -1850,6 +2154,7 @@
         function closeProductModal() {
             document.getElementById('product-modal-overlay').classList.remove('active');
             currentModalProduct = null;
+            unlockBodyScroll();
         }
 
         function updateCartBadge() {
@@ -1934,13 +2239,16 @@
 
             let subtotal = 0;
             const itemsHtml = items.map(([key, qty]) => {
-                const [pid, durIdx] = key.split('_');
-                const p = PRODUCTS.find(x => x.id == parseInt(pid));
+                const parts = key.split('_');
+                const pid = parseInt(parts[0]);
+                const durIdx = parseInt(parts[1]) || 0;
+                const fmtIdx = parseInt(parts[2]) || 0;
+                const p = PRODUCTS.find(x => x.id === pid);
                 if (!p) return '';
-                const price = p.durations ? p.durations[parseInt(durIdx)].p : p.price;
+                const price = calcPrice(p, durIdx, fmtIdx);
                 const itemTotal = price * qty;
                 subtotal += itemTotal;
-                const label = p.durations ? p.durations[parseInt(durIdx)].l : p.unit;
+                const label = getItemLabel(p, durIdx, fmtIdx);
                 return `
                     <div class="cart-item">
                         <div class="cart-item-info">
@@ -2050,11 +2358,14 @@
             let text = '*PESANAN BARU - SatzStore*\n\n';
             let subtotal = 0;
             items.forEach(([key, qty]) => {
-                const [pid, durIdx] = key.split('_');
-                const p = PRODUCTS.find(x => x.id == parseInt(pid));
+                const parts = key.split('_');
+                const pid = parseInt(parts[0]);
+                const durIdx = parseInt(parts[1]) || 0;
+                const fmtIdx = parseInt(parts[2]) || 0;
+                const p = PRODUCTS.find(x => x.id === pid);
                 if (!p) return;
-                const price = p.durations ? p.durations[parseInt(durIdx)].p : p.price;
-                const label = p.durations ? p.durations[parseInt(durIdx)].l : p.unit;
+                const price = calcPrice(p, durIdx, fmtIdx);
+                const label = getItemLabel(p, durIdx, fmtIdx);
                 const total = price * qty;
                 subtotal += total;
                 text += `• ${p.name} (${label}) x${qty} = ${fmt(total)}\n`;
@@ -2076,6 +2387,7 @@
 
             document.getElementById('modal-text').textContent = detailText;
             document.getElementById('modal').classList.add('active');
+            lockBodyScroll();
             window.wa_url = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(text)}`;
         }
 
@@ -2095,10 +2407,13 @@
             }
 
             Object.entries(cart).forEach(([key, qty]) => {
-                const [pid, durIdx] = key.split('_');
-                const p = PRODUCTS.find(x => x.id == parseInt(pid));
+                const parts = key.split('_');
+                const pid = parseInt(parts[0]);
+                const durIdx = parseInt(parts[1]) || 0;
+                const fmtIdx = parseInt(parts[2]) || 0;
+                const p = PRODUCTS.find(x => x.id === pid);
                 if (!p) return;
-                const label = p.durations ? p.durations[parseInt(durIdx)].l : p.unit;
+                const label = getItemLabel(p, durIdx, fmtIdx);
                 history.push({
                     name: `${p.name} (${label}) x${qty}`,
                     date: new Date().toLocaleString('id-ID'),
@@ -2121,6 +2436,7 @@
 
         function closeModal() {
             document.getElementById('modal').classList.remove('active');
+            unlockBodyScroll();
         }
 
         /* ===== HISTORY ===== */
@@ -2234,11 +2550,43 @@
             }
         }
 
+        /* ===== VIDEO AUTO-PLAY (CLEAN, TANPA KONTROL) ===== */
+        const videoEl = document.getElementById('store-video');
+
+        if (videoEl) {
+            videoEl.muted = true;
+            videoEl.loop = true;
+            videoEl.playsInline = true;
+
+            const tryPlayVideo = () => {
+                const p = videoEl.play();
+                if (p && typeof p.catch === 'function') p.catch(() => {});
+            };
+
+            tryPlayVideo();
+
+            videoEl.addEventListener('loadedmetadata', tryPlayVideo);
+            videoEl.addEventListener('canplay', tryPlayVideo);
+
+            document.addEventListener('touchstart', tryPlayVideo, { once: true, passive: true });
+            document.addEventListener('click', tryPlayVideo, { once: true });
+            document.addEventListener('scroll', tryPlayVideo, { once: true, passive: true });
+
+            videoEl.addEventListener('contextmenu', e => e.preventDefault());
+        }
+
         /* ===== INIT ===== */
         window.onload = function () {
             document.getElementById('user-name').textContent = currentUser.name;
             document.getElementById('user-phone').textContent = currentUser.phone;
             renderProducts();
+
+            document.getElementById('product-modal-overlay').addEventListener('click', function (e) {
+                if (e.target === this) closeProductModal();
+            });
+            document.getElementById('modal').addEventListener('click', function (e) {
+                if (e.target === this) closeModal();
+            });
         };
     </script>
 </body>
