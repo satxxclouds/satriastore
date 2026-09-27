@@ -3,12 +3,58 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Dunia Robotik & Elektronika — Panduan Lengkap</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
+        /* ===== ZOOM & SCROLL LOCK ===== */
+        html {
+            -webkit-text-size-adjust: 100%;
+            -ms-text-size-adjust: 100%;
+            text-size-adjust: 100%;
+            touch-action: pan-y;
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+            width: 100%;
+            max-width: 100%;
+        }
+
+        body {
+            touch-action: pan-y;
+            overscroll-behavior-x: none;
+            overscroll-behavior-y: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            -webkit-touch-callout: none;
+            overflow-x: hidden;
+            width: 100%;
+            max-width: 100vw;
+            position: relative;
+        }
+
+        /* Izinkan seleksi teks hanya di elemen yang butuh */
+        p, h1, h2, h3, h4, h5, h6, span, li, code, pre {
+            -webkit-user-select: text;
+            -moz-user-select: text;
+            -ms-user-select: text;
+            user-select: text;
+        }
+
+        /* Elemen interaktif tetap bisa diklik */
+        button, a, input, textarea, select {
+            touch-action: manipulation;
+        }
+
+        /* Pastikan semua elemen tidak overflow horizontal */
+        img, svg, video, canvas, iframe {
+            max-width: 100%;
+            height: auto;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -39,17 +85,11 @@
             --code-op: #f472b6;
         }
 
-        html {
-            scroll-behavior: smooth;
-            -webkit-text-size-adjust: 100%;
-        }
-
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             background: var(--bg);
             color: var(--text);
             line-height: 1.7;
-            overflow-x: hidden;
             font-weight: 400;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
@@ -97,6 +137,7 @@
             -webkit-backdrop-filter: blur(20px) saturate(160%);
             border-bottom: 1px solid transparent;
             transition: border-color 0.3s, background 0.3s;
+            max-width: 100vw;
         }
 
         .nav.scrolled {
@@ -111,6 +152,7 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            position: relative;
         }
 
         .nav-logo::before {
@@ -169,6 +211,8 @@
             position: relative;
             overflow: hidden;
             text-align: center;
+            width: 100%;
+            max-width: 100vw;
         }
 
         .hero::before {
@@ -177,8 +221,8 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 900px;
-            height: 900px;
+            width: min(900px, 150vw);
+            height: min(900px, 150vw);
             background: radial-gradient(circle,
                     rgba(6, 182, 212, 0.12) 0%,
                     rgba(139, 92, 246, 0.06) 35%,
@@ -235,6 +279,7 @@
             position: relative;
             z-index: 2;
             max-width: 900px;
+            width: 100%;
             animation: heroEnter 1.4s cubic-bezier(0.22, 1, 0.36, 1) both;
         }
 
@@ -385,21 +430,29 @@
         main {
             position: relative;
             z-index: 1;
+            width: 100%;
+            max-width: 100vw;
+            overflow-x: hidden;
         }
 
         section {
             padding: 110px 24px;
             position: relative;
+            width: 100%;
+            max-width: 100vw;
+            overflow-x: hidden;
         }
 
         .container {
             max-width: 1080px;
             margin: 0 auto;
+            width: 100%;
         }
 
         .container-narrow {
             max-width: 780px;
             margin: 0 auto;
+            width: 100%;
         }
 
         .section-title {
@@ -490,6 +543,9 @@
             padding: 90px 24px;
             border-top: 1px solid var(--border);
             position: relative;
+            width: 100%;
+            max-width: 100vw;
+            overflow-x: hidden;
         }
 
         .topic:first-of-type {
@@ -525,18 +581,19 @@
 
         .topic-content {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
             gap: 44px;
             align-items: start;
+            width: 100%;
         }
 
         .topic-content.full {
-            grid-template-columns: 1fr;
+            grid-template-columns: minmax(0, 1fr);
             max-width: 780px;
         }
 
         @media (max-width: 900px) {
-            .topic-content { grid-template-columns: 1fr; gap: 30px; }
+            .topic-content { grid-template-columns: minmax(0, 1fr); gap: 30px; }
         }
 
         .topic-text p {
@@ -544,6 +601,8 @@
             font-size: 15px;
             line-height: 1.85;
             margin-bottom: 18px;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
         }
 
         .topic-text p strong {
@@ -604,6 +663,7 @@
             padding: 2px 7px;
             border-radius: 5px;
             color: var(--accent);
+            word-break: break-word;
         }
 
         /* ===== CODE CARD ===== */
@@ -614,6 +674,8 @@
             overflow: hidden;
             position: relative;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            width: 100%;
+            max-width: 100%;
         }
 
         .code-card::before {
@@ -641,6 +703,7 @@
             height: 11px;
             border-radius: 50%;
             background: #333;
+            flex-shrink: 0;
         }
 
         .dot.red { background: #ff5f56; }
@@ -662,11 +725,13 @@
             line-height: 1.75;
             overflow-x: auto;
             color: var(--code-var);
+            -webkit-overflow-scrolling: touch;
         }
 
         .code-body pre {
             margin: 0;
             font-family: inherit;
+            white-space: pre;
         }
 
         .kw { color: var(--code-kw); font-weight: 500; }
@@ -680,8 +745,9 @@
         /* ===== CARDS GRID ===== */
         .cards-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
             gap: 18px;
+            width: 100%;
         }
 
         .card {
@@ -693,6 +759,7 @@
             overflow: hidden;
             transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
             cursor: default;
+            min-width: 0;
         }
 
         .card::before {
@@ -767,9 +834,10 @@
         /* ===== STATS ROW ===== */
         .stats-row {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
             gap: 12px;
             margin-top: 32px;
+            width: 100%;
         }
 
         .stat-box {
@@ -778,6 +846,7 @@
             border-radius: 12px;
             padding: 22px 20px;
             transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+            min-width: 0;
         }
 
         .stat-box:hover {
@@ -801,50 +870,13 @@
             line-height: 1.5;
         }
 
-        /* ===== TYPES GRID (small chips) ===== */
-        .types-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 10px;
-            margin-top: 20px;
-        }
-
-        .type-item {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 16px;
-            text-align: center;
-            transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
-            cursor: default;
-        }
-
-        .type-item:hover {
-            border-color: var(--accent);
-            transform: translateY(-2px);
-            background: var(--surface-2);
-        }
-
-        .type-name {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 12.5px;
-            font-weight: 600;
-            color: var(--accent);
-            margin-bottom: 4px;
-        }
-
-        .type-label {
-            font-size: 11px;
-            color: var(--text-3);
-            letter-spacing: 0.02em;
-        }
-
         /* ===== FLOW / TIMELINE ===== */
         .flow-steps {
             display: flex;
             flex-direction: column;
             gap: 16px;
             margin-top: 32px;
+            width: 100%;
         }
 
         .flow-step {
@@ -857,6 +889,7 @@
             border-radius: 12px;
             transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
             position: relative;
+            min-width: 0;
         }
 
         .flow-step:hover {
@@ -883,6 +916,7 @@
 
         .flow-body {
             flex: 1;
+            min-width: 0;
         }
 
         .flow-title {
@@ -910,6 +944,8 @@
             line-height: 1.75;
             color: var(--text-2);
             position: relative;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
         }
 
         .highlight strong {
@@ -928,22 +964,24 @@
         /* ===== COMPARISON TABLE ===== */
         .compare-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
             gap: 0;
             border: 1px solid var(--border);
             border-radius: 12px;
             overflow: hidden;
             background: var(--surface);
             margin-top: 32px;
+            width: 100%;
         }
 
         @media (max-width: 700px) {
-            .compare-grid { grid-template-columns: 1fr; }
+            .compare-grid { grid-template-columns: minmax(0, 1fr); }
         }
 
         .compare-col {
             padding: 28px;
             position: relative;
+            min-width: 0;
         }
 
         .compare-col:first-child {
@@ -998,8 +1036,9 @@
         /* ===== LANG / MCU GRID ===== */
         .lang-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
             gap: 12px;
+            width: 100%;
         }
 
         .lang-item {
@@ -1010,6 +1049,7 @@
             transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
             position: relative;
             overflow: hidden;
+            min-width: 0;
         }
 
         .lang-item::after {
@@ -1058,6 +1098,7 @@
             color: var(--accent);
             text-align: center;
             letter-spacing: 0.02em;
+            word-break: break-word;
         }
 
         .formula-label {
@@ -1075,6 +1116,9 @@
             text-align: center;
             position: relative;
             border-top: 1px solid var(--border);
+            width: 100%;
+            max-width: 100vw;
+            overflow: hidden;
         }
 
         .closing::before {
@@ -1083,7 +1127,7 @@
             top: 0;
             left: 50%;
             transform: translateX(-50%);
-            width: 600px;
+            width: min(600px, 100vw);
             height: 300px;
             background: radial-gradient(ellipse at center, rgba(6, 182, 212, 0.1), transparent 70%);
             pointer-events: none;
@@ -1114,6 +1158,7 @@
             text-align: center;
             font-size: 12.5px;
             color: var(--text-3);
+            width: 100%;
         }
 
         /* ===== REDUCED MOTION ===== */
@@ -1157,6 +1202,18 @@
 
         ::-webkit-scrollbar-thumb:hover {
             background: var(--text-3);
+        }
+
+        /* ===== MOBILE REFINEMENT ===== */
+        @media (max-width: 640px) {
+            section { padding: 70px 18px; }
+            .topic { padding: 60px 18px; }
+            .card { padding: 22px; }
+            .flow-step { padding: 18px 18px; gap: 14px; }
+            .compare-col { padding: 22px; }
+            .highlight { padding: 18px 20px; }
+            .code-body { padding: 16px; font-size: 12px; }
+            .hero-title { font-size: clamp(32px, 9vw, 60px); }
         }
     </style>
 </head>
@@ -1928,6 +1985,61 @@
     </footer>
 
     <script>
+        /* ===== ZOOM LOCK (JS) ===== */
+        (function lockZoom() {
+            // 1. Blokir gesture pinch-zoom (iOS Safari)
+            document.addEventListener('gesturestart', function (e) {
+                e.preventDefault();
+            }, { passive: false });
+
+            document.addEventListener('gesturechange', function (e) {
+                e.preventDefault();
+            }, { passive: false });
+
+            document.addEventListener('gestureend', function (e) {
+                e.preventDefault();
+            }, { passive: false });
+
+            // 2. Blokir multi-touch (2 jari atau lebih)
+            document.addEventListener('touchstart', function (e) {
+                if (e.touches.length > 1) {
+                    e.preventDefault();
+                }
+            }, { passive: false });
+
+            document.addEventListener('touchmove', function (e) {
+                if (e.touches.length > 1) {
+                    e.preventDefault();
+                }
+            }, { passive: false });
+
+            // 3. Blokir double-tap zoom
+            let lastTouchEnd = 0;
+            document.addEventListener('touchend', function (e) {
+                const now = Date.now();
+                if (now - lastTouchEnd <= 300) {
+                    e.preventDefault();
+                }
+                lastTouchEnd = now;
+            }, { passive: false });
+
+            // 4. Blokir Ctrl + wheel zoom (desktop)
+            document.addEventListener('wheel', function (e) {
+                if (e.ctrlKey) {
+                    e.preventDefault();
+                }
+            }, { passive: false });
+
+            // 5. Blokir keyboard shortcut zoom (Ctrl +, Ctrl -, Ctrl 0)
+            document.addEventListener('keydown', function (e) {
+                if ((e.ctrlKey || e.metaKey) && (
+                    e.key === '+' || e.key === '-' || e.key === '=' || e.key === '0'
+                )) {
+                    e.preventDefault();
+                }
+            });
+        })();
+
         /* ===== SCROLL PROGRESS + NAV ===== */
         const progressBar = document.getElementById('progressBar');
         const nav = document.getElementById('nav');
@@ -2011,7 +2123,7 @@
             }, { passive: true });
         }
 
-        /* ===== PULSE DOTS (decorative circuit feel) ===== */
+        /* ===== PULSE DOTS (decorative) ===== */
         const pulseContainer = document.getElementById('pulseDots');
         if (pulseContainer) {
             for (let i = 0; i < 8; i++) {
