@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>SatzStore</title>
+    <title>ZEVORASTORE</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
@@ -244,26 +244,6 @@
             min-width: 0;
         }
 
-        .page-header {
-            padding: 28px 40px;
-            border-bottom: 1px solid var(--border);
-            background: var(--bg);
-            flex-shrink: 0;
-        }
-
-        .page-title {
-            font-size: 26px;
-            font-weight: 700;
-            margin-bottom: 4px;
-            color: var(--text);
-            letter-spacing: -0.5px;
-        }
-
-        .page-subtitle {
-            font-size: 13px;
-            color: var(--text-sec);
-        }
-
         .page {
             display: none;
             flex: 1;
@@ -281,6 +261,181 @@
         .page-content {
             padding: 28px 40px;
             flex: 1;
+        }
+
+        /* ===== BRAND HERO (Animated Title) ===== */
+        .brand-hero {
+            text-align: center;
+            padding: 20px 0 40px;
+            user-select: none;
+            position: relative;
+            overflow: visible;
+        }
+
+        .brand-title {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: clamp(28px, 8vw, 68px);
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            margin: 0 auto;
+            display: inline-flex;
+            justify-content: center;
+            align-items: baseline;
+            line-height: 1.05;
+            position: relative;
+            animation: brandFloat 4s ease-in-out 1.4s infinite;
+            will-change: transform;
+        }
+
+        .brand-title::before {
+            content: '';
+            position: absolute;
+            inset: -50px -40px;
+            background: radial-gradient(ellipse at center,
+                    rgba(255, 255, 255, 0.10) 0%,
+                    rgba(255, 255, 255, 0.04) 35%,
+                    transparent 70%);
+            pointer-events: none;
+            z-index: -1;
+            animation: brandGlow 4.5s ease-in-out infinite;
+        }
+
+        .brand-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            height: 2px;
+            border-radius: 2px;
+            background: linear-gradient(90deg,
+                    transparent,
+                    rgba(255, 255, 255, 0.85),
+                    transparent);
+            animation: brandUnderline 3.2s ease-in-out infinite;
+        }
+
+        .brand-letter {
+            display: inline-block;
+            background: linear-gradient(120deg,
+                    #ffffff 0%,
+                    #8a8a8a 22%,
+                    #ffffff 45%,
+                    #a3a3a3 68%,
+                    #ffffff 100%);
+            background-size: 320% 100%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            color: transparent;
+            text-shadow: 0 0 40px rgba(255, 255, 255, 0.12);
+            transform-origin: 50% 60%;
+
+            animation:
+                letterIn 0.85s cubic-bezier(0.22, 1, 0.36, 1) both,
+                letterShimmer 4.5s linear infinite;
+
+            animation-delay:
+                calc(var(--i) * 0.07s),
+                calc(var(--i) * 0.07s + 0.9s);
+
+            will-change: transform, opacity, filter, background-position;
+        }
+
+        @keyframes letterIn {
+            0% {
+                opacity: 0;
+                transform: translateY(46px) rotateX(-85deg) scale(0.85);
+                filter: blur(8px);
+            }
+
+            60% {
+                opacity: 1;
+                filter: blur(0);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0) rotateX(0) scale(1);
+                filter: blur(0);
+            }
+        }
+
+        @keyframes letterShimmer {
+            0% {
+                background-position: 320% 0;
+            }
+
+            100% {
+                background-position: -320% 0;
+            }
+        }
+
+        @keyframes brandFloat {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-5px);
+            }
+        }
+
+        @keyframes brandGlow {
+
+            0%,
+            100% {
+                opacity: 0.55;
+                transform: scale(0.92);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1.08);
+            }
+        }
+
+        @keyframes brandUnderline {
+
+            0%,
+            100% {
+                width: 22%;
+                opacity: 0.35;
+            }
+
+            50% {
+                width: 82%;
+                opacity: 1;
+            }
+        }
+
+        .brand-subtitle {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-sec);
+            letter-spacing: 0.5em;
+            text-transform: uppercase;
+            margin-top: 22px;
+            opacity: 0;
+            animation: subtitleIn 1.1s cubic-bezier(0.22, 1, 0.36, 1) 1.35s forwards;
+        }
+
+        @keyframes subtitleIn {
+            0% {
+                opacity: 0;
+                letter-spacing: 0.75em;
+                transform: translateY(8px);
+                filter: blur(4px);
+            }
+
+            100% {
+                opacity: 1;
+                letter-spacing: 0.5em;
+                transform: translateY(0);
+                filter: blur(0);
+            }
         }
 
         /* ===== VIDEO 16:9 AUTO-PLAY (CLEAN) ===== */
@@ -380,7 +535,6 @@
             position: relative;
             cursor: pointer;
 
-            /* Kondisi awal: transparan, turun, sedikit mengecil, blur */
             opacity: 0;
             transform: translateY(40px) scale(0.96);
             filter: blur(6px);
@@ -1216,36 +1370,120 @@
             border-color: var(--accent);
         }
 
-        /* ===== TOAST ===== */
+        /* ===== TOAST (NEW: Floating Top Center, Modern) ===== */
         .toast {
             position: fixed;
-            bottom: 24px;
-            right: 24px;
-            background: var(--surface);
-            border: 1px solid var(--border-strong);
-            color: var(--text);
-            padding: 14px 22px;
-            border-radius: 10px;
-            font-size: 13px;
-            font-weight: 600;
-            box-shadow: var(--shadow-md);
-            z-index: 9999;
+            top: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-160%) scale(0.85);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 22px 14px 14px;
+            background: rgba(20, 20, 20, 0.88);
+            backdrop-filter: blur(22px) saturate(160%);
+            -webkit-backdrop-filter: blur(22px) saturate(160%);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 999px;
+            box-shadow:
+                0 24px 60px rgba(0, 0, 0, 0.55),
+                0 8px 24px rgba(0, 0, 0, 0.35),
+                inset 0 1px 0 rgba(255, 255, 255, 0.08);
+            z-index: 10000;
             opacity: 0;
             visibility: hidden;
-            transform: translateY(20px);
-            transition: all 0.3s;
-            max-width: calc(100vw - 48px);
+            pointer-events: none;
+            max-width: calc(100vw - 32px);
+            min-width: 240px;
+            overflow: hidden;
+            transition:
+                opacity 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 0.55s cubic-bezier(0.34, 1.4, 0.5, 1),
+                visibility 0.45s;
         }
 
         .toast.show {
             opacity: 1;
             visibility: visible;
-            transform: translateY(0);
+            transform: translateX(-50%) translateY(0) scale(1);
         }
 
-        .toast.error {
-            border-color: rgba(248, 113, 113, 0.5);
-            color: var(--danger);
+        .toast-icon {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+            font-weight: 800;
+            flex-shrink: 0;
+            color: #000;
+            background: linear-gradient(135deg, #ffffff 0%, #c4c4c4 100%);
+            box-shadow:
+                0 4px 14px rgba(255, 255, 255, 0.22),
+                0 0 0 4px rgba(255, 255, 255, 0.06),
+                inset 0 1px 0 rgba(255, 255, 255, 0.5);
+            animation: toastIconPop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .toast.error .toast-icon {
+            color: #fff;
+            background: linear-gradient(135deg, #f87171 0%, #dc2626 100%);
+            box-shadow:
+                0 4px 14px rgba(248, 113, 113, 0.45),
+                0 0 0 4px rgba(248, 113, 113, 0.12),
+                inset 0 1px 0 rgba(255, 255, 255, 0.25);
+        }
+
+        .toast.info .toast-icon {
+            color: #fff;
+            background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
+            box-shadow:
+                0 4px 14px rgba(96, 165, 250, 0.45),
+                0 0 0 4px rgba(96, 165, 250, 0.12),
+                inset 0 1px 0 rgba(255, 255, 255, 0.25);
+        }
+
+        .toast-message {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text);
+            letter-spacing: 0.1px;
+            line-height: 1.35;
+            text-align: left;
+            padding-right: 4px;
+        }
+
+        .toast-progress {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #ffffff 0%, #a3a3a3 100%);
+            transform-origin: left center;
+            transform: scaleX(1);
+            border-radius: 0 0 999px 999px;
+        }
+
+        .toast.error .toast-progress {
+            background: linear-gradient(90deg, #f87171 0%, #dc2626 100%);
+        }
+
+        .toast.info .toast-progress {
+            background: linear-gradient(90deg, #60a5fa 0%, #3b82f6 100%);
+        }
+
+        @keyframes toastProgress {
+            0% { transform: scaleX(1); }
+            100% { transform: scaleX(0); }
+        }
+
+        @keyframes toastIconPop {
+            0% { transform: scale(0.3) rotate(-60deg); opacity: 0; }
+            55% { transform: scale(1.18) rotate(10deg); opacity: 1; }
+            100% { transform: scale(1) rotate(0); opacity: 1; }
         }
 
         /* ===== EMPTY ===== */
@@ -1322,10 +1560,6 @@
                 padding: 20px 24px;
             }
 
-            .page-header {
-                padding: 20px 24px;
-            }
-
             .video-wrapper {
                 max-width: 100%;
             }
@@ -1353,11 +1587,16 @@
                 display: flex;
             }
 
-            .page-header {
-                padding: 18px 20px 18px 68px;
+            .brand-hero {
+                padding-top: 56px;
+                padding-bottom: 28px;
             }
 
-            /* Produk 1 kolom (tampil 1-1 berurutan ke bawah) */
+            .brand-subtitle {
+                font-size: 11px;
+                letter-spacing: 0.35em;
+            }
+
             .products-grid {
                 grid-template-columns: 1fr;
                 gap: 14px;
@@ -1374,10 +1613,6 @@
             .product-desc {
                 font-size: 12px;
                 min-height: auto;
-            }
-
-            .page-title {
-                font-size: 20px;
             }
 
             .cart-item {
@@ -1401,6 +1636,32 @@
                 border-radius: 12px;
                 margin-bottom: 20px;
             }
+
+            /* Toast mobile: turun di bawah tombol menu */
+            .toast {
+                top: 66px;
+                left: 12px;
+                right: 12px;
+                transform: translateY(-200%) scale(0.9);
+                max-width: none;
+                min-width: 0;
+                padding: 12px 18px 12px 12px;
+                gap: 10px;
+            }
+
+            .toast.show {
+                transform: translateY(0) scale(1);
+            }
+
+            .toast-icon {
+                width: 30px;
+                height: 30px;
+                font-size: 13px;
+            }
+
+            .toast-message {
+                font-size: 12px;
+            }
         }
 
         @media (max-width: 480px) {
@@ -1416,27 +1677,12 @@
                 padding: 14px;
             }
 
-            .page-header {
-                padding: 16px 14px 16px 68px;
-            }
-
-            .page-title {
-                font-size: 18px;
-            }
-
-            .sidebar-header {
-                font-size: 18px;
-                padding: 20px 16px 20px 68px;
+            .brand-hero {
+                padding-top: 54px;
             }
 
             .modal-buttons {
                 flex-direction: column;
-            }
-
-            .toast {
-                bottom: 16px;
-                right: 16px;
-                left: 16px;
             }
 
             .mobile-toggle {
@@ -1474,6 +1720,34 @@
                 filter: none !important;
                 transition: none !important;
             }
+
+            .brand-title,
+            .brand-title::before,
+            .brand-title::after {
+                animation: none;
+            }
+
+            .brand-letter {
+                animation: none;
+                opacity: 1;
+                transform: none;
+                filter: none;
+                background-position: 0 0;
+            }
+
+            .brand-subtitle {
+                animation: none;
+                opacity: 1;
+                letter-spacing: 0.5em;
+                transform: none;
+                filter: none;
+            }
+
+            .toast,
+            .toast-icon {
+                transition: none !important;
+                animation: none !important;
+            }
         }
 
         ::-webkit-scrollbar {
@@ -1501,7 +1775,7 @@
     <div class="container" id="main-app">
         <!-- SIDEBAR -->
         <aside class="sidebar" id="sidebar">
-            <div class="sidebar-header">SATZ</div>
+            <div class="sidebar-header">ZEVORA</div>
 
             <nav class="sidebar-menu">
                 <button class="menu-item active" onclick="goPage('store')" id="menu-store">Toko</button>
@@ -1516,7 +1790,7 @@
 
             <div class="sidebar-footer">
                 <div class="user-info">
-                    <div class="user-name" id="user-name">Guest</div>
+                    <div class="user-name" id="user-name">User</div>
                     <div class="user-phone" id="user-phone">Tamu</div>
                 </div>
             </div>
@@ -1526,12 +1800,25 @@
         <main class="main">
             <!-- STORE PAGE -->
             <div class="page active" id="page-store">
-                <div class="page-header">
-                    <h1 class="page-title">Toko Digital Premium</h1>
-                    <p class="page-subtitle">Sewa Bot WA, API Key, Nokos, dan SMM Panel Terlengkap</p>
-                </div>
+                <div class="page-content" style="padding-top: 20px;">
 
-                <div class="page-content">
+                    <!-- ===== BRAND HERO (Animated Title) ===== -->
+                    <div class="brand-hero">
+                        <h1 class="brand-title" aria-label="ZEVORASTORE">
+                            <span class="brand-letter" style="--i:0">Z</span>
+                            <span class="brand-letter" style="--i:1">E</span>
+                            <span class="brand-letter" style="--i:2">V</span>
+                            <span class="brand-letter" style="--i:3">O</span>
+                            <span class="brand-letter" style="--i:4">R</span>
+                            <span class="brand-letter" style="--i:5">A</span>
+                            <span class="brand-letter" style="--i:6">S</span>
+                            <span class="brand-letter" style="--i:7">T</span>
+                            <span class="brand-letter" style="--i:8">O</span>
+                            <span class="brand-letter" style="--i:9">R</span>
+                            <span class="brand-letter" style="--i:10">E</span>
+                        </h1>
+                        <p class="brand-subtitle">Digital Premium Store</p>
+                    </div>
 
                     <!-- ============================================================= -->
                     <!-- ===== VIDEO 16:9 AUTO-PLAY — GANTI SRC VIDEO DI BAWAH ===== -->
@@ -1571,7 +1858,7 @@
 
             <!-- CART PAGE -->
             <div class="page" id="page-cart">
-                <div class="page-header">
+                <div class="page-header" style="padding: 28px 40px; border-bottom: 1px solid var(--border); background: var(--bg); flex-shrink: 0;">
                     <h1 class="page-title">Keranjang Belanja</h1>
                     <p class="page-subtitle">Periksa pesanan, gunakan voucher, dan checkout via WhatsApp</p>
                 </div>
@@ -1582,7 +1869,7 @@
 
             <!-- HISTORY PAGE -->
             <div class="page" id="page-history">
-                <div class="page-header">
+                <div class="page-header" style="padding: 28px 40px; border-bottom: 1px solid var(--border); background: var(--bg); flex-shrink: 0;">
                     <h1 class="page-title">Riwayat Pesanan</h1>
                     <p class="page-subtitle">Arsip lengkap seluruh transaksi Anda</p>
                 </div>
@@ -1593,7 +1880,7 @@
 
             <!-- ADMIN PAGE -->
             <div class="page" id="page-admin">
-                <div class="page-header">
+                <div class="page-header" style="padding: 28px 40px; border-bottom: 1px solid var(--border); background: var(--bg); flex-shrink: 0;">
                     <h1 class="page-title">Admin Panel</h1>
                     <p class="page-subtitle">Kelola Voucher Promo &amp; Tracking Penggunaan</p>
                 </div>
@@ -1663,13 +1950,11 @@
             <h2 class="modal-title" id="modal-title"></h2>
             <p class="modal-desc" id="modal-desc"></p>
 
-            <!-- FORMAT PILIHAN -->
             <div class="modal-section" id="modal-formats-section">
                 <div class="modal-duration-label">Pilih Format</div>
                 <div class="modal-duration-grid" id="modal-format-grid"></div>
             </div>
 
-            <!-- DURASI PILIHAN -->
             <div class="modal-section" id="modal-durations-section">
                 <div class="modal-duration-label">Pilih Durasi</div>
                 <div class="modal-duration-grid" id="modal-duration-grid"></div>
@@ -1699,8 +1984,12 @@
         </div>
     </div>
 
-    <!-- TOAST -->
-    <div class="toast" id="toast"></div>
+    <!-- TOAST (NEW DESIGN) -->
+    <div class="toast" id="toast" role="status" aria-live="polite">
+        <div class="toast-icon" id="toast-icon">✓</div>
+        <div class="toast-message" id="toast-message"></div>
+        <div class="toast-progress" id="toast-progress"></div>
+    </div>
 
     <!-- Mobile Toggle -->
     <button class="mobile-toggle" id="mobile-toggle" onclick="toggleMobileSidebar()" title="Menu">⋮</button>
@@ -1720,8 +2009,9 @@
         let toastTimer = null;
         let productObserver = null;
         const WA_NUMBER = '6285891103110';
+        const TOAST_DURATION = 3000;
 
-        /* ===== PRODUCT DATA (dengan Format & Durasi) ===== */
+        /* ===== PRODUCT DATA ===== */
         const PRODUCTS = [
             {
                 id: 1, cat: 'sewabot', name: 'SewaBot Lite', badge: 'hot',
@@ -1865,7 +2155,6 @@
             },
         ];
 
-        /* Voucher tersimpan di localStorage supaya permanen */
         let vouchers = JSON.parse(localStorage.getItem('satz_vouchers') || 'null') || [
             { code: 'SATZPROMO', discount: 15, maxuse: 3, expiry: '2026-12-31', usageCount: 0, usedBy: [] },
             { code: 'HEMAT100', discount: 20, maxuse: 5, expiry: '2026-12-31', usageCount: 0, usedBy: [] },
@@ -1886,26 +2175,59 @@
         function fmt(n) { return 'Rp' + n.toLocaleString('id-ID'); }
         function todayStr() { return new Date().toISOString().split('T')[0]; }
 
-        /* Hitung harga berdasarkan produk, durasi, dan format */
         function calcPrice(product, durIdx, fmtIdx) {
             const base = product.durations ? product.durations[durIdx].p : product.price;
             const mult = product.formats ? product.formats[fmtIdx].mult : 1;
             return Math.round(base * mult);
         }
 
-        /* Label durasi+format */
         function getItemLabel(product, durIdx, fmtIdx) {
             const durLabel = product.durations ? product.durations[durIdx].l : product.unit;
             const fmtLabel = product.formats ? product.formats[fmtIdx].l : '';
             return fmtLabel ? `${durLabel} · ${fmtLabel}` : durLabel;
         }
 
+        /* ===== TOAST (NEW) ===== */
         function showToast(msg, type = 'success') {
             const toast = document.getElementById('toast');
-            toast.textContent = msg;
-            toast.className = 'toast show ' + (type === 'error' ? 'error' : '');
+            const iconEl = document.getElementById('toast-icon');
+            const msgEl = document.getElementById('toast-message');
+            const progressEl = document.getElementById('toast-progress');
+
+            if (!toast) return;
+
+            // Set pesan
+            msgEl.textContent = msg;
+
+            // Set ikon + warna berdasarkan tipe
+            const icons = { success: '✓', error: '✕', info: 'i' };
+            iconEl.textContent = icons[type] || icons.success;
+
+            // Reset class (hapus success/error/info sebelumnya, tambah yang baru)
+            toast.className = 'toast';
+            if (type === 'error') toast.classList.add('error');
+            else if (type === 'info') toast.classList.add('info');
+
+            // Trigger animasi masuk
+            // force reflow dulu supaya animasi reset kalau toast dipanggil berulang cepat
+            void toast.offsetWidth;
+            toast.classList.add('show');
+
+            // Progress bar
+            progressEl.style.animation = 'none';
+            void progressEl.offsetWidth;
+            progressEl.style.animation = `toastProgress ${TOAST_DURATION}ms linear forwards`;
+
+            // Re-trigger pop animasi ikon
+            iconEl.style.animation = 'none';
+            void iconEl.offsetWidth;
+            iconEl.style.animation = 'toastIconPop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)';
+
+            // Auto hide
             clearTimeout(toastTimer);
-            toastTimer = setTimeout(() => toast.classList.remove('show'), 3000);
+            toastTimer = setTimeout(() => {
+                toast.classList.remove('show');
+            }, TOAST_DURATION);
         }
 
         function lockBodyScroll() {
@@ -1916,7 +2238,7 @@
             document.body.classList.remove('modal-open');
         }
 
-        /* ===== KEYBOARD SHORTCUTS (hidden) ===== */
+        /* ===== KEYBOARD SHORTCUTS ===== */
         document.addEventListener('keydown', function (e) {
             const tag = (e.target.tagName || '').toUpperCase();
             if (tag === 'INPUT' || tag === 'TEXTAREA' || e.target.isContentEditable) return;
@@ -1937,7 +2259,7 @@
             document.getElementById('menu-admin').style.display = 'block';
             goPage('admin');
             renderVouchers();
-            showToast('Admin mode aktif');
+            showToast('Admin mode aktif', 'info');
         }
 
         function exitAdmin() {
@@ -1945,7 +2267,7 @@
             isAdminLoggedIn = false;
             document.getElementById('menu-admin').style.display = 'none';
             goPage('store');
-            showToast('Keluar dari admin mode');
+            showToast('Keluar dari admin mode', 'info');
         }
 
         /* ===== NAV ===== */
@@ -1964,7 +2286,6 @@
             if (page === 'history') renderHistory();
             if (page === 'admin') renderVouchers();
             if (page === 'store') {
-                // Re-run animasi produk tiap balik ke halaman toko
                 setTimeout(initProductAnimations, 60);
             }
 
@@ -2007,13 +2328,10 @@
                 `;
             }).join('');
 
-            // Aktifkan animasi fade-in + stagger satu per satu
             initProductAnimations();
         }
 
-        /* IntersectionObserver untuk animasi produk muncul satu-per-satu */
         function initProductAnimations() {
-            // Disconnect observer lama biar tidak dobel
             if (productObserver) {
                 productObserver.disconnect();
                 productObserver = null;
@@ -2025,13 +2343,11 @@
             const reduceMotion = window.matchMedia &&
                 window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-            // Kalau user matikan animasi → langsung tampilkan semua
             if (reduceMotion || typeof IntersectionObserver === 'undefined') {
                 items.forEach(el => el.classList.add('visible'));
                 return;
             }
 
-            // Reset counter stagger tiap kali render ulang
             window.__staggerIdx = 0;
 
             productObserver = new IntersectionObserver((entries) => {
@@ -2040,8 +2356,6 @@
 
                     const el = entry.target;
 
-                    // Stagger: hitung berapa card yang baru muncul bersamaan,
-                    // lalu delay satu-satu biar munculnya kerasa berurutan
                     if (!el.dataset.staggerSet) {
                         el.dataset.staggerSet = '1';
                         const delay = (window.__staggerIdx = (window.__staggerIdx || 0) + 1) * 0.12;
@@ -2051,7 +2365,6 @@
                     el.classList.add('visible');
                     productObserver.unobserve(el);
 
-                    // Reset counter stagger kalau sudah lewat jeda
                     clearTimeout(window.__staggerReset);
                     window.__staggerReset = setTimeout(() => {
                         window.__staggerIdx = 0;
@@ -2076,10 +2389,10 @@
             const key = `${p.id}_0_0`;
             cart[key] = (cart[key] || 0) + 1;
             updateCartBadge();
-            showToast(`${p.name} ditambahkan`);
+            showToast(`${p.name} ditambahkan ke keranjang`, 'success');
         }
 
-        /* ===== PRODUCT MODAL (Format + Durasi) ===== */
+        /* ===== PRODUCT MODAL ===== */
         function openProductModal(productId) {
             currentModalProduct = PRODUCTS.find(p => p.id === productId);
             if (!currentModalProduct) return;
@@ -2091,7 +2404,6 @@
             document.getElementById('modal-title').textContent = currentModalProduct.name;
             document.getElementById('modal-desc').textContent = currentModalProduct.desc;
 
-            /* --- Format --- */
             if (currentModalProduct.formats && currentModalProduct.formats.length) {
                 const grid = document.getElementById('modal-format-grid');
                 grid.innerHTML = currentModalProduct.formats.map((f, i) => `
@@ -2104,7 +2416,6 @@
                 document.getElementById('modal-formats-section').style.display = 'none';
             }
 
-            /* --- Durasi --- */
             if (currentModalProduct.durations && currentModalProduct.durations.length) {
                 const grid = document.getElementById('modal-duration-grid');
                 grid.innerHTML = currentModalProduct.durations.map((d, i) => `
@@ -2147,7 +2458,7 @@
             const key = `${currentModalProduct.id}_${selectedDurationIdx}_${selectedFormatIdx}`;
             cart[key] = (cart[key] || 0) + 1;
             updateCartBadge();
-            showToast(`${currentModalProduct.name} ditambahkan`);
+            showToast(`${currentModalProduct.name} ditambahkan ke keranjang`, 'success');
             closeProductModal();
         }
 
@@ -2187,38 +2498,46 @@
             if (!voucher) {
                 appliedVoucher = null;
                 voucherMsg = { text: 'Kode voucher tidak valid', type: 'error' };
-                renderCart(); return;
+                renderCart();
+                showToast('Kode voucher tidak valid', 'error');
+                return;
             }
 
             if (voucher.expiry < today) {
                 appliedVoucher = null;
                 voucherMsg = { text: 'Voucher sudah kedaluwarsa', type: 'error' };
-                renderCart(); return;
+                renderCart();
+                showToast('Voucher sudah kedaluwarsa', 'error');
+                return;
             }
 
             if (voucher.usageCount >= voucher.maxuse) {
                 appliedVoucher = null;
                 voucherMsg = { text: `Voucher sudah mencapai batas penggunaan (${voucher.maxuse}x)`, type: 'error' };
-                renderCart(); return;
+                renderCart();
+                showToast(`Voucher sudah mencapai batas penggunaan`, 'error');
+                return;
             }
 
             if (voucher.usedBy.includes(currentUser.email)) {
                 appliedVoucher = null;
                 voucherMsg = { text: 'Anda sudah menggunakan voucher ini', type: 'error' };
-                renderCart(); return;
+                renderCart();
+                showToast('Anda sudah menggunakan voucher ini', 'error');
+                return;
             }
 
             appliedVoucher = { code: voucher.code, discount: voucher.discount };
             voucherMsg = { text: '', type: '' };
             renderCart();
-            showToast(`Diskon ${voucher.discount}% diterapkan`);
+            showToast(`Voucher ${voucher.code} · Diskon ${voucher.discount}% diterapkan`, 'success');
         }
 
         function removeVoucher() {
             appliedVoucher = null;
             voucherMsg = { text: '', type: '' };
             renderCart();
-            showToast('Voucher dilepas');
+            showToast('Voucher dilepas', 'info');
         }
 
         /* ===== CART ===== */
@@ -2355,7 +2674,7 @@
             const items = Object.entries(cart).filter(([_, q]) => q > 0);
             if (!items.length) return;
 
-            let text = '*PESANAN BARU - SatzStore*\n\n';
+            let text = '*PESANAN BARU - ZEVORASTORE*\n\n';
             let subtotal = 0;
             items.forEach(([key, qty]) => {
                 const parts = key.split('_');
@@ -2431,7 +2750,7 @@
             updateCartBadge();
             closeModal();
             goPage('history');
-            showToast('Pesanan dikirim ke WhatsApp');
+            showToast('Pesanan berhasil dikirim ke WhatsApp', 'success');
         }
 
         function closeModal() {
@@ -2508,7 +2827,7 @@
                 vouchers[idx].usedBy = [];
                 saveVouchers();
                 renderVouchers();
-                showToast('Voucher direset');
+                showToast('Voucher direset', 'info');
             }
         }
 
@@ -2519,16 +2838,20 @@
             const expiry = document.getElementById('voucher-expiry').value;
 
             if (!code || !discount || !maxuse || !expiry) {
-                showToast('Lengkapi semua data', 'error'); return;
+                showToast('Lengkapi semua data terlebih dahulu', 'error');
+                return;
             }
             if (discount < 1 || discount > 100) {
-                showToast('Diskon harus 1-100%', 'error'); return;
+                showToast('Diskon harus 1-100%', 'error');
+                return;
             }
             if (maxuse < 1) {
-                showToast('Maks penggunaan minimal 1', 'error'); return;
+                showToast('Maks penggunaan minimal 1', 'error');
+                return;
             }
             if (vouchers.find(v => v.code === code)) {
-                showToast('Kode sudah ada', 'error'); return;
+                showToast('Kode voucher sudah ada', 'error');
+                return;
             }
 
             vouchers.unshift({ code, discount, maxuse, expiry, usageCount: 0, usedBy: [] });
@@ -2538,19 +2861,20 @@
             document.getElementById('voucher-maxuse').value = '';
             document.getElementById('voucher-expiry').value = '';
             renderVouchers();
-            showToast('Voucher ditambahkan');
+            showToast(`Voucher ${code} berhasil ditambahkan`, 'success');
         }
 
         function deleteVoucher(idx) {
             if (confirm('Hapus voucher ini?')) {
+                const code = vouchers[idx].code;
                 vouchers.splice(idx, 1);
                 saveVouchers();
                 renderVouchers();
-                showToast('Voucher dihapus');
+                showToast(`Voucher ${code} dihapus`, 'info');
             }
         }
 
-        /* ===== VIDEO AUTO-PLAY (CLEAN, TANPA KONTROL) ===== */
+        /* ===== VIDEO AUTO-PLAY ===== */
         const videoEl = document.getElementById('store-video');
 
         if (videoEl) {
