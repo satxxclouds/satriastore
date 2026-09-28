@@ -2939,557 +2939,6 @@
             }
         }
 
-        /* ===== CART REDESIGN ===== */
-        .cart-items-head {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 4px 12px;
-            border-bottom: 1px solid var(--border);
-            margin-bottom: 4px;
-        }
-
-        .cart-items-title {
-            font-size: 12px;
-            font-weight: 800;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-            color: var(--text);
-            display: flex;
-            align-items: center;
-            gap: 9px;
-        }
-
-        .cart-items-title::before {
-            content: '';
-            width: 3px;
-            height: 14px;
-            background: var(--accent);
-            border-radius: 2px;
-        }
-
-        .cart-items-count {
-            font-size: 10px;
-            font-weight: 700;
-            color: var(--text-ter);
-            padding: 4px 9px;
-            background: var(--surface-alt);
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            letter-spacing: 0.5px;
-        }
-
-        .cart-item {
-            position: relative;
-            background: linear-gradient(135deg, var(--surface) 0%, #131313 100%);
-            border-radius: 14px;
-            padding: 16px 16px 16px 18px;
-            border: 1px solid var(--border);
-            display: grid;
-            grid-template-columns: 54px 1fr auto;
-            gap: 14px;
-            align-items: center;
-            overflow: hidden;
-            transition: border-color 0.25s ease, transform 0.25s ease, box-shadow 0.3s ease;
-        }
-
-        .cart-item::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            bottom: 0;
-            width: 3px;
-            background: linear-gradient(180deg, #ffffff 0%, #555555 100%);
-            opacity: 0.55;
-            transition: opacity 0.25s ease;
-        }
-
-        .cart-item::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(120% 60% at 100% 0%, rgba(255, 255, 255, 0.045), transparent 55%);
-            pointer-events: none;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .cart-item:hover {
-            border-color: var(--border-strong);
-            transform: translateX(3px);
-            box-shadow: 0 10px 28px rgba(0, 0, 0, 0.4);
-        }
-
-        .cart-item:hover::before { opacity: 1; }
-        .cart-item:hover::after { opacity: 1; }
-
-        .cart-item-thumb {
-            width: 54px;
-            height: 54px;
-            border-radius: 12px;
-            background: linear-gradient(135deg, #202020 0%, #0e0e0e 100%);
-            border: 1px solid var(--border-strong);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 22px;
-            flex-shrink: 0;
-            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
-        }
-
-        .cart-item-info {
-            flex: 1;
-            min-width: 0;
-        }
-
-        .cart-item-name {
-            font-size: 13px;
-            font-weight: 700;
-            color: var(--text);
-            margin-bottom: 4px;
-            letter-spacing: -0.1px;
-            line-height: 1.35;
-        }
-
-        .cart-item-meta {
-            font-size: 11px;
-            color: var(--text-ter);
-            margin-bottom: 8px;
-            line-height: 1.4;
-        }
-
-        .cart-item-price-tag {
-            display: inline-flex;
-            align-items: center;
-            padding: 3px 8px;
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            font-size: 10px;
-            font-weight: 700;
-            color: var(--text-sec);
-            letter-spacing: 0.3px;
-        }
-
-        .cart-item-right {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-            gap: 8px;
-            flex-shrink: 0;
-        }
-
-        .cart-item-total {
-            font-size: 14px;
-            font-weight: 800;
-            color: var(--text);
-            letter-spacing: -0.2px;
-            white-space: nowrap;
-            font-variant-numeric: tabular-nums;
-        }
-
-        .cart-remove {
-            width: 24px;
-            height: 24px;
-            border-radius: 7px;
-            border: 1px solid transparent;
-            background: transparent;
-            color: var(--text-ter);
-            font-size: 11px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            line-height: 1;
-            padding: 0;
-        }
-
-        .cart-remove:hover {
-            background: rgba(248, 113, 113, 0.10);
-            border-color: rgba(248, 113, 113, 0.30);
-            color: var(--danger);
-            transform: rotate(90deg);
-        }
-
-        .cart-controls {
-            display: inline-flex;
-            align-items: center;
-            background: var(--surface-alt);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 3px;
-            gap: 0;
-        }
-
-        .qty-btn {
-            width: 26px;
-            height: 26px;
-            border: none;
-            background: transparent;
-            border-radius: 7px;
-            color: var(--text-sec);
-            font-family: inherit;
-            font-size: 14px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.15s ease;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0;
-            line-height: 1;
-        }
-
-        .qty-btn:hover {
-            background: var(--accent);
-            color: #000;
-        }
-
-        .qty-btn:active { transform: scale(0.9); }
-
-        .qty-display {
-            min-width: 28px;
-            text-align: center;
-            font-weight: 800;
-            font-size: 12px;
-            color: var(--text);
-            padding: 0 2px;
-            font-variant-numeric: tabular-nums;
-        }
-
-        /* ===== CART SUMMARY REDESIGN ===== */
-        .cart-summary {
-            position: sticky;
-            top: 20px;
-            background:
-                radial-gradient(120% 80% at 50% 0%, rgba(255, 255, 255, 0.045), transparent 55%),
-                var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 22px;
-            overflow: hidden;
-        }
-
-        .cart-summary::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 10%;
-            right: 10%;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.45), transparent);
-            opacity: 0.6;
-            pointer-events: none;
-        }
-
-        .summary-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 10px;
-            margin-bottom: 16px;
-            padding-bottom: 14px;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .summary-title {
-            font-size: 12px;
-            font-weight: 800;
-            letter-spacing: 1.4px;
-            text-transform: uppercase;
-            color: var(--text);
-            margin: 0;
-        }
-
-        .summary-count {
-            font-size: 10px;
-            font-weight: 800;
-            color: #000;
-            background: var(--accent);
-            padding: 3px 10px;
-            border-radius: 999px;
-            letter-spacing: 0.5px;
-        }
-
-        .summary-rows {
-            display: flex;
-            flex-direction: column;
-            gap: 9px;
-            margin-bottom: 12px;
-        }
-
-        .summary-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 12px;
-            color: var(--text-sec);
-            margin: 0;
-        }
-
-        .summary-row.discount {
-            color: #e5e5e5;
-            font-weight: 700;
-        }
-
-        .summary-row.discount span:last-child {
-            color: #4ade80;
-            font-weight: 800;
-        }
-
-        .summary-total {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 14px 16px;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
-            border: 1px solid var(--border-strong);
-            border-radius: 12px;
-            margin: 0 0 4px;
-        }
-
-        .summary-total span:first-child {
-            font-size: 11px;
-            font-weight: 800;
-            letter-spacing: 1.2px;
-            text-transform: uppercase;
-            color: var(--text-sec);
-        }
-
-        .summary-total span:last-child {
-            font-size: 18px;
-            font-weight: 800;
-            color: var(--text);
-            letter-spacing: -0.3px;
-            font-variant-numeric: tabular-nums;
-        }
-
-        .checkout-btn {
-            width: 100%;
-            padding: 14px 20px;
-            background: var(--accent);
-            color: #000;
-            border: none;
-            border-radius: 11px;
-            font-family: inherit;
-            font-size: 13px;
-            font-weight: 800;
-            letter-spacing: 0.4px;
-            cursor: pointer;
-            margin-top: 18px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            transition: all 0.2s ease;
-        }
-
-        .checkout-btn:hover {
-            background: #e8e8e8;
-            transform: translateY(-1px);
-            box-shadow: 0 10px 24px rgba(255, 255, 255, 0.12);
-        }
-
-        .checkout-btn:active { transform: translateY(0); }
-
-        .checkout-btn .arrow {
-            transition: transform 0.25s ease;
-            display: inline-block;
-        }
-
-        .checkout-btn:hover .arrow { transform: translateX(4px); }
-
-        /* ===== HISTORY REDESIGN ===== */
-        .history-list {
-            display: flex;
-            flex-direction: column;
-            gap: 14px;
-            max-width: 900px;
-            margin: 0 auto;
-        }
-
-        .history-card {
-            position: relative;
-            background:
-                radial-gradient(120% 100% at 100% 0%, rgba(255, 255, 255, 0.04), transparent 55%),
-                var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 20px;
-            transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
-            overflow: hidden;
-        }
-
-        .history-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 10%;
-            right: 10%;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            pointer-events: none;
-        }
-
-        .history-card:hover {
-            border-color: var(--border-strong);
-            transform: translateY(-3px);
-            box-shadow: 0 16px 36px rgba(0, 0, 0, 0.45);
-        }
-
-        .history-card:hover::before { opacity: 1; }
-
-        .history-card-head {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            gap: 14px;
-            margin-bottom: 16px;
-            padding-bottom: 14px;
-            border-bottom: 1px dashed var(--border);
-        }
-
-        .history-order-id {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            font-size: 9px;
-            font-weight: 900;
-            letter-spacing: 1.4px;
-            color: var(--text-ter);
-            text-transform: uppercase;
-            margin-bottom: 7px;
-            padding: 3px 8px;
-            border: 1px solid var(--border);
-            border-radius: 5px;
-            background: rgba(255, 255, 255, 0.02);
-        }
-
-        .history-order-id::before {
-            content: '#';
-            opacity: 0.6;
-        }
-
-        .history-name {
-            font-size: 14px;
-            font-weight: 700;
-            color: var(--text);
-            line-height: 1.45;
-            letter-spacing: -0.1px;
-        }
-
-        .history-status-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            padding: 5px 10px;
-            border-radius: 8px;
-            font-size: 9px;
-            font-weight: 900;
-            letter-spacing: 0.7px;
-            flex-shrink: 0;
-            border: 1px solid;
-            text-transform: uppercase;
-        }
-
-        .history-status-badge.waiting    { color: #fbbf24; border-color: rgba(251, 191, 36, .28);  background: rgba(251, 191, 36, .08); }
-        .history-status-badge.processing { color: #60a5fa; border-color: rgba(96, 165, 250, .28); background: rgba(96, 165, 250, .08); }
-        .history-status-badge.done       { color: #4ade80; border-color: rgba(74, 222, 128, .28); background: rgba(74, 222, 128, .08); }
-        .history-status-badge.cancelled  { color: #f87171; border-color: rgba(248, 113, 113, .28); background: rgba(248, 113, 113, .08); }
-
-        .history-meta-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-            gap: 8px;
-        }
-
-        .history-meta-item {
-            padding: 10px 12px;
-            background: var(--surface-alt);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            min-width: 0;
-        }
-
-        .history-meta-label {
-            font-size: 8px;
-            font-weight: 900;
-            letter-spacing: 1.1px;
-            text-transform: uppercase;
-            color: var(--text-ter);
-            margin-bottom: 4px;
-        }
-
-        .history-meta-value {
-            font-size: 11px;
-            font-weight: 700;
-            color: var(--text);
-            word-break: break-word;
-            line-height: 1.5;
-        }
-
-        .history-meta-value.highlight {
-            font-size: 13px;
-            font-weight: 800;
-            color: #ffffff;
-            font-variant-numeric: tabular-nums;
-        }
-
-        .history-notes {
-            margin-top: 10px;
-            padding: 10px 12px;
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px dashed var(--border);
-            border-radius: 10px;
-        }
-
-        .history-notes-text {
-            font-size: 11px;
-            color: var(--text-sec);
-            line-height: 1.6;
-            font-style: italic;
-            margin-top: 4px;
-        }
-
-        /* Responsive khusus cart & history */
-        @media (max-width: 600px) {
-            .cart-item {
-                grid-template-columns: 44px 1fr;
-                padding: 14px;
-                gap: 12px;
-            }
-            .cart-item-thumb {
-                width: 44px;
-                height: 44px;
-                font-size: 18px;
-                border-radius: 10px;
-            }
-            .cart-item-right {
-                grid-column: 1 / -1;
-                flex-direction: row;
-                align-items: center;
-                justify-content: space-between;
-                width: 100%;
-                padding-top: 12px;
-                border-top: 1px solid var(--border);
-                gap: 10px;
-            }
-            .cart-item-right .cart-remove { order: 3; }
-            .cart-item-right .cart-controls { order: 1; }
-            .cart-item-right .cart-item-total { order: 2; font-size: 13px; }
-
-            .history-card-head {
-                flex-direction: column;
-                gap: 10px;
-            }
-            .history-status-badge { align-self: flex-start; }
-        }
-
         ::-webkit-scrollbar {
             width: 6px;
         }
@@ -4237,35 +3686,6 @@
             return fmtLabel ? `${durLabel} · ${fmtLabel}` : durLabel;
         }
 
-        function getCategoryIcon(cat) {
-            const map = {
-                sewabot: '🤖',
-                jadibot: '⚙️',
-                nokos:   '📱',
-                smm:     '📊',
-                apikey:  '🔑'
-            };
-            return map[cat] || '📦';
-        }
-
-        function getHistoryStatusMeta(status) {
-            const map = {
-                MENUNGGU:   { cls: 'waiting',    icon: '◷', label: 'Menunggu' },
-                DIPROSES:   { cls: 'processing', icon: '↻', label: 'Diproses' },
-                SELESAI:    { cls: 'done',       icon: '✓', label: 'Selesai' },
-                DIBATALKAN: { cls: 'cancelled',  icon: '×', label: 'Dibatalkan' }
-            };
-            return map[status] || map.MENUNGGU;
-        }
-
-        function removeCartItem(key) {
-            if (!cart[key]) return;
-            delete cart[key];
-            updateCartBadge();
-            renderCart();
-            showToast('Item dihapus dari keranjang', 'info');
-        }
-
         /* ===== TOAST (NEW) ===== */
         function showToast(msg, type = 'success') {
             const toast = document.getElementById('toast');
@@ -4275,26 +3695,34 @@
 
             if (!toast) return;
 
+            // Set pesan
             msgEl.textContent = msg;
 
+            // Set ikon + warna berdasarkan tipe
             const icons = { success: '✓', error: '✕', info: 'i' };
             iconEl.textContent = icons[type] || icons.success;
 
+            // Reset class (hapus success/error/info sebelumnya, tambah yang baru)
             toast.className = 'toast';
             if (type === 'error') toast.classList.add('error');
             else if (type === 'info') toast.classList.add('info');
 
+            // Trigger animasi masuk
+            // force reflow dulu supaya animasi reset kalau toast dipanggil berulang cepat
             void toast.offsetWidth;
             toast.classList.add('show');
 
+            // Progress bar
             progressEl.style.animation = 'none';
             void progressEl.offsetWidth;
             progressEl.style.animation = `toastProgress ${TOAST_DURATION}ms linear forwards`;
 
+            // Re-trigger pop animasi ikon
             iconEl.style.animation = 'none';
             void iconEl.offsetWidth;
             iconEl.style.animation = 'toastIconPop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)';
 
+            // Auto hide
             clearTimeout(toastTimer);
             toastTimer = setTimeout(() => {
                 toast.classList.remove('show');
@@ -4461,6 +3889,16 @@
             const firstName = first?.name || 'Produk';
             const extra = order.items.length - 1;
             return extra > 0 ? `${firstName} +${extra} produk lainnya` : firstName;
+        }
+
+        function getAdminOrderStatusMeta(status) {
+            const map = {
+                MENUNGGU: { cls: 'waiting', icon: '◷', label: 'MENUNGGU' },
+                DIPROSES: { cls: 'processing', icon: '↻', label: 'DIPROSES' },
+                SELESAI: { cls: 'done', icon: '✓', label: 'SELESAI' },
+                DIBATALKAN: { cls: 'cancelled', icon: '×', label: 'DIBATALKAN' }
+            };
+            return map[status] || map.MENUNGGU;
         }
 
         function renderAdminOrderCounts() {
@@ -4680,6 +4118,7 @@
                 target.updated_at = new Date().toISOString();
             }
 
+            // Sinkronkan juga riwayat lokal pada perangkat yang sedang membuka admin.
             const targetOrderId = target?.order_id || '';
             const localHistoryItem = history.find(item => String(item.orderId || '') === String(targetOrderId));
             if (localHistoryItem) {
@@ -4741,6 +4180,8 @@
                     .select('*')
                     .order('created_at', { ascending: false });
 
+                // Jika pelanggan mempunyai identitas, batasi hasil berdasarkan email/nomor HP.
+                // Tanpa identitas, gunakan orderId yang memang tersimpan di browser ini.
                 if (currentUser.email) {
                     query = query.eq('customer_email', currentUser.email);
                 } else if (currentUser.phone) {
@@ -5141,14 +4582,12 @@
                         <div class="empty-icon">🛒</div>
                         <div class="empty-title">Keranjang Kosong</div>
                         <div class="empty-desc">Mulai belanja dan temukan produk yang Anda butuhkan</div>
-                        <button class="btn" onclick="goPage('store')" style="margin: 0 auto; max-width: 220px;">Belanja Sekarang</button>
+                        <button class="btn" onclick="goPage('store')" style="margin-top: 0;">Belanja Sekarang</button>
                     </div>`;
                 return;
             }
 
             let subtotal = 0;
-            let totalQty = 0;
-
             const itemsHtml = items.map(([key, qty]) => {
                 const parts = key.split('_');
                 const pid = parseInt(parts[0]);
@@ -5156,32 +4595,22 @@
                 const fmtIdx = parseInt(parts[2]) || 0;
                 const p = PRODUCTS.find(x => x.id === pid);
                 if (!p) return '';
-
                 const price = calcPrice(p, durIdx, fmtIdx);
                 const itemTotal = price * qty;
                 subtotal += itemTotal;
-                totalQty += qty;
-
                 const label = getItemLabel(p, durIdx, fmtIdx);
-                const icon = getCategoryIcon(p.cat);
-
                 return `
                     <div class="cart-item">
-                        <div class="cart-item-thumb">${icon}</div>
                         <div class="cart-item-info">
                             <div class="cart-item-name">${p.name}</div>
-                            <div class="cart-item-meta">${label}</div>
-                            <div class="cart-item-price-tag">${fmt(price)} / item</div>
+                            <div class="cart-item-meta">${label} · ${fmt(price)}</div>
                         </div>
-                        <div class="cart-item-right">
-                            <button class="cart-remove" onclick="removeCartItem('${key}')" title="Hapus">✕</button>
-                            <div class="cart-controls">
-                                <button class="qty-btn" onclick="updateQty('${key}',-1)">−</button>
-                                <div class="qty-display">${qty}</div>
-                                <button class="qty-btn" onclick="updateQty('${key}',1)">+</button>
-                            </div>
-                            <div class="cart-item-total">${fmt(itemTotal)}</div>
+                        <div class="cart-controls">
+                            <button class="qty-btn" onclick="updateQty('${key}',-1)">−</button>
+                            <div class="qty-display">${qty}</div>
+                            <button class="qty-btn" onclick="updateQty('${key}',1)">+</button>
                         </div>
+                        <div class="cart-price">${fmt(itemTotal)}</div>
                     </div>
                 `;
             }).join('');
@@ -5226,34 +4655,19 @@
 
             content.innerHTML = `
                 <div class="cart-layout">
-                    <div class="cart-items">
-                        <div class="cart-items-head">
-                            <div class="cart-items-title">Item Pesanan</div>
-                            <div class="cart-items-count">${totalQty} item</div>
-                        </div>
-                        ${itemsHtml}
-                    </div>
-
+                    <div class="cart-items">${itemsHtml}</div>
                     <div class="cart-summary">
-                        <div class="summary-header">
-                            <div class="summary-title">Ringkasan</div>
-                            <div class="summary-count">${totalQty}</div>
+                        <div class="summary-title">Ringkasan</div>
+                        <div class="summary-row">
+                            <span>Subtotal (${items.length} item)</span>
+                            <span>${fmt(subtotal)}</span>
                         </div>
-
-                        <div class="summary-rows">
-                            <div class="summary-row">
-                                <span>Subtotal</span>
-                                <span>${fmt(subtotal)}</span>
-                            </div>
-                            ${appliedVoucher ? `
-                            <div class="summary-row discount">
-                                <span>Diskon ${appliedVoucher.code} (-${appliedVoucher.discount}%)</span>
-                                <span>-${fmt(discount)}</span>
-                            </div>` : ''}
-                        </div>
-
+                        ${appliedVoucher ? `<div class="summary-row discount">
+                            <span>Diskon ${appliedVoucher.code} (-${appliedVoucher.discount}%)</span>
+                            <span>-${fmt(discount)}</span>
+                        </div>` : ''}
                         <div class="summary-total">
-                            <span>Total</span>
+                            <span>TOTAL</span>
                             <span>${fmt(total)}</span>
                         </div>
 
@@ -5272,10 +4686,7 @@
                             <textarea class="notes-textarea" id="order-notes" placeholder="Nomor WA tujuan, nama pengguna, dll..." oninput="orderNotes = this.value">${orderNotes}</textarea>
                         </div>
 
-                        <button class="checkout-btn" onclick="checkout()">
-                            <span>Checkout Sekarang</span>
-                            <span class="arrow">→</span>
-                        </button>
+                        <button class="checkout-btn" onclick="checkout()">Checkout</button>
                     </div>
                 </div>
             `;
@@ -5444,61 +4855,28 @@
         /* ===== HISTORY ===== */
         function renderHistory() {
             const content = document.getElementById('history-content');
-
             if (!history.length) {
                 content.innerHTML = `
                     <div class="empty-state">
                         <div class="empty-icon">📋</div>
                         <div class="empty-title">Riwayat Kosong</div>
                         <div class="empty-desc">Anda belum melakukan pemesanan</div>
-                        <button class="btn" onclick="goPage('store')" style="margin: 0 auto; max-width: 220px;">Mulai Belanja</button>
                     </div>`;
                 return;
             }
-
-            content.innerHTML = `
-                <div class="history-list">
-                    ${history.slice().reverse().map(h => {
-                        const meta = getHistoryStatusMeta(h.status || 'MENUNGGU');
-                        const totalVal = typeof h.total === 'number' ? h.total : (parseInt(h.total) || 0);
-                        return `
-                            <div class="history-card">
-                                <div class="history-card-head">
-                                    <div style="min-width:0;flex:1;">
-                                        <div class="history-order-id">${h.orderId || 'ORDER'}</div>
-                                        <div class="history-name">${h.name}</div>
-                                    </div>
-                                    <span class="history-status-badge ${meta.cls}">
-                                        <span>${meta.icon}</span> ${meta.label}
-                                    </span>
-                                </div>
-
-                                <div class="history-meta-grid">
-                                    <div class="history-meta-item">
-                                        <div class="history-meta-label">Tanggal</div>
-                                        <div class="history-meta-value">${h.date || '-'}</div>
-                                    </div>
-                                    ${h.voucher && h.voucher !== '-' ? `
-                                    <div class="history-meta-item">
-                                        <div class="history-meta-label">Voucher</div>
-                                        <div class="history-meta-value">${h.voucher}</div>
-                                    </div>` : ''}
-                                    <div class="history-meta-item">
-                                        <div class="history-meta-label">Total</div>
-                                        <div class="history-meta-value highlight">${fmt(totalVal)}</div>
-                                    </div>
-                                </div>
-
-                                ${h.notes ? `
-                                <div class="history-notes">
-                                    <div class="history-meta-label">Catatan</div>
-                                    <div class="history-notes-text">"${h.notes}"</div>
-                                </div>` : ''}
-                            </div>
-                        `;
-                    }).join('')}
+            content.innerHTML = history.slice().reverse().map(h => `
+                <div class="admin-section" style="margin-bottom: 12px;">
+                    <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;">
+                        <div>
+                            <div style="font-weight:600;font-size:13px;color:var(--text);margin-bottom:4px;">${h.name}</div>
+                            <div style="font-size:11px;color:var(--text-ter);margin-bottom:4px;">${h.date}</div>
+                            ${h.voucher !== '-' ? `<div style="font-size:11px;color:var(--text-sec);margin-bottom:4px;">Voucher: ${h.voucher}</div>` : ''}
+                            ${h.notes ? `<div style="font-size:11px;color:var(--text-sec);margin-top:6px;font-style:italic;">Catatan: ${h.notes}</div>` : ''}
+                        </div>
+                        <div class="badge-active">${h.status}</div>
+                    </div>
                 </div>
-            `;
+            `).join('');
         }
 
         /* ===== CUSTOM CONFIRMATION ===== */
@@ -5661,6 +5039,7 @@
 
             showToast(`Promo ${promo.code} berhasil diklaim`, 'success');
 
+            // Tunggu animasi blur + fade selesai, lalu hapus dari daftar.
             setTimeout(() => {
                 renderPromos();
             }, 560);
@@ -5731,6 +5110,7 @@
                 return;
             }
 
+            // Promo otomatis membuat / menyinkronkan voucher yang dipakai saat checkout.
             const existingVoucher = vouchers.find(v => v.code === code);
             if (existingVoucher) {
                 existingVoucher.discount = discount;
