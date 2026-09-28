@@ -10,31 +10,24 @@
 
 <style>
 :root{
-  --blue:#3b82f6;
-  --blue-dark:#2563eb;
-  --blue2:#60a5fa;
-  --blue-soft:#172554;
-  --blue-light:#1e3a8a;
-
-  /* ===== PALET ABU ===== */
-  --bg:#0a0a0c;
-  --bg2:#121215;
-
+  --bg:#0e0e10;
   --surface:#17171b;
-  --surface2:#1b1b20;
-  --surface-soft:#131317;
+  --surface-2:#1c1c21;
+  --surface-3:#141417;
+  --line:#26262c;
+  --line-soft:#1e1e23;
 
-  --ink:#f2f2f4;
-  --ink-soft:#cfcfd6;
-  --ink-mute:#8b8b95;
+  --ink:#ececee;
+  --ink-soft:#c8c8ce;
+  --ink-mute:#8a8a92;
 
-  --line:#28282e;
-  --line-blue:#1e40af;
+  --accent:#4f8cff;
+  --accent-hover:#3b7cf0;
+  --accent-soft:rgba(79,140,255,.12);
+  --accent-line:rgba(79,140,255,.32);
 
   --danger:#f87171;
   --success:#4ade80;
-
-  --shadow:0 10px 30px rgba(0,0,0,.35);
 }
 
 *{
@@ -42,8 +35,7 @@
   -webkit-tap-highlight-color:transparent;
 }
 
-html,
-body{
+html, body{
   width:100%;
   height:100%;
   margin:0;
@@ -63,237 +55,25 @@ body{
 
   background:var(--bg);
   color:var(--ink);
+  -webkit-font-smoothing:antialiased;
 }
 
-button,
-textarea,
-input{
-  font:inherit;
-}
-
-button{
-  border:0;
-  outline:0;
-}
+button, textarea, input{ font:inherit; }
+button{ border:0; outline:0; background:none; cursor:pointer; }
 
 /* =========================================================
-   APP + ANIMATED GREY GLOW BACKGROUND
+   APP
 ========================================================= */
 
 .app{
   position:relative;
-
   width:100%;
   height:100dvh;
   min-height:0;
-
   overflow:hidden;
-
   display:flex;
   flex-direction:column;
-
-  background:
-    radial-gradient(
-      circle at 50% -10%,
-      rgba(161,161,170,.14),
-      transparent 46%
-    ),
-    linear-gradient(
-      180deg,
-      #16161a 0%,
-      #0d0d10 55%,
-      #08080a 100%
-    );
-}
-
-/* ---------- LAYER GLOW ---------- */
-
-.bg-layer{
-  position:absolute;
-  inset:0;
-
-  z-index:0;
-
-  overflow:hidden;
-  pointer-events:none;
-
-  contain:strict;
-}
-
-.glow{
-  position:absolute;
-
-  display:block;
-
-  border-radius:50%;
-
-  filter:blur(72px);
-
-  opacity:.55;
-
-  will-change:transform,opacity;
-
-  transform:translate3d(0,0,0);
-}
-
-.glow-1{
-  width:62vmax;
-  height:62vmax;
-
-  top:-24vmax;
-  left:-20vmax;
-
-  background:radial-gradient(
-    circle at center,
-    rgba(180,182,190,.42) 0%,
-    rgba(140,142,150,.20) 40%,
-    rgba(140,142,150,0) 72%
-  );
-
-  animation:
-    floatA 24s ease-in-out infinite alternate,
-    pulseA 11s ease-in-out infinite;
-}
-
-.glow-2{
-  width:56vmax;
-  height:56vmax;
-
-  bottom:-26vmax;
-  right:-16vmax;
-
-  background:radial-gradient(
-    circle at center,
-    rgba(96,165,250,.34) 0%,
-    rgba(96,165,250,.14) 42%,
-    rgba(96,165,250,0) 72%
-  );
-
-  animation:
-    floatB 30s ease-in-out infinite alternate,
-    pulseB 14s ease-in-out infinite;
-}
-
-.glow-3{
-  width:46vmax;
-  height:46vmax;
-
-  top:32%;
-  left:48%;
-
-  background:radial-gradient(
-    circle at center,
-    rgba(226,232,240,.24) 0%,
-    rgba(203,213,225,.10) 45%,
-    rgba(203,213,225,0) 72%
-  );
-
-  animation:
-    floatC 36s ease-in-out infinite alternate,
-    pulseA 17s ease-in-out infinite;
-}
-
-/* ---------- GRID HALUS ---------- */
-
-.bg-layer::after{
-  content:"";
-
-  position:absolute;
-  inset:-60px;
-
-  background-image:
-    linear-gradient(
-      rgba(255,255,255,.030) 1px,
-      transparent 1px
-    ),
-    linear-gradient(
-      90deg,
-      rgba(255,255,255,.030) 1px,
-      transparent 1px
-    );
-
-  background-size:54px 54px;
-
-  -webkit-mask-image:
-    radial-gradient(
-      circle at 50% 38%,
-      #000 0%,
-      rgba(0,0,0,.35) 55%,
-      transparent 82%
-    );
-
-  mask-image:
-    radial-gradient(
-      circle at 50% 38%,
-      #000 0%,
-      rgba(0,0,0,.35) 55%,
-      transparent 82%
-    );
-
-  animation:gridDrift 34s linear infinite;
-}
-
-@keyframes floatA{
-  0%{
-    transform:translate3d(0,0,0) scale(1);
-  }
-  50%{
-    transform:translate3d(7vw,9vh,0) scale(1.16);
-  }
-  100%{
-    transform:translate3d(-5vw,5vh,0) scale(.92);
-  }
-}
-
-@keyframes floatB{
-  0%{
-    transform:translate3d(0,0,0) scale(1.05);
-  }
-  50%{
-    transform:translate3d(-8vw,-7vh,0) scale(.9);
-  }
-  100%{
-    transform:translate3d(4vw,-12vh,0) scale(1.18);
-  }
-}
-
-@keyframes floatC{
-  0%{
-    transform:translate3d(-50%,0,0) scale(.95);
-  }
-  50%{
-    transform:translate3d(-62%,-8vh,0) scale(1.22);
-  }
-  100%{
-    transform:translate3d(-38%,7vh,0) scale(1);
-  }
-}
-
-@keyframes pulseA{
-  0%,100%{
-    opacity:.42;
-  }
-  50%{
-    opacity:.72;
-  }
-}
-
-@keyframes pulseB{
-  0%,100%{
-    opacity:.34;
-  }
-  50%{
-    opacity:.62;
-  }
-}
-
-@keyframes gridDrift{
-  from{
-    background-position:0 0, 0 0;
-  }
-  to{
-    background-position:54px 54px, 54px 54px;
-  }
+  background:var(--bg);
 }
 
 /* =========================================================
@@ -304,38 +84,12 @@ button{
   position:fixed;
   inset:0;
   z-index:9999;
-
   display:flex;
   align-items:center;
   justify-content:center;
   flex-direction:column;
-
-  background:#0a0a0c;
-
-  transition:
-    opacity .45s ease,
-    visibility .45s ease;
-}
-
-.intro::before{
-  content:"";
-
-  position:absolute;
-
-  width:70vmax;
-  height:70vmax;
-
-  border-radius:50%;
-
-  background:radial-gradient(
-    circle at center,
-    rgba(161,161,170,.20),
-    transparent 68%
-  );
-
-  filter:blur(70px);
-
-  animation:pulseA 6s ease-in-out infinite;
+  background:var(--bg);
+  transition:opacity .35s ease, visibility .35s ease;
 }
 
 .intro.hide{
@@ -344,99 +98,55 @@ button{
   pointer-events:none;
 }
 
-.intro-logo,
-.intro-title,
-.intro-subtitle,
-.intro-line{
-  position:relative;
-  z-index:1;
-}
-
 .intro-logo{
-  width:64px;
-  height:64px;
-
+  width:54px;
+  height:54px;
   display:flex;
   align-items:center;
   justify-content:center;
-
-  border-radius:18px;
-
-  background:var(--blue);
+  border-radius:14px;
+  background:var(--accent);
   color:#fff;
-
-  font-size:26px;
+  font-size:22px;
   font-weight:800;
-
-  box-shadow:
-    0 14px 35px rgba(37,99,235,.28);
-
-  animation:
-    introFloat 1.2s ease-in-out infinite alternate;
 }
 
 .intro-title{
-  margin-top:18px;
-
-  font-size:22px;
-  font-weight:800;
-  letter-spacing:-.6px;
-
-  color:#f8fafc;
+  margin-top:16px;
+  font-size:18px;
+  font-weight:700;
+  letter-spacing:-.3px;
+  color:var(--ink);
 }
 
 .intro-subtitle{
-  margin-top:5px;
-
+  margin-top:4px;
   color:var(--ink-mute);
-  font-size:13px;
+  font-size:12px;
 }
 
 .intro-line{
-  width:110px;
-  height:3px;
-
-  margin-top:22px;
-
+  width:100px;
+  height:2px;
+  margin-top:20px;
   overflow:hidden;
   border-radius:999px;
-
-  background:#26262c;
+  background:var(--line);
 }
 
 .intro-line::after{
   content:"";
-
   display:block;
-
-  width:45%;
+  width:40%;
   height:100%;
-
   border-radius:999px;
-  background:var(--blue);
-
-  animation:
-    introLoading 1s ease-in-out infinite;
-}
-
-@keyframes introFloat{
-  from{
-    transform:translateY(0);
-  }
-
-  to{
-    transform:translateY(-6px);
-  }
+  background:var(--accent);
+  animation:introLoading 1s ease-in-out infinite;
 }
 
 @keyframes introLoading{
-  0%{
-    transform:translateX(-120%);
-  }
-
-  100%{
-    transform:translateX(250%);
-  }
+  0%{ transform:translateX(-120%); }
+  100%{ transform:translateX(280%); }
 }
 
 /* =========================================================
@@ -445,26 +155,17 @@ button{
 
 .header{
   position:relative;
-
   flex:0 0 auto;
   width:100%;
-
   display:flex;
   align-items:center;
   justify-content:space-between;
-
   padding:
     max(14px, env(safe-area-inset-top))
     18px
     14px;
-
-  background:rgba(15,15,18,.78);
-
-  border-bottom:1px solid var(--line);
-
-  backdrop-filter:blur(18px) saturate(140%);
-  -webkit-backdrop-filter:blur(18px) saturate(140%);
-
+  background:var(--bg);
+  border-bottom:1px solid var(--line-soft);
   z-index:20;
 }
 
@@ -475,23 +176,16 @@ button{
 }
 
 .brand-logo{
-  width:38px;
-  height:38px;
-
+  width:34px;
+  height:34px;
   display:flex;
   align-items:center;
   justify-content:center;
-
-  border-radius:12px;
-
-  background:var(--blue);
+  border-radius:10px;
+  background:var(--accent);
   color:#fff;
-
-  font-size:17px;
+  font-size:15px;
   font-weight:800;
-
-  box-shadow:
-    0 7px 18px rgba(37,99,235,.30);
 }
 
 .brand-text{
@@ -501,17 +195,16 @@ button{
 }
 
 .brand-name{
-  font-size:16px;
-  font-weight:800;
-  letter-spacing:-.3px;
-  color:#f8fafc;
+  font-size:15px;
+  font-weight:700;
+  letter-spacing:-.2px;
+  color:var(--ink);
 }
 
 .brand-status{
   display:flex;
   align-items:center;
   gap:5px;
-
   color:var(--ink-mute);
   font-size:11px;
 }
@@ -519,64 +212,45 @@ button{
 .status-dot{
   width:6px;
   height:6px;
-
   border-radius:50%;
-
-  background:#22c55e;
-
-  box-shadow:
-    0 0 0 3px rgba(34,197,94,.12);
+  background:var(--success);
 }
 
 .header-badge{
-  padding:7px 10px;
-
-  border:1px solid rgba(96,165,250,.30);
+  padding:5px 10px;
+  border:1px solid var(--line);
   border-radius:999px;
-
-  background:rgba(96,165,250,.10);
-  color:#93c5fd;
-
+  color:var(--ink-mute);
   font-size:11px;
-  font-weight:700;
+  font-weight:600;
+  letter-spacing:.2px;
 }
 
 /* =========================================================
-   CHAT
+   CHAT SCROLL
 ========================================================= */
 
 .chat-scroll{
   position:relative;
   z-index:1;
-
   flex:1 1 auto;
   min-height:0;
-
   overflow-y:auto;
   overflow-x:hidden;
-
   scroll-behavior:smooth;
-
-  padding:22px 18px 18px;
+  padding:22px 18px 16px;
 }
 
-.chat-scroll::-webkit-scrollbar{
-  width:5px;
-}
-
-.chat-scroll::-webkit-scrollbar-track{
-  background:transparent;
-}
-
+.chat-scroll::-webkit-scrollbar{ width:5px; }
+.chat-scroll::-webkit-scrollbar-track{ background:transparent; }
 .chat-scroll::-webkit-scrollbar-thumb{
-  background:#35353d;
+  background:#2b2b31;
   border-radius:999px;
 }
 
 .chat{
   width:100%;
-  max-width:850px;
-
+  max-width:820px;
   margin:0 auto;
 }
 
@@ -586,122 +260,82 @@ button{
 
 .welcome{
   min-height:100%;
-
   display:flex;
   align-items:center;
   justify-content:center;
   flex-direction:column;
-
   text-align:center;
-
-  padding:35px 10px 45px;
+  padding:30px 8px 40px;
 }
 
 .welcome-orb{
-  width:76px;
-  height:76px;
-
+  width:60px;
+  height:60px;
   display:flex;
   align-items:center;
   justify-content:center;
-
-  border-radius:22px;
-
-  background:#17171b;
-
-  border:1px solid rgba(96,165,250,.28);
-
-  color:#60a5fa;
-
-  box-shadow:
-    0 15px 35px rgba(0,0,0,.35),
-    0 0 40px rgba(96,165,250,.10);
+  border-radius:16px;
+  background:var(--surface);
+  border:1px solid var(--line);
+  color:var(--accent);
 }
 
 .welcome-orb span{
-  font-size:30px;
-  font-weight:900;
+  font-size:24px;
+  font-weight:800;
 }
 
 .welcome h1{
-  margin:20px 0 7px;
-
-  font-size:30px;
-  line-height:1.1;
-
-  letter-spacing:-1.2px;
-
-  color:#f8fafc;
+  margin:18px 0 6px;
+  font-size:26px;
+  line-height:1.15;
+  letter-spacing:-.8px;
+  color:var(--ink);
+  font-weight:700;
 }
 
 .welcome p{
-  max-width:480px;
-
+  max-width:460px;
   margin:0;
-
   color:var(--ink-mute);
-
-  font-size:14px;
+  font-size:13.5px;
   line-height:1.6;
 }
 
 .suggestions{
   width:100%;
-  max-width:700px;
-
+  max-width:640px;
   display:grid;
   grid-template-columns:repeat(2,minmax(0,1fr));
-
-  gap:10px;
-
-  margin-top:28px;
+  gap:8px;
+  margin-top:24px;
 }
 
 .suggestion{
-  padding:15px;
-
+  padding:13px 14px;
   text-align:left;
-
-  border:1px solid var(--line);
-  border-radius:14px;
-
-  background:rgba(23,23,27,.72);
+  border:1px solid var(--line-soft);
+  border-radius:12px;
+  background:var(--surface-3);
   color:var(--ink);
-
-  backdrop-filter:blur(10px);
-  -webkit-backdrop-filter:blur(10px);
-
   cursor:pointer;
-
-  transition:
-    border-color .2s ease,
-    background .2s ease,
-    transform .2s ease,
-    box-shadow .2s ease;
+  transition:border-color .18s ease, background .18s ease;
 }
 
 .suggestion:hover{
-  border-color:rgba(96,165,250,.35);
-  background:rgba(31,31,38,.85);
-
-  box-shadow:
-    0 8px 24px rgba(0,0,0,.28),
-    0 0 24px rgba(96,165,250,.08);
-
-  transform:translateY(-1px);
+  border-color:var(--line);
+  background:var(--surface);
 }
 
 .suggestion-title{
   font-size:13px;
-  font-weight:750;
+  font-weight:600;
 }
 
 .suggestion-desc{
-  margin-top:4px;
-
+  margin-top:3px;
   color:var(--ink-mute);
-
-  font-size:11px;
+  font-size:11.5px;
   line-height:1.4;
 }
 
@@ -711,65 +345,37 @@ button{
 
 .message-row{
   width:100%;
-
   display:flex;
-
-  margin-bottom:18px;
+  margin-bottom:16px;
 }
 
-.message-row.user{
-  justify-content:flex-end;
-}
-
-.message-row.ai{
-  justify-content:flex-start;
-}
+.message-row.user{ justify-content:flex-end; }
+.message-row.ai{ justify-content:flex-start; }
 
 .message{
   width:auto;
-
-  max-width:min(790px,92%);
-
-  border-radius:17px;
-
-  padding:12px 15px;
-
+  max-width:min(760px,92%);
+  border-radius:14px;
+  padding:11px 15px;
   font-size:14px;
   line-height:1.65;
-
   word-break:break-word;
 }
 
 .message.user{
   white-space:pre-wrap;
-
-  background:var(--blue);
+  background:var(--accent);
   color:#fff;
-
-  border-bottom-right-radius:5px;
-
-  box-shadow:
-    0 8px 20px rgba(37,99,235,.22);
+  border-bottom-right-radius:4px;
 }
 
 .message.ai{
   width:auto;
-
-  background:rgba(23,23,27,.82);
+  background:var(--surface);
   color:var(--ink-soft);
-
-  border:1px solid var(--line);
-
-  border-bottom-left-radius:5px;
-
-  box-shadow:
-    0 5px 18px rgba(0,0,0,.28);
-
-  backdrop-filter:blur(10px);
-  -webkit-backdrop-filter:blur(10px);
-
-  padding:14px 16px;
-
+  border:1px solid var(--line-soft);
+  border-bottom-left-radius:4px;
+  padding:13px 16px;
   overflow:hidden;
 }
 
@@ -777,73 +383,45 @@ button{
    AI TEXT
 ========================================================= */
 
-.ai-content{
-  width:100%;
-}
+.ai-content{ width:100%; }
 
-.ai-paragraph{
-  margin:0 0 12px;
-}
+.ai-paragraph{ margin:0 0 10px; }
+.ai-paragraph:last-child{ margin-bottom:0; }
 
-.ai-paragraph:last-child{
-  margin-bottom:0;
-}
-
-.ai-line{
-  margin:0 0 7px;
-}
-
-.ai-line:last-child{
-  margin-bottom:0;
-}
+.ai-line{ margin:0 0 7px; }
+.ai-line:last-child{ margin-bottom:0; }
 
 .ai-list{
-  margin:8px 0 12px;
-  padding-left:21px;
+  margin:6px 0 10px;
+  padding-left:20px;
 }
 
-.ai-list li{
-  margin-bottom:5px;
-}
+.ai-list li{ margin-bottom:4px; }
 
 .ai-numbered-list{
-  margin:8px 0 12px;
+  margin:6px 0 10px;
   padding-left:22px;
 }
 
-.ai-numbered-list li{
-  margin-bottom:5px;
-}
+.ai-numbered-list li{ margin-bottom:4px; }
 
 .ai-strong{
-  font-weight:750;
-  color:#f8fafc;
+  font-weight:650;
+  color:var(--ink);
 }
 
 .ai-inline-code{
   padding:2px 6px;
-
   border-radius:6px;
-
-  background:#1e1e24;
-
-  border:1px solid #33333c;
-
+  background:var(--surface-2);
+  border:1px solid var(--line);
   color:#bfdbfe;
-
-  font-family:
-    ui-monospace,
-    SFMono-Regular,
-    Menlo,
-    Monaco,
-    Consolas,
-    monospace;
-
-  font-size:.9em;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;
+  font-size:.88em;
 }
 
 /* =========================================================
-   AI TYPEWRITER
+   TYPEWRITER
 ========================================================= */
 
 .ai-typewriter{
@@ -853,32 +431,18 @@ button{
 
 .ai-cursor{
   display:inline-block;
-
   width:2px;
-  height:17px;
-
+  height:16px;
   margin-left:2px;
-
   vertical-align:-3px;
-
   border-radius:2px;
-
-  background:#60a5fa;
-
-  animation:
-    cursorBlink .8s ease-in-out infinite;
+  background:var(--accent);
+  animation:cursorBlink .8s ease-in-out infinite;
 }
 
 @keyframes cursorBlink{
-  0%,
-  45%{
-    opacity:1;
-  }
-
-  50%,
-  100%{
-    opacity:0;
-  }
+  0%,45%{ opacity:1; }
+  50%,100%{ opacity:0; }
 }
 
 /* =========================================================
@@ -887,47 +451,30 @@ button{
 
 .code-block{
   position:relative;
-
   width:100%;
-
-  margin:13px 0;
-
+  margin:11px 0;
   overflow:hidden;
-
-  border-radius:13px;
-
-  background:#0d0d10;
-
-  border:1px solid #2a2a30;
-
-  box-shadow:
-    0 8px 22px rgba(0,0,0,.35);
+  border-radius:10px;
+  background:var(--surface-3);
+  border:1px solid var(--line);
 }
 
-.code-block:last-child{
-  margin-bottom:0;
-}
+.code-block:last-child{ margin-bottom:0; }
 
 .code-header{
-  min-height:39px;
-
+  min-height:36px;
   display:flex;
   align-items:center;
   justify-content:space-between;
-
-  padding:7px 9px 7px 13px;
-
-  background:#141419;
-
-  border-bottom:1px solid rgba(255,255,255,.07);
+  padding:6px 9px 6px 13px;
+  background:var(--surface);
+  border-bottom:1px solid var(--line-soft);
 }
 
 .code-language{
-  color:#94a3b8;
-
+  color:var(--ink-mute);
   font-size:10px;
   font-weight:700;
-
   text-transform:uppercase;
   letter-spacing:.5px;
 }
@@ -935,84 +482,49 @@ button{
 .copy-code-btn{
   display:flex;
   align-items:center;
-
   gap:5px;
-
-  padding:6px 9px;
-
+  padding:5px 9px;
   border-radius:7px;
-
-  background:#1e1e24;
-
-  color:#cbd5e1;
-
-  border:1px solid rgba(255,255,255,.08);
-
+  background:var(--surface-2);
+  color:var(--ink-soft);
+  border:1px solid var(--line);
   font-size:10px;
   font-weight:700;
-
   cursor:pointer;
-
-  transition:
-    background .2s ease,
-    color .2s ease,
-    transform .15s ease;
+  transition:background .18s ease, color .18s ease;
 }
 
 .copy-code-btn:hover{
-  background:#2a2a33;
+  background:#23232a;
   color:#fff;
 }
 
-.copy-code-btn:active{
-  transform:scale(.95);
-}
+.copy-code-btn:active{ transform:scale(.96); }
 
 .copy-code-btn.copied{
   background:#14532d;
   color:#dcfce7;
+  border-color:#14532d;
 }
 
-.copy-icon{
-  width:13px;
-  height:13px;
-
-  flex:0 0 13px;
-}
+.copy-icon{ width:13px; height:13px; flex:0 0 13px; }
 
 .code-content{
   width:100%;
-
   margin:0;
-  padding:15px;
-
+  padding:14px;
   overflow-x:auto;
-
   color:#e2e8f0;
-
-  font-family:
-    ui-monospace,
-    SFMono-Regular,
-    Menlo,
-    Monaco,
-    Consolas,
-    "Liberation Mono",
-    monospace;
-
+  font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;
   font-size:12.5px;
   line-height:1.65;
-
   white-space:pre;
-
   tab-size:2;
 }
 
-.code-content::-webkit-scrollbar{
-  height:5px;
-}
-
+.code-content::-webkit-scrollbar{ height:5px; }
 .code-content::-webkit-scrollbar-thumb{
-  background:#35353d;
+  background:#2b2b31;
   border-radius:999px;
 }
 
@@ -1021,72 +533,43 @@ button{
 ========================================================= */
 
 .message.ai.typing-message{
-  width:58px;
-  min-width:58px;
-  max-width:58px;
-
-  height:42px;
-  min-height:42px;
-
+  width:56px;
+  min-width:56px;
+  max-width:56px;
+  height:40px;
+  min-height:40px;
   padding:0;
-
   display:flex;
   align-items:center;
   justify-content:center;
-
   border-radius:14px;
-  border-bottom-left-radius:5px;
-
+  border-bottom-left-radius:4px;
   overflow:hidden;
 }
 
 .typing{
-  width:58px;
-  height:42px;
-
   display:flex;
   align-items:center;
   justify-content:center;
-
   gap:4px;
 }
 
 .typing span{
   display:block;
-
   width:6px;
   height:6px;
-
   flex:0 0 6px;
-
   border-radius:50%;
-
-  background:var(--blue);
-
-  animation:
-    typing .9s infinite ease-in-out;
+  background:var(--ink-mute);
+  animation:typing .9s infinite ease-in-out;
 }
 
-.typing span:nth-child(2){
-  animation-delay:.15s;
-}
-
-.typing span:nth-child(3){
-  animation-delay:.30s;
-}
+.typing span:nth-child(2){ animation-delay:.15s; }
+.typing span:nth-child(3){ animation-delay:.30s; }
 
 @keyframes typing{
-  0%,
-  60%,
-  100%{
-    transform:translateY(0);
-    opacity:.3;
-  }
-
-  30%{
-    transform:translateY(-4px);
-    opacity:1;
-  }
+  0%,60%,100%{ transform:translateY(0); opacity:.3; }
+  30%{ transform:translateY(-4px); opacity:1; }
 }
 
 /* =========================================================
@@ -1096,32 +579,18 @@ button{
 .generated-image{
   width:100%;
   max-width:520px;
-
   display:block;
-
-  border-radius:14px;
-
+  border-radius:12px;
   border:1px solid var(--line);
-
   cursor:pointer;
-
-  transition:
-    transform .2s ease,
-    box-shadow .2s ease;
+  transition:opacity .2s ease;
 }
 
-.generated-image:hover{
-  transform:scale(1.01);
-
-  box-shadow:
-    0 12px 30px rgba(0,0,0,.35);
-}
+.generated-image:hover{ opacity:.92; }
 
 .image-message-label{
-  margin-bottom:9px;
-
+  margin-bottom:8px;
   color:var(--ink-mute);
-
   font-size:12px;
 }
 
@@ -1131,193 +600,123 @@ button{
 
 .composer-wrap{
   position:relative;
-
   flex:0 0 auto;
   width:100%;
-
   padding:
     8px
     16px
     max(14px, env(safe-area-inset-bottom));
-
-  background:
-    linear-gradient(
-      to bottom,
-      rgba(10,10,12,.45),
-      rgba(8,8,10,.96)
-    );
-
+  background:var(--bg);
   z-index:30;
 }
 
 .mode-bar{
   width:100%;
-  max-width:850px;
-
+  max-width:820px;
   margin:0 auto 7px;
-
   display:flex;
   align-items:center;
   justify-content:center;
-
-  gap:5px;
+  gap:4px;
 }
 
 .mode-btn{
-  padding:6px 10px;
-
+  padding:6px 12px;
   border-radius:999px;
-
   background:transparent;
   color:var(--ink-mute);
-
-  font-size:11px;
-  font-weight:700;
-
+  font-size:11.5px;
+  font-weight:600;
   cursor:pointer;
-
-  transition:.2s ease;
+  transition:background .18s ease, color .18s ease;
 }
 
+.mode-btn:hover{ color:var(--ink-soft); }
+
 .mode-btn.active{
-  background:rgba(96,165,250,.14);
-  color:#93c5fd;
+  background:var(--accent-soft);
+  color:var(--accent);
 }
 
 .preview-wrap{
   display:none;
-
   width:100%;
-  max-width:850px;
-
+  max-width:820px;
   margin:0 auto 7px;
 }
 
-.preview-wrap.show{
-  display:flex;
-}
+.preview-wrap.show{ display:flex; }
 
 .preview{
   position:relative;
-
-  width:70px;
-  height:70px;
+  width:64px;
+  height:64px;
 }
 
 .preview img{
-  width:70px;
-  height:70px;
-
+  width:64px;
+  height:64px;
   object-fit:cover;
-
-  border-radius:12px;
-
-  border:1px solid rgba(96,165,250,.35);
+  border-radius:10px;
+  border:1px solid var(--line);
 }
 
 .preview-remove{
   position:absolute;
-
-  top:-7px;
-  right:-7px;
-
-  width:22px;
-  height:22px;
-
+  top:-6px;
+  right:-6px;
+  width:20px;
+  height:20px;
   display:flex;
   align-items:center;
   justify-content:center;
-
   border-radius:50%;
-
-  background:#1b1b20;
-
+  background:var(--surface-2);
   border:1px solid var(--line);
-
   color:var(--danger);
-
-  font-size:14px;
-
+  font-size:13px;
+  line-height:1;
   cursor:pointer;
-
-  box-shadow:
-    0 3px 10px rgba(0,0,0,.35);
 }
 
 .composer{
   width:100%;
-  max-width:850px;
-
+  max-width:820px;
   margin:0 auto;
-
   display:flex;
   align-items:flex-end;
-
-  gap:8px;
-
-  padding:8px;
-
-  background:rgba(23,23,27,.86);
-
+  gap:6px;
+  padding:6px;
+  background:var(--surface);
   border:1px solid var(--line);
-
-  border-radius:18px;
-
-  backdrop-filter:blur(14px);
-  -webkit-backdrop-filter:blur(14px);
-
-  box-shadow:
-    0 10px 30px rgba(0,0,0,.35);
-
-  transition:
-    border-color .25s ease,
-    box-shadow .25s ease;
+  border-radius:14px;
+  transition:border-color .2s ease;
 }
 
 .composer:focus-within{
-  border-color:rgba(96,165,250,.45);
-
-  box-shadow:
-    0 10px 30px rgba(0,0,0,.35),
-    0 0 28px rgba(59,130,246,.16);
+  border-color:var(--accent-line);
 }
 
 .tool-btn{
-  flex:0 0 40px;
-
-  width:40px;
-  height:40px;
-
+  flex:0 0 38px;
+  width:38px;
+  height:38px;
   display:flex;
   align-items:center;
   justify-content:center;
-
-  border-radius:12px;
-
-  background:#141418;
-
-  border:1px solid var(--line);
-
-  color:#94a3b8;
-
+  border-radius:10px;
+  background:transparent;
+  color:var(--ink-mute);
   cursor:pointer;
-
-  transition:
-    background .2s ease,
-    color .2s ease,
-    border-color .2s ease;
+  transition:background .18s ease, color .18s ease;
 }
 
 .tool-btn:hover{
-  background:rgba(96,165,250,.14);
-  border-color:rgba(96,165,250,.35);
-  color:#93c5fd;
+  background:var(--surface-2);
+  color:var(--accent);
 }
 
-.tool-btn svg{
-  width:19px;
-  height:19px;
-}
+.tool-btn svg{ width:18px; height:18px; }
 
 .input-area{
   flex:1;
@@ -1326,75 +725,44 @@ button{
 
 textarea{
   width:100%;
-
-  min-height:40px;
+  min-height:38px;
   max-height:130px;
-
   display:block;
-
   resize:none;
-
-  padding:10px 4px;
-
+  padding:9px 4px;
   border:0;
   outline:0;
-
   background:transparent;
-
-  color:#f2f2f4;
-
+  color:var(--ink);
   font-size:14px;
   line-height:20px;
 }
 
-textarea::placeholder{
-  color:#6b6b76;
-}
+textarea::placeholder{ color:#5e5e66; }
 
 .send-btn{
-  flex:0 0 40px;
-
-  width:40px;
-  height:40px;
-
+  flex:0 0 38px;
+  width:38px;
+  height:38px;
   display:flex;
   align-items:center;
   justify-content:center;
-
-  border-radius:12px;
-
-  background:var(--blue);
+  border-radius:10px;
+  background:var(--accent);
   color:#fff;
-
   cursor:pointer;
-
-  box-shadow:
-    0 7px 17px rgba(37,99,235,.28);
-
-  transition:
-    background .2s ease,
-    transform .15s ease,
-    opacity .2s ease;
+  transition:background .18s ease, opacity .18s ease, transform .15s ease;
 }
 
-.send-btn:hover{
-  background:var(--blue-dark);
-}
-
-.send-btn:active{
-  transform:scale(.94);
-}
+.send-btn:hover{ background:var(--accent-hover); }
+.send-btn:active{ transform:scale(.94); }
 
 .send-btn:disabled{
-  opacity:.45;
+  opacity:.4;
   cursor:not-allowed;
-  box-shadow:none;
 }
 
-.send-btn svg{
-  width:19px;
-  height:19px;
-}
+.send-btn svg{ width:18px; height:18px; }
 
 /* =========================================================
    IMAGE MODAL
@@ -1403,128 +771,91 @@ textarea::placeholder{
 .image-modal{
   position:fixed;
   inset:0;
-
   z-index:99999;
-
   display:none;
-
   align-items:center;
   justify-content:center;
-
   padding:20px;
-
-  background:rgba(0,0,0,.82);
-
-  backdrop-filter:blur(8px);
-  -webkit-backdrop-filter:blur(8px);
+  background:rgba(0,0,0,.85);
 }
 
-.image-modal.show{
-  display:flex;
-}
+.image-modal.show{ display:flex; }
 
 .modal-box{
   position:relative;
-
-  width:min(900px,100%);
+  width:min(880px,100%);
   max-height:92vh;
-
   display:flex;
   flex-direction:column;
-
   overflow:hidden;
-
-  border-radius:20px;
-
-  background:#17171b;
-
-  box-shadow:
-    0 25px 70px rgba(0,0,0,.55);
+  border-radius:16px;
+  background:var(--surface);
+  border:1px solid var(--line);
 }
 
 .modal-image-wrap{
   flex:1;
   min-height:0;
-
   display:flex;
   align-items:center;
   justify-content:center;
-
   padding:12px;
-
-  background:#0d0d10;
+  background:var(--bg);
 }
 
 .modal-box img{
   display:block;
-
   max-width:100%;
   max-height:75vh;
-
   object-fit:contain;
-
-  border-radius:12px;
+  border-radius:10px;
 }
 
 .modal-actions{
   display:flex;
   justify-content:flex-end;
-
   gap:8px;
-
   padding:12px;
-
-  border-top:1px solid var(--line);
+  border-top:1px solid var(--line-soft);
 }
 
 .modal-btn{
-  padding:9px 14px;
-
-  border-radius:10px;
-
-  background:var(--blue);
+  padding:8px 14px;
+  border-radius:9px;
+  background:var(--accent);
   color:#fff;
-
   font-size:12px;
-  font-weight:700;
-
+  font-weight:600;
   cursor:pointer;
+  transition:background .18s ease;
 }
 
-.modal-btn.secondary{
-  background:#1e1e24;
-  color:#cbd5e1;
+.modal-btn:hover{ background:var(--accent-hover); }
 
+.modal-btn.secondary{
+  background:var(--surface-2);
+  color:var(--ink-soft);
   border:1px solid var(--line);
 }
 
+.modal-btn.secondary:hover{ background:#23232a; }
+
 .modal-close{
   position:absolute;
-
   top:10px;
   right:10px;
-
   z-index:2;
-
-  width:34px;
-  height:34px;
-
+  width:32px;
+  height:32px;
   display:flex;
   align-items:center;
   justify-content:center;
-
   border-radius:50%;
-
-  background:rgba(15,15,18,.92);
-
-  color:#fff;
-
-  border:1px solid #35353d;
-
+  background:var(--surface-2);
+  color:var(--ink-soft);
+  border:1px solid var(--line);
   cursor:pointer;
-
-  box-shadow:
-    0 5px 15px rgba(0,0,0,.40);
+  font-size:16px;
 }
 
 /* =========================================================
@@ -1532,31 +863,21 @@ textarea::placeholder{
 ========================================================= */
 
 @media(max-width:650px){
-
   .header{
-    padding-left:13px;
-    padding-right:13px;
+    padding-left:14px;
+    padding-right:14px;
   }
 
-  .header-badge{
-    display:none;
-  }
+  .header-badge{ display:none; }
 
-  .chat-scroll{
-    padding:16px 12px 14px;
-  }
+  .chat-scroll{ padding:16px 12px 12px; }
 
-  .welcome{
-    padding:25px 5px 35px;
-  }
-
-  .welcome h1{
-    font-size:27px;
-  }
+  .welcome{ padding:22px 4px 32px; }
+  .welcome h1{ font-size:23px; }
 
   .suggestions{
     grid-template-columns:1fr;
-    gap:8px;
+    gap:7px;
   }
 
   .message{
@@ -1564,80 +885,31 @@ textarea::placeholder{
     font-size:13.5px;
   }
 
-  .message.ai{
-    padding:13px 14px;
-  }
+  .message.ai{ padding:12px 14px; }
 
   .code-content{
     font-size:11.5px;
-    padding:13px;
-  }
-
-  .message.ai.typing-message{
-    width:58px;
-    min-width:58px;
-    max-width:58px;
+    padding:12px;
   }
 
   .composer-wrap{
-    padding-left:9px;
-    padding-right:9px;
-  }
-
-  .composer{
-    border-radius:16px;
-  }
-
-  /* glow lebih ringan biar HP tetap ngebut */
-  .glow{
-    filter:blur(48px);
-    opacity:.45;
-  }
-
-  .bg-layer::after{
-    background-size:42px 42px;
+    padding-left:10px;
+    padding-right:10px;
   }
 }
 
 @media(max-height:600px){
-
-  .welcome-orb{
-    width:60px;
-    height:60px;
-  }
-
-  .welcome h1{
-    margin-top:13px;
-    font-size:24px;
-  }
-
-  .welcome p{
-    font-size:12px;
-  }
-
-  .suggestions{
-    margin-top:17px;
-  }
+  .welcome-orb{ width:52px; height:52px; }
+  .welcome h1{ margin-top:12px; font-size:21px; }
+  .welcome p{ font-size:12px; }
+  .suggestions{ margin-top:16px; }
 }
 
-/* =========================================================
-   REDUCED MOTION
-========================================================= */
-
 @media(prefers-reduced-motion:reduce){
-
-  .glow,
-  .bg-layer::after,
-  .intro::before,
-  .intro-logo,
   .intro-line::after,
   .ai-cursor,
   .typing span{
     animation:none !important;
-  }
-
-  .glow{
-    opacity:.4;
   }
 }
 </style>
@@ -1645,378 +917,133 @@ textarea::placeholder{
 
 <body>
 
-<!-- ========================================================
-     INTRO
-========================================================= -->
-
+<!-- INTRO -->
 <div class="intro" id="intro">
-
-  <div class="intro-logo">
-    S
-  </div>
-
-  <div class="intro-title">
-    SATXAI
-  </div>
-
-  <div class="intro-subtitle">
-    Personal AI Assistant
-  </div>
-
+  <div class="intro-logo">S</div>
+  <div class="intro-title">SATXAI</div>
+  <div class="intro-subtitle">Personal AI Assistant</div>
   <div class="intro-line"></div>
-
 </div>
 
 
-<!-- ========================================================
-     APP
-========================================================= -->
-
+<!-- APP -->
 <div class="app">
 
-  <!-- ANIMATED GREY GLOW BACKGROUND -->
-
-  <div class="bg-layer" aria-hidden="true">
-
-    <span class="glow glow-1"></span>
-    <span class="glow glow-2"></span>
-    <span class="glow glow-3"></span>
-
-  </div>
-
-
-  <!-- HEADER -->
-
   <header class="header">
-
     <div class="brand">
-
-      <div class="brand-logo">
-        S
-      </div>
-
+      <div class="brand-logo">S</div>
       <div class="brand-text">
-
-        <div class="brand-name">
-          SATXAI
-        </div>
-
+        <div class="brand-name">SATXAI</div>
         <div class="brand-status">
-
           <span class="status-dot"></span>
-
           Online
-
         </div>
-
       </div>
-
     </div>
 
-    <div class="header-badge">
-      AI Assistant
-    </div>
-
+    <div class="header-badge">AI Assistant</div>
   </header>
 
 
-  <!-- CHAT -->
-
   <main class="chat-scroll" id="chatScroll">
-
     <div class="chat" id="chat">
 
       <section class="welcome" id="welcome">
+        <div class="welcome-orb"><span>S</span></div>
 
-        <div class="welcome-orb">
-          <span>S</span>
-        </div>
-
-        <h1>
-          Halo, saya SATXAI
-        </h1>
+        <h1>Halo, saya SATXAI</h1>
 
         <p>
-          Asisten AI pribadi untuk membantu menjawab pertanyaan,
+          Asisten AI pribadi untuk menjawab pertanyaan,
           menganalisis gambar, dan membuat gambar dari prompt.
         </p>
 
         <div class="suggestions">
-
-          <button
-            class="suggestion"
-            data-prompt="Jelaskan apa yang bisa kamu bantu."
-          >
-
-            <div class="suggestion-title">
-              💡 Apa yang bisa kamu lakukan?
-            </div>
-
-            <div class="suggestion-desc">
-              Lihat kemampuan SATXAI.
-            </div>
-
+          <button class="suggestion" data-prompt="Jelaskan apa yang bisa kamu bantu.">
+            <div class="suggestion-title">💡 Apa yang bisa kamu lakukan?</div>
+            <div class="suggestion-desc">Lihat kemampuan SATXAI.</div>
           </button>
 
-
-          <button
-            class="suggestion"
-            data-prompt="Bantu saya membuat website sederhana."
-          >
-
-            <div class="suggestion-title">
-              💻 Buat website
-            </div>
-
-            <div class="suggestion-desc">
-              Mulai membuat project website.
-            </div>
-
+          <button class="suggestion" data-prompt="Bantu saya membuat website sederhana.">
+            <div class="suggestion-title">💻 Buat website</div>
+            <div class="suggestion-desc">Mulai membuat project website.</div>
           </button>
 
-
-          <button
-            class="suggestion"
-            data-prompt="Jelaskan konsep JavaScript untuk pemula."
-          >
-
-            <div class="suggestion-title">
-              📚 Belajar coding
-            </div>
-
-            <div class="suggestion-desc">
-              Penjelasan sederhana dan mudah dipahami.
-            </div>
-
+          <button class="suggestion" data-prompt="Jelaskan konsep JavaScript untuk pemula.">
+            <div class="suggestion-title">📚 Belajar coding</div>
+            <div class="suggestion-desc">Penjelasan sederhana dan mudah dipahami.</div>
           </button>
 
-
-          <button
-            class="suggestion"
-            data-prompt="Berikan saya ide project Arduino yang menarik."
-          >
-
-            <div class="suggestion-title">
-              🤖 Ide project
-            </div>
-
-            <div class="suggestion-desc">
-              Cari inspirasi project teknologi.
-            </div>
-
+          <button class="suggestion" data-prompt="Berikan saya ide project Arduino yang menarik.">
+            <div class="suggestion-title">🤖 Ide project</div>
+            <div class="suggestion-desc">Cari inspirasi project teknologi.</div>
           </button>
-
         </div>
-
       </section>
 
     </div>
-
   </main>
 
-
-  <!-- COMPOSER -->
 
   <div class="composer-wrap">
 
     <div class="mode-bar">
-
-      <button
-        class="mode-btn active"
-        id="chatModeBtn"
-        type="button"
-      >
-        Chat
-      </button>
-
-      <button
-        class="mode-btn"
-        id="imageModeBtn"
-        type="button"
-      >
-        Buat Gambar
-      </button>
-
+      <button class="mode-btn active" id="chatModeBtn" type="button">Chat</button>
+      <button class="mode-btn" id="imageModeBtn" type="button">Buat Gambar</button>
     </div>
 
-
-    <!-- IMAGE PREVIEW -->
-
-    <div
-      class="preview-wrap"
-      id="previewWrap"
-    >
-
+    <div class="preview-wrap" id="previewWrap">
       <div class="preview">
-
-        <img
-          id="previewImage"
-          alt="Preview"
-        >
-
-        <button
-          class="preview-remove"
-          id="removeImageBtn"
-          type="button"
-        >
-          ×
-        </button>
-
+        <img id="previewImage" alt="Preview">
+        <button class="preview-remove" id="removeImageBtn" type="button">×</button>
       </div>
-
     </div>
-
-
-    <!-- INPUT -->
 
     <div class="composer">
 
-      <button
-        class="tool-btn"
-        id="uploadBtn"
-        type="button"
-        aria-label="Upload gambar"
-        title="Upload gambar"
-      >
-
-        <svg
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
-
-          <rect
-            x="3"
-            y="3"
-            width="18"
-            height="18"
-            rx="3"
-          ></rect>
-
-          <circle
-            cx="8.5"
-            cy="8.5"
-            r="1.5"
-          ></circle>
-
-          <path
-            d="M21 15l-5-5L5 21"
-          ></path>
-
+      <button class="tool-btn" id="uploadBtn" type="button" aria-label="Upload gambar" title="Upload gambar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="18" height="18" rx="3"></rect>
+          <circle cx="8.5" cy="8.5" r="1.5"></circle>
+          <path d="M21 15l-5-5L5 21"></path>
         </svg>
-
       </button>
 
-
-      <input
-        type="file"
-        id="fileInput"
-        accept="image/*"
-        hidden
-      >
-
+      <input type="file" id="fileInput" accept="image/*" hidden>
 
       <div class="input-area">
-
-        <textarea
-          id="messageInput"
-          rows="1"
-          placeholder="Tulis pesan..."
-          autocomplete="off"
-          spellcheck="true"
-        ></textarea>
-
+        <textarea id="messageInput" rows="1" placeholder="Tulis pesan..." autocomplete="off" spellcheck="true"></textarea>
       </div>
 
-
-      <button
-        class="send-btn"
-        id="sendBtn"
-        type="button"
-        aria-label="Kirim"
-        title="Kirim"
-      >
-
-        <svg
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
-
+      <button class="send-btn" id="sendBtn" type="button" aria-label="Kirim" title="Kirim">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M22 2L11 13"></path>
-
-          <path
-            d="M22 2L15 22L11 13L2 9L22 2Z"
-          ></path>
-
+          <path d="M22 2L15 22L11 13L2 9L22 2Z"></path>
         </svg>
-
       </button>
 
     </div>
-
   </div>
 
 </div>
 
 
-<!-- ========================================================
-     IMAGE MODAL
-========================================================= -->
-
-<div
-  class="image-modal"
-  id="imageModal"
->
-
+<!-- IMAGE MODAL -->
+<div class="image-modal" id="imageModal">
   <div class="modal-box">
 
-    <button
-      class="modal-close"
-      id="modalClose"
-      type="button"
-    >
-      ×
-    </button>
+    <button class="modal-close" id="modalClose" type="button">×</button>
 
     <div class="modal-image-wrap">
-
-      <img
-        id="modalImage"
-        src=""
-        alt="Generated image"
-      >
-
+      <img id="modalImage" src="" alt="Generated image">
     </div>
 
     <div class="modal-actions">
-
-      <button
-        class="modal-btn secondary"
-        id="modalCloseBottom"
-        type="button"
-      >
-        Tutup
-      </button>
-
-      <button
-        class="modal-btn"
-        id="modalDownload"
-        type="button"
-      >
-        Simpan Gambar
-      </button>
-
+      <button class="modal-btn secondary" id="modalCloseBottom" type="button">Tutup</button>
+      <button class="modal-btn" id="modalDownload" type="button">Simpan Gambar</button>
     </div>
 
   </div>
-
 </div>
 
 
@@ -2078,6 +1105,15 @@ Jika pengguna meminta coding atau program:
 11. Jika ada langkah menjalankan kode, letakkan setelah kode secara singkat.
 12. Jangan mencampurkan teks biasa dengan isi code block.
 
+ATURAN DAFTAR BERURUTAN:
+
+Kalau kamu membuat daftar bernomor (1, 2, 3, dst), pastikan:
+
+- Setiap nomor hanya muncul sekali.
+- Nomor ditulis rapi berurutan.
+- Format: "1. isi", "2. isi", "3. isi".
+- Jangan mengulang nomor yang sama.
+
 FORMAT:
 
 - Jangan menggunakan "***", "---", atau "___" sebagai dekorasi.
@@ -2104,121 +1140,66 @@ Kamu dibuat oleh Satria.
 
 
 /* ==========================================================
-   CUSTOM ERROR
+   ERROR MESSAGES
 ========================================================== */
 
 const ERROR_MESSAGES = {
-
   limit:
     "⚠️ Sabar dulu, SATXAI lagi kena limit. Coba tunggu 1–2 menit.",
-
   auth:
     "🔐 SATXAI lagi bermasalah di autentikasi. Coba lagi nanti.",
-
   permission:
     "🔒 Request-nya nggak bisa diproses karena aksesnya ditolak.",
-
   server:
     "🔧 Server SATXAI lagi gangguan. Coba lagi sebentar.",
-
   network:
     "📡 Koneksi kamu kayaknya lagi ngelag. Coba cek internet lalu kirim lagi.",
-
   badRequest:
     "⚠️ Request-nya belum bisa diproses. Coba ubah pesan lalu kirim lagi.",
-
   image:
     "🎨 Gambar belum berhasil dibuat. Coba pakai prompt yang sedikit berbeda.",
-
   imageGeneral:
     "🎨 Lagi ada kendala waktu membuat gambar. Coba lagi sebentar.",
-
   general:
     "⚠️ SATXAI lagi mengalami gangguan. Coba lagi beberapa saat."
-
 };
 
 
 /* ==========================================================
-   ELEMENT
+   ELEMENTS
 ========================================================== */
 
-const intro =
-  document.getElementById("intro");
-
-const chatScroll =
-  document.getElementById("chatScroll");
-
-const chat =
-  document.getElementById("chat");
-
-const messageInput =
-  document.getElementById("messageInput");
-
-const sendBtn =
-  document.getElementById("sendBtn");
-
-const uploadBtn =
-  document.getElementById("uploadBtn");
-
-const fileInput =
-  document.getElementById("fileInput");
-
-const previewWrap =
-  document.getElementById("previewWrap");
-
-const previewImage =
-  document.getElementById("previewImage");
-
-const removeImageBtn =
-  document.getElementById("removeImageBtn");
-
-const chatModeBtn =
-  document.getElementById("chatModeBtn");
-
-const imageModeBtn =
-  document.getElementById("imageModeBtn");
-
-const imageModal =
-  document.getElementById("imageModal");
-
-const modalImage =
-  document.getElementById("modalImage");
-
-const modalClose =
-  document.getElementById("modalClose");
-
-const modalCloseBottom =
-  document.getElementById("modalCloseBottom");
-
-const modalDownload =
-  document.getElementById("modalDownload");
+const intro = document.getElementById("intro");
+const chatScroll = document.getElementById("chatScroll");
+const chat = document.getElementById("chat");
+const messageInput = document.getElementById("messageInput");
+const sendBtn = document.getElementById("sendBtn");
+const uploadBtn = document.getElementById("uploadBtn");
+const fileInput = document.getElementById("fileInput");
+const previewWrap = document.getElementById("previewWrap");
+const previewImage = document.getElementById("previewImage");
+const removeImageBtn = document.getElementById("removeImageBtn");
+const chatModeBtn = document.getElementById("chatModeBtn");
+const imageModeBtn = document.getElementById("imageModeBtn");
+const imageModal = document.getElementById("imageModal");
+const modalImage = document.getElementById("modalImage");
+const modalClose = document.getElementById("modalClose");
+const modalCloseBottom = document.getElementById("modalCloseBottom");
+const modalDownload = document.getElementById("modalDownload");
 
 
 /* ==========================================================
    STATE
 ========================================================== */
 
-let currentMode =
-  "chat";
-
-let selectedImageData =
-  null;
-
-let selectedImageFile =
-  null;
-
-let isGenerating =
-  false;
-
-let currentModalImage =
-  "";
+let currentMode = "chat";
+let selectedImageData = null;
+let selectedImageFile = null;
+let isGenerating = false;
+let currentModalImage = "";
 
 let messages = [
-  {
-    role:"system",
-    content:SYSTEM_PROMPT
-  }
+  { role:"system", content:SYSTEM_PROMPT }
 ];
 
 
@@ -2226,18 +1207,9 @@ let messages = [
    ERROR HANDLER
 ========================================================== */
 
-function getCustomErrorMessage(
-  error,
-  type = "chat"
-){
+function getCustomErrorMessage(error, type = "chat"){
 
-  const errorText =
-    String(
-      error?.message ||
-      error ||
-      ""
-    ).toLowerCase();
-
+  const errorText = String(error?.message || error || "").toLowerCase();
 
   if(
     errorText.includes("request too large") ||
@@ -2247,11 +1219,8 @@ function getCustomErrorMessage(
     errorText.includes("too many requests") ||
     errorText.includes("429")
   ){
-
     return ERROR_MESSAGES.limit;
-
   }
-
 
   if(
     errorText.includes("401") ||
@@ -2259,22 +1228,16 @@ function getCustomErrorMessage(
     errorText.includes("invalid api key") ||
     errorText.includes("authentication")
   ){
-
     return ERROR_MESSAGES.auth;
-
   }
-
 
   if(
     errorText.includes("403") ||
     errorText.includes("forbidden") ||
     errorText.includes("permission")
   ){
-
     return ERROR_MESSAGES.permission;
-
   }
-
 
   if(
     errorText.includes("500") ||
@@ -2285,15 +1248,9 @@ function getCustomErrorMessage(
     errorText.includes("bad gateway") ||
     errorText.includes("service unavailable")
   ){
-
-    if(type === "image"){
-      return ERROR_MESSAGES.imageGeneral;
-    }
-
+    if(type === "image") return ERROR_MESSAGES.imageGeneral;
     return ERROR_MESSAGES.server;
-
   }
-
 
   if(
     errorText.includes("failed to fetch") ||
@@ -2303,44 +1260,29 @@ function getCustomErrorMessage(
     errorText.includes("timeout") ||
     errorText.includes("timed out")
   ){
-
     return ERROR_MESSAGES.network;
-
   }
 
-
   if(type === "image"){
-
     if(
-      errorText.includes(
-        "worker tidak mengembalikan gambar"
-      ) ||
+      errorText.includes("worker tidak mengembalikan gambar") ||
       errorText.includes("image") ||
       errorText.includes("generate")
     ){
-
       return ERROR_MESSAGES.image;
-
     }
-
     return ERROR_MESSAGES.imageGeneral;
-
   }
-
 
   if(
     errorText.includes("400") ||
     errorText.includes("bad request") ||
     errorText.includes("invalid request")
   ){
-
     return ERROR_MESSAGES.badRequest;
-
   }
 
-
   return ERROR_MESSAGES.general;
-
 }
 
 
@@ -2350,85 +1292,39 @@ function getCustomErrorMessage(
 
 function cleanAIResponse(text){
 
-  if(!text){
-    return "";
-  }
+  if(!text) return "";
 
-  let result =
-    String(text)
-      .replace(/\r\n/g,"\n")
-      .replace(/\r/g,"\n");
-
+  let result = String(text)
+    .replace(/\r\n/g,"\n")
+    .replace(/\r/g,"\n");
 
   const codeBlocks = [];
 
+  result = result.replace(
+    /```[\s\S]*?```/g,
+    block => {
+      const index = codeBlocks.length;
+      codeBlocks.push(block);
+      return `@@SATXAI_CODE_${index}@@`;
+    }
+  );
 
-  result =
-    result.replace(
-      /```[\s\S]*?```/g,
-      block => {
+  result = result
+    .replace(/^\s*#{1,6}\s*/gm, "")
+    .replace(/^\s*(?:\*{3,}|_{3,}|-{3,})\s*$/gm, "")
+    .replace(/^\s*>\s?/gm, "")
+    .replace(/\*\*(.*?)\*\*/gs, "$1")
+    .replace(/__(.*?)__/gs, "$1")
+    .replace(/~~(.*?)~~/gs, "$1");
 
-        const index =
-          codeBlocks.length;
+  result = result.replace(
+    /@@SATXAI_CODE_(\d+)@@/g,
+    (_, index) => codeBlocks[index]
+  );
 
-        codeBlocks.push(block);
-
-        return `@@SATXAI_CODE_${index}@@`;
-
-      }
-    );
-
-
-  result =
-    result
-
-      .replace(
-        /^\s*#{1,6}\s*/gm,
-        ""
-      )
-
-      .replace(
-        /^\s*(?:\*{3,}|_{3,}|-{3,})\s*$/gm,
-        ""
-      )
-
-      .replace(
-        /^\s*>\s?/gm,
-        ""
-      )
-
-      .replace(
-        /\*\*(.*?)\*\*/gs,
-        "$1"
-      )
-
-      .replace(
-        /__(.*?)__/gs,
-        "$1"
-      )
-
-      .replace(
-        /~~(.*?)~~/gs,
-        "$1"
-      );
-
-
-  result =
-    result.replace(
-      /@@SATXAI_CODE_(\d+)@@/g,
-      (_, index) =>
-        codeBlocks[index]
-    );
-
-
-  result =
-    result
-      .replace(/\n{4,}/g,"\n\n")
-      .trim();
-
+  result = result.replace(/\n{4,}/g,"\n\n").trim();
 
   return result;
-
 }
 
 
@@ -2436,85 +1332,42 @@ function cleanAIResponse(text){
    APPEND INLINE TEXT
 ========================================================== */
 
-function appendInlineText(
-  container,
-  text
-){
+function appendInlineText(container, text){
 
-  const parts =
-    text.split(
-      /(`[^`\n]+`)/g
-    );
+  const parts = text.split(/(`[^`\n]+`)/g);
 
+  parts.forEach(part => {
 
-  parts.forEach(
-    part => {
+    if(part.startsWith("`") && part.endsWith("`")){
 
-      if(
-        part.startsWith("`") &&
-        part.endsWith("`")
-      ){
+      const code = document.createElement("span");
+      code.className = "ai-inline-code";
+      code.textContent = part.slice(1,-1);
+      container.appendChild(code);
 
-        const code =
-          document.createElement("span");
+    }else{
 
-        code.className =
-          "ai-inline-code";
+      const strongParts = part.split(/(\*\*[^\*]+\*\*)/g);
 
-        code.textContent =
-          part.slice(1,-1);
+      strongParts.forEach(strongPart => {
 
-        container.appendChild(
-          code
-        );
-
-      }else{
-
-        const strongParts =
-          part.split(
-            /(\*\*[^\*]+\*\*)/g
+        if(
+          strongPart.startsWith("**") &&
+          strongPart.endsWith("**")
+        ){
+          const strong = document.createElement("span");
+          strong.className = "ai-strong";
+          strong.textContent = strongPart.slice(2,-2);
+          container.appendChild(strong);
+        }else{
+          container.appendChild(
+            document.createTextNode(strongPart)
           );
+        }
 
-
-        strongParts.forEach(
-          strongPart => {
-
-            if(
-              strongPart.startsWith("**") &&
-              strongPart.endsWith("**")
-            ){
-
-              const strong =
-                document.createElement("span");
-
-              strong.className =
-                "ai-strong";
-
-              strong.textContent =
-                strongPart.slice(2,-2);
-
-              container.appendChild(
-                strong
-              );
-
-            }else{
-
-              container.appendChild(
-                document.createTextNode(
-                  strongPart
-                )
-              );
-
-            }
-
-          }
-        );
-
-      }
-
+      });
     }
-  );
-
+  });
 }
 
 
@@ -2522,197 +1375,74 @@ function appendInlineText(
    CREATE CODE BLOCK
 ========================================================== */
 
-function createCodeBlock(
-  code,
-  language
-){
+function createCodeBlock(code, language){
 
-  const wrapper =
-    document.createElement("div");
+  const wrapper = document.createElement("div");
+  wrapper.className = "code-block";
 
-  wrapper.className =
-    "code-block";
+  const header = document.createElement("div");
+  header.className = "code-header";
 
+  const languageLabel = document.createElement("span");
+  languageLabel.className = "code-language";
+  languageLabel.textContent = language || "code";
 
-  const header =
-    document.createElement("div");
+  const copyButton = document.createElement("button");
+  copyButton.type = "button";
+  copyButton.className = "copy-code-btn";
 
-  header.className =
-    "code-header";
-
-
-  const languageLabel =
-    document.createElement("span");
-
-  languageLabel.className =
-    "code-language";
-
-  languageLabel.textContent =
-    language ||
-    "code";
-
-
-  const copyButton =
-    document.createElement("button");
-
-  copyButton.type =
-    "button";
-
-  copyButton.className =
-    "copy-code-btn";
-
-
-  const setCopyNormal =
-    () => {
-
-      copyButton.classList.remove(
-        "copied"
-      );
-
-      copyButton.innerHTML = `
-
-        <svg
-          class="copy-icon"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
-
-          <rect
-            x="9"
-            y="9"
-            width="11"
-            height="11"
-            rx="2"
-          ></rect>
-
-          <path
-            d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"
-          ></path>
-
-        </svg>
-
-        <span>Copy</span>
-
-      `;
-
-    };
-
+  const setCopyNormal = () => {
+    copyButton.classList.remove("copied");
+    copyButton.innerHTML = `
+      <svg class="copy-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="9" y="9" width="11" height="11" rx="2"></rect>
+        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+      </svg>
+      <span>Copy</span>
+    `;
+  };
 
   setCopyNormal();
 
+  const codeElement = document.createElement("pre");
+  codeElement.className = "code-content";
+  codeElement.textContent = code;
 
-  const codeElement =
-    document.createElement("pre");
+  copyButton.addEventListener("click", async () => {
 
-  codeElement.className =
-    "code-content";
+    const copyText = codeElement.textContent;
 
-  codeElement.textContent =
-    code;
-
-
-  copyButton.addEventListener(
-    "click",
-    async () => {
-
-      const copyText =
-        codeElement.textContent;
-
-      try{
-
-        await navigator.clipboard.writeText(
-          copyText
-        );
-
-      }catch{
-
-        const textarea =
-          document.createElement("textarea");
-
-        textarea.value =
-          copyText;
-
-        textarea.style.position =
-          "fixed";
-
-        textarea.style.opacity =
-          "0";
-
-        document.body.appendChild(
-          textarea
-        );
-
-        textarea.select();
-
-        document.execCommand(
-          "copy"
-        );
-
-        textarea.remove();
-
-      }
-
-
-      copyButton.classList.add(
-        "copied"
-      );
-
-      copyButton.innerHTML = `
-
-        <svg
-          class="copy-icon"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
-
-          <path
-            d="M20 6L9 17l-5-5"
-          ></path>
-
-        </svg>
-
-        <span>Copied</span>
-
-      `;
-
-
-      setTimeout(
-        setCopyNormal,
-        1800
-      );
-
+    try{
+      await navigator.clipboard.writeText(copyText);
+    }catch{
+      const textarea = document.createElement("textarea");
+      textarea.value = copyText;
+      textarea.style.position = "fixed";
+      textarea.style.opacity = "0";
+      document.body.appendChild(textarea);
+      textarea.select();
+      document.execCommand("copy");
+      textarea.remove();
     }
-  );
 
+    copyButton.classList.add("copied");
+    copyButton.innerHTML = `
+      <svg class="copy-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M20 6L9 17l-5-5"></path>
+      </svg>
+      <span>Copied</span>
+    `;
 
-  header.appendChild(
-    languageLabel
-  );
+    setTimeout(setCopyNormal, 1800);
+  });
 
-  header.appendChild(
-    copyButton
-  );
+  header.appendChild(languageLabel);
+  header.appendChild(copyButton);
 
-
-  wrapper.appendChild(
-    header
-  );
-
-  wrapper.appendChild(
-    codeElement
-  );
-
+  wrapper.appendChild(header);
+  wrapper.appendChild(codeElement);
 
   return wrapper;
-
 }
 
 
@@ -2723,66 +1453,37 @@ function createCodeBlock(
 function parseResponseParts(text){
 
   const parts = [];
-
-  const regex =
-    /```([a-zA-Z0-9_+#.-]*)\s*\n?([\s\S]*?)```/g;
+  const regex = /```([a-zA-Z0-9_+#.-]*)\s*\n?([\s\S]*?)```/g;
 
   let lastIndex = 0;
   let match;
 
+  while((match = regex.exec(text)) !== null){
 
-  while(
-    (match = regex.exec(text)) !== null
-  ){
-
-    if(
-      match.index > lastIndex
-    ){
-
+    if(match.index > lastIndex){
       parts.push({
         type:"text",
-        content:
-          text.slice(
-            lastIndex,
-            match.index
-          )
+        content: text.slice(lastIndex, match.index)
       });
-
     }
-
 
     parts.push({
       type:"code",
-      language:
-        match[1] || "code",
-      content:
-        match[2]
-          .replace(/^\n/,"")
-          .replace(/\n$/,"")
+      language: match[1] || "code",
+      content: match[2].replace(/^\n/,"").replace(/\n$/,"")
     });
 
-
-    lastIndex =
-      regex.lastIndex;
-
+    lastIndex = regex.lastIndex;
   }
 
-
-  if(
-    lastIndex < text.length
-  ){
-
+  if(lastIndex < text.length){
     parts.push({
       type:"text",
-      content:
-        text.slice(lastIndex)
+      content: text.slice(lastIndex)
     });
-
   }
 
-
   return parts;
-
 }
 
 
@@ -2790,218 +1491,88 @@ function parseResponseParts(text){
    ANIMATE TEXT
 ========================================================== */
 
-function animateText(
-  container,
-  text
-){
+function animateText(container, text){
 
-  return new Promise(
-    resolve => {
+  return new Promise(resolve => {
 
-      if(!text){
+    if(!text){ resolve(); return; }
 
+    const wrapper = document.createElement("div");
+    wrapper.className = "ai-typewriter";
+
+    const textNode = document.createTextNode("");
+    const cursor = document.createElement("span");
+    cursor.className = "ai-cursor";
+
+    wrapper.appendChild(textNode);
+    wrapper.appendChild(cursor);
+    container.appendChild(wrapper);
+
+    let index = 0;
+
+    function typeNext(){
+
+      if(index >= text.length){
+        cursor.remove();
         resolve();
-
         return;
-
       }
 
+      const char = text[index];
+      textNode.nodeValue += char;
+      index++;
 
-      const wrapper =
-        document.createElement("div");
+      scrollToBottom();
 
-      wrapper.className =
-        "ai-typewriter";
+      let delay = 12 + Math.random() * 10;
 
-
-      const textNode =
-        document.createTextNode("");
-
-      const cursor =
-        document.createElement("span");
-
-      cursor.className =
-        "ai-cursor";
-
-
-      wrapper.appendChild(
-        textNode
-      );
-
-      wrapper.appendChild(
-        cursor
-      );
-
-      container.appendChild(
-        wrapper
-      );
-
-
-      let index = 0;
-
-
-      function typeNext(){
-
-        if(index >= text.length){
-
-          cursor.remove();
-
-          resolve();
-
-          return;
-
-        }
-
-
-        const char =
-          text[index];
-
-        textNode.nodeValue +=
-          char;
-
-        index++;
-
-
-        if(
-          char === "\n"
-        ){
-
-          scrollToBottom();
-
-        }
-
-
-        scrollToBottom();
-
-
-        /*
-          Kecepatan dibuat sedikit acak
-          supaya terasa lebih natural.
-        */
-
-        let delay =
-          12 +
-          Math.random() * 10;
-
-
-        if(
-          char === "." ||
-          char === "," ||
-          char === "!" ||
-          char === "?"
-        ){
-
-          delay += 35;
-
-        }
-
-
-        if(
-          char === "\n"
-        ){
-
-          delay += 25;
-
-        }
-
-
-        setTimeout(
-          typeNext,
-          delay
-        );
-
+      if(char === "." || char === "," || char === "!" || char === "?"){
+        delay += 35;
       }
 
+      if(char === "\n"){
+        delay += 25;
+      }
 
-      typeNext();
-
+      setTimeout(typeNext, delay);
     }
-  );
 
+    typeNext();
+  });
 }
 
 
 /* ==========================================================
-   ANIMATE CODE
+   ANIMATE CODE BLOCK
 ========================================================== */
 
-function animateCodeBlock(
-  container,
-  code,
-  language
-){
+function animateCodeBlock(container, code, language){
 
-  return new Promise(
-    resolve => {
+  return new Promise(resolve => {
 
-      const codeBlock =
-        createCodeBlock(
-          "",
-          language
-        );
+    const codeBlock = createCodeBlock("", language);
+    const codeElement = codeBlock.querySelector(".code-content");
+    container.appendChild(codeBlock);
 
+    let index = 0;
 
-      const codeElement =
-        codeBlock.querySelector(
-          ".code-content"
-        );
+    function typeCode(){
 
-
-      container.appendChild(
-        codeBlock
-      );
-
-
-      let index = 0;
-
-
-      function typeCode(){
-
-        if(index >= code.length){
-
-          resolve();
-
-          return;
-
-        }
-
-
-        /*
-          Untuk kode, beberapa karakter
-          ditampilkan sekaligus agar
-          tidak terlalu lambat.
-        */
-
-        const chunk =
-          code.slice(
-            index,
-            index + 2
-          );
-
-
-        codeElement.textContent +=
-          chunk;
-
-        index +=
-          chunk.length;
-
-
-        scrollToBottom();
-
-
-        setTimeout(
-          typeCode,
-          5
-        );
-
+      if(index >= code.length){
+        resolve();
+        return;
       }
 
+      const chunk = code.slice(index, index + 2);
+      codeElement.textContent += chunk;
+      index += chunk.length;
 
-      typeCode();
-
+      scrollToBottom();
+      setTimeout(typeCode, 5);
     }
-  );
 
+    typeCode();
+  });
 }
 
 
@@ -3009,346 +1580,150 @@ function animateCodeBlock(
    ANIMATE AI RESPONSE
 ========================================================== */
 
-async function animateAIResponse(
-  bubble,
-  text
-){
+async function animateAIResponse(bubble, text){
 
-  const cleaned =
-    cleanAIResponse(
-      text
-    );
+  const cleaned = cleanAIResponse(text);
 
+  const container = document.createElement("div");
+  container.className = "ai-content";
+  bubble.appendChild(container);
 
-  const container =
-    document.createElement("div");
+  const parts = parseResponseParts(cleaned);
 
-  container.className =
-    "ai-content";
+  for(const part of parts){
 
-
-  bubble.appendChild(
-    container
-  );
-
-
-  const parts =
-    parseResponseParts(
-      cleaned
-    );
-
-
-  for(
-    const part of parts
-  ){
-
-    if(
-      part.type === "text"
-    ){
-
-      if(
-        !part.content
-      ){
-
-        continue;
-
-      }
-
-
-      await animateText(
-        container,
-        part.content
-      );
-
+    if(part.type === "text"){
+      if(!part.content) continue;
+      await animateText(container, part.content);
     }else{
-
-      await animateCodeBlock(
-        container,
-        part.content,
-        part.language
-      );
-
+      await animateCodeBlock(container, part.content, part.language);
     }
-
   }
 
-
-  /*
-    Setelah animasi selesai,
-    render ulang bagian teks agar
-    bullet, bold, dan inline code
-    tetap rapi.
-  */
-
-  const finalContainer =
-    renderAIResponse(
-      cleaned
-    );
-
-
-  bubble.replaceChildren(
-    finalContainer
-  );
-
+  const finalContainer = renderAIResponse(cleaned);
+  bubble.replaceChildren(finalContainer);
 
   scrollToBottom();
-
 }
 
 
 /* ==========================================================
    RENDER AI RESPONSE FINAL
+   (fix numbering + list tidak ditutup oleh baris kosong)
 ========================================================== */
 
-function renderAIResponse(
-  text
-){
+function renderAIResponse(text){
 
-  const cleaned =
-    cleanAIResponse(
-      text
-    );
+  const cleaned = cleanAIResponse(text);
 
+  const container = document.createElement("div");
+  container.className = "ai-content";
 
-  const container =
-    document.createElement("div");
+  const parts = parseResponseParts(cleaned);
 
-  container.className =
-    "ai-content";
+  parts.forEach(part => {
 
-
-  const parts =
-    parseResponseParts(
-      cleaned
-    );
-
-
-  parts.forEach(
-    part => {
-
-      if(
-        part.type === "code"
-      ){
-
-        container.appendChild(
-          createCodeBlock(
-            part.content,
-            part.language
-          )
-        );
-
-        return;
-
-      }
-
-
-      const lines =
-        part.content.split("\n");
-
-
-      let currentParagraph = [];
-      let currentList = null;
-      let currentNumberedList = null;
-
-
-      function flushParagraph(){
-
-        if(
-          currentParagraph.length === 0
-        ){
-
-          return;
-
-        }
-
-
-        const paragraph =
-          document.createElement("div");
-
-        paragraph.className =
-          "ai-paragraph";
-
-
-        currentParagraph.forEach(
-          (line,index) => {
-
-            if(index > 0){
-
-              paragraph.appendChild(
-                document.createElement("br")
-              );
-
-            }
-
-
-            appendInlineText(
-              paragraph,
-              line
-            );
-
-          }
-        );
-
-
-        container.appendChild(
-          paragraph
-        );
-
-        currentParagraph = [];
-
-      }
-
-
-      function flushList(){
-
-        if(currentList){
-
-          container.appendChild(
-            currentList
-          );
-
-          currentList =
-            null;
-
-        }
-
-
-        if(currentNumberedList){
-
-          container.appendChild(
-            currentNumberedList
-          );
-
-          currentNumberedList =
-            null;
-
-        }
-
-      }
-
-
-      lines.forEach(
-        rawLine => {
-
-          const line =
-            rawLine.trim();
-
-
-          if(!line){
-
-            flushParagraph();
-            flushList();
-
-            return;
-
-          }
-
-
-          const bulletMatch =
-            line.match(
-              /^[-*•]\s+(.+)$/
-            );
-
-
-          if(bulletMatch){
-
-            flushParagraph();
-
-
-            if(!currentList){
-
-              flushList();
-
-              currentList =
-                document.createElement("ul");
-
-              currentList.className =
-                "ai-list";
-
-            }
-
-
-            const li =
-              document.createElement("li");
-
-
-            appendInlineText(
-              li,
-              bulletMatch[1]
-            );
-
-
-            currentList.appendChild(
-              li
-            );
-
-            return;
-
-          }
-
-
-          const numberedMatch =
-            line.match(
-              /^\d+[.)]\s+(.+)$/
-            );
-
-
-          if(numberedMatch){
-
-            flushParagraph();
-
-
-            if(!currentNumberedList){
-
-              flushList();
-
-              currentNumberedList =
-                document.createElement("ol");
-
-              currentNumberedList.className =
-                "ai-numbered-list";
-
-            }
-
-
-            const li =
-              document.createElement("li");
-
-
-            appendInlineText(
-              li,
-              numberedMatch[1]
-            );
-
-
-            currentNumberedList.appendChild(
-              li
-            );
-
-            return;
-
-          }
-
-
-          flushList();
-
-          currentParagraph.push(
-            line
-          );
-
-        }
+    if(part.type === "code"){
+      container.appendChild(
+        createCodeBlock(part.content, part.language)
       );
-
-
-      flushParagraph();
-      flushList();
-
+      return;
     }
-  );
 
+    const lines = part.content.split("\n");
+
+    let currentParagraph = [];
+    let currentList = null;
+    let currentNumberedList = null;
+
+    function flushParagraph(){
+      if(currentParagraph.length === 0) return;
+
+      const paragraph = document.createElement("div");
+      paragraph.className = "ai-paragraph";
+
+      currentParagraph.forEach((line, index) => {
+        if(index > 0){
+          paragraph.appendChild(document.createElement("br"));
+        }
+        appendInlineText(paragraph, line);
+      });
+
+      container.appendChild(paragraph);
+      currentParagraph = [];
+    }
+
+    function flushLists(){
+      if(currentList){
+        container.appendChild(currentList);
+        currentList = null;
+      }
+      if(currentNumberedList){
+        container.appendChild(currentNumberedList);
+        currentNumberedList = null;
+      }
+    }
+
+    lines.forEach(rawLine => {
+
+      const line = rawLine.trim();
+
+      /* Baris kosong: hanya tutup paragraf.
+         List sengaja TIDAK ditutup, supaya
+         item bernomor tetap nyambung. */
+      if(!line){
+        flushParagraph();
+        return;
+      }
+
+      /* Bullet */
+      const bulletMatch = line.match(/^[-*•]\s+(.+)$/);
+      if(bulletMatch){
+        flushParagraph();
+        if(currentNumberedList) flushLists();
+
+        if(!currentList){
+          currentList = document.createElement("ul");
+          currentList.className = "ai-list";
+        }
+
+        const li = document.createElement("li");
+        appendInlineText(li, bulletMatch[1]);
+        currentList.appendChild(li);
+        return;
+      }
+
+      /* Numbered — simpan angka asli ke li.value
+         supaya kalau <ol>-nya kepisah, nomor
+         tetap sesuai (1, 2, 3, ...) */
+      const numberedMatch = line.match(/^(\d+)[.)]\s+(.+)$/);
+      if(numberedMatch){
+        flushParagraph();
+        if(currentList) flushLists();
+
+        if(!currentNumberedList){
+          currentNumberedList = document.createElement("ol");
+          currentNumberedList.className = "ai-numbered-list";
+        }
+
+        const li = document.createElement("li");
+        const num = parseInt(numberedMatch[1], 10);
+        if(!isNaN(num)) li.value = num;
+        appendInlineText(li, numberedMatch[2]);
+        currentNumberedList.appendChild(li);
+        return;
+      }
+
+      /* Teks biasa: tutup list, mulai paragraf baru */
+      flushLists();
+      currentParagraph.push(line);
+    });
+
+    flushParagraph();
+    flushLists();
+  });
 
   return container;
-
 }
 
 
@@ -3356,16 +1731,9 @@ function renderAIResponse(
    INTRO
 ========================================================== */
 
-setTimeout(
-  () => {
-
-    intro.classList.add(
-      "hide"
-    );
-
-  },
-  1400
-);
+setTimeout(() => {
+  intro.classList.add("hide");
+}, 1100);
 
 
 /* ==========================================================
@@ -3373,34 +1741,17 @@ setTimeout(
 ========================================================== */
 
 function updateViewportHeight(){
-
-  if(!window.visualViewport){
-
-    return;
-
-  }
-
+  if(!window.visualViewport) return;
 
   document.documentElement.style.setProperty(
     "--visual-height",
     `${window.visualViewport.height}px`
   );
-
 }
 
-
 if(window.visualViewport){
-
-  window.visualViewport.addEventListener(
-    "resize",
-    updateViewportHeight
-  );
-
-  window.visualViewport.addEventListener(
-    "scroll",
-    updateViewportHeight
-  );
-
+  window.visualViewport.addEventListener("resize", updateViewportHeight);
+  window.visualViewport.addEventListener("scroll", updateViewportHeight);
 }
 
 updateViewportHeight();
@@ -3411,16 +1762,9 @@ updateViewportHeight();
 ========================================================== */
 
 function scrollToBottom(){
-
-  requestAnimationFrame(
-    () => {
-
-      chatScroll.scrollTop =
-        chatScroll.scrollHeight;
-
-    }
-  );
-
+  requestAnimationFrame(() => {
+    chatScroll.scrollTop = chatScroll.scrollHeight;
+  });
 }
 
 
@@ -3429,19 +1773,8 @@ function scrollToBottom(){
 ========================================================== */
 
 function removeWelcome(){
-
-  const element =
-    document.getElementById(
-      "welcome"
-    );
-
-
-  if(element){
-
-    element.remove();
-
-  }
-
+  const element = document.getElementById("welcome");
+  if(element) element.remove();
 }
 
 
@@ -3449,64 +1782,25 @@ function removeWelcome(){
    APPEND MESSAGE
 ========================================================== */
 
-function appendMessage(
-  role,
-  text
-){
+function appendMessage(role, text){
 
-  const row =
-    document.createElement("div");
+  const row = document.createElement("div");
+  row.className = "message-row " + (role === "user" ? "user" : "ai");
 
-  row.className =
-    "message-row " +
-    (
-      role === "user"
-        ? "user"
-        : "ai"
-    );
-
-
-  const bubble =
-    document.createElement("div");
-
-  bubble.className =
-    "message " +
-    (
-      role === "user"
-        ? "user"
-        : "ai"
-    );
-
+  const bubble = document.createElement("div");
+  bubble.className = "message " + (role === "user" ? "user" : "ai");
 
   if(role === "user"){
-
-    bubble.textContent =
-      text;
-
+    bubble.textContent = text;
   }else{
-
-    bubble.appendChild(
-      renderAIResponse(
-        text
-      )
-    );
-
+    bubble.appendChild(renderAIResponse(text));
   }
 
-
-  row.appendChild(
-    bubble
-  );
-
-  chat.appendChild(
-    row
-  );
-
+  row.appendChild(bubble);
+  chat.appendChild(row);
   scrollToBottom();
 
-
   return bubble;
-
 }
 
 
@@ -3516,63 +1810,28 @@ function appendMessage(
 
 function showTyping(){
 
-  const row =
-    document.createElement("div");
+  const row = document.createElement("div");
+  row.className = "message-row ai";
+  row.id = "typingRow";
 
-  row.className =
-    "message-row ai";
-
-  row.id =
-    "typingRow";
-
-
-  const bubble =
-    document.createElement("div");
-
-  bubble.className =
-    "message ai typing-message";
-
-
+  const bubble = document.createElement("div");
+  bubble.className = "message ai typing-message";
   bubble.innerHTML = `
-
     <div class="typing">
-
       <span></span>
       <span></span>
       <span></span>
-
     </div>
-
   `;
 
-
-  row.appendChild(
-    bubble
-  );
-
-  chat.appendChild(
-    row
-  );
-
+  row.appendChild(bubble);
+  chat.appendChild(row);
   scrollToBottom();
-
 }
 
-
 function hideTyping(){
-
-  const typing =
-    document.getElementById(
-      "typingRow"
-    );
-
-
-  if(typing){
-
-    typing.remove();
-
-  }
-
+  const typing = document.getElementById("typingRow");
+  if(typing) typing.remove();
 }
 
 
@@ -3580,83 +1839,32 @@ function hideTyping(){
    GENERATED IMAGE MESSAGE
 ========================================================== */
 
-function appendGeneratedImageMessage(
-  imageUrl,
-  prompt
-){
+function appendGeneratedImageMessage(imageUrl, prompt){
 
-  const row =
-    document.createElement("div");
+  const row = document.createElement("div");
+  row.className = "message-row ai";
 
-  row.className =
-    "message-row ai";
+  const bubble = document.createElement("div");
+  bubble.className = "message ai";
 
+  const label = document.createElement("div");
+  label.className = "image-message-label";
+  label.textContent = "Gambar berhasil dibuat";
 
-  const bubble =
-    document.createElement("div");
+  const img = document.createElement("img");
+  img.className = "generated-image";
+  img.src = imageUrl;
+  img.alt = prompt || "Generated image";
+  img.loading = "lazy";
 
-  bubble.className =
-    "message ai";
+  img.addEventListener("click", () => openImageModal(imageUrl));
 
+  bubble.appendChild(label);
+  bubble.appendChild(img);
 
-  const label =
-    document.createElement("div");
-
-  label.className =
-    "image-message-label";
-
-  label.textContent =
-    "Gambar berhasil dibuat";
-
-
-  const img =
-    document.createElement("img");
-
-  img.className =
-    "generated-image";
-
-  img.src =
-    imageUrl;
-
-  img.alt =
-    prompt ||
-    "Generated image";
-
-  img.loading =
-    "lazy";
-
-
-  img.addEventListener(
-    "click",
-    () => {
-
-      openImageModal(
-        imageUrl
-      );
-
-    }
-  );
-
-
-  bubble.appendChild(
-    label
-  );
-
-  bubble.appendChild(
-    img
-  );
-
-
-  row.appendChild(
-    bubble
-  );
-
-  chat.appendChild(
-    row
-  );
-
+  row.appendChild(bubble);
+  chat.appendChild(row);
   scrollToBottom();
-
 }
 
 
@@ -3664,439 +1872,160 @@ function appendGeneratedImageMessage(
    IMAGE MODAL
 ========================================================== */
 
-function openImageModal(
-  imageUrl
-){
-
-  currentModalImage =
-    imageUrl;
-
-  modalImage.src =
-    imageUrl;
-
-  imageModal.classList.add(
-    "show"
-  );
-
+function openImageModal(imageUrl){
+  currentModalImage = imageUrl;
+  modalImage.src = imageUrl;
+  imageModal.classList.add("show");
 }
-
 
 function closeImageModal(){
-
-  imageModal.classList.remove(
-    "show"
-  );
-
+  imageModal.classList.remove("show");
 }
 
+modalClose.addEventListener("click", closeImageModal);
+modalCloseBottom.addEventListener("click", closeImageModal);
 
-modalClose.addEventListener(
-  "click",
-  closeImageModal
-);
-
-
-modalCloseBottom.addEventListener(
-  "click",
-  closeImageModal
-);
-
-
-imageModal.addEventListener(
-  "click",
-  event => {
-
-    if(
-      event.target === imageModal
-    ){
-
-      closeImageModal();
-
-    }
-
-  }
-);
+imageModal.addEventListener("click", event => {
+  if(event.target === imageModal) closeImageModal();
+});
 
 
 /* ==========================================================
    DOWNLOAD IMAGE
 ========================================================== */
 
-modalDownload.addEventListener(
-  "click",
-  async () => {
+modalDownload.addEventListener("click", async () => {
 
-    if(!currentModalImage){
+  if(!currentModalImage) return;
 
-      return;
+  try{
+    const response = await fetch(currentModalImage);
+    const blob = await response.blob();
+    const url = URL.createObjectURL(blob);
 
-    }
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "SATXAI-generated.png";
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
 
-
-    try{
-
-      const response =
-        await fetch(
-          currentModalImage
-        );
-
-
-      const blob =
-        await response.blob();
-
-
-      const url =
-        URL.createObjectURL(
-          blob
-        );
-
-
-      const link =
-        document.createElement(
-          "a"
-        );
-
-
-      link.href =
-        url;
-
-      link.download =
-        "SATXAI-generated.png";
-
-
-      document.body.appendChild(
-        link
-      );
-
-      link.click();
-
-      link.remove();
-
-
-      URL.revokeObjectURL(
-        url
-      );
-
-    }catch(error){
-
-      window.open(
-        currentModalImage,
-        "_blank"
-      );
-
-    }
-
+    URL.revokeObjectURL(url);
+  }catch{
+    window.open(currentModalImage, "_blank");
   }
-);
+});
 
 
 /* ==========================================================
    MODE
 ========================================================== */
 
-function setMode(
-  mode
-){
+function setMode(mode){
 
-  currentMode =
-    mode;
-
+  currentMode = mode;
 
   if(mode === "image"){
-
-    imageModeBtn.classList.add(
-      "active"
-    );
-
-    chatModeBtn.classList.remove(
-      "active"
-    );
-
-    uploadBtn.style.display =
-      "none";
-
-    messageInput.placeholder =
-      "Deskripsikan gambar yang ingin dibuat...";
-
+    imageModeBtn.classList.add("active");
+    chatModeBtn.classList.remove("active");
+    uploadBtn.style.display = "none";
+    messageInput.placeholder = "Deskripsikan gambar yang ingin dibuat...";
   }else{
-
-    chatModeBtn.classList.add(
-      "active"
-    );
-
-    imageModeBtn.classList.remove(
-      "active"
-    );
-
-    uploadBtn.style.display =
-      "flex";
-
-    messageInput.placeholder =
-      "Tulis pesan...";
-
+    chatModeBtn.classList.add("active");
+    imageModeBtn.classList.remove("active");
+    uploadBtn.style.display = "flex";
+    messageInput.placeholder = "Tulis pesan...";
   }
-
 }
 
-
-chatModeBtn.addEventListener(
-  "click",
-  () => {
-
-    setMode(
-      "chat"
-    );
-
-  }
-);
-
-
-imageModeBtn.addEventListener(
-  "click",
-  () => {
-
-    setMode(
-      "image"
-    );
-
-  }
-);
+chatModeBtn.addEventListener("click", () => setMode("chat"));
+imageModeBtn.addEventListener("click", () => setMode("image"));
 
 
 /* ==========================================================
    UPLOAD IMAGE
 ========================================================== */
 
-uploadBtn.addEventListener(
-  "click",
-  () => {
+uploadBtn.addEventListener("click", () => fileInput.click());
 
-    fileInput.click();
+fileInput.addEventListener("change", async event => {
 
+  const file = event.target.files?.[0];
+  if(!file) return;
+
+  if(!file.type.startsWith("image/")){
+    alert("File yang dipilih harus berupa gambar.");
+    return;
   }
-);
 
-
-fileInput.addEventListener(
-  "change",
-  async event => {
-
-    const file =
-      event.target.files?.[0];
-
-
-    if(!file){
-
-      return;
-
-    }
-
-
-    if(
-      !file.type.startsWith(
-        "image/"
-      )
-    ){
-
-      alert(
-        "File yang dipilih harus berupa gambar."
-      );
-
-      return;
-
-    }
-
-
-    try{
-
-      const compressed =
-        await resizeImage(
-          file,
-          1600,
-          0.82
-        );
-
-
-      selectedImageFile =
-        file;
-
-      selectedImageData =
-        compressed;
-
-
-      previewImage.src =
-        compressed;
-
-
-      previewWrap.classList.add(
-        "show"
-      );
-
-    }catch(error){
-
-      console.error(
-        error
-      );
-
-      alert(
-        "Gagal memproses gambar."
-      );
-
-    }
-
+  try{
+    const compressed = await resizeImage(file, 1600, 0.82);
+    selectedImageFile = file;
+    selectedImageData = compressed;
+    previewImage.src = compressed;
+    previewWrap.classList.add("show");
+  }catch(error){
+    console.error(error);
+    alert("Gagal memproses gambar.");
   }
-);
+});
 
 
 /* ==========================================================
    REMOVE IMAGE
 ========================================================== */
 
-removeImageBtn.addEventListener(
-  "click",
-  () => {
-
-    selectedImageData =
-      null;
-
-    selectedImageFile =
-      null;
-
-    previewImage.src =
-      "";
-
-    previewWrap.classList.remove(
-      "show"
-    );
-
-    fileInput.value =
-      "";
-
-  }
-);
+removeImageBtn.addEventListener("click", () => {
+  selectedImageData = null;
+  selectedImageFile = null;
+  previewImage.src = "";
+  previewWrap.classList.remove("show");
+  fileInput.value = "";
+});
 
 
 /* ==========================================================
    RESIZE IMAGE
 ========================================================== */
 
-function resizeImage(
-  file,
-  maxSize,
-  quality
-){
+function resizeImage(file, maxSize, quality){
 
-  return new Promise(
-    (
-      resolve,
-      reject
-    ) => {
+  return new Promise((resolve, reject) => {
 
-      const reader =
-        new FileReader();
+    const reader = new FileReader();
 
+    reader.onload = event => {
 
-      reader.onload =
-        event => {
+      const img = new Image();
 
-          const img =
-            new Image();
+      img.onload = () => {
 
+        let width = img.width;
+        let height = img.height;
 
-          img.onload =
-            () => {
+        if(width > maxSize || height > maxSize){
+          const scale = Math.min(maxSize / width, maxSize / height);
+          width = Math.round(width * scale);
+          height = Math.round(height * scale);
+        }
 
-              let width =
-                img.width;
+        const canvas = document.createElement("canvas");
+        canvas.width = width;
+        canvas.height = height;
 
-              let height =
-                img.height;
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0, width, height);
 
+        resolve(canvas.toDataURL("image/jpeg", quality));
+      };
 
-              if(
-                width > maxSize ||
-                height > maxSize
-              ){
+      img.onerror = reject;
+      img.src = event.target.result;
+    };
 
-                const scale =
-                  Math.min(
-                    maxSize / width,
-                    maxSize / height
-                  );
-
-
-                width =
-                  Math.round(
-                    width * scale
-                  );
-
-                height =
-                  Math.round(
-                    height * scale
-                  );
-
-              }
-
-
-              const canvas =
-                document.createElement(
-                  "canvas"
-                );
-
-
-              canvas.width =
-                width;
-
-              canvas.height =
-                height;
-
-
-              const ctx =
-                canvas.getContext(
-                  "2d"
-                );
-
-
-              ctx.drawImage(
-                img,
-                0,
-                0,
-                width,
-                height
-              );
-
-
-              resolve(
-                canvas.toDataURL(
-                  "image/jpeg",
-                  quality
-                )
-              );
-
-            };
-
-
-          img.onerror =
-            reject;
-
-
-          img.src =
-            event.target.result;
-
-        };
-
-
-      reader.onerror =
-        reject;
-
-
-      reader.readAsDataURL(
-        file
-      );
-
-    }
-  );
-
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
 }
 
 
@@ -4105,166 +2034,67 @@ function resizeImage(
 ========================================================== */
 
 function autoResize(){
-
-  messageInput.style.height =
-    "auto";
-
-
-  const height =
-    Math.min(
-      messageInput.scrollHeight,
-      130
-    );
-
-
-  messageInput.style.height =
-    `${height}px`;
-
+  messageInput.style.height = "auto";
+  const height = Math.min(messageInput.scrollHeight, 130);
+  messageInput.style.height = `${height}px`;
 }
 
-
-messageInput.addEventListener(
-  "input",
-  autoResize
-);
+messageInput.addEventListener("input", autoResize);
 
 
 /* ==========================================================
    SUGGESTIONS
 ========================================================== */
 
-document
-  .querySelectorAll(
-    ".suggestion"
-  )
-  .forEach(
-    button => {
-
-      button.addEventListener(
-        "click",
-        () => {
-
-          const prompt =
-            button.dataset.prompt;
-
-
-          messageInput.value =
-            prompt;
-
-
-          autoResize();
-
-
-          sendMessage();
-
-        }
-      );
-
-    }
-  );
+document.querySelectorAll(".suggestion").forEach(button => {
+  button.addEventListener("click", () => {
+    messageInput.value = button.dataset.prompt;
+    autoResize();
+    sendMessage();
+  });
+});
 
 
 /* ==========================================================
    GENERATE IMAGE
 ========================================================== */
 
-async function generateImage(
-  prompt
-){
+async function generateImage(prompt){
 
-  const response =
-    await fetch(
-      IMAGE_API_URL,
-      {
-        method:"POST",
+  const response = await fetch(IMAGE_API_URL, {
+    method:"POST",
+    headers:{ "Content-Type": "application/json" },
+    body: JSON.stringify({ prompt })
+  });
 
-        headers:{
-          "Content-Type":
-            "application/json"
-        },
-
-        body:JSON.stringify({
-          prompt:prompt
-        })
-
-      }
-    );
-
-
-  const text =
-    await response.text();
-
-
+  const text = await response.text();
   let data;
 
-
-  try{
-
-    data =
-      JSON.parse(
-        text
-      );
-
-  }catch{
-
-    data =
-      null;
-
-  }
-
+  try{ data = JSON.parse(text); }
+  catch{ data = null; }
 
   if(!response.ok){
-
     const errorMessage =
-      data?.error ||
-      data?.message ||
-      text ||
-      `HTTP ${response.status}`;
-
-
-    throw new Error(
-      errorMessage
-    );
-
+      data?.error || data?.message || text || `HTTP ${response.status}`;
+    throw new Error(errorMessage);
   }
 
+  let imageUrl = null;
 
-  let imageUrl =
-    null;
-
-
-  if(
-    typeof data === "string"
-  ){
-
-    imageUrl =
-      data;
-
+  if(typeof data === "string"){
+    imageUrl = data;
   }else if(data){
+    imageUrl = data.image || data.image_url || data.url || data.result;
 
-    imageUrl =
-      data.image ||
-      data.image_url ||
-      data.url ||
-      data.result;
-
-
-    if(
-      data.result &&
-      typeof data.result === "object"
-    ){
-
+    if(data.result && typeof data.result === "object"){
       imageUrl =
         data.result.image ||
         data.result.image_url ||
         data.result.url ||
         data.result.b64_json ||
         imageUrl;
-
     }
-
   }
-
 
   if(
     imageUrl &&
@@ -4272,25 +2102,14 @@ async function generateImage(
     !imageUrl.startsWith("http") &&
     imageUrl.length > 100
   ){
-
-    imageUrl =
-      "data:image/png;base64," +
-      imageUrl;
-
+    imageUrl = "data:image/png;base64," + imageUrl;
   }
-
 
   if(!imageUrl){
-
-    throw new Error(
-      "Worker tidak mengembalikan gambar."
-    );
-
+    throw new Error("Worker tidak mengembalikan gambar.");
   }
 
-
   return imageUrl;
-
 }
 
 
@@ -4300,120 +2119,47 @@ async function generateImage(
 
 async function sendMessage(){
 
-  if(isGenerating){
+  if(isGenerating) return;
 
-    return;
+  const text = messageInput.value.trim();
 
-  }
-
-
-  const text =
-    messageInput.value.trim();
-
-
-  if(
-    !text &&
-    !selectedImageData
-  ){
-
-    return;
-
-  }
-
+  if(!text && !selectedImageData) return;
 
   removeWelcome();
 
-
-  isGenerating =
-    true;
-
-  sendBtn.disabled =
-    true;
-
+  isGenerating = true;
+  sendBtn.disabled = true;
 
   /* ========================================================
      IMAGE MODE
   ======================================================== */
 
-  if(
-    currentMode === "image"
-  ){
+  if(currentMode === "image"){
 
     if(!text){
-
-      isGenerating =
-        false;
-
-      sendBtn.disabled =
-        false;
-
+      isGenerating = false;
+      sendBtn.disabled = false;
       return;
-
     }
 
-
-    appendMessage(
-      "user",
-      text
-    );
-
-
-    messageInput.value =
-      "";
-
+    appendMessage("user", text);
+    messageInput.value = "";
     autoResize();
-
-
     showTyping();
 
-
     try{
-
-      const imageUrl =
-        await generateImage(
-          text
-        );
-
-
+      const imageUrl = await generateImage(text);
       hideTyping();
-
-
-      appendGeneratedImageMessage(
-        imageUrl,
-        text
-      );
-
-
+      appendGeneratedImageMessage(imageUrl, text);
     }catch(error){
-
       hideTyping();
-
-
-      appendMessage(
-        "ai",
-        getCustomErrorMessage(
-          error,
-          "image"
-        )
-      );
-
-
-      console.error(
-        "Image generation error:",
-        error
-      );
-
+      appendMessage("ai", getCustomErrorMessage(error, "image"));
+      console.error("Image generation error:", error);
     }
 
-
-    isGenerating =
-      false;
-
-    sendBtn.disabled =
-      false;
-
+    isGenerating = false;
+    sendBtn.disabled = false;
     return;
-
   }
 
 
@@ -4423,248 +2169,95 @@ async function sendMessage(){
 
   let userContent;
 
-
-  if(
-    selectedImageData
-  ){
-
+  if(selectedImageData){
     userContent = [
-
       {
         type:"text",
-
-        text:
-          text ||
-          "Analisis gambar ini dengan teliti. Jelaskan apa yang terlihat."
+        text: text || "Analisis gambar ini dengan teliti. Jelaskan apa yang terlihat."
       },
-
       {
         type:"image_url",
-
-        image_url:{
-          url:
-            selectedImageData
-        }
-
+        image_url:{ url: selectedImageData }
       }
-
     ];
-
   }else{
-
-    userContent =
-      text;
-
+    userContent = text;
   }
 
+  appendMessage("user", text || "📷 Mengirim gambar...");
 
-  appendMessage(
-    "user",
-    text ||
-    "📷 Mengirim gambar..."
-  );
+  messages.push({ role:"user", content:userContent });
 
-
-  messages.push({
-    role:"user",
-    content:userContent
-  });
-
-
-  messageInput.value =
-    "";
-
+  messageInput.value = "";
   autoResize();
 
-
-  selectedImageData =
-    null;
-
-  selectedImageFile =
-    null;
-
-  previewImage.src =
-    "";
-
-  previewWrap.classList.remove(
-    "show"
-  );
-
-  fileInput.value =
-    "";
-
+  selectedImageData = null;
+  selectedImageFile = null;
+  previewImage.src = "";
+  previewWrap.classList.remove("show");
+  fileInput.value = "";
 
   showTyping();
 
-
   try{
+    const response = await fetch(API_URL, {
+      method:"POST",
+      headers:{ "Content-Type": "application/json" },
+      body: JSON.stringify({
+        model: MODEL,
+        messages: messages,
+        max_tokens: MAX_TOKENS,
+        temperature: 0.75
+      })
+    });
 
-    const response =
-      await fetch(
-        API_URL,
-        {
-          method:"POST",
-
-          headers:{
-            "Content-Type":
-              "application/json"
-          },
-
-          body:JSON.stringify({
-
-            model:
-              MODEL,
-
-            messages:
-              messages,
-
-            max_tokens:
-              MAX_TOKENS,
-
-            temperature:
-              0.75
-
-          })
-
-        }
-      );
-
-
-    const rawText =
-      await response.text();
-
-
+    const rawText = await response.text();
     let data;
 
-
-    try{
-
-      data =
-        JSON.parse(
-          rawText
-        );
-
-    }catch{
-
-      data =
-        null;
-
-    }
-
+    try{ data = JSON.parse(rawText); }
+    catch{ data = null; }
 
     if(!response.ok){
-
       const errorMessage =
         data?.error?.message ||
         data?.error ||
         data?.message ||
         rawText ||
         `HTTP ${response.status}`;
-
-
-      throw new Error(
-        errorMessage
-      );
-
+      throw new Error(errorMessage);
     }
 
-
-    const reply =
-      data?.choices?.[0]?.message?.content;
-
+    const reply = data?.choices?.[0]?.message?.content;
 
     if(!reply){
-
-      throw new Error(
-        "AI tidak mengembalikan jawaban."
-      );
-
+      throw new Error("AI tidak mengembalikan jawaban.");
     }
 
-
-    const cleanReply =
-      cleanAIResponse(
-        reply
-      );
-
+    const cleanReply = cleanAIResponse(reply);
 
     hideTyping();
 
+    const row = document.createElement("div");
+    row.className = "message-row ai";
 
-    /*
-      Buat bubble AI terlebih dahulu,
-      lalu jalankan animasi mengetik.
-    */
+    const bubble = document.createElement("div");
+    bubble.className = "message ai";
 
-    const row =
-      document.createElement("div");
+    row.appendChild(bubble);
+    chat.appendChild(row);
 
-    row.className =
-      "message-row ai";
+    await animateAIResponse(bubble, cleanReply);
 
-
-    const bubble =
-      document.createElement("div");
-
-    bubble.className =
-      "message ai";
-
-
-    row.appendChild(
-      bubble
-    );
-
-    chat.appendChild(
-      row
-    );
-
-
-    /*
-      Animasi harus selesai terlebih dahulu
-      sebelum request berikutnya bisa dilakukan.
-    */
-
-    await animateAIResponse(
-      bubble,
-      cleanReply
-    );
-
-
-    messages.push({
-      role:"assistant",
-      content:
-        cleanReply
-    });
-
+    messages.push({ role:"assistant", content: cleanReply });
 
   }catch(error){
-
     hideTyping();
-
-
-    appendMessage(
-      "ai",
-      getCustomErrorMessage(
-        error,
-        "chat"
-      )
-    );
-
-
-    console.error(
-      "SATXAI error:",
-      error
-    );
-
+    appendMessage("ai", getCustomErrorMessage(error, "chat"));
+    console.error("SATXAI error:", error);
   }
 
-
-  isGenerating =
-    false;
-
-  sendBtn.disabled =
-    false;
-
+  isGenerating = false;
+  sendBtn.disabled = false;
 }
 
 
@@ -4672,106 +2265,44 @@ async function sendMessage(){
    SEND BUTTON
 ========================================================== */
 
-sendBtn.addEventListener(
-  "click",
-  sendMessage
-);
+sendBtn.addEventListener("click", sendMessage);
 
 
 /* ==========================================================
    ENTER TO SEND
 ========================================================== */
 
-messageInput.addEventListener(
-  "keydown",
-  event => {
-
-    if(
-      event.key === "Enter" &&
-      !event.shiftKey
-    ){
-
-      event.preventDefault();
-
-      sendMessage();
-
-    }
-
+messageInput.addEventListener("keydown", event => {
+  if(event.key === "Enter" && !event.shiftKey){
+    event.preventDefault();
+    sendMessage();
   }
-);
+});
 
 
 /* ==========================================================
    ESC CLOSE MODAL
 ========================================================== */
 
-document.addEventListener(
-  "keydown",
-  event => {
-
-    if(
-      event.key === "Escape"
-    ){
-
-      closeImageModal();
-
-    }
-
-  }
-);
+document.addEventListener("keydown", event => {
+  if(event.key === "Escape") closeImageModal();
+});
 
 
 /* ==========================================================
    PREVENT MOBILE GESTURE ZOOM
 ========================================================== */
 
-document.addEventListener(
-  "gesturestart",
-  event => {
-
-    event.preventDefault();
-
-  },
-  {
-    passive:false
-  }
-);
-
-
-document.addEventListener(
-  "gesturechange",
-  event => {
-
-    event.preventDefault();
-
-  },
-  {
-    passive:false
-  }
-);
-
-
-document.addEventListener(
-  "gestureend",
-  event => {
-
-    event.preventDefault();
-
-  },
-  {
-    passive:false
-  }
-);
+document.addEventListener("gesturestart", e => e.preventDefault(), { passive:false });
+document.addEventListener("gesturechange", e => e.preventDefault(), { passive:false });
+document.addEventListener("gestureend", e => e.preventDefault(), { passive:false });
 
 
 /* ==========================================================
    INITIALIZE
 ========================================================== */
 
-setMode(
-  "chat"
-);
-
+setMode("chat");
 autoResize();
 
 </script>
