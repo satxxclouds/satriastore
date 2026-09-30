@@ -2043,43 +2043,6 @@
         .faq-item.open .faq-answer { grid-template-rows: 1fr; }
         .faq-item.open .faq-answer-inner { padding: 0 18px 18px; }
 
-        .faq-help-card {
-            max-width: 900px;
-            margin: 18px auto 0;
-            padding: 18px;
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            background: var(--surface);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 14px;
-        }
-
-        .faq-help-title { font-size: 13px; font-weight: 700; margin-bottom: 3px; }
-        .faq-help-desc { font-size: 11px; color: var(--text-ter); }
-
-        .faq-help-btn {
-            flex: 0 0 auto;
-            padding: 10px 14px;
-            border: 1px solid var(--border-strong);
-            border-radius: 8px;
-            background: transparent;
-            color: var(--text);
-            font: inherit;
-            font-size: 11px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: background 0.25s var(--ease-in-out), color 0.25s var(--ease-in-out), border-color 0.25s var(--ease-in-out), transform 0.3s var(--ease-soft);
-        }
-
-        .faq-help-btn:hover {
-            background: var(--accent);
-            border-color: var(--accent);
-            color: #000;
-            transform: translateY(-2px);
-        }
-
         /* ===== CARA ORDER ===== */
         .order-guide { max-width: 960px; margin: 0 auto; }
 
@@ -4075,10 +4038,7 @@
             .faq-question { padding: 15px 14px; font-size: 12px; }
             .faq-answer-inner { padding-left: 14px; padding-right: 14px; }
             .faq-item.open .faq-answer-inner { padding: 0 14px 16px; }
-            .faq-help-card { flex-direction: column; align-items: stretch; }
-            .faq-help-btn { width: 100%; }
-
-            .order-hero { padding: 18px; }
+.order-hero { padding: 18px; }
             .order-hero-title { font-size: 20px; }
             .order-step { grid-template-columns: 36px 1fr; gap: 11px; padding: 14px; }
             .order-step-number { width: 36px; height: 36px; border-radius: 10px; font-size: 11px; }
@@ -4606,6 +4566,62 @@ button, a, input, textarea{
     .product.visible:hover{
         box-shadow:0 12px 26px rgba(0,0,0,.28);
     }
+}
+
+/* FAQ contact button — kept clear of the mobile bottom navigation */
+#page-faq .faq-contact-wrap {
+    width:100%;
+    max-width:900px;
+    margin:16px auto 0;
+    padding:0 0 calc(var(--bottom-nav-h) + env(safe-area-inset-bottom, 0px) + 18px);
+}
+#page-faq .faq-contact-btn {
+    width:100%;
+    min-height:52px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:14px;
+    padding:0 16px;
+    border:1px solid rgba(255,255,255,.09);
+    border-radius:15px;
+    background:linear-gradient(135deg,rgba(255,255,255,.035),rgba(255,255,255,.012));
+    color:#e8e8eb;
+    box-shadow:0 10px 28px rgba(0,0,0,.14),inset 0 1px 0 rgba(255,255,255,.025);
+    cursor:pointer;
+    transition:transform .55s cubic-bezier(.22,1,.36,1),background .55s cubic-bezier(.22,1,.36,1),border-color .55s cubic-bezier(.22,1,.36,1),box-shadow .55s cubic-bezier(.22,1,.36,1);
+}
+#page-faq .faq-contact-btn:hover {
+    transform:translateY(-2px);
+    border-color:rgba(255,255,255,.16);
+    background:linear-gradient(135deg,rgba(255,255,255,.06),rgba(255,255,255,.018));
+    box-shadow:0 16px 34px rgba(0,0,0,.2),0 0 24px rgba(255,255,255,.025);
+}
+#page-faq .faq-contact-btn:active { transform:translateY(0); }
+#page-faq .faq-contact-btn-main {
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    font-size:10px;
+    font-weight:800;
+    letter-spacing:.08em;
+}
+#page-faq .faq-contact-dot {
+    width:7px;height:7px;border-radius:50%;
+    background:#d8d8dc;
+    box-shadow:0 0 12px rgba(255,255,255,.22);
+}
+#page-faq .faq-contact-arrow {
+    font-size:18px;
+    font-weight:400;
+    line-height:1;
+    color:#9a9aa1;
+    transition:transform .55s cubic-bezier(.22,1,.36,1),color .45s ease;
+}
+#page-faq .faq-contact-btn:hover .faq-contact-arrow { transform:translate(3px,-3px);color:#fff; }
+@media (max-width:680px) {
+    #page-faq .faq-contact-wrap { margin-top:14px; padding-bottom:calc(var(--bottom-nav-h) + env(safe-area-inset-bottom, 0px) + 22px); }
+    #page-faq .faq-contact-btn { min-height:50px; border-radius:14px; }
 }
 
 /* Respect reduced-motion preference */
@@ -5600,6 +5616,142 @@ body {
     }
 }
 
+
+/* ===== FAQ HEADER + ICON RESTORE V14 ===== */
+#page-faq .faq-hero {
+    width:100%;
+    max-width:960px;
+    margin:0 auto;
+    padding:34px clamp(14px,3vw,34px) 24px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:24px;
+    position:relative;
+    overflow:hidden;
+    border-bottom:1px solid rgba(255,255,255,.055);
+}
+#page-faq .faq-hero::before {
+    content:"";
+    position:absolute;
+    width:260px;
+    height:180px;
+    right:30px;
+    top:-90px;
+    background:radial-gradient(circle,rgba(255,255,255,.07),transparent 70%);
+    pointer-events:none;
+}
+#page-faq .faq-hero-copy { position:relative; z-index:1; min-width:0; }
+#page-faq .faq-eyebrow {
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    margin-bottom:10px;
+    color:#8f8f96;
+    font-size:9px;
+    font-weight:800;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+}
+#page-faq .faq-eyebrow-dot {
+    width:6px;
+    height:6px;
+    flex:0 0 6px;
+    border-radius:50%;
+    background:#e8e8e8;
+    box-shadow:0 0 12px rgba(255,255,255,.24);
+}
+#page-faq .faq-hero .page-title {
+    margin:0;
+    color:#f7f7f8;
+    font-size:clamp(22px,4vw,32px);
+    font-weight:800;
+    line-height:1.15;
+    letter-spacing:-.035em;
+    text-shadow:0 0 28px rgba(255,255,255,.055);
+}
+#page-faq .faq-hero .page-subtitle {
+    margin:9px 0 0;
+    max-width:620px;
+    color:#85858c;
+    font-size:11px;
+    line-height:1.7;
+}
+#page-faq .faq-hero-mark {
+    position:relative;
+    z-index:1;
+    flex:0 0 64px;
+    width:64px;
+    height:64px;
+    display:grid;
+    place-items:center;
+    border:1px solid rgba(255,255,255,.09);
+    border-radius:20px;
+    background:linear-gradient(145deg,rgba(255,255,255,.065),rgba(255,255,255,.015));
+    color:#ededed;
+    font-size:28px;
+    font-weight:800;
+    box-shadow:0 12px 34px rgba(0,0,0,.2),inset 0 1px 0 rgba(255,255,255,.035);
+}
+#page-faq .faq-question-main {
+    min-width:0;
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+#page-faq .faq-number {
+    flex:0 0 27px;
+    width:27px;
+    height:27px;
+    display:grid;
+    place-items:center;
+    border:1px solid rgba(255,255,255,.075);
+    border-radius:8px;
+    background:rgba(255,255,255,.022);
+    color:#74747b;
+    font-size:8px;
+    font-weight:800;
+    letter-spacing:.05em;
+    transition:background .5s cubic-bezier(.22,1,.36,1),color .5s ease,border-color .5s ease;
+}
+#page-faq .faq-item.open .faq-number {
+    background:rgba(255,255,255,.075);
+    border-color:rgba(255,255,255,.14);
+    color:#e9e9e9;
+}
+#page-faq .faq-icon span,
+#page-faq .faq-icon span::before,
+#page-faq .faq-icon span::after { display:block; }
+#page-faq .faq-icon span {
+    position:relative;
+    width:11px;
+    height:11px;
+}
+#page-faq .faq-icon span::before,
+#page-faq .faq-icon span::after {
+    content:"";
+    position:absolute;
+    left:50%;
+    top:50%;
+    width:11px;
+    height:1.5px;
+    border-radius:2px;
+    background:currentColor;
+    transform:translate(-50%,-50%);
+    transition:transform .55s cubic-bezier(.22,1,.36,1),opacity .4s ease;
+}
+#page-faq .faq-icon span::after { transform:translate(-50%,-50%) rotate(90deg); }
+#page-faq .faq-item.open .faq-icon span::after { opacity:.9; }
+#page-faq .faq-item.open .faq-icon span::before { opacity:.9; }
+@media (max-width:480px){
+    #page-faq .faq-hero { padding:24px 16px 20px; gap:14px; }
+    #page-faq .faq-hero .page-title { font-size:22px !important; }
+    #page-faq .faq-hero .page-subtitle { font-size:10px; }
+    #page-faq .faq-hero-mark { flex-basis:50px; width:50px; height:50px; border-radius:15px; font-size:22px; }
+    #page-faq .faq-question-main { gap:9px; }
+    #page-faq .faq-number { flex-basis:25px; width:25px; height:25px; }
+}
+
 /* ---------- FAQ ---------- */
 #page-faq .page-content {
     width: 100%;
@@ -5751,1181 +5903,16 @@ body {
     transform: translate3d(0,0,0);
 }
 
-#page-faq .faq-help-card {
-    border-radius: 14px !important;
-    margin-top: 16px !important;
-    border-color: rgba(255,255,255,.065) !important;
-    background: #111114 !important;
-    box-shadow: 0 8px 26px rgba(0,0,0,.16) !important;
-    transition: border-color .45s ease, box-shadow .45s ease !important;
-}
-
-/* ---------- ADMIN CONTROL CENTER ---------- */
-#page-admin {
-    overflow-x: hidden !important;
-}
-
-#page-admin .page-header {
-    overflow: hidden !important;
-    flex-shrink: 0;
-}
-
-#page-admin .page-content {
-    width: 100% !important;
-    overflow-x: hidden !important;
-    padding-left: clamp(12px, 3vw, 36px) !important;
-    padding-right: clamp(12px, 3vw, 36px) !important;
-}
-
-#page-admin .admin-panel {
-    width: 100% !important;
-    max-width: 1180px !important;
-    margin: 0 auto !important;
-    overflow: visible !important;
-}
-
-#page-admin .admin-subnav {
-    position: sticky;
-    top: 10px;
-    z-index: 20;
-    width: 100%;
-    display: grid !important;
-    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
-    gap: 6px !important;
-    padding: 6px !important;
-    margin-bottom: 14px !important;
-    border: 1px solid rgba(255,255,255,.065) !important;
-    border-radius: 14px !important;
-    background: rgba(17,17,20,.92) !important;
-    box-shadow:
-        0 12px 30px rgba(0,0,0,.22),
-        inset 0 1px 0 rgba(255,255,255,.025) !important;
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
-}
-
-#page-admin .admin-subtab {
-    min-width: 0 !important;
-    width: 100% !important;
-    min-height: 44px !important;
-    padding: 9px 8px !important;
-    border-radius: 10px !important;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    transition:
-        background .48s cubic-bezier(.22,1,.36,1),
-        color .48s cubic-bezier(.22,1,.36,1),
-        border-color .48s cubic-bezier(.22,1,.36,1),
-        box-shadow .48s cubic-bezier(.22,1,.36,1),
-        transform .48s cubic-bezier(.22,1,.36,1) !important;
-}
-
-#page-admin .admin-subtab:hover {
-    transform: translateY(-1px) !important;
-    background: rgba(255,255,255,.035) !important;
-}
-
-#page-admin .admin-subtab.active {
-    background:
-        linear-gradient(145deg, rgba(255,255,255,.10), rgba(255,255,255,.035)) !important;
-    border-color: rgba(255,255,255,.13) !important;
-    box-shadow:
-        0 7px 20px rgba(0,0,0,.20),
-        inset 0 1px 0 rgba(255,255,255,.05) !important;
-}
-
-#page-admin .admin-subpanel {
-    width: 100% !important;
-    min-width: 0 !important;
-}
-
-#page-admin .admin-subpanel.active {
-    animation: adminPanelSoftIn .58s cubic-bezier(.22,1,.36,1) both !important;
-}
-
-@keyframes adminPanelSoftIn {
-    0% {
-        opacity: 0;
-        transform: translate3d(0,10px,0);
-    }
-    100% {
-        opacity: 1;
-        transform: translate3d(0,0,0);
-    }
-}
-
-#page-admin .admin-section {
-    width: 100% !important;
-    min-width: 0 !important;
-    overflow: hidden !important;
-    border-radius: 14px !important;
-    margin-bottom: 14px !important;
-    padding: clamp(15px, 2vw, 22px) !important;
-    border-color: rgba(255,255,255,.065) !important;
-    background:
-        linear-gradient(145deg, rgba(255,255,255,.025), rgba(255,255,255,.008)),
-        #161619 !important;
-    box-shadow: 0 8px 28px rgba(0,0,0,.13) !important;
-    transition:
-        border-color .42s ease,
-        box-shadow .42s ease !important;
-}
-
-#page-admin .admin-section:hover {
-    border-color: rgba(255,255,255,.09) !important;
-    box-shadow: 0 10px 32px rgba(0,0,0,.17) !important;
-}
-
-#page-admin .form-row,
-#page-admin .product-form-grid,
-#page-admin .product-option-row,
-#page-admin .admin-product-list,
-#page-admin #admin-promo-list {
-    min-width: 0 !important;
-    max-width: 100% !important;
-}
-
-#page-admin .form-group,
-#page-admin .product-form-wide,
-#page-admin .admin-product-card {
-    min-width: 0 !important;
-}
-
-#page-admin input,
-#page-admin select,
-#page-admin textarea,
-#page-admin button {
-    max-width: 100%;
-}
-
-#page-admin .voucher-table {
-    width: 100% !important;
-    max-width: 100% !important;
-    min-width: 0 !important;
-    table-layout: fixed !important;
-}
-
-#page-admin .voucher-table th,
-#page-admin .voucher-table td {
-    white-space: normal !important;
-    overflow-wrap: anywhere !important;
-    word-break: break-word;
-}
-
-#page-admin .admin-orders-toolbar {
-    width: 100% !important;
-    min-width: 0 !important;
-    overflow: hidden !important;
-}
-
-#page-admin .admin-orders-filters {
-    min-width: 0 !important;
-    max-width: 100% !important;
-    overflow: hidden !important;
-}
-
-#page-admin .admin-order-filter {
-    flex: 0 1 auto !important;
-    max-width: 100%;
-    white-space: nowrap;
-}
-
-#page-admin .admin-order-card,
-#page-admin .admin-order-top,
-#page-admin .admin-order-footer,
-#page-admin .admin-order-meta-box {
-    min-width: 0 !important;
-    max-width: 100% !important;
-}
-
-#page-admin .admin-order-card {
-    overflow: hidden !important;
-}
-
-#page-admin .admin-product-card {
-    overflow: hidden !important;
-}
-
-#page-admin .admin-product-card * {
-    min-width: 0;
-}
-
-/* ---------- ADMIN MOBILE ---------- */
-@media (max-width: 760px) {
-    #page-admin .admin-subnav {
-        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-        position: sticky;
-        top: 7px;
-    }
-
-    #page-admin .admin-subtab {
-        min-height: 42px !important;
-        font-size: 8.5px !important;
-    }
-
-    #page-admin .admin-section {
-        padding: 14px !important;
-    }
-}
-
-@media (max-width: 430px) {
-    #page-admin .admin-subnav {
-        grid-template-columns: 1fr !important;
-    }
-
-    #page-admin .admin-subtab {
-        min-height: 40px !important;
-    }
-
-    #page-admin .page-content {
-        padding-left: 10px !important;
-        padding-right: 10px !important;
-    }
-
-    #faq-list .faq-question {
-        min-height: 56px;
-        padding: 15px 14px !important;
-        font-size: 11.5px;
-    }
-
-    #faq-list .faq-answer-inner {
-        padding-left: 14px !important;
-        padding-right: 14px !important;
-    }
-
-    #faq-list .faq-item.open .faq-answer-inner {
-        padding: 0 14px 16px !important;
-    }
-}
-
-/* ---------- REDUCED MOTION ---------- */
-@media (prefers-reduced-motion: reduce) {
-    #faq-list .faq-answer,
-    #faq-list .faq-answer-inner,
-    #faq-list .faq-icon,
-    #page-admin .admin-subpanel.active,
-    #page-admin .admin-subtab,
-    .sidebar {
-        transition-duration: .001ms !important;
-        animation-duration: .001ms !important;
-    }
-}
-</style>
-
-
-<style id="admin-final-v11">
-/* ============================================================
-   ZEVORA ADMIN — FINAL UI REFINEMENT V11
-   Fokus: clean hierarchy, consistent spacing, soft interaction,
-   responsive layout, no horizontal page movement.
-   ============================================================ */
-
-#page-admin,
-#page-admin .page-content,
-#page-admin .admin-panel,
-#page-admin .admin-subpanel,
-#page-admin .admin-section {
-    box-sizing: border-box;
-    min-width: 0 !important;
-    max-width: 100% !important;
-}
-
-#page-admin {
-    overflow-x: clip !important;
-    background:
-        radial-gradient(circle at 80% 0%, rgba(96,165,250,.035), transparent 26%),
-        #0b0b0c;
-    overscroll-behavior-x: none;
-}
-
-#page-admin .page-header {
-    padding: 34px clamp(16px, 4vw, 46px) 30px !important;
-    background:
-        radial-gradient(circle at 86% 10%, rgba(96,165,250,.10), transparent 24%),
-        radial-gradient(circle at 20% 100%, rgba(255,255,255,.025), transparent 28%),
-        linear-gradient(180deg,#111113 0%,#0c0c0e 100%) !important;
-    border-bottom: 1px solid rgba(255,255,255,.065) !important;
-}
-
-#page-admin .page-title {
-    font-size: clamp(24px,3.4vw,32px) !important;
-    font-weight: 850 !important;
-    letter-spacing: -.045em !important;
-    line-height: 1.05 !important;
-}
-
-#page-admin .page-subtitle {
-    margin-top: 8px !important;
-    max-width: 620px !important;
-    font-size: 10.5px !important;
-    line-height: 1.7 !important;
-    color: #777 !important;
-}
-
-/* Main width + rhythm */
-#page-admin .page-content {
-    width: 100% !important;
-    padding: 24px clamp(12px, 3vw, 42px) 52px !important;
-    overflow-x: clip !important;
-}
-
-#page-admin .admin-panel {
-    width: min(1180px,100%) !important;
-    margin-inline: auto !important;
-}
-
-#page-admin .admin-subpanel {
-    width: 100% !important;
-    overflow: visible !important;
-}
-
-/* Tabs: quiet segmented control instead of hard buttons */
-#page-admin .admin-subnav {
-    position: sticky !important;
-    top: 10px !important;
-    display: grid !important;
-    grid-template-columns: repeat(4,minmax(0,1fr)) !important;
-    gap: 5px !important;
-    width: 100% !important;
-    margin: 0 0 18px !important;
-    padding: 5px !important;
-    border: 1px solid rgba(255,255,255,.075) !important;
-    border-radius: 15px !important;
-    background: rgba(18,18,20,.82) !important;
-    box-shadow:
-        0 14px 38px rgba(0,0,0,.24),
-        inset 0 1px 0 rgba(255,255,255,.035) !important;
-    backdrop-filter: blur(20px) saturate(125%) !important;
-    -webkit-backdrop-filter: blur(20px) saturate(125%) !important;
-}
-
-#page-admin .admin-subtab {
-    min-width: 0 !important;
-    min-height: 44px !important;
-    padding: 9px 10px !important;
-    border: 1px solid transparent !important;
-    border-radius: 10px !important;
-    background: transparent !important;
-    color: #777 !important;
-    box-shadow: none !important;
-    transform: none !important;
-    font-size: 8.5px !important;
-    font-weight: 850 !important;
-    letter-spacing: .7px !important;
-    transition:
-        background .28s ease,
-        color .28s ease,
-        border-color .28s ease,
-        box-shadow .28s ease,
-        transform .28s ease !important;
-}
-
-#page-admin .admin-subtab:hover {
-    background: rgba(255,255,255,.035) !important;
-    color: #d8d8d8 !important;
-    box-shadow: none !important;
-    transform: none !important;
-}
-
-#page-admin .admin-subtab.active,
-#page-admin .admin-subtab.active:hover {
-    color: #fff !important;
-    background:
-        linear-gradient(145deg,rgba(255,255,255,.095),rgba(255,255,255,.035)) !important;
-    border-color: rgba(255,255,255,.10) !important;
-    box-shadow:
-        0 6px 18px rgba(0,0,0,.20),
-        inset 0 1px 0 rgba(255,255,255,.055) !important;
-    transform: none !important;
-}
-
-#page-admin .admin-subtab.active::after {
-    left: 28% !important;
-    right: 28% !important;
-    bottom: 3px !important;
-    height: 2px !important;
-    background: #fff !important;
-    opacity: .32 !important;
-}
-
-/* Panel entrance */
-#page-admin .admin-subpanel.active {
-    animation: adminV11In .48s cubic-bezier(.22,1,.36,1) both !important;
-}
-@keyframes adminV11In {
-    from { opacity: 0; transform: translate3d(0,7px,0); }
-    to   { opacity: 1; transform: translate3d(0,0,0); }
-}
-
-/* Every section follows one visual system */
-#page-admin .admin-section {
-    position: relative !important;
-    width: 100% !important;
-    margin: 0 0 14px !important;
-    padding: 19px !important;
-    border: 1px solid rgba(255,255,255,.065) !important;
-    border-radius: 15px !important;
-    background:
-        radial-gradient(circle at 100% 0%,rgba(96,165,250,.035),transparent 26%),
-        linear-gradient(145deg,#19191c,#131315) !important;
-    box-shadow:
-        0 8px 26px rgba(0,0,0,.15),
-        inset 0 1px 0 rgba(255,255,255,.018) !important;
-    overflow: hidden !important;
-}
-
-#page-admin .admin-section::before {
-    height: 1px !important;
-    left: 12% !important;
-    right: 12% !important;
-    background: linear-gradient(90deg,transparent,rgba(255,255,255,.10),transparent) !important;
-}
-
-#page-admin .admin-section:hover {
-    border-color: rgba(255,255,255,.085) !important;
-    box-shadow:
-        0 11px 30px rgba(0,0,0,.18),
-        inset 0 1px 0 rgba(255,255,255,.02) !important;
-}
-
-/* Section headings */
-#page-admin .admin-title {
-    min-width: 0 !important;
-    margin: 0 0 15px !important;
-    gap: 8px !important;
-    color: #f1f1f1 !important;
-    font-size: 10px !important;
-    font-weight: 900 !important;
-    letter-spacing: 1.15px !important;
-    line-height: 1.3 !important;
-}
-
-#page-admin .admin-title::before {
-    width: 3px !important;
-    height: 15px !important;
-    flex: 0 0 3px !important;
-    background: linear-gradient(180deg,#fff,#686868) !important;
-}
-
-/* Form layout */
-#page-admin .form-row,
-#page-admin .product-form-grid {
-    width: 100% !important;
-    min-width: 0 !important;
-    margin-bottom: 12px !important;
-    gap: 10px !important;
-}
-
-#page-admin .form-group {
-    min-width: 0 !important;
-    overflow: hidden !important;
-}
-
-#page-admin .form-label {
-    display: block !important;
-    margin-bottom: 6px !important;
-    color: #777 !important;
-    font-size: 7.5px !important;
-    font-weight: 800 !important;
-    letter-spacing: .95px !important;
-    text-transform: uppercase !important;
-}
-
-#page-admin .form-input,
-#page-admin .form-textarea,
-#page-admin select.form-input {
-    width: 100% !important;
-    min-width: 0 !important;
-    min-height: 41px !important;
-    padding: 10px 11px !important;
-    border: 1px solid rgba(255,255,255,.075) !important;
-    border-radius: 10px !important;
-    outline: none !important;
-    background: rgba(255,255,255,.022) !important;
-    color: #eee !important;
-    box-shadow: inset 0 1px 0 rgba(255,255,255,.018) !important;
-    transition: border-color .25s ease,background .25s ease,box-shadow .25s ease !important;
-}
-
-#page-admin .form-input::placeholder,
-#page-admin .form-textarea::placeholder {
-    color: #4f4f52 !important;
-}
-
-#page-admin .form-input:hover,
-#page-admin .form-textarea:hover,
-#page-admin select.form-input:hover {
-    border-color: rgba(255,255,255,.13) !important;
-    background: rgba(255,255,255,.028) !important;
-}
-
-#page-admin .form-input:focus,
-#page-admin .form-textarea:focus,
-#page-admin select.form-input:focus {
-    border-color: rgba(96,165,250,.34) !important;
-    background: rgba(96,165,250,.028) !important;
-    box-shadow: 0 0 0 3px rgba(96,165,250,.045),inset 0 1px 0 rgba(255,255,255,.025) !important;
-}
-
-/* Main actions */
-#page-admin .btn {
-    min-height: 41px !important;
-    margin-top: 6px !important;
-    padding: 10px 14px !important;
-    border: 1px solid rgba(255,255,255,.10) !important;
-    border-radius: 10px !important;
-    background: linear-gradient(145deg,#f4f4f4,#d9d9d9) !important;
-    color: #111 !important;
-    box-shadow: 0 7px 18px rgba(0,0,0,.16) !important;
-    transform: none !important;
-    font-size: 9px !important;
-    font-weight: 900 !important;
-    letter-spacing: .55px !important;
-    transition: transform .25s ease,box-shadow .25s ease,background .25s ease !important;
-}
-
-#page-admin .btn:hover {
-    background: #fff !important;
-    box-shadow: 0 10px 23px rgba(0,0,0,.22) !important;
-    transform: translateY(-1px) !important;
-}
-
-#page-admin .btn:active {
-    transform: translateY(0) !important;
-    box-shadow: 0 4px 10px rgba(0,0,0,.18) !important;
-}
-
-/* Voucher: table sits inside a safe responsive shell */
-#page-admin .voucher-table {
-    width: 100% !important;
-    min-width: 0 !important;
-    table-layout: fixed !important;
-    border: 1px solid rgba(255,255,255,.055) !important;
-    border-radius: 11px !important;
-    background: rgba(0,0,0,.10) !important;
-}
-
-#page-admin .voucher-table th {
-    padding: 10px 9px !important;
-    background: rgba(255,255,255,.025) !important;
-    color: #666 !important;
-    border-bottom: 1px solid rgba(255,255,255,.06) !important;
-    font-size: 7px !important;
-    letter-spacing: .8px !important;
-}
-
-#page-admin .voucher-table td {
-    padding: 10px 9px !important;
-    color: #cfcfcf !important;
-    border-bottom: 1px solid rgba(255,255,255,.04) !important;
-    font-size: 9px !important;
-    line-height: 1.45 !important;
-    white-space: normal !important;
-    overflow-wrap: anywhere !important;
-}
-
-#page-admin .voucher-table tbody tr:hover {
-    background: rgba(96,165,250,.025) !important;
-}
-
-#page-admin .badge-active,
-#page-admin .badge-expired {
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    min-height: 23px !important;
-    padding: 4px 7px !important;
-    border-radius: 999px !important;
-    font-size: 7px !important;
-    font-weight: 900 !important;
-    letter-spacing: .45px !important;
-}
-
-/* Promo cards */
-#page-admin #admin-promo-list {
-    width: 100% !important;
-    grid-template-columns: repeat(2,minmax(0,1fr)) !important;
-    gap: 10px !important;
-}
-
-#page-admin #admin-promo-list > .admin-section {
-    min-width: 0 !important;
-    padding: 16px !important;
-    margin: 0 !important;
-    border-radius: 13px !important;
-    background:
-        radial-gradient(circle at 100% 0%,rgba(168,85,247,.045),transparent 30%),
-        linear-gradient(145deg,#1b1b1e,#151517) !important;
-}
-
-#page-admin #admin-promo-list .admin-actions {
-    display: flex !important;
-    flex-wrap: wrap !important;
-    gap: 6px !important;
-    padding-top: 11px !important;
-    border-top: 1px solid rgba(255,255,255,.045) !important;
-}
-
-#page-admin #admin-promo-list .admin-toggle {
-    min-height: 29px !important;
-    padding: 6px 9px !important;
-    border: 1px solid rgba(255,255,255,.08) !important;
-    border-radius: 999px !important;
-    background: rgba(255,255,255,.025) !important;
-    color: #999 !important;
-    box-shadow: none !important;
-    transform: none !important;
-    font-size: 7.5px !important;
-}
-
-#page-admin #admin-promo-list .admin-toggle.on {
-    color: #8ee6a9 !important;
-    background: rgba(74,222,128,.055) !important;
-    border-color: rgba(74,222,128,.17) !important;
-}
-
-/* Product manager */
-#page-admin .product-manager {
-    padding-bottom: 17px !important;
-}
-
-#page-admin .admin-product-form-note,
-#page-admin .product-manager-sub,
-#page-admin .product-form-status {
-    max-width: 720px !important;
-    color: #68686b !important;
-    font-size: 8.5px !important;
-    line-height: 1.65 !important;
-}
-
-#page-admin .product-form-actions {
-    display: flex !important;
-    align-items: center !important;
-    gap: 7px !important;
-    flex-wrap: wrap !important;
-    margin-top: 12px !important;
-}
-
-#page-admin .product-form-actions .btn {
-    margin: 0 !important;
-}
-
-#page-admin .product-mini-btn,
-#page-admin .product-remove-option,
-#page-admin .product-refresh-btn,
-#page-admin .product-card-action {
-    border: 1px solid rgba(255,255,255,.075) !important;
-    background: rgba(255,255,255,.025) !important;
-    color: #929295 !important;
-    box-shadow: none !important;
-    transform: none !important;
-    transition: border-color .25s ease,background .25s ease,color .25s ease !important;
-}
-
-#page-admin .product-mini-btn:hover,
-#page-admin .product-remove-option:hover,
-#page-admin .product-refresh-btn:hover,
-#page-admin .product-card-action:hover {
-    border-color: rgba(255,255,255,.15) !important;
-    background: rgba(255,255,255,.05) !important;
-    color: #fff !important;
-}
-
-#page-admin .admin-product-list {
-    grid-template-columns: repeat(2,minmax(0,1fr)) !important;
-    gap: 9px !important;
-}
-
-#page-admin .admin-product-card {
-    min-width: 0 !important;
-    padding: 11px !important;
-    gap: 11px !important;
-    border: 1px solid rgba(255,255,255,.06) !important;
-    border-radius: 12px !important;
-    background: linear-gradient(145deg,rgba(255,255,255,.028),rgba(255,255,255,.009)) !important;
-    box-shadow: none !important;
-    transition: border-color .25s ease,background .25s ease,transform .25s ease !important;
-}
-
-#page-admin .admin-product-card:hover {
-    border-color: rgba(255,255,255,.11) !important;
-    background: linear-gradient(145deg,rgba(255,255,255,.038),rgba(255,255,255,.013)) !important;
-    transform: translateY(-1px) !important;
-}
-
-#page-admin .admin-product-thumb {
-    width: 56px !important;
-    height: 56px !important;
-    border-radius: 11px !important;
-    border-color: rgba(255,255,255,.065) !important;
-}
-
-#page-admin .admin-product-name {
-    color: #f2f2f2 !important;
-    font-size: 10.5px !important;
-    font-weight: 850 !important;
-}
-
-#page-admin .admin-product-meta {
-    color: #646468 !important;
-    font-size: 7.5px !important;
-}
-
-#page-admin .admin-product-price {
-    margin-top: 6px !important;
-    color: #ddd !important;
-    font-size: 9.5px !important;
-}
-
-#page-admin .admin-product-actions {
-    display: flex !important;
-    flex-wrap: wrap !important;
-    gap: 5px !important;
-    margin-top: 8px !important;
-}
-
-/* Orders: cleaner control area */
-#page-admin .admin-orders-note {
-    margin: 0 0 10px !important;
-    padding: 11px 13px 11px 38px !important;
-    border: 1px solid rgba(96,165,250,.10) !important;
-    border-radius: 11px !important;
-    background: rgba(96,165,250,.022) !important;
-    color: #68686b !important;
-    font-size: 8.5px !important;
-    line-height: 1.6 !important;
-}
-
-#page-admin .admin-orders-toolbar {
-    position: sticky !important;
-    top: 70px !important;
-    display: flex !important;
-    align-items: center !important;
-    gap: 9px !important;
-    width: 100% !important;
-    margin-bottom: 10px !important;
-    padding: 8px !important;
-    border: 1px solid rgba(255,255,255,.06) !important;
-    border-radius: 12px !important;
-    background: rgba(18,18,20,.90) !important;
-    box-shadow: 0 10px 25px rgba(0,0,0,.20) !important;
-    backdrop-filter: blur(16px) !important;
-    -webkit-backdrop-filter: blur(16px) !important;
-}
-
-#page-admin .admin-orders-counts {
-    flex: 1 1 auto !important;
-    min-width: 0 !important;
-    display: flex !important;
-    flex-wrap: wrap !important;
-    gap: 5px !important;
-}
-
-#page-admin .admin-orders-counts > div {
-    min-width: 0 !important;
-    padding: 5px 8px !important;
-    border: 1px solid rgba(255,255,255,.055) !important;
-    border-radius: 999px !important;
-    background: rgba(255,255,255,.022) !important;
-    color: #8b8b8f !important;
-    font-size: 7px !important;
-}
-
-#page-admin .admin-orders-filters {
-    display: flex !important;
-    flex-wrap: wrap !important;
-    justify-content: flex-end !important;
-    gap: 4px !important;
-    min-width: 0 !important;
-    max-width: 100% !important;
-    overflow: hidden !important;
-}
-
-#page-admin .admin-order-filter {
-    min-height: 27px !important;
-    padding: 5px 8px !important;
-    border: 1px solid rgba(255,255,255,.065) !important;
-    border-radius: 999px !important;
-    background: rgba(255,255,255,.025) !important;
-    color: #858589 !important;
-    box-shadow: none !important;
-    transform: none !important;
-    font-size: 7px !important;
-    letter-spacing: .45px !important;
-}
-
-#page-admin .admin-order-filter:hover {
-    background: rgba(255,255,255,.05) !important;
-    color: #ddd !important;
-    box-shadow: none !important;
-    transform: none !important;
-}
-
-#page-admin .admin-order-filter.active {
-    background: rgba(255,255,255,.10) !important;
-    border-color: rgba(255,255,255,.14) !important;
-    color: #fff !important;
-    box-shadow: inset 0 1px 0 rgba(255,255,255,.05) !important;
-}
-
-#page-admin .admin-order-card {
-    margin-bottom: 8px !important;
-    padding: 15px !important;
-    border: 1px solid rgba(255,255,255,.06) !important;
-    border-radius: 13px !important;
-    background:
-        radial-gradient(circle at 100% 0%,rgba(96,165,250,.035),transparent 25%),
-        linear-gradient(145deg,#19191c,#141416) !important;
-    box-shadow: 0 7px 22px rgba(0,0,0,.14) !important;
-    transition: border-color .28s ease,box-shadow .28s ease,transform .28s ease !important;
-}
-
-#page-admin .admin-order-card:hover {
-    border-color: rgba(255,255,255,.10) !important;
-    box-shadow: 0 12px 28px rgba(0,0,0,.20) !important;
-    transform: translateY(-1px) !important;
-}
-
-#page-admin .admin-order-top {
-    min-width: 0 !important;
-    gap: 10px !important;
-}
-
-#page-admin .admin-order-name {
-    font-size: 12px !important;
-    line-height: 1.3 !important;
-}
-
-#page-admin .admin-order-date,
-#page-admin .admin-order-id {
-    font-size: 7.5px !important;
-}
-
-#page-admin .admin-order-status-badge {
-    padding: 5px 8px !important;
-    border-radius: 999px !important;
-    font-size: 7px !important;
-    flex: 0 0 auto !important;
-}
-
-#page-admin .admin-order-meta {
-    display: flex !important;
-    flex-wrap: wrap !important;
-    gap: 6px !important;
-    margin-top: 10px !important;
-}
-
-#page-admin .admin-order-meta-box {
-    flex: 1 1 150px !important;
-    min-width: 0 !important;
-    padding: 9px !important;
-    border: 1px solid rgba(255,255,255,.045) !important;
-    border-radius: 9px !important;
-    background: rgba(255,255,255,.018) !important;
-}
-
-#page-admin .admin-order-meta-label {
-    margin-bottom: 3px !important;
-    color: #5d5d61 !important;
-    font-size: 6.5px !important;
-    letter-spacing: .65px !important;
-}
-
-#page-admin .admin-order-meta-value {
-    min-width: 0 !important;
-    overflow-wrap: anywhere !important;
-    word-break: break-word !important;
-    color: #cfcfd1 !important;
-    font-size: 8.5px !important;
-    line-height: 1.45 !important;
-}
-
-#page-admin .admin-order-footer {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: space-between !important;
-    gap: 9px !important;
-    margin-top: 10px !important;
-    padding-top: 10px !important;
-    border-top: 1px solid rgba(255,255,255,.045) !important;
-}
-
-#page-admin .admin-order-footer-label {
-    min-width: 0 !important;
-    color: #666 !important;
-    font-size: 7.5px !important;
-}
-
-#page-admin .admin-order-status-btn {
-    min-width: 130px !important;
-    min-height: 32px !important;
-    padding: 7px 10px !important;
-    border: 1px solid rgba(255,255,255,.075) !important;
-    border-radius: 9px !important;
-    background: rgba(255,255,255,.025) !important;
-    color: #ddd !important;
-    box-shadow: none !important;
-    transform: none !important;
-    font-size: 8px !important;
-}
-
-/* Product / option controls should never create page overflow */
-#page-admin .product-option-row,
-#page-admin .dynamic-list,
-#page-admin .product-form-actions,
-#page-admin .admin-actions,
-#page-admin .admin-product-actions {
-    min-width: 0 !important;
-    max-width: 100% !important;
-}
-
-#page-admin .product-option-row {
-    grid-template-columns: minmax(0,1fr) 110px 36px !important;
-}
-
-#page-admin .product-option-row.duration-row {
-    grid-template-columns: minmax(0,1fr) 135px 36px !important;
-}
-
-/* Logout */
-#page-admin #admin-panel > .btn:last-child {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    width: 100% !important;
-    margin-top: 4px !important;
-    border: 1px solid rgba(248,113,113,.16) !important;
-    border-radius: 10px !important;
-    background: rgba(248,113,113,.025) !important;
-    color: #e98b8b !important;
-    box-shadow: none !important;
-}
-
-#page-admin #admin-panel > .btn:last-child:hover {
-    background: rgba(248,113,113,.055) !important;
-    border-color: rgba(248,113,113,.24) !important;
-    color: #ffaaaa !important;
-}
-
-/* Remove the previous harsh 3D button treatment */
-#page-admin .admin-subtab,
-#page-admin .admin-order-filter,
-#page-admin .btn,
-#page-admin .btn-danger,
-#page-admin .btn-reset,
-#page-admin .admin-toggle,
-#page-admin .admin-order-status-btn,
-#page-admin .product-mini-btn,
-#page-admin .product-remove-option,
-#page-admin .product-refresh-btn,
-#page-admin .product-card-action {
-    box-shadow: none !important;
-}
-
-/* Hard stop against sideways movement */
-#page-admin *,
-#page-admin *::before,
-#page-admin *::after {
-    max-width: 100%;
-}
-
-#page-admin img,
-#page-admin svg,
-#page-admin canvas,
-#page-admin video {
-    max-width: 100%;
-}
-
-/* ============================================================
-   RESPONSIVE
-   ============================================================ */
-@media (max-width: 900px) {
-    #page-admin #admin-promo-list,
-    #page-admin .admin-product-list {
-        grid-template-columns: 1fr !important;
-    }
-
-    #page-admin .admin-orders-toolbar {
-        position: static !important;
-        flex-direction: column !important;
-        align-items: stretch !important;
-    }
-
-    #page-admin .admin-orders-filters {
-        justify-content: flex-start !important;
-    }
-}
-
-@media (max-width: 680px) {
-    #page-admin .page-header {
-        padding: 24px 14px 22px !important;
-    }
-
-    #page-admin .page-content {
-        padding: 14px 11px 38px !important;
-    }
-
-    #page-admin .admin-subnav {
-        position: sticky !important;
-        top: 6px !important;
-        grid-template-columns: repeat(2,minmax(0,1fr)) !important;
-        gap: 4px !important;
-        padding: 4px !important;
-        border-radius: 13px !important;
-    }
-
-    #page-admin .admin-subtab {
-        min-height: 40px !important;
-        padding: 8px 6px !important;
-        font-size: 7.5px !important;
-    }
-
-    #page-admin .admin-section {
-        padding: 14px !important;
-        border-radius: 13px !important;
-    }
-
-    #page-admin .form-row,
-    #page-admin .product-form-grid {
-        grid-template-columns: 1fr !important;
-    }
-
-    #page-admin .product-form-wide {
-        grid-column: auto !important;
-    }
-
-    #page-admin .product-option-row,
-    #page-admin .product-option-row.duration-row {
-        grid-template-columns: minmax(0,1fr) 82px 35px !important;
-    }
-
-    #page-admin .admin-order-meta-box {
-        flex-basis: 100% !important;
-    }
-
-    #page-admin .admin-order-footer {
-        align-items: stretch !important;
-        flex-direction: column !important;
-    }
-
-    #page-admin .admin-order-status-btn {
-        width: 100% !important;
-        min-width: 0 !important;
-    }
-
-    #page-admin .voucher-table-wrap {
-        overflow: hidden !important;
-    }
-
-    /* Voucher becomes readable cards on narrow screens */
-    #page-admin .voucher-table {
-        display: block !important;
-        border: 0 !important;
-        background: transparent !important;
-    }
-
-    #page-admin .voucher-table thead {
-        display: none !important;
-    }
-
-    #page-admin .voucher-table tbody {
-        display: grid !important;
-        gap: 8px !important;
-    }
-
-    #page-admin .voucher-table tbody tr {
-        display: grid !important;
-        grid-template-columns: repeat(2,minmax(0,1fr)) !important;
-        gap: 0 !important;
-        padding: 7px !important;
-        border: 1px solid rgba(255,255,255,.055) !important;
-        border-radius: 11px !important;
-        background: rgba(255,255,255,.018) !important;
-    }
-
-    #page-admin .voucher-table tbody tr:hover {
-        background: rgba(255,255,255,.028) !important;
-    }
-
-    #page-admin .voucher-table tbody td {
-        display: flex !important;
-        align-items: center !important;
-        min-width: 0 !important;
-        min-height: 34px !important;
-        padding: 6px 7px !important;
-        border-bottom: 1px solid rgba(255,255,255,.035) !important;
-        font-size: 8px !important;
-    }
-
-    #page-admin .voucher-table tbody td:nth-child(1)::before { content:"KODE"; }
-    #page-admin .voucher-table tbody td:nth-child(2)::before { content:"DISKON"; }
-    #page-admin .voucher-table tbody td:nth-child(3)::before { content:"MAKS"; }
-    #page-admin .voucher-table tbody td:nth-child(4)::before { content:"BERLAKU"; }
-    #page-admin .voucher-table tbody td:nth-child(5)::before { content:"STATUS"; }
-    #page-admin .voucher-table tbody td:nth-child(6)::before { content:"PAKAI"; }
-    #page-admin .voucher-table tbody td:nth-child(7)::before { content:"AKSI"; }
-
-    #page-admin .voucher-table tbody td::before {
-        flex: 0 0 auto;
-        width: 43px;
-        margin-right: 5px;
-        color: #4f4f52;
-        font-size: 5.5px;
-        font-weight: 900;
-        letter-spacing: .55px;
-    }
-
-    #page-admin .voucher-table tbody td:nth-child(7) {
-        grid-column: 1 / -1;
-        border-bottom: 0;
-        justify-content: flex-end;
-    }
-}
-
-@media (max-width: 430px) {
-    #page-admin .page-title {
-        font-size: 22px !important;
-    }
-
-    #page-admin .page-subtitle {
-        font-size: 9px !important;
-    }
-
-    #page-admin .admin-section {
-        padding: 12px !important;
-    }
-
-    #page-admin .admin-title {
-        font-size: 9px !important;
-    }
-
-    #page-admin .product-option-row,
-    #page-admin .product-option-row.duration-row {
-        grid-template-columns: minmax(0,1fr) 68px 34px !important;
-    }
-
-    #page-admin .admin-product-card {
-        grid-template-columns: 48px minmax(0,1fr) !important;
-    }
-
-    #page-admin .admin-product-thumb {
-        width: 48px !important;
-        height: 48px !important;
-    }
-
-    #page-admin .admin-product-actions {
-        gap: 4px !important;
-    }
-}
-
-@media (prefers-reduced-motion: reduce) {
-    #page-admin *,
-    #page-admin *::before,
-    #page-admin *::after {
-        animation-duration: .001ms !important;
-        transition-duration: .001ms !important;
-    }
+@media (max-width:480px) {
+    #page-faq .faq-hero { padding:20px 16px; }
+    #page-faq .faq-hero-mark { display:none; }
+    #page-faq .faq-hero .page-title { font-size:22px; }
+    #page-faq .faq-question { font-size:11px !important; }
+    #page-faq .faq-icon { width:29px !important;height:29px !important;flex-basis:29px !important; }
+    #page-faq .faq-answer-inner { font-size:10.5px !important; }
+}
+@media (prefers-reduced-motion:reduce) {
+    #page-faq * { transition-duration:.01ms !important;animation-duration:.01ms !important; }
 }
 </style>
 
@@ -7119,62 +6106,67 @@ body {
 
             <!-- FAQ PAGE -->
             <div class="page" id="page-faq">
-                <div class="page-header">
-                    <h1 class="page-title">FAQ</h1>
-                    <p class="page-subtitle">Pertanyaan yang sering ditanyakan tentang ZEVORA</p>
+                <div class="faq-hero">
+                    <div class="faq-hero-copy">
+                        <div class="faq-eyebrow"><span class="faq-eyebrow-dot"></span> ZEVORA HELP CENTER</div>
+                        <h1 class="page-title">Ada yang ingin kamu tanyakan?</h1>
+                        <p class="page-subtitle">Temukan jawaban dengan cepat atau buka salah satu pertanyaan di bawah.</p>
+                    </div>
+                    <div class="faq-hero-mark" aria-hidden="true">?</div>
                 </div>
+
                 <div class="page-content">
+
                     <div class="faq-list" id="faq-list">
-                        <div class="faq-item reveal">
-                            <button class="faq-question" type="button" onclick="toggleFaq(this)">
-                                <span>Bagaimana cara membeli produk?</span>
-                                <span class="faq-icon">+</span>
+                        <div class="faq-item reveal" data-faq="Bagaimana cara membeli produk?">
+                            <button class="faq-question" type="button" onclick="toggleFaq(this)" aria-expanded="false">
+                                <span class="faq-question-main"><span class="faq-number">01</span><span>Bagaimana cara membeli produk?</span></span>
+                                <span class="faq-icon" aria-hidden="true"><span></span></span>
                             </button>
                             <div class="faq-answer"><div class="faq-answer-inner">Pilih produk yang kamu inginkan, tentukan format atau durasinya bila tersedia, lalu tambahkan ke keranjang. Setelah itu buka Keranjang dan tekan Checkout untuk melanjutkan pesanan melalui WhatsApp Admin.</div></div>
                         </div>
-                        <div class="faq-item reveal">
-                            <button class="faq-question" type="button" onclick="toggleFaq(this)">
-                                <span>Bagaimana proses setelah checkout?</span>
-                                <span class="faq-icon">+</span>
+                        <div class="faq-item reveal" data-faq="Bagaimana proses setelah checkout?">
+                            <button class="faq-question" type="button" onclick="toggleFaq(this)" aria-expanded="false">
+                                <span class="faq-question-main"><span class="faq-number">02</span><span>Bagaimana proses setelah checkout?</span></span>
+                                <span class="faq-icon" aria-hidden="true"><span></span></span>
                             </button>
                             <div class="faq-answer"><div class="faq-answer-inner">Setelah checkout, detail pesanan akan disiapkan dan kamu akan diarahkan ke WhatsApp Admin. Kirim pesanan tersebut dan tunggu konfirmasi dari Admin mengenai pembayaran serta proses pesanan.</div></div>
                         </div>
-                        <div class="faq-item reveal">
-                            <button class="faq-question" type="button" onclick="toggleFaq(this)">
-                                <span>Bagaimana cara menggunakan promo?</span>
-                                <span class="faq-icon">+</span>
+                        <div class="faq-item reveal" data-faq="Bagaimana cara menggunakan promo?">
+                            <button class="faq-question" type="button" onclick="toggleFaq(this)" aria-expanded="false">
+                                <span class="faq-question-main"><span class="faq-number">03</span><span>Bagaimana cara menggunakan promo?</span></span>
+                                <span class="faq-icon" aria-hidden="true"><span></span></span>
                             </button>
                             <div class="faq-answer"><div class="faq-answer-inner">Buka menu Promo, pilih promo yang tersedia, lalu tekan Klaim Promo. Setelah berhasil diklaim, promo dapat digunakan pada proses checkout selama voucher masih memenuhi syarat penggunaannya.</div></div>
                         </div>
-                        <div class="faq-item reveal">
-                            <button class="faq-question" type="button" onclick="toggleFaq(this)">
-                                <span>Kenapa promo atau voucher tidak bisa digunakan?</span>
-                                <span class="faq-icon">+</span>
+                        <div class="faq-item reveal" data-faq="Kenapa promo atau voucher tidak bisa digunakan?">
+                            <button class="faq-question" type="button" onclick="toggleFaq(this)" aria-expanded="false">
+                                <span class="faq-question-main"><span class="faq-number">04</span><span>Kenapa promo atau voucher tidak bisa digunakan?</span></span>
+                                <span class="faq-icon" aria-hidden="true"><span></span></span>
                             </button>
                             <div class="faq-answer"><div class="faq-answer-inner">Promo atau voucher bisa tidak tersedia karena masa berlaku sudah habis, kuota penggunaan sudah penuh, atau promo tersebut sudah pernah diklaim oleh akun yang sama. Periksa kembali detail promo sebelum checkout.</div></div>
                         </div>
-                        <div class="faq-item reveal">
-                            <button class="faq-question" type="button" onclick="toggleFaq(this)">
-                                <span>Di mana saya bisa melihat pesanan yang sudah dibuat?</span>
-                                <span class="faq-icon">+</span>
+                        <div class="faq-item reveal" data-faq="Di mana saya bisa melihat pesanan yang sudah dibuat?">
+                            <button class="faq-question" type="button" onclick="toggleFaq(this)" aria-expanded="false">
+                                <span class="faq-question-main"><span class="faq-number">05</span><span>Di mana saya bisa melihat pesanan yang sudah dibuat?</span></span>
+                                <span class="faq-icon" aria-hidden="true"><span></span></span>
                             </button>
                             <div class="faq-answer"><div class="faq-answer-inner">Buka menu Riwayat untuk melihat arsip pesanan yang sudah dikirim melalui sistem checkout ZEVORA.</div></div>
                         </div>
-                        <div class="faq-item reveal">
-                            <button class="faq-question" type="button" onclick="toggleFaq(this)">
-                                <span>Bagaimana jika saya mengalami masalah saat membeli?</span>
-                                <span class="faq-icon">+</span>
+                        <div class="faq-item reveal" data-faq="Bagaimana jika saya mengalami masalah saat membeli?">
+                            <button class="faq-question" type="button" onclick="toggleFaq(this)" aria-expanded="false">
+                                <span class="faq-question-main"><span class="faq-number">06</span><span>Bagaimana jika saya mengalami masalah saat membeli?</span></span>
+                                <span class="faq-icon" aria-hidden="true"><span></span></span>
                             </button>
                             <div class="faq-answer"><div class="faq-answer-inner">Hubungi Admin melalui WhatsApp dan sertakan informasi pesanan atau kendala yang kamu alami agar Admin dapat membantu mengeceknya.</div></div>
                         </div>
                     </div>
 
-                    <div class="faq-help-card reveal">
-                        <div>
-                            <div class="faq-help-title">Masih punya pertanyaan?</div>
-                            <div class="faq-help-desc">Hubungi Admin langsung melalui WhatsApp untuk bantuan.</div>
-                        </div>
-                        <button class="faq-help-btn" type="button" onclick="openFaqWhatsApp()">💬 HUBUNGI ADMIN</button>
+                    <div class="faq-contact-wrap reveal">
+                        <button class="faq-contact-btn" type="button" onclick="openFaqWhatsApp()">
+                            <span class="faq-contact-btn-main"><span class="faq-contact-dot"></span> HUBUNGI ADMIN</span>
+                            <span class="faq-contact-arrow" aria-hidden="true">↗</span>
+                        </button>
                     </div>
                 </div>
                 <div class="bottom-nav-spacer"></div>
@@ -8380,6 +7372,7 @@ body {
         function initFaq() {
             document.querySelectorAll('#faq-list .faq-item').forEach(el => {
                 el.classList.remove('open');
+                el.hidden = false;
                 const q = el.querySelector('.faq-question');
                 if (q) q.setAttribute('aria-expanded', 'false');
             });
