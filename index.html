@@ -2400,7 +2400,7 @@
             top: 12px;
             z-index: 20;
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(4, 1fr);
             gap: 6px;
             margin-bottom: 18px;
             padding: 6px;
@@ -5147,6 +5147,1788 @@ button{-webkit-tap-highlight-color:transparent;}
 }
 </style>
 
+
+<style id="sidebar-position-refine">
+/* =========================================================
+   SIDEBAR / MOBILE MENU — POSITION REFINE V3
+   Rapikan tombol sidebar di kanan atas agar sejajar dengan
+   header, aman di semua ukuran layar, dan tidak bergeser.
+   ========================================================= */
+
+/* Desktop: sidebar tetap menjadi panel kiri yang stabil */
+@media (min-width: 769px) {
+    .sidebar {
+        position: relative !important;
+        top: auto !important;
+        left: auto !important;
+        right: auto !important;
+        height: 100dvh !important;
+        flex-shrink: 0 !important;
+    }
+
+    .mobile-toggle {
+        display: none !important;
+    }
+}
+
+/* Mobile: tombol menu kanan atas */
+@media (max-width: 768px) {
+    .mobile-toggle {
+        position: fixed !important;
+
+        /* sejajar dengan padding header */
+        top: max(16px, env(safe-area-inset-top, 0px) + 8px) !important;
+        right: max(16px, env(safe-area-inset-right, 0px) + 12px) !important;
+
+        width: 44px !important;
+        height: 44px !important;
+        min-width: 44px !important;
+        min-height: 44px !important;
+
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+
+        padding: 0 !important;
+        margin: 0 !important;
+
+        border-radius: 12px !important;
+        border: 1px solid rgba(255,255,255,.09) !important;
+        background: rgba(14,14,17,.88) !important;
+
+        box-shadow:
+            0 8px 24px rgba(0,0,0,.24),
+            inset 0 1px 0 rgba(255,255,255,.045) !important;
+
+        backdrop-filter: blur(18px) saturate(150%) !important;
+        -webkit-backdrop-filter: blur(18px) saturate(150%) !important;
+
+        z-index: 900 !important;
+        transform: translate3d(0,0,0) !important;
+        transition:
+            background .22s ease,
+            border-color .22s ease,
+            box-shadow .22s ease,
+            transform .22s cubic-bezier(.16,1,.3,1) !important;
+    }
+
+    .mobile-toggle:hover {
+        transform: translate3d(0,-1px,0) !important;
+        background: rgba(24,24,28,.94) !important;
+    }
+
+    .mobile-toggle:active {
+        transform: scale(.96) !important;
+    }
+
+    .mobile-toggle .toggle-icon {
+        width: 18px !important;
+        height: 14px !important;
+        gap: 4px !important;
+        margin: 0 !important;
+    }
+
+    .mobile-toggle .toggle-icon span {
+        height: 2px !important;
+        border-radius: 99px !important;
+    }
+
+    /* Header memberi ruang agar judul tidak bertabrakan dengan tombol */
+    .page-header {
+        padding-right: 76px !important;
+    }
+
+    /* Drawer sidebar lebih rapi ketika dibuka */
+    .sidebar {
+        top: 0 !important;
+        left: 0 !important;
+        width: min(280px, 86vw) !important;
+        max-width: 280px !important;
+        height: 100dvh !important;
+        border-radius: 0 16px 16px 0 !important;
+        overflow: hidden !important;
+        transform: translate3d(-105%,0,0) !important;
+        transition: transform .34s cubic-bezier(.16,1,.3,1) !important;
+    }
+
+    .sidebar.mobile-open {
+        transform: translate3d(0,0,0) !important;
+    }
+
+    .sidebar-header {
+        padding-right: 20px !important;
+    }
+}
+
+/* HP sangat kecil */
+@media (max-width: 430px) {
+    .mobile-toggle {
+        top: max(14px, env(safe-area-inset-top, 0px) + 6px) !important;
+        right: max(12px, env(safe-area-inset-right, 0px) + 10px) !important;
+        width: 42px !important;
+        height: 42px !important;
+        min-width: 42px !important;
+        min-height: 42px !important;
+        border-radius: 11px !important;
+    }
+
+    .page-header {
+        padding-right: 66px !important;
+    }
+}
+
+/* Landscape / layar pendek: jangan terlalu menempel ke atas */
+@media (max-width: 768px) and (orientation: landscape) {
+    .mobile-toggle {
+        top: max(10px, env(safe-area-inset-top, 0px) + 4px) !important;
+        right: max(12px, env(safe-area-inset-right, 0px) + 8px) !important;
+    }
+}
+
+/* Touch device: hilangkan efek hover yang terasa loncat */
+@media (hover: none) and (pointer: coarse) {
+    .mobile-toggle:hover {
+        transform: none !important;
+    }
+}
+</style>
+
+
+<style id="supabase-product-manager-css">
+/* =========================================================
+   SUPABASE PRODUCT MANAGER
+   ========================================================= */
+#page-admin .product-form-grid{
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:12px;
+}
+#page-admin .product-form-wide{grid-column:1/-1}
+#page-admin .product-textarea{
+    width:100%;
+    min-height:88px;
+    resize:vertical;
+    line-height:1.55;
+}
+.admin-product-form-note,
+.product-manager-sub,
+.product-form-status{
+    font-size:9px;
+    color:#707070;
+    line-height:1.6;
+}
+.admin-product-form-note{margin:-8px 0 17px 13px}
+.product-form-actions{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+    margin-top:14px;
+}
+.product-save-btn{margin:0!important}
+.product-cancel-btn{
+    margin:0!important;
+    background:transparent!important;
+    color:#aaa!important;
+    border:1px solid rgba(255,255,255,.1)!important;
+}
+.dynamic-list{display:grid;gap:7px}
+.product-option-row{
+    display:grid;
+    grid-template-columns:minmax(0,1fr) 110px 38px;
+    gap:7px;
+}
+.product-option-row.duration-row{
+    grid-template-columns:minmax(0,1fr) 150px 38px;
+}
+.product-option-row input{
+    min-width:0;
+}
+.product-mini-btn,
+.product-remove-option,
+.product-refresh-btn,
+.product-card-action{
+    border:1px solid rgba(255,255,255,.1);
+    background:rgba(255,255,255,.025);
+    color:#aaa;
+    border-radius:9px;
+    cursor:pointer;
+    font:inherit;
+}
+.product-mini-btn{
+    margin-top:8px;
+    padding:8px 11px;
+    font-size:9px;
+    font-weight:800;
+}
+.product-remove-option{
+    width:38px;
+    height:38px;
+    color:#fca5a5;
+}
+.product-mini-btn:hover,
+.product-remove-option:hover,
+.product-refresh-btn:hover,
+.product-card-action:hover{
+    color:#fff;
+    border-color:rgba(255,255,255,.2);
+    background:rgba(255,255,255,.05);
+}
+.product-manager-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:15px;
+    margin-bottom:14px;
+}
+.product-refresh-btn{
+    padding:8px 12px;
+    font-size:9px;
+    font-weight:850;
+}
+.admin-product-list{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:10px;
+}
+.admin-product-card{
+    display:grid;
+    grid-template-columns:58px minmax(0,1fr);
+    gap:12px;
+    padding:12px;
+    border:1px solid rgba(255,255,255,.075);
+    border-radius:14px;
+    background:linear-gradient(145deg,rgba(255,255,255,.035),rgba(255,255,255,.012));
+}
+.admin-product-thumb{
+    width:58px;
+    height:58px;
+    border-radius:12px;
+    overflow:hidden;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#151515;
+    border:1px solid rgba(255,255,255,.07);
+    color:#777;
+    font-size:11px;
+    font-weight:900;
+}
+.admin-product-thumb img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+.admin-product-main{min-width:0}
+.admin-product-top{
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    gap:8px;
+}
+.admin-product-name{
+    color:#f4f4f4;
+    font-size:11px;
+    font-weight:850;
+    line-height:1.3;
+}
+.admin-product-meta{
+    margin-top:4px;
+    color:#707070;
+    font-size:8px;
+    line-height:1.5;
+}
+.admin-product-price{
+    margin-top:7px;
+    color:#ddd;
+    font-size:10px;
+    font-weight:800;
+}
+.admin-product-actions{
+    display:flex;
+    gap:6px;
+    margin-top:9px;
+}
+.product-card-action{
+    padding:6px 9px;
+    font-size:8px;
+    font-weight:850;
+}
+.product-card-action.edit{color:#9ec5ff}
+.product-card-action.delete{color:#fca5a5}
+.product-active-dot{
+    flex:0 0 auto;
+    padding:4px 6px;
+    border-radius:999px;
+    border:1px solid rgba(74,222,128,.16);
+    color:#86efac;
+    background:rgba(74,222,128,.05);
+    font-size:6px;
+    font-weight:900;
+    letter-spacing:.7px;
+}
+.product-active-dot.off{
+    color:#fca5a5;
+    border-color:rgba(248,113,113,.16);
+    background:rgba(248,113,113,.05);
+}
+@media(max-width:900px){
+    #page-admin .product-form-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .admin-product-list{grid-template-columns:1fr}
+}
+@media(max-width:600px){
+    #page-admin .product-form-grid{grid-template-columns:1fr}
+    #page-admin .product-form-wide{grid-column:auto}
+    .product-option-row,
+    .product-option-row.duration-row{grid-template-columns:minmax(0,1fr) 88px 38px}
+    .product-manager-head{align-items:flex-start}
+}
+@media(max-width:420px){
+    .product-option-row,
+    .product-option-row.duration-row{grid-template-columns:1fr 70px 36px}
+    .admin-product-card{grid-template-columns:48px minmax(0,1fr)}
+    .admin-product-thumb{width:48px;height:48px}
+}
+</style>
+
+
+<style id="supabase-product-image-css">
+.product-image-wrap{
+    width:42px;
+    height:42px;
+    flex:0 0 42px;
+    border-radius:11px;
+    overflow:hidden;
+    border:1px solid rgba(255,255,255,.08);
+    background:#151515;
+}
+.product-image{
+    display:block;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+.product-topline{
+    align-items:center;
+}
+@media(max-width:520px){
+    .product-image-wrap{width:38px;height:38px;flex-basis:38px}
+}
+</style>
+
+
+<style id="final-polish-v10">
+/* ============================================================
+   FINAL POLISH V10
+   FAQ lebih soft + Admin lebih stabil + anti horizontal shift
+   ============================================================ */
+
+/* ---------- GLOBAL / ANTI HORIZONTAL SHIFT ---------- */
+html,
+body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden !important;
+}
+
+body {
+    overscroll-behavior-x: none !important;
+}
+
+.container,
+.main,
+.page,
+.page-content,
+.page-header,
+.admin-panel,
+.admin-subpanel,
+.admin-section {
+    min-width: 0 !important;
+    max-width: 100% !important;
+}
+
+.page {
+    overflow-x: hidden !important;
+}
+
+.page-content {
+    overflow-x: hidden !important;
+}
+
+/* Jangan biarkan efek hover membuat layout terasa bergeser */
+.menu-item:hover {
+    transform: none !important;
+}
+
+.menu-item {
+    transition:
+        background .34s cubic-bezier(.22,1,.36,1),
+        color .34s cubic-bezier(.22,1,.36,1),
+        box-shadow .34s cubic-bezier(.22,1,.36,1);
+}
+
+/* ---------- SIDEBAR / DRAWER SOFT ---------- */
+@media (max-width: 768px) {
+    .sidebar {
+        width: min(282px, 86vw) !important;
+        max-width: 282px !important;
+        transform: translate3d(-105%, 0, 0) !important;
+        transition:
+            transform .52s cubic-bezier(.22,1,.36,1),
+            box-shadow .52s cubic-bezier(.22,1,.36,1) !important;
+        box-shadow: 18px 0 55px rgba(0,0,0,0) !important;
+        will-change: transform;
+    }
+
+    .sidebar.mobile-open {
+        transform: translate3d(0, 0, 0) !important;
+        box-shadow:
+            18px 0 55px rgba(0,0,0,.42),
+            0 0 0 1px rgba(255,255,255,.025) !important;
+    }
+
+    .sidebar-backdrop {
+        opacity: 0 !important;
+        visibility: hidden !important;
+        transition:
+            opacity .48s cubic-bezier(.22,1,.36,1),
+            visibility .48s ease !important;
+    }
+
+    .sidebar-backdrop.active {
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+}
+
+/* ---------- FAQ ---------- */
+#page-faq .page-content {
+    width: 100%;
+    max-width: 960px;
+    margin: 0 auto;
+    padding-left: clamp(14px, 3vw, 34px);
+    padding-right: clamp(14px, 3vw, 34px);
+}
+
+#faq-list {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#faq-list .faq-item {
+    position: relative;
+    width: 100%;
+    min-width: 0;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,.065) !important;
+    border-radius: 14px !important;
+    background:
+        linear-gradient(145deg, rgba(255,255,255,.028), rgba(255,255,255,.008)),
+        #111114 !important;
+    box-shadow: 0 7px 24px rgba(0,0,0,.16) !important;
+    transform: none !important;
+    transition:
+        border-color .55s cubic-bezier(.22,1,.36,1),
+        background .55s cubic-bezier(.22,1,.36,1),
+        box-shadow .55s cubic-bezier(.22,1,.36,1) !important;
+}
+
+#faq-list .faq-item:hover {
+    transform: none !important;
+    border-color: rgba(255,255,255,.105) !important;
+    box-shadow: 0 10px 30px rgba(0,0,0,.20) !important;
+}
+
+#faq-list .faq-item.open {
+    border-color: rgba(255,255,255,.13) !important;
+    background:
+        linear-gradient(145deg, rgba(255,255,255,.038), rgba(255,255,255,.012)),
+        #121216 !important;
+    box-shadow:
+        0 12px 34px rgba(0,0,0,.23),
+        inset 0 1px 0 rgba(255,255,255,.025) !important;
+}
+
+#faq-list .faq-question {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    min-width: 0;
+    min-height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 17px 18px !important;
+    border: 0 !important;
+    outline: 0;
+    background: transparent !important;
+    color: #f3f3f3 !important;
+    text-align: left;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.45;
+    cursor: pointer;
+    transition:
+        color .42s cubic-bezier(.22,1,.36,1),
+        background .42s cubic-bezier(.22,1,.36,1);
+}
+
+#faq-list .faq-question > span:first-child {
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+#faq-list .faq-question:hover {
+    background: rgba(255,255,255,.018) !important;
+}
+
+#faq-list .faq-icon {
+    flex: 0 0 30px;
+    width: 30px !important;
+    height: 30px !important;
+    display: grid !important;
+    place-items: center;
+    margin-left: auto;
+    border: 1px solid rgba(255,255,255,.09) !important;
+    border-radius: 9px !important;
+    background: rgba(255,255,255,.025) !important;
+    color: #a7a7a7 !important;
+    font-size: 17px !important;
+    font-weight: 400 !important;
+    line-height: 1;
+    transform: rotate(0deg) !important;
+    transition:
+        transform .62s cubic-bezier(.22,1,.36,1),
+        background .52s cubic-bezier(.22,1,.36,1),
+        color .52s cubic-bezier(.22,1,.36,1),
+        border-color .52s cubic-bezier(.22,1,.36,1),
+        box-shadow .52s cubic-bezier(.22,1,.36,1) !important;
+}
+
+#faq-list .faq-item.open .faq-icon {
+    transform: rotate(45deg) !important;
+    color: #0a0a0a !important;
+    background: #f2f2f2 !important;
+    border-color: #f2f2f2 !important;
+    box-shadow: 0 5px 18px rgba(255,255,255,.10) !important;
+}
+
+#faq-list .faq-answer {
+    display: grid !important;
+    grid-template-rows: 0fr;
+    opacity: .65;
+    transition:
+        grid-template-rows .68s cubic-bezier(.22,1,.36,1),
+        opacity .48s ease !important;
+}
+
+#faq-list .faq-answer-inner {
+    min-height: 0 !important;
+    overflow: hidden !important;
+    padding: 0 18px !important;
+    color: #999 !important;
+    font-size: 11.5px !important;
+    line-height: 1.75 !important;
+    opacity: 0;
+    transform: translate3d(0,-7px,0);
+    transition:
+        padding .68s cubic-bezier(.22,1,.36,1),
+        opacity .52s ease,
+        transform .68s cubic-bezier(.22,1,.36,1) !important;
+}
+
+#faq-list .faq-item.open .faq-answer {
+    grid-template-rows: 1fr;
+    opacity: 1;
+}
+
+#faq-list .faq-item.open .faq-answer-inner {
+    padding: 0 18px 18px !important;
+    opacity: 1;
+    transform: translate3d(0,0,0);
+}
+
+#page-faq .faq-help-card {
+    border-radius: 14px !important;
+    margin-top: 16px !important;
+    border-color: rgba(255,255,255,.065) !important;
+    background: #111114 !important;
+    box-shadow: 0 8px 26px rgba(0,0,0,.16) !important;
+    transition: border-color .45s ease, box-shadow .45s ease !important;
+}
+
+/* ---------- ADMIN CONTROL CENTER ---------- */
+#page-admin {
+    overflow-x: hidden !important;
+}
+
+#page-admin .page-header {
+    overflow: hidden !important;
+    flex-shrink: 0;
+}
+
+#page-admin .page-content {
+    width: 100% !important;
+    overflow-x: hidden !important;
+    padding-left: clamp(12px, 3vw, 36px) !important;
+    padding-right: clamp(12px, 3vw, 36px) !important;
+}
+
+#page-admin .admin-panel {
+    width: 100% !important;
+    max-width: 1180px !important;
+    margin: 0 auto !important;
+    overflow: visible !important;
+}
+
+#page-admin .admin-subnav {
+    position: sticky;
+    top: 10px;
+    z-index: 20;
+    width: 100%;
+    display: grid !important;
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    gap: 6px !important;
+    padding: 6px !important;
+    margin-bottom: 14px !important;
+    border: 1px solid rgba(255,255,255,.065) !important;
+    border-radius: 14px !important;
+    background: rgba(17,17,20,.92) !important;
+    box-shadow:
+        0 12px 30px rgba(0,0,0,.22),
+        inset 0 1px 0 rgba(255,255,255,.025) !important;
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+}
+
+#page-admin .admin-subtab {
+    min-width: 0 !important;
+    width: 100% !important;
+    min-height: 44px !important;
+    padding: 9px 8px !important;
+    border-radius: 10px !important;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition:
+        background .48s cubic-bezier(.22,1,.36,1),
+        color .48s cubic-bezier(.22,1,.36,1),
+        border-color .48s cubic-bezier(.22,1,.36,1),
+        box-shadow .48s cubic-bezier(.22,1,.36,1),
+        transform .48s cubic-bezier(.22,1,.36,1) !important;
+}
+
+#page-admin .admin-subtab:hover {
+    transform: translateY(-1px) !important;
+    background: rgba(255,255,255,.035) !important;
+}
+
+#page-admin .admin-subtab.active {
+    background:
+        linear-gradient(145deg, rgba(255,255,255,.10), rgba(255,255,255,.035)) !important;
+    border-color: rgba(255,255,255,.13) !important;
+    box-shadow:
+        0 7px 20px rgba(0,0,0,.20),
+        inset 0 1px 0 rgba(255,255,255,.05) !important;
+}
+
+#page-admin .admin-subpanel {
+    width: 100% !important;
+    min-width: 0 !important;
+}
+
+#page-admin .admin-subpanel.active {
+    animation: adminPanelSoftIn .58s cubic-bezier(.22,1,.36,1) both !important;
+}
+
+@keyframes adminPanelSoftIn {
+    0% {
+        opacity: 0;
+        transform: translate3d(0,10px,0);
+    }
+    100% {
+        opacity: 1;
+        transform: translate3d(0,0,0);
+    }
+}
+
+#page-admin .admin-section {
+    width: 100% !important;
+    min-width: 0 !important;
+    overflow: hidden !important;
+    border-radius: 14px !important;
+    margin-bottom: 14px !important;
+    padding: clamp(15px, 2vw, 22px) !important;
+    border-color: rgba(255,255,255,.065) !important;
+    background:
+        linear-gradient(145deg, rgba(255,255,255,.025), rgba(255,255,255,.008)),
+        #161619 !important;
+    box-shadow: 0 8px 28px rgba(0,0,0,.13) !important;
+    transition:
+        border-color .42s ease,
+        box-shadow .42s ease !important;
+}
+
+#page-admin .admin-section:hover {
+    border-color: rgba(255,255,255,.09) !important;
+    box-shadow: 0 10px 32px rgba(0,0,0,.17) !important;
+}
+
+#page-admin .form-row,
+#page-admin .product-form-grid,
+#page-admin .product-option-row,
+#page-admin .admin-product-list,
+#page-admin #admin-promo-list {
+    min-width: 0 !important;
+    max-width: 100% !important;
+}
+
+#page-admin .form-group,
+#page-admin .product-form-wide,
+#page-admin .admin-product-card {
+    min-width: 0 !important;
+}
+
+#page-admin input,
+#page-admin select,
+#page-admin textarea,
+#page-admin button {
+    max-width: 100%;
+}
+
+#page-admin .voucher-table {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    table-layout: fixed !important;
+}
+
+#page-admin .voucher-table th,
+#page-admin .voucher-table td {
+    white-space: normal !important;
+    overflow-wrap: anywhere !important;
+    word-break: break-word;
+}
+
+#page-admin .admin-orders-toolbar {
+    width: 100% !important;
+    min-width: 0 !important;
+    overflow: hidden !important;
+}
+
+#page-admin .admin-orders-filters {
+    min-width: 0 !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+}
+
+#page-admin .admin-order-filter {
+    flex: 0 1 auto !important;
+    max-width: 100%;
+    white-space: nowrap;
+}
+
+#page-admin .admin-order-card,
+#page-admin .admin-order-top,
+#page-admin .admin-order-footer,
+#page-admin .admin-order-meta-box {
+    min-width: 0 !important;
+    max-width: 100% !important;
+}
+
+#page-admin .admin-order-card {
+    overflow: hidden !important;
+}
+
+#page-admin .admin-product-card {
+    overflow: hidden !important;
+}
+
+#page-admin .admin-product-card * {
+    min-width: 0;
+}
+
+/* ---------- ADMIN MOBILE ---------- */
+@media (max-width: 760px) {
+    #page-admin .admin-subnav {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        position: sticky;
+        top: 7px;
+    }
+
+    #page-admin .admin-subtab {
+        min-height: 42px !important;
+        font-size: 8.5px !important;
+    }
+
+    #page-admin .admin-section {
+        padding: 14px !important;
+    }
+}
+
+@media (max-width: 430px) {
+    #page-admin .admin-subnav {
+        grid-template-columns: 1fr !important;
+    }
+
+    #page-admin .admin-subtab {
+        min-height: 40px !important;
+    }
+
+    #page-admin .page-content {
+        padding-left: 10px !important;
+        padding-right: 10px !important;
+    }
+
+    #faq-list .faq-question {
+        min-height: 56px;
+        padding: 15px 14px !important;
+        font-size: 11.5px;
+    }
+
+    #faq-list .faq-answer-inner {
+        padding-left: 14px !important;
+        padding-right: 14px !important;
+    }
+
+    #faq-list .faq-item.open .faq-answer-inner {
+        padding: 0 14px 16px !important;
+    }
+}
+
+/* ---------- REDUCED MOTION ---------- */
+@media (prefers-reduced-motion: reduce) {
+    #faq-list .faq-answer,
+    #faq-list .faq-answer-inner,
+    #faq-list .faq-icon,
+    #page-admin .admin-subpanel.active,
+    #page-admin .admin-subtab,
+    .sidebar {
+        transition-duration: .001ms !important;
+        animation-duration: .001ms !important;
+    }
+}
+</style>
+
+
+<style id="admin-final-v11">
+/* ============================================================
+   ZEVORA ADMIN — FINAL UI REFINEMENT V11
+   Fokus: clean hierarchy, consistent spacing, soft interaction,
+   responsive layout, no horizontal page movement.
+   ============================================================ */
+
+#page-admin,
+#page-admin .page-content,
+#page-admin .admin-panel,
+#page-admin .admin-subpanel,
+#page-admin .admin-section {
+    box-sizing: border-box;
+    min-width: 0 !important;
+    max-width: 100% !important;
+}
+
+#page-admin {
+    overflow-x: clip !important;
+    background:
+        radial-gradient(circle at 80% 0%, rgba(96,165,250,.035), transparent 26%),
+        #0b0b0c;
+    overscroll-behavior-x: none;
+}
+
+#page-admin .page-header {
+    padding: 34px clamp(16px, 4vw, 46px) 30px !important;
+    background:
+        radial-gradient(circle at 86% 10%, rgba(96,165,250,.10), transparent 24%),
+        radial-gradient(circle at 20% 100%, rgba(255,255,255,.025), transparent 28%),
+        linear-gradient(180deg,#111113 0%,#0c0c0e 100%) !important;
+    border-bottom: 1px solid rgba(255,255,255,.065) !important;
+}
+
+#page-admin .page-title {
+    font-size: clamp(24px,3.4vw,32px) !important;
+    font-weight: 850 !important;
+    letter-spacing: -.045em !important;
+    line-height: 1.05 !important;
+}
+
+#page-admin .page-subtitle {
+    margin-top: 8px !important;
+    max-width: 620px !important;
+    font-size: 10.5px !important;
+    line-height: 1.7 !important;
+    color: #777 !important;
+}
+
+/* Main width + rhythm */
+#page-admin .page-content {
+    width: 100% !important;
+    padding: 24px clamp(12px, 3vw, 42px) 52px !important;
+    overflow-x: clip !important;
+}
+
+#page-admin .admin-panel {
+    width: min(1180px,100%) !important;
+    margin-inline: auto !important;
+}
+
+#page-admin .admin-subpanel {
+    width: 100% !important;
+    overflow: visible !important;
+}
+
+/* Tabs: quiet segmented control instead of hard buttons */
+#page-admin .admin-subnav {
+    position: sticky !important;
+    top: 10px !important;
+    display: grid !important;
+    grid-template-columns: repeat(4,minmax(0,1fr)) !important;
+    gap: 5px !important;
+    width: 100% !important;
+    margin: 0 0 18px !important;
+    padding: 5px !important;
+    border: 1px solid rgba(255,255,255,.075) !important;
+    border-radius: 15px !important;
+    background: rgba(18,18,20,.82) !important;
+    box-shadow:
+        0 14px 38px rgba(0,0,0,.24),
+        inset 0 1px 0 rgba(255,255,255,.035) !important;
+    backdrop-filter: blur(20px) saturate(125%) !important;
+    -webkit-backdrop-filter: blur(20px) saturate(125%) !important;
+}
+
+#page-admin .admin-subtab {
+    min-width: 0 !important;
+    min-height: 44px !important;
+    padding: 9px 10px !important;
+    border: 1px solid transparent !important;
+    border-radius: 10px !important;
+    background: transparent !important;
+    color: #777 !important;
+    box-shadow: none !important;
+    transform: none !important;
+    font-size: 8.5px !important;
+    font-weight: 850 !important;
+    letter-spacing: .7px !important;
+    transition:
+        background .28s ease,
+        color .28s ease,
+        border-color .28s ease,
+        box-shadow .28s ease,
+        transform .28s ease !important;
+}
+
+#page-admin .admin-subtab:hover {
+    background: rgba(255,255,255,.035) !important;
+    color: #d8d8d8 !important;
+    box-shadow: none !important;
+    transform: none !important;
+}
+
+#page-admin .admin-subtab.active,
+#page-admin .admin-subtab.active:hover {
+    color: #fff !important;
+    background:
+        linear-gradient(145deg,rgba(255,255,255,.095),rgba(255,255,255,.035)) !important;
+    border-color: rgba(255,255,255,.10) !important;
+    box-shadow:
+        0 6px 18px rgba(0,0,0,.20),
+        inset 0 1px 0 rgba(255,255,255,.055) !important;
+    transform: none !important;
+}
+
+#page-admin .admin-subtab.active::after {
+    left: 28% !important;
+    right: 28% !important;
+    bottom: 3px !important;
+    height: 2px !important;
+    background: #fff !important;
+    opacity: .32 !important;
+}
+
+/* Panel entrance */
+#page-admin .admin-subpanel.active {
+    animation: adminV11In .48s cubic-bezier(.22,1,.36,1) both !important;
+}
+@keyframes adminV11In {
+    from { opacity: 0; transform: translate3d(0,7px,0); }
+    to   { opacity: 1; transform: translate3d(0,0,0); }
+}
+
+/* Every section follows one visual system */
+#page-admin .admin-section {
+    position: relative !important;
+    width: 100% !important;
+    margin: 0 0 14px !important;
+    padding: 19px !important;
+    border: 1px solid rgba(255,255,255,.065) !important;
+    border-radius: 15px !important;
+    background:
+        radial-gradient(circle at 100% 0%,rgba(96,165,250,.035),transparent 26%),
+        linear-gradient(145deg,#19191c,#131315) !important;
+    box-shadow:
+        0 8px 26px rgba(0,0,0,.15),
+        inset 0 1px 0 rgba(255,255,255,.018) !important;
+    overflow: hidden !important;
+}
+
+#page-admin .admin-section::before {
+    height: 1px !important;
+    left: 12% !important;
+    right: 12% !important;
+    background: linear-gradient(90deg,transparent,rgba(255,255,255,.10),transparent) !important;
+}
+
+#page-admin .admin-section:hover {
+    border-color: rgba(255,255,255,.085) !important;
+    box-shadow:
+        0 11px 30px rgba(0,0,0,.18),
+        inset 0 1px 0 rgba(255,255,255,.02) !important;
+}
+
+/* Section headings */
+#page-admin .admin-title {
+    min-width: 0 !important;
+    margin: 0 0 15px !important;
+    gap: 8px !important;
+    color: #f1f1f1 !important;
+    font-size: 10px !important;
+    font-weight: 900 !important;
+    letter-spacing: 1.15px !important;
+    line-height: 1.3 !important;
+}
+
+#page-admin .admin-title::before {
+    width: 3px !important;
+    height: 15px !important;
+    flex: 0 0 3px !important;
+    background: linear-gradient(180deg,#fff,#686868) !important;
+}
+
+/* Form layout */
+#page-admin .form-row,
+#page-admin .product-form-grid {
+    width: 100% !important;
+    min-width: 0 !important;
+    margin-bottom: 12px !important;
+    gap: 10px !important;
+}
+
+#page-admin .form-group {
+    min-width: 0 !important;
+    overflow: hidden !important;
+}
+
+#page-admin .form-label {
+    display: block !important;
+    margin-bottom: 6px !important;
+    color: #777 !important;
+    font-size: 7.5px !important;
+    font-weight: 800 !important;
+    letter-spacing: .95px !important;
+    text-transform: uppercase !important;
+}
+
+#page-admin .form-input,
+#page-admin .form-textarea,
+#page-admin select.form-input {
+    width: 100% !important;
+    min-width: 0 !important;
+    min-height: 41px !important;
+    padding: 10px 11px !important;
+    border: 1px solid rgba(255,255,255,.075) !important;
+    border-radius: 10px !important;
+    outline: none !important;
+    background: rgba(255,255,255,.022) !important;
+    color: #eee !important;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.018) !important;
+    transition: border-color .25s ease,background .25s ease,box-shadow .25s ease !important;
+}
+
+#page-admin .form-input::placeholder,
+#page-admin .form-textarea::placeholder {
+    color: #4f4f52 !important;
+}
+
+#page-admin .form-input:hover,
+#page-admin .form-textarea:hover,
+#page-admin select.form-input:hover {
+    border-color: rgba(255,255,255,.13) !important;
+    background: rgba(255,255,255,.028) !important;
+}
+
+#page-admin .form-input:focus,
+#page-admin .form-textarea:focus,
+#page-admin select.form-input:focus {
+    border-color: rgba(96,165,250,.34) !important;
+    background: rgba(96,165,250,.028) !important;
+    box-shadow: 0 0 0 3px rgba(96,165,250,.045),inset 0 1px 0 rgba(255,255,255,.025) !important;
+}
+
+/* Main actions */
+#page-admin .btn {
+    min-height: 41px !important;
+    margin-top: 6px !important;
+    padding: 10px 14px !important;
+    border: 1px solid rgba(255,255,255,.10) !important;
+    border-radius: 10px !important;
+    background: linear-gradient(145deg,#f4f4f4,#d9d9d9) !important;
+    color: #111 !important;
+    box-shadow: 0 7px 18px rgba(0,0,0,.16) !important;
+    transform: none !important;
+    font-size: 9px !important;
+    font-weight: 900 !important;
+    letter-spacing: .55px !important;
+    transition: transform .25s ease,box-shadow .25s ease,background .25s ease !important;
+}
+
+#page-admin .btn:hover {
+    background: #fff !important;
+    box-shadow: 0 10px 23px rgba(0,0,0,.22) !important;
+    transform: translateY(-1px) !important;
+}
+
+#page-admin .btn:active {
+    transform: translateY(0) !important;
+    box-shadow: 0 4px 10px rgba(0,0,0,.18) !important;
+}
+
+/* Voucher: table sits inside a safe responsive shell */
+#page-admin .voucher-table {
+    width: 100% !important;
+    min-width: 0 !important;
+    table-layout: fixed !important;
+    border: 1px solid rgba(255,255,255,.055) !important;
+    border-radius: 11px !important;
+    background: rgba(0,0,0,.10) !important;
+}
+
+#page-admin .voucher-table th {
+    padding: 10px 9px !important;
+    background: rgba(255,255,255,.025) !important;
+    color: #666 !important;
+    border-bottom: 1px solid rgba(255,255,255,.06) !important;
+    font-size: 7px !important;
+    letter-spacing: .8px !important;
+}
+
+#page-admin .voucher-table td {
+    padding: 10px 9px !important;
+    color: #cfcfcf !important;
+    border-bottom: 1px solid rgba(255,255,255,.04) !important;
+    font-size: 9px !important;
+    line-height: 1.45 !important;
+    white-space: normal !important;
+    overflow-wrap: anywhere !important;
+}
+
+#page-admin .voucher-table tbody tr:hover {
+    background: rgba(96,165,250,.025) !important;
+}
+
+#page-admin .badge-active,
+#page-admin .badge-expired {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-height: 23px !important;
+    padding: 4px 7px !important;
+    border-radius: 999px !important;
+    font-size: 7px !important;
+    font-weight: 900 !important;
+    letter-spacing: .45px !important;
+}
+
+/* Promo cards */
+#page-admin #admin-promo-list {
+    width: 100% !important;
+    grid-template-columns: repeat(2,minmax(0,1fr)) !important;
+    gap: 10px !important;
+}
+
+#page-admin #admin-promo-list > .admin-section {
+    min-width: 0 !important;
+    padding: 16px !important;
+    margin: 0 !important;
+    border-radius: 13px !important;
+    background:
+        radial-gradient(circle at 100% 0%,rgba(168,85,247,.045),transparent 30%),
+        linear-gradient(145deg,#1b1b1e,#151517) !important;
+}
+
+#page-admin #admin-promo-list .admin-actions {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 6px !important;
+    padding-top: 11px !important;
+    border-top: 1px solid rgba(255,255,255,.045) !important;
+}
+
+#page-admin #admin-promo-list .admin-toggle {
+    min-height: 29px !important;
+    padding: 6px 9px !important;
+    border: 1px solid rgba(255,255,255,.08) !important;
+    border-radius: 999px !important;
+    background: rgba(255,255,255,.025) !important;
+    color: #999 !important;
+    box-shadow: none !important;
+    transform: none !important;
+    font-size: 7.5px !important;
+}
+
+#page-admin #admin-promo-list .admin-toggle.on {
+    color: #8ee6a9 !important;
+    background: rgba(74,222,128,.055) !important;
+    border-color: rgba(74,222,128,.17) !important;
+}
+
+/* Product manager */
+#page-admin .product-manager {
+    padding-bottom: 17px !important;
+}
+
+#page-admin .admin-product-form-note,
+#page-admin .product-manager-sub,
+#page-admin .product-form-status {
+    max-width: 720px !important;
+    color: #68686b !important;
+    font-size: 8.5px !important;
+    line-height: 1.65 !important;
+}
+
+#page-admin .product-form-actions {
+    display: flex !important;
+    align-items: center !important;
+    gap: 7px !important;
+    flex-wrap: wrap !important;
+    margin-top: 12px !important;
+}
+
+#page-admin .product-form-actions .btn {
+    margin: 0 !important;
+}
+
+#page-admin .product-mini-btn,
+#page-admin .product-remove-option,
+#page-admin .product-refresh-btn,
+#page-admin .product-card-action {
+    border: 1px solid rgba(255,255,255,.075) !important;
+    background: rgba(255,255,255,.025) !important;
+    color: #929295 !important;
+    box-shadow: none !important;
+    transform: none !important;
+    transition: border-color .25s ease,background .25s ease,color .25s ease !important;
+}
+
+#page-admin .product-mini-btn:hover,
+#page-admin .product-remove-option:hover,
+#page-admin .product-refresh-btn:hover,
+#page-admin .product-card-action:hover {
+    border-color: rgba(255,255,255,.15) !important;
+    background: rgba(255,255,255,.05) !important;
+    color: #fff !important;
+}
+
+#page-admin .admin-product-list {
+    grid-template-columns: repeat(2,minmax(0,1fr)) !important;
+    gap: 9px !important;
+}
+
+#page-admin .admin-product-card {
+    min-width: 0 !important;
+    padding: 11px !important;
+    gap: 11px !important;
+    border: 1px solid rgba(255,255,255,.06) !important;
+    border-radius: 12px !important;
+    background: linear-gradient(145deg,rgba(255,255,255,.028),rgba(255,255,255,.009)) !important;
+    box-shadow: none !important;
+    transition: border-color .25s ease,background .25s ease,transform .25s ease !important;
+}
+
+#page-admin .admin-product-card:hover {
+    border-color: rgba(255,255,255,.11) !important;
+    background: linear-gradient(145deg,rgba(255,255,255,.038),rgba(255,255,255,.013)) !important;
+    transform: translateY(-1px) !important;
+}
+
+#page-admin .admin-product-thumb {
+    width: 56px !important;
+    height: 56px !important;
+    border-radius: 11px !important;
+    border-color: rgba(255,255,255,.065) !important;
+}
+
+#page-admin .admin-product-name {
+    color: #f2f2f2 !important;
+    font-size: 10.5px !important;
+    font-weight: 850 !important;
+}
+
+#page-admin .admin-product-meta {
+    color: #646468 !important;
+    font-size: 7.5px !important;
+}
+
+#page-admin .admin-product-price {
+    margin-top: 6px !important;
+    color: #ddd !important;
+    font-size: 9.5px !important;
+}
+
+#page-admin .admin-product-actions {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 5px !important;
+    margin-top: 8px !important;
+}
+
+/* Orders: cleaner control area */
+#page-admin .admin-orders-note {
+    margin: 0 0 10px !important;
+    padding: 11px 13px 11px 38px !important;
+    border: 1px solid rgba(96,165,250,.10) !important;
+    border-radius: 11px !important;
+    background: rgba(96,165,250,.022) !important;
+    color: #68686b !important;
+    font-size: 8.5px !important;
+    line-height: 1.6 !important;
+}
+
+#page-admin .admin-orders-toolbar {
+    position: sticky !important;
+    top: 70px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 9px !important;
+    width: 100% !important;
+    margin-bottom: 10px !important;
+    padding: 8px !important;
+    border: 1px solid rgba(255,255,255,.06) !important;
+    border-radius: 12px !important;
+    background: rgba(18,18,20,.90) !important;
+    box-shadow: 0 10px 25px rgba(0,0,0,.20) !important;
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+}
+
+#page-admin .admin-orders-counts {
+    flex: 1 1 auto !important;
+    min-width: 0 !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 5px !important;
+}
+
+#page-admin .admin-orders-counts > div {
+    min-width: 0 !important;
+    padding: 5px 8px !important;
+    border: 1px solid rgba(255,255,255,.055) !important;
+    border-radius: 999px !important;
+    background: rgba(255,255,255,.022) !important;
+    color: #8b8b8f !important;
+    font-size: 7px !important;
+}
+
+#page-admin .admin-orders-filters {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: flex-end !important;
+    gap: 4px !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+}
+
+#page-admin .admin-order-filter {
+    min-height: 27px !important;
+    padding: 5px 8px !important;
+    border: 1px solid rgba(255,255,255,.065) !important;
+    border-radius: 999px !important;
+    background: rgba(255,255,255,.025) !important;
+    color: #858589 !important;
+    box-shadow: none !important;
+    transform: none !important;
+    font-size: 7px !important;
+    letter-spacing: .45px !important;
+}
+
+#page-admin .admin-order-filter:hover {
+    background: rgba(255,255,255,.05) !important;
+    color: #ddd !important;
+    box-shadow: none !important;
+    transform: none !important;
+}
+
+#page-admin .admin-order-filter.active {
+    background: rgba(255,255,255,.10) !important;
+    border-color: rgba(255,255,255,.14) !important;
+    color: #fff !important;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.05) !important;
+}
+
+#page-admin .admin-order-card {
+    margin-bottom: 8px !important;
+    padding: 15px !important;
+    border: 1px solid rgba(255,255,255,.06) !important;
+    border-radius: 13px !important;
+    background:
+        radial-gradient(circle at 100% 0%,rgba(96,165,250,.035),transparent 25%),
+        linear-gradient(145deg,#19191c,#141416) !important;
+    box-shadow: 0 7px 22px rgba(0,0,0,.14) !important;
+    transition: border-color .28s ease,box-shadow .28s ease,transform .28s ease !important;
+}
+
+#page-admin .admin-order-card:hover {
+    border-color: rgba(255,255,255,.10) !important;
+    box-shadow: 0 12px 28px rgba(0,0,0,.20) !important;
+    transform: translateY(-1px) !important;
+}
+
+#page-admin .admin-order-top {
+    min-width: 0 !important;
+    gap: 10px !important;
+}
+
+#page-admin .admin-order-name {
+    font-size: 12px !important;
+    line-height: 1.3 !important;
+}
+
+#page-admin .admin-order-date,
+#page-admin .admin-order-id {
+    font-size: 7.5px !important;
+}
+
+#page-admin .admin-order-status-badge {
+    padding: 5px 8px !important;
+    border-radius: 999px !important;
+    font-size: 7px !important;
+    flex: 0 0 auto !important;
+}
+
+#page-admin .admin-order-meta {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 6px !important;
+    margin-top: 10px !important;
+}
+
+#page-admin .admin-order-meta-box {
+    flex: 1 1 150px !important;
+    min-width: 0 !important;
+    padding: 9px !important;
+    border: 1px solid rgba(255,255,255,.045) !important;
+    border-radius: 9px !important;
+    background: rgba(255,255,255,.018) !important;
+}
+
+#page-admin .admin-order-meta-label {
+    margin-bottom: 3px !important;
+    color: #5d5d61 !important;
+    font-size: 6.5px !important;
+    letter-spacing: .65px !important;
+}
+
+#page-admin .admin-order-meta-value {
+    min-width: 0 !important;
+    overflow-wrap: anywhere !important;
+    word-break: break-word !important;
+    color: #cfcfd1 !important;
+    font-size: 8.5px !important;
+    line-height: 1.45 !important;
+}
+
+#page-admin .admin-order-footer {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 9px !important;
+    margin-top: 10px !important;
+    padding-top: 10px !important;
+    border-top: 1px solid rgba(255,255,255,.045) !important;
+}
+
+#page-admin .admin-order-footer-label {
+    min-width: 0 !important;
+    color: #666 !important;
+    font-size: 7.5px !important;
+}
+
+#page-admin .admin-order-status-btn {
+    min-width: 130px !important;
+    min-height: 32px !important;
+    padding: 7px 10px !important;
+    border: 1px solid rgba(255,255,255,.075) !important;
+    border-radius: 9px !important;
+    background: rgba(255,255,255,.025) !important;
+    color: #ddd !important;
+    box-shadow: none !important;
+    transform: none !important;
+    font-size: 8px !important;
+}
+
+/* Product / option controls should never create page overflow */
+#page-admin .product-option-row,
+#page-admin .dynamic-list,
+#page-admin .product-form-actions,
+#page-admin .admin-actions,
+#page-admin .admin-product-actions {
+    min-width: 0 !important;
+    max-width: 100% !important;
+}
+
+#page-admin .product-option-row {
+    grid-template-columns: minmax(0,1fr) 110px 36px !important;
+}
+
+#page-admin .product-option-row.duration-row {
+    grid-template-columns: minmax(0,1fr) 135px 36px !important;
+}
+
+/* Logout */
+#page-admin #admin-panel > .btn:last-child {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 100% !important;
+    margin-top: 4px !important;
+    border: 1px solid rgba(248,113,113,.16) !important;
+    border-radius: 10px !important;
+    background: rgba(248,113,113,.025) !important;
+    color: #e98b8b !important;
+    box-shadow: none !important;
+}
+
+#page-admin #admin-panel > .btn:last-child:hover {
+    background: rgba(248,113,113,.055) !important;
+    border-color: rgba(248,113,113,.24) !important;
+    color: #ffaaaa !important;
+}
+
+/* Remove the previous harsh 3D button treatment */
+#page-admin .admin-subtab,
+#page-admin .admin-order-filter,
+#page-admin .btn,
+#page-admin .btn-danger,
+#page-admin .btn-reset,
+#page-admin .admin-toggle,
+#page-admin .admin-order-status-btn,
+#page-admin .product-mini-btn,
+#page-admin .product-remove-option,
+#page-admin .product-refresh-btn,
+#page-admin .product-card-action {
+    box-shadow: none !important;
+}
+
+/* Hard stop against sideways movement */
+#page-admin *,
+#page-admin *::before,
+#page-admin *::after {
+    max-width: 100%;
+}
+
+#page-admin img,
+#page-admin svg,
+#page-admin canvas,
+#page-admin video {
+    max-width: 100%;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 900px) {
+    #page-admin #admin-promo-list,
+    #page-admin .admin-product-list {
+        grid-template-columns: 1fr !important;
+    }
+
+    #page-admin .admin-orders-toolbar {
+        position: static !important;
+        flex-direction: column !important;
+        align-items: stretch !important;
+    }
+
+    #page-admin .admin-orders-filters {
+        justify-content: flex-start !important;
+    }
+}
+
+@media (max-width: 680px) {
+    #page-admin .page-header {
+        padding: 24px 14px 22px !important;
+    }
+
+    #page-admin .page-content {
+        padding: 14px 11px 38px !important;
+    }
+
+    #page-admin .admin-subnav {
+        position: sticky !important;
+        top: 6px !important;
+        grid-template-columns: repeat(2,minmax(0,1fr)) !important;
+        gap: 4px !important;
+        padding: 4px !important;
+        border-radius: 13px !important;
+    }
+
+    #page-admin .admin-subtab {
+        min-height: 40px !important;
+        padding: 8px 6px !important;
+        font-size: 7.5px !important;
+    }
+
+    #page-admin .admin-section {
+        padding: 14px !important;
+        border-radius: 13px !important;
+    }
+
+    #page-admin .form-row,
+    #page-admin .product-form-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    #page-admin .product-form-wide {
+        grid-column: auto !important;
+    }
+
+    #page-admin .product-option-row,
+    #page-admin .product-option-row.duration-row {
+        grid-template-columns: minmax(0,1fr) 82px 35px !important;
+    }
+
+    #page-admin .admin-order-meta-box {
+        flex-basis: 100% !important;
+    }
+
+    #page-admin .admin-order-footer {
+        align-items: stretch !important;
+        flex-direction: column !important;
+    }
+
+    #page-admin .admin-order-status-btn {
+        width: 100% !important;
+        min-width: 0 !important;
+    }
+
+    #page-admin .voucher-table-wrap {
+        overflow: hidden !important;
+    }
+
+    /* Voucher becomes readable cards on narrow screens */
+    #page-admin .voucher-table {
+        display: block !important;
+        border: 0 !important;
+        background: transparent !important;
+    }
+
+    #page-admin .voucher-table thead {
+        display: none !important;
+    }
+
+    #page-admin .voucher-table tbody {
+        display: grid !important;
+        gap: 8px !important;
+    }
+
+    #page-admin .voucher-table tbody tr {
+        display: grid !important;
+        grid-template-columns: repeat(2,minmax(0,1fr)) !important;
+        gap: 0 !important;
+        padding: 7px !important;
+        border: 1px solid rgba(255,255,255,.055) !important;
+        border-radius: 11px !important;
+        background: rgba(255,255,255,.018) !important;
+    }
+
+    #page-admin .voucher-table tbody tr:hover {
+        background: rgba(255,255,255,.028) !important;
+    }
+
+    #page-admin .voucher-table tbody td {
+        display: flex !important;
+        align-items: center !important;
+        min-width: 0 !important;
+        min-height: 34px !important;
+        padding: 6px 7px !important;
+        border-bottom: 1px solid rgba(255,255,255,.035) !important;
+        font-size: 8px !important;
+    }
+
+    #page-admin .voucher-table tbody td:nth-child(1)::before { content:"KODE"; }
+    #page-admin .voucher-table tbody td:nth-child(2)::before { content:"DISKON"; }
+    #page-admin .voucher-table tbody td:nth-child(3)::before { content:"MAKS"; }
+    #page-admin .voucher-table tbody td:nth-child(4)::before { content:"BERLAKU"; }
+    #page-admin .voucher-table tbody td:nth-child(5)::before { content:"STATUS"; }
+    #page-admin .voucher-table tbody td:nth-child(6)::before { content:"PAKAI"; }
+    #page-admin .voucher-table tbody td:nth-child(7)::before { content:"AKSI"; }
+
+    #page-admin .voucher-table tbody td::before {
+        flex: 0 0 auto;
+        width: 43px;
+        margin-right: 5px;
+        color: #4f4f52;
+        font-size: 5.5px;
+        font-weight: 900;
+        letter-spacing: .55px;
+    }
+
+    #page-admin .voucher-table tbody td:nth-child(7) {
+        grid-column: 1 / -1;
+        border-bottom: 0;
+        justify-content: flex-end;
+    }
+}
+
+@media (max-width: 430px) {
+    #page-admin .page-title {
+        font-size: 22px !important;
+    }
+
+    #page-admin .page-subtitle {
+        font-size: 9px !important;
+    }
+
+    #page-admin .admin-section {
+        padding: 12px !important;
+    }
+
+    #page-admin .admin-title {
+        font-size: 9px !important;
+    }
+
+    #page-admin .product-option-row,
+    #page-admin .product-option-row.duration-row {
+        grid-template-columns: minmax(0,1fr) 68px 34px !important;
+    }
+
+    #page-admin .admin-product-card {
+        grid-template-columns: 48px minmax(0,1fr) !important;
+    }
+
+    #page-admin .admin-product-thumb {
+        width: 48px !important;
+        height: 48px !important;
+    }
+
+    #page-admin .admin-product-actions {
+        gap: 4px !important;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #page-admin *,
+    #page-admin *::before,
+    #page-admin *::after {
+        animation-duration: .001ms !important;
+        transition-duration: .001ms !important;
+    }
+}
+</style>
+
 </head>
 
 <body>
@@ -5402,7 +7184,7 @@ button{-webkit-tap-highlight-color:transparent;}
             <div class="page" id="page-admin">
                 <div class="page-header">
                     <h1 class="page-title">Admin Control Center</h1>
-                    <p class="page-subtitle">Kelola voucher, promo, dan orderan ZEVORA dalam satu dashboard.</p>
+                    <p class="page-subtitle">Kelola produk, voucher, promo, dan orderan ZEVORA dalam satu dashboard.</p>
                 </div>
 
                 <div class="page-content">
@@ -5410,6 +7192,7 @@ button{-webkit-tap-highlight-color:transparent;}
                         <div class="admin-subnav reveal" role="tablist" aria-label="Menu Admin">
                             <button class="admin-subtab active" type="button" id="admin-tab-voucher" onclick="showAdminSection('voucher')">🎟️&nbsp; VOUCHER</button>
                             <button class="admin-subtab" type="button" id="admin-tab-promo" onclick="showAdminSection('promo')">🏷️&nbsp; PROMO</button>
+                            <button class="admin-subtab" type="button" id="admin-tab-products" onclick="showAdminSection('products')">🛍️&nbsp; PRODUK</button>
                             <button class="admin-subtab" type="button" id="admin-tab-orders" onclick="showAdminSection('orders')">📦&nbsp; ORDERAN</button>
                         </div>
 
@@ -5428,7 +7211,7 @@ button{-webkit-tap-highlight-color:transparent;}
 
                             <div class="admin-section">
                                 <div class="admin-title">Daftar Voucher</div>
-                                <div style="overflow-x:auto;">
+                                <div class="voucher-table-wrap" style="overflow-x:auto;">
                                     <table class="voucher-table">
                                         <thead><tr><th>Kode</th><th>Diskon</th><th>Maks Pakai</th><th>Berlaku</th><th>Status</th><th>Penggunaan</th><th>Aksi</th></tr></thead>
                                         <tbody id="voucher-list"></tbody>
@@ -5453,6 +7236,95 @@ button{-webkit-tap-highlight-color:transparent;}
                                 <button class="btn" onclick="addPromo()" style="margin-top:8px;margin-bottom:0;">Tambah Promo</button>
                             </div>
                             <div class="admin-section"><div class="admin-title">Daftar Promo</div><div id="admin-promo-list"></div></div>
+                        </section>
+
+
+                        <section class="admin-subpanel" id="admin-section-products">
+                            <div class="admin-section product-manager">
+                                <div class="admin-title">Tambah / Edit Produk</div>
+                                <div class="admin-product-form-note">
+                                    Produk yang disimpan di sini akan tersimpan di Supabase dan otomatis dibaca perangkat lain.
+                                </div>
+
+                                <input type="hidden" id="product-edit-id">
+
+                                <div class="product-form-grid">
+                                    <div class="form-group">
+                                        <label class="form-label">Nama Produk *</label>
+                                        <input type="text" id="product-name-input" class="form-input" placeholder="Contoh: SewaBot Premium">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-label">Kategori *</label>
+                                        <select id="product-cat-input" class="form-input">
+                                            <option value="sewabot">SewaBot</option>
+                                            <option value="jadibot">JadiBot</option>
+                                            <option value="nokos">Nokos</option>
+                                            <option value="smm">SMM</option>
+                                            <option value="apikey">API</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-label">Badge</label>
+                                        <input type="text" id="product-badge-input" class="form-input" placeholder="HOT / BEST / NEW">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-label">URL Gambar</label>
+                                        <input type="url" id="product-image-input" class="form-input" placeholder="https://.../gambar.jpg">
+                                    </div>
+
+                                    <div class="form-group product-form-wide">
+                                        <label class="form-label">Deskripsi *</label>
+                                        <textarea id="product-desc-input" class="form-input product-textarea" rows="3" placeholder="Jelaskan produk, manfaat, dan detail layanan..."></textarea>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-label">Harga Dasar</label>
+                                        <input type="number" id="product-price-input" class="form-input" min="0" step="1" placeholder="15000">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-label">Satuan</label>
+                                        <input type="text" id="product-unit-input" class="form-input" placeholder="/bulan">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-label">Urutan</label>
+                                        <input type="number" id="product-sort-input" class="form-input" min="0" step="1" placeholder="0">
+                                    </div>
+
+                                    <div class="form-group product-form-wide">
+                                        <label class="form-label">Format Produk</label>
+                                        <div class="dynamic-list" id="product-formats-list"></div>
+                                        <button type="button" class="product-mini-btn" onclick="addProductOptionRow('formats')">＋ Tambah Format</button>
+                                    </div>
+
+                                    <div class="form-group product-form-wide">
+                                        <label class="form-label">Durasi Produk</label>
+                                        <div class="dynamic-list" id="product-durations-list"></div>
+                                        <button type="button" class="product-mini-btn" onclick="addProductOptionRow('durations')">＋ Tambah Durasi</button>
+                                    </div>
+                                </div>
+
+                                <div class="product-form-actions">
+                                    <button type="button" class="btn product-save-btn" id="product-save-btn" onclick="saveProductToSupabase()">＋ Simpan Produk</button>
+                                    <button type="button" class="btn product-cancel-btn" id="product-cancel-btn" onclick="resetProductForm()" style="display:none;">Batal Edit</button>
+                                </div>
+                                <div class="product-form-status" id="product-form-status"></div>
+                            </div>
+
+                            <div class="admin-section">
+                                <div class="product-manager-head">
+                                    <div>
+                                        <div class="admin-title" style="margin-bottom:4px;">Daftar Produk</div>
+                                        <div class="product-manager-sub">Kelola produk yang tampil di halaman toko.</div>
+                                    </div>
+                                    <button type="button" class="product-refresh-btn" onclick="syncProductsFromSupabase({silent:false})">↻ Sinkron</button>
+                                </div>
+                                <div id="admin-product-list" class="admin-product-list"></div>
+                            </div>
                         </section>
 
                         <section class="admin-subpanel" id="admin-section-orders">
@@ -5796,7 +7668,7 @@ button{-webkit-tap-highlight-color:transparent;}
         /* ============================================================
            PRODUCT DATA
            ============================================================ */
-        const PRODUCTS = [
+        let PRODUCTS = [
             { id: 1, cat: 'sewabot', name: 'SewaBot Lite', badge: 'hot',
               desc: 'Bot WhatsApp siap pakai dengan fitur basic seperti auto-reply, broadcast, dan group management. Cocok untuk pemula.',
               formats: [{ l: 'Basic', mult: 1 }, { l: 'Anti-Banned', mult: 1.4 }, { l: 'Full Custom', mult: 2 }],
@@ -5854,6 +7726,382 @@ button{-webkit-tap-highlight-color:transparent;}
               formats: [{ l: 'Basic', mult: 1 }, { l: 'Priority', mult: 1.5 }, { l: 'Dedicated', mult: 2.5 }],
               price: 75000, unit: '/bulan' },
         ];
+
+
+        /* ============================================================
+           SUPABASE PRODUCT ENGINE
+           ============================================================ */
+        const PRODUCT_MIGRATION_KEY = 'zevora_products_migrated_to_supabase_v1';
+        let productSyncLoading = false;
+        let productSyncChannel = null;
+
+        function normalizeProductRow(row) {
+            if (!row) return null;
+            const formats = Array.isArray(row.formats) ? row.formats : [];
+            const durations = Array.isArray(row.durations) ? row.durations : [];
+            return {
+                id: Number(row.id),
+                cat: row.cat || 'sewabot',
+                name: row.name || 'Produk',
+                badge: row.badge || '',
+                desc: row.description || row.desc || '',
+                image_url: row.image_url || '',
+                formats: formats.map(x => ({
+                    l: String(x.l || x.label || '').trim(),
+                    mult: Number(x.mult ?? x.multiplier ?? 1)
+                })).filter(x => x.l),
+                durations: durations.map(x => ({
+                    l: String(x.l || x.label || '').trim(),
+                    p: Number(x.p ?? x.price ?? 0)
+                })).filter(x => x.l),
+                price: Number(row.price || 0),
+                unit: row.unit || '',
+                active: row.active !== false,
+                sort_order: Number(row.sort_order || 0)
+            };
+        }
+
+        function productPayloadFromLocal(p) {
+            return {
+                cat: p.cat || 'sewabot',
+                name: p.name || 'Produk',
+                badge: p.badge || '',
+                description: p.desc || '',
+                image_url: p.image_url || '',
+                formats: Array.isArray(p.formats) ? p.formats : [],
+                durations: Array.isArray(p.durations) ? p.durations : [],
+                price: Number(p.price || 0),
+                unit: p.unit || '',
+                active: p.active !== false,
+                sort_order: Number(p.sort_order || p.id || 0)
+            };
+        }
+
+        async function syncProductsFromSupabase({ silent = true, seedLocalIfEmpty = true } = {}) {
+            if (!initSupabase() || productSyncLoading) return false;
+            productSyncLoading = true;
+
+            try {
+                const { data, error } = await supabaseClient
+                    .from('products')
+                    .select('*')
+                    .order('sort_order', { ascending: true })
+                    .order('created_at', { ascending: true });
+
+                if (error) {
+                    console.error('Supabase products fetch error:', error);
+                    if (!silent) showToast(`Produk gagal dimuat: ${formatSupabaseError(error)}`, 'error');
+                    return false;
+                }
+
+                let rows = Array.isArray(data) ? data : [];
+
+                /* First-time migration: upload existing hardcoded products. */
+                if (!rows.length && seedLocalIfEmpty && !localStorage.getItem(PRODUCT_MIGRATION_KEY) && PRODUCTS.length) {
+                    const payload = PRODUCTS.map(productPayloadFromLocal);
+                    const { data: seeded, error: seedError } = await supabaseClient
+                        .from('products')
+                        .insert(payload)
+                        .select('*');
+
+                    if (!seedError && Array.isArray(seeded)) {
+                        rows = seeded;
+                        localStorage.setItem(PRODUCT_MIGRATION_KEY, '1');
+                    } else if (seedError) {
+                        console.error('Supabase product seed error:', seedError);
+                        if (!silent) showToast(`Migrasi produk gagal: ${formatSupabaseError(seedError)}`, 'error');
+                    }
+                }
+
+                if (rows.length) {
+                    PRODUCTS = rows
+                        .map(normalizeProductRow)
+                        .filter(Boolean)
+                        .filter(p => p.active)
+                        .sort((a,b) => (a.sort_order - b.sort_order) || (a.id - b.id));
+
+                    renderProducts();
+                    renderAdminProducts();
+                }
+
+                if (!silent) showToast(`${PRODUCTS.length} produk tersinkron`, 'success');
+                return true;
+            } catch (error) {
+                console.error(error);
+                if (!silent) showToast('Gagal menyinkronkan produk', 'error');
+                return false;
+            } finally {
+                productSyncLoading = false;
+            }
+        }
+
+        function startProductSync() {
+            stopProductSync();
+            if (!initSupabase()) return;
+
+            try {
+                productSyncChannel = supabaseClient
+                    .channel('zevora-products-live')
+                    .on('postgres_changes', {
+                        event: '*',
+                        schema: 'public',
+                        table: 'products'
+                    }, () => {
+                        syncProductsFromSupabase({ silent: true, seedLocalIfEmpty: false });
+                    })
+                    .subscribe();
+            } catch (e) {
+                console.warn('Product realtime error:', e);
+            }
+        }
+
+        function stopProductSync() {
+            if (productSyncChannel && supabaseClient) {
+                try { supabaseClient.removeChannel(productSyncChannel); } catch (e) {}
+            }
+            productSyncChannel = null;
+        }
+
+        function productEsc(value) {
+            return String(value ?? '').replace(/[&<>"']/g, c => ({
+                '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'
+            }[c]));
+        }
+
+        function addProductOptionRow(type, value = {}) {
+            const list = document.getElementById(type === 'formats' ? 'product-formats-list' : 'product-durations-list');
+            if (!list) return;
+
+            const row = document.createElement('div');
+            row.className = `product-option-row ${type === 'durations' ? 'duration-row' : ''}`;
+
+            if (type === 'formats') {
+                row.innerHTML = `
+                    <input class="form-input product-option-label" type="text" placeholder="Nama format" value="${productEsc(value.l || '')}">
+                    <input class="form-input product-option-value" type="number" min="0.01" step="0.01" placeholder="x1" value="${Number(value.mult ?? 1)}">
+                    <button type="button" class="product-remove-option" title="Hapus">×</button>
+                `;
+            } else {
+                row.innerHTML = `
+                    <input class="form-input product-option-label" type="text" placeholder="Contoh: 30 Hari" value="${productEsc(value.l || '')}">
+                    <input class="form-input product-option-value" type="number" min="0" step="1" placeholder="Harga" value="${Number(value.p ?? 0)}">
+                    <button type="button" class="product-remove-option" title="Hapus">×</button>
+                `;
+            }
+
+            row.querySelector('.product-remove-option').onclick = () => row.remove();
+            list.appendChild(row);
+        }
+
+        function readProductOptions(type) {
+            const list = document.getElementById(type === 'formats' ? 'product-formats-list' : 'product-durations-list');
+            if (!list) return [];
+
+            return [...list.querySelectorAll('.product-option-row')].map(row => {
+                const label = row.querySelector('.product-option-label')?.value.trim() || '';
+                const value = Number(row.querySelector('.product-option-value')?.value || 0);
+                return type === 'formats'
+                    ? { l: label, mult: value || 1 }
+                    : { l: label, p: value };
+            }).filter(x => x.l);
+        }
+
+        function resetProductForm() {
+            document.getElementById('product-edit-id').value = '';
+            document.getElementById('product-name-input').value = '';
+            document.getElementById('product-cat-input').value = 'sewabot';
+            document.getElementById('product-badge-input').value = '';
+            document.getElementById('product-image-input').value = '';
+            document.getElementById('product-desc-input').value = '';
+            document.getElementById('product-price-input').value = '';
+            document.getElementById('product-unit-input').value = '';
+            document.getElementById('product-sort-input').value = '';
+            document.getElementById('product-formats-list').innerHTML = '';
+            document.getElementById('product-durations-list').innerHTML = '';
+            addProductOptionRow('formats', { l: 'Basic', mult: 1 });
+            addProductOptionRow('durations', { l: '1 Hari', p: 0 });
+
+            const saveBtn = document.getElementById('product-save-btn');
+            const cancelBtn = document.getElementById('product-cancel-btn');
+            if (saveBtn) saveBtn.textContent = '＋ Simpan Produk';
+            if (cancelBtn) cancelBtn.style.display = 'none';
+            const status = document.getElementById('product-form-status');
+            if (status) status.textContent = '';
+        }
+
+        function editProduct(id) {
+            const p = PRODUCTS.find(x => Number(x.id) === Number(id));
+            if (!p) return;
+
+            document.getElementById('product-edit-id').value = p.id;
+            document.getElementById('product-name-input').value = p.name || '';
+            document.getElementById('product-cat-input').value = p.cat || 'sewabot';
+            document.getElementById('product-badge-input').value = p.badge || '';
+            document.getElementById('product-image-input').value = p.image_url || '';
+            document.getElementById('product-desc-input').value = p.desc || '';
+            document.getElementById('product-price-input').value = Number(p.price || 0);
+            document.getElementById('product-unit-input').value = p.unit || '';
+            document.getElementById('product-sort-input').value = Number(p.sort_order || 0);
+
+            document.getElementById('product-formats-list').innerHTML = '';
+            document.getElementById('product-durations-list').innerHTML = '';
+            (p.formats || []).forEach(x => addProductOptionRow('formats', x));
+            (p.durations || []).forEach(x => addProductOptionRow('durations', x));
+            if (!(p.formats || []).length) addProductOptionRow('formats', {l:'Basic',mult:1});
+            if (!(p.durations || []).length) addProductOptionRow('durations', {l:'1 Hari',p:p.price || 0});
+
+            document.getElementById('product-save-btn').textContent = '✓ Simpan Perubahan';
+            document.getElementById('product-cancel-btn').style.display = 'inline-flex';
+            document.getElementById('product-form-status').textContent = `Sedang mengedit: ${p.name}`;
+
+            document.getElementById('page-admin').querySelector('.product-manager')?.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+
+        async function saveProductToSupabase() {
+            if (!initSupabase()) {
+                showToast('Supabase belum siap', 'error');
+                return;
+            }
+
+            const editId = document.getElementById('product-edit-id').value.trim();
+            const name = document.getElementById('product-name-input').value.trim();
+            const cat = document.getElementById('product-cat-input').value;
+            const badge = document.getElementById('product-badge-input').value.trim();
+            const image_url = document.getElementById('product-image-input').value.trim();
+            const description = document.getElementById('product-desc-input').value.trim();
+            const price = Number(document.getElementById('product-price-input').value || 0);
+            const unit = document.getElementById('product-unit-input').value.trim();
+            const sort_order = Number(document.getElementById('product-sort-input').value || 0);
+            const formats = readProductOptions('formats');
+            const durations = readProductOptions('durations');
+
+            if (!name || !cat || !description) {
+                showToast('Nama, kategori, dan deskripsi wajib diisi', 'error');
+                return;
+            }
+            if (!formats.length && !durations.length && price <= 0) {
+                showToast('Isi harga dasar atau tambahkan format/durasi', 'error');
+                return;
+            }
+
+            const payload = {
+                cat, name, badge, image_url, description,
+                price, unit, formats, durations,
+                active: true, sort_order
+            };
+
+            const saveBtn = document.getElementById('product-save-btn');
+            if (saveBtn) {
+                saveBtn.disabled = true;
+                saveBtn.textContent = editId ? 'Menyimpan...' : 'Menambahkan...';
+            }
+
+            try {
+                let result;
+                if (editId) {
+                    result = await supabaseClient
+                        .from('products')
+                        .update(payload)
+                        .eq('id', Number(editId))
+                        .select('*')
+                        .single();
+                } else {
+                    result = await supabaseClient
+                        .from('products')
+                        .insert(payload)
+                        .select('*')
+                        .single();
+                }
+
+                if (result.error) {
+                    console.error(result.error);
+                    showToast(`Gagal menyimpan: ${formatSupabaseError(result.error)}`, 'error');
+                    return;
+                }
+
+                await syncProductsFromSupabase({ silent: true, seedLocalIfEmpty: false });
+                resetProductForm();
+                renderAdminProducts();
+                showToast(editId ? 'Produk berhasil diperbarui' : 'Produk berhasil ditambahkan', 'success');
+            } finally {
+                if (saveBtn) {
+                    saveBtn.disabled = false;
+                    saveBtn.textContent = editId ? '✓ Simpan Perubahan' : '＋ Simpan Produk';
+                }
+            }
+        }
+
+        async function deleteProduct(id) {
+            const p = PRODUCTS.find(x => Number(x.id) === Number(id));
+            if (!p) return;
+
+            openConfirmModal({
+                kicker: 'HAPUS PRODUK',
+                title: 'Hapus produk ini?',
+                message: 'Produk akan dihapus dari katalog Supabase dan tidak lagi tampil di perangkat pelanggan.',
+                target: p.name,
+                confirmText: 'Hapus Produk',
+                danger: true,
+                action: async () => {
+                    const { error } = await supabaseClient
+                        .from('products')
+                        .delete()
+                        .eq('id', Number(id));
+
+                    if (error) {
+                        showToast(`Gagal menghapus: ${formatSupabaseError(error)}`, 'error');
+                        return;
+                    }
+
+                    await syncProductsFromSupabase({ silent: true, seedLocalIfEmpty: false });
+                    showToast(`${p.name} berhasil dihapus`, 'success');
+                }
+            });
+        }
+
+        function renderAdminProducts() {
+            const list = document.getElementById('admin-product-list');
+            if (!list) return;
+
+            const all = Array.isArray(PRODUCTS) ? [...PRODUCTS].sort((a,b) => (a.sort_order - b.sort_order) || (a.id - b.id)) : [];
+            if (!all.length) {
+                list.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:28px;color:#666;font-size:10px;">Belum ada produk.</div>`;
+                return;
+            }
+
+            list.innerHTML = all.map(p => {
+                const firstPrice = p.durations?.length ? Number(p.durations[0].p || 0) : Number(p.price || 0);
+                const thumb = p.image_url
+                    ? `<img src="${productEsc(p.image_url)}" alt="">`
+                    : productEsc((p.name || 'P').slice(0,2).toUpperCase());
+
+                return `
+                    <div class="admin-product-card">
+                        <div class="admin-product-thumb">${thumb}</div>
+                        <div class="admin-product-main">
+                            <div class="admin-product-top">
+                                <div class="admin-product-name">${productEsc(p.name)}</div>
+                                <span class="product-active-dot ${p.active === false ? 'off' : ''}">${p.active === false ? 'OFF' : 'LIVE'}</span>
+                            </div>
+                            <div class="admin-product-meta">${productEsc((p.cat || '').toUpperCase())} · ID ${p.id}</div>
+                            <div class="admin-product-price">Mulai ${fmt(firstPrice)}</div>
+                            <div class="admin-product-actions">
+                                <button type="button" class="product-card-action edit" onclick="editProduct(${Number(p.id)})">Edit</button>
+                                <button type="button" class="product-card-action delete" onclick="deleteProduct(${Number(p.id)})">Hapus</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function initProductManager() {
+            resetProductForm();
+            renderAdminProducts();
+        }
 
         /* ============================================================
            VOUCHERS + PROMOS + HISTORY
@@ -6112,13 +8360,29 @@ button{-webkit-tap-highlight-color:transparent;}
         function toggleFaq(button) {
             const item = button.closest('.faq-item');
             if (!item) return;
+
             const isOpen = item.classList.contains('open');
-            document.querySelectorAll('#faq-list .faq-item.open').forEach(el => el.classList.remove('open'));
-            if (!isOpen) item.classList.add('open');
+
+            document.querySelectorAll('#faq-list .faq-item.open').forEach(el => {
+                el.classList.remove('open');
+                const q = el.querySelector('.faq-question');
+                if (q) q.setAttribute('aria-expanded', 'false');
+            });
+
+            if (!isOpen) {
+                item.classList.add('open');
+                button.setAttribute('aria-expanded', 'true');
+            } else {
+                button.setAttribute('aria-expanded', 'false');
+            }
         }
 
         function initFaq() {
-            document.querySelectorAll('#faq-list .faq-item').forEach(el => el.classList.remove('open'));
+            document.querySelectorAll('#faq-list .faq-item').forEach(el => {
+                el.classList.remove('open');
+                const q = el.querySelector('.faq-question');
+                if (q) q.setAttribute('aria-expanded', 'false');
+            });
         }
 
         function openFaqWhatsApp() {
@@ -6346,8 +8610,8 @@ button{-webkit-tap-highlight-color:transparent;}
                     <div class="product" onclick="openProductModal(${p.id})">
                         ${badge}
                         <div class="${toplineCls}">
-                            <div class="product-icon">${iconMap[p.cat] || 'ZV'}</div>
-                            <div class="product-category">${p.cat.toUpperCase()}</div>
+                            ${p.image_url ? `<div class="product-image-wrap"><img class="product-image" src="${productEsc(p.image_url)}" alt="${productEsc(p.name)}" loading="lazy"></div>` : `<div class="product-icon">${iconMap[p.cat] || 'ZV'}</div>`}
+                            <div class="product-category">${productEsc(p.cat || '').toUpperCase()}</div>
                         </div>
                         <div class="product-name">${p.name}</div>
                         <div class="product-desc">${p.desc}</div>
@@ -7504,7 +9768,7 @@ button{-webkit-tap-highlight-color:transparent;}
 
         function showAdminSection(section) {
             if (!isAdminLoggedIn) return;
-            const allowed = ['voucher', 'promo', 'orders'];
+            const allowed = ['voucher', 'promo', 'products', 'orders'];
             if (!allowed.includes(section)) section = 'voucher';
             activeAdminSection = section;
 
@@ -7517,6 +9781,7 @@ button{-webkit-tap-highlight-color:transparent;}
 
             if (section === 'voucher') { stopAdminOrderSync(); renderVouchers(); }
             if (section === 'promo') { stopAdminOrderSync(); renderAdminPromos(); syncPromosFromSupabase({ silent: true }); }
+            if (section === 'products') { stopAdminOrderSync(); initProductManager(); syncProductsFromSupabase({ silent: true }); }
             if (section === 'orders') { startAdminOrderSync(); }
         }
 
@@ -7897,6 +10162,7 @@ button{-webkit-tap-highlight-color:transparent;}
             stopAdminOrderSync();
             stopHistorySync();
             stopPromoSync();
+            stopProductSync();
         });
 
         /* ============================================================
@@ -7915,6 +10181,8 @@ button{-webkit-tap-highlight-color:transparent;}
             renderProducts();
             savePromos();
             syncPromosFromSupabase({ silent: true });
+            syncProductsFromSupabase({ silent: true });
+            startProductSync();
             tryPlayStoreVideo();
             updateCartBadge();
 
