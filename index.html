@@ -10544,6 +10544,154 @@ body {
 })();
 </script>
 
+
+<style id="mobile-product-layout-fix">
+/* =========================================================
+   MOBILE PRODUCT LAYOUT FIX
+   HP: satu produk per baris, lebar penuh, rapi dan nyaman dibaca
+   ========================================================= */
+@media (max-width: 768px) {
+    #page-products .products-grid,
+    #page-store .products-grid,
+    .products-grid {
+        display: grid !important;
+        grid-template-columns: minmax(0, 1fr) !important;
+        grid-auto-flow: row !important;
+        align-items: stretch !important;
+        gap: 14px !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 0 30px !important;
+    }
+
+    .products-grid > .product {
+        display: flex !important;
+        width: 100% !important;
+        min-width: 0 !important;
+        max-width: 100% !important;
+        min-height: 0 !important;
+        height: auto !important;
+        padding: 17px !important;
+        border-radius: 14px !important;
+        overflow: hidden;
+    }
+
+    .product-topline {
+        gap: 10px !important;
+        margin-bottom: 13px !important;
+    }
+
+    .product-image-wrap {
+        width: 42px !important;
+        height: 42px !important;
+        flex: 0 0 42px !important;
+    }
+
+    .product-icon {
+        width: 42px !important;
+        height: 42px !important;
+        flex: 0 0 42px !important;
+    }
+
+    .product-category {
+        font-size: 10px !important;
+        letter-spacing: 1.1px !important;
+        white-space: normal !important;
+        overflow-wrap: anywhere;
+        line-height: 1.45 !important;
+    }
+
+    .product-name {
+        font-size: 16px !important;
+        line-height: 1.4 !important;
+        margin-bottom: 7px !important;
+        overflow-wrap: anywhere;
+    }
+
+    .product-desc {
+        min-height: 0 !important;
+        margin-bottom: 14px !important;
+        font-size: 12px !important;
+        line-height: 1.65 !important;
+        overflow-wrap: anywhere;
+    }
+
+    .product-tags {
+        gap: 6px !important;
+        margin-bottom: 13px !important;
+    }
+
+    .product-tag {
+        max-width: 100%;
+        overflow-wrap: anywhere;
+    }
+
+    .product-footer {
+        gap: 12px !important;
+        padding-top: 13px !important;
+        align-items: center !important;
+        flex-wrap: nowrap !important;
+    }
+
+    .product-footer > * {
+        min-width: 0;
+    }
+
+    .product-price {
+        font-size: 15px !important;
+        overflow-wrap: anywhere;
+    }
+
+    .btn-add {
+        flex: 0 0 auto;
+        min-width: 78px !important;
+        padding: 10px 12px !important;
+        white-space: nowrap;
+    }
+
+    .product-badge {
+        top: 12px !important;
+        right: 12px !important;
+        max-width: 42%;
+        white-space: normal;
+        text-align: center;
+    }
+
+    .catalog-bar {
+        align-items: center !important;
+        gap: 10px !important;
+    }
+
+    .filters {
+        gap: 7px !important;
+        margin-bottom: 18px !important;
+    }
+
+    .filter-btn {
+        padding: 8px 12px !important;
+        font-size: 11px !important;
+        flex: 0 0 auto;
+        white-space: nowrap;
+    }
+}
+
+@media (max-width: 380px) {
+    .products-grid { gap: 11px !important; }
+    .products-grid > .product { padding: 14px !important; }
+    .product-name { font-size: 15px !important; }
+    .product-footer { gap: 8px !important; }
+    .product-price { font-size: 14px !important; }
+    .btn-add { min-width: 70px !important; padding: 9px 10px !important; font-size: 10px !important; }
+}
+
+@media (hover: none) and (pointer: coarse) {
+    .product.visible:hover {
+        transform: translateY(0) scale(1) !important;
+        box-shadow: 0 8px 24px rgba(0,0,0,.18) !important;
+    }
+}
+</style>
+
 </body>
 
 </html>
