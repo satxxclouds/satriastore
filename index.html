@@ -7062,6 +7062,181 @@
             setBottomNavActive('store');
         };
     </script>
+    <script id="zevora-product-fix">
+        /* Kategori resmi = sama persis dengan tombol filter & dropdown admin */
+        const PRODUCT_CATS = { sewabot: 'SewaBot', jadibot: 'JadiBot', nokos: 'Nokos', smm: 'SMM', apikey: 'API' };
+
+        function normCat(c) {
+            c = String(c || '').toLowerCase().replace(/[\s_-]/g, '');
+            if (c === 'api') c = 'apikey';
+            return PRODUCT_CATS[c] ? c : 'sewabot';
+        }
+        function catLabel(c) { return PRODUCT_CATS[normCat(c)]; }
+
+        function parseArr(v) {
+            if (Array.isArray(v)) return v;
+            if (typeof v === 'string') { try { const x = JSON.parse(v); return Array.isArray(x) ? x : []; } catch (e) { } }
+            return [];
+        }
+
+        /* Index aman: array kosong / index basi (setelah produk diedit) tidak lagi bikin error */
+        function pickIdx(arr, i) {
+            if (!Array.isArray(arr) || !arr.length) return -1;
+            const n = Number(i) || 0;
+            return n >= 0 && n < arr.length ? n : 0;
+        }
+
+        function calcPrice(p, durIdx, fmtIdx) {
+            const di = pickIdx(p.durations, durIdx), fi = pickIdx(p.formats, fmtIdx);
+            const base = di >= 0 ? Number(p.durations[di].p) || 0 : Number(p.price) || 0;
+            const mult = fi >= 0 ? Number(p.formats[fi].mult) || 1 : 1;
+            return Math.round(base * mult);
+        }
+
+        function getItemLabel(p, durIdx, fmtIdx) {
+            const di = pickIdx(p.durations, durIdx), fi = pickIdx(p.formats, fmtIdx);
+            const dl = di >= 0 ? p.durations[di].l : (p.unit || '');
+            const fl = fi >= 0 ? p.formats[fi].l : '';
+            return [dl, fl].filter(Boolean).join(' · ') || 'Standar';
+        }
+
+        function getStartPrice(p) {
+            const bases = p.durations && p.durations.length ? p.durations.map(x => Number(x.p) || 0) : [Number(p.price) || 0];
+            const mults = p.formats && p.formats.length ? p.formats.map(x => Number(x.mult) || 1) : [1];
+            return Math.round(Math.min(...bases) * Math.min(...mults));
+        }
+
+        function normalizeProductRow(row) {
+            if (!row) return null;
+            const formats = parseArr(row.formats), durations = parseArr(row.durations);
+            return {
+                id: Number(row.id), cat: normCat(row.cat), name: row.name || 'Produk',
+                badge: row.badge || '', desc: row.description || row.desc || '', image_url: row.image_url || '',
+                formats: formats.map(x => ({ l: String(x.l || x.label || '').trim(), mult: Number(x.mult ?? x.multiplier ?? 1) || 1 })).filter(x => x.l),
+                durations: durations.map(x => ({ l: String(x.l || x.label || '').trim(), p: Number(x.p ?? x.price ?? 0) || 0 })).filter(x => x.l),
+                price: Number(row.price || 0), unit: row.unit || '', active: row.active !== false, sort_order: Number(row.sort_order || 0)
+            };
+        }
+
+        /* Hapus item keranjang yang produknya sudah tidak ada / ID-nya berubah */
+        function pruneCart() {
+            let changed = false;
+            Object.keys(cart).forEach(k => {
+                const pid = parseInt(k.split('_')[0]);
+                if (!PRODUCTS.some(x => Number(x.id) === pid)) { delete cart[k]; changed = true; }
+            });
+            if (changed) {
+                updateCartBadge();
+                if (document.getElementById('page-cart')?.classList.contains('active')) renderCart();
+            }
+        }
+
+        async function syncProductsFromSupabase({ silent = true, seedLocalIfEmpty = true } = {}) {
+            if (!initSupabase() || productSyncLoading) return false;
+            productSyncLoading = true;
+            try {
+                const { data, error } = await supabaseClient.from('products').select('*')
+                    .order('sort_order', { ascending: true }).order('created_at', { ascending: true });
+                if (error) { console.error(error); if (!silent) showToast(`Produk gagal dimuat: ${formatSupabaseError(error)}`, 'error'); return false; }
+                let rows = Array.isArray(data) ? data : [];
+                if (!rows.length && seedLocalIfEmpty && !localStorage.getItem(PRODUCT_MIGRATION_KEY) && PRODUCTS.length) {
+                    const payload = PRODUCTS.map(productPayloadFromLocal);
+                    const { data: seeded, error: seedError } = await supabaseClient.from('products').insert(payload).select('*');
+                    if (!seedError && Array.isArray(seeded)) { rows = seeded; localStorage.setItem(PRODUCT_MIGRATION_KEY, '1'); }
+                    else if (seedError) { console.error(seedError); if (!silent) showToast(`Migrasi produk gagal: ${formatSupabaseError(seedError)}`, 'error'); return false; }
+                }
+                // Server jadi sumber kebenaran (termasuk jika admin menghapus semua produk)
+                PRODUCTS = rows.map(normalizeProductRow).filter(p => p && p.active)
+                    .sort((a, b) => (a.sort_order - b.sort_order) || (a.id - b.id));
+                pruneCart();
+                renderProducts();
+                renderAdminProducts();
+                if (!silent) showToast(`${PRODUCTS.length} produk tersinkron`, 'success');
+                return true;
+            } catch (e) { console.error(e); if (!silent) showToast('Gagal menyinkronkan produk', 'error'); return false; }
+            finally { productSyncLoading = false; }
+        }
+
+        function renderProducts() {
+            const grid = document.getElementById('prod-grid');
+            if (!grid) return;
+            const filtered = currentFilter === 'all' ? PRODUCTS : PRODUCTS.filter(p => p.cat === currentFilter);
+            document.getElementById('prod-count').textContent = filtered.length;
+            if (!filtered.length) {
+                grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1;"><div class="empty-icon">📦</div><div class="empty-title">Produk Belum Tersedia</div><div class="empty-desc">Belum ada produk di kategori ini.</div></div>`;
+                return;
+            }
+            const iconMap = { sewabot: 'SB', jadibot: 'JB', nokos: 'NK', smm: 'SM', apikey: 'API' };
+            const tagMap = { sewabot: ['WHATSAPP', 'BOT'], jadibot: ['BOT SETUP', 'READY'], nokos: ['NUMBER', 'DIGITAL'], smm: ['SOCIAL', 'SERVICE'], apikey: ['API', 'ACCESS'] };
+            grid.innerHTML = filtered.map(p => {
+                const icon = iconMap[p.cat] || 'ZV';
+                const badge = p.badge ? `<div class="product-badge">${productEsc(p.badge.toUpperCase())}</div>` : '';
+                const tags = (tagMap[p.cat] || ['DIGITAL', 'SERVICE']).map(t => `<span class="product-tag">${t}</span>`).join('');
+                const img = p.image_url
+                    ? `<div class="product-image-wrap"><img class="product-image" src="${productEsc(p.image_url)}" alt="${productEsc(p.name)}" loading="lazy" onerror="this.parentNode.outerHTML='<div class=&quot;product-icon&quot;>${icon}</div>'"></div>`
+                    : `<div class="product-icon">${icon}</div>`;
+                return `
+      <div class="product" onclick="openProductModal(${p.id})">
+        ${badge}
+        <div class="product-topline ${p.badge ? 'has-badge' : ''}">
+          ${img}
+          <div class="product-category">${catLabel(p.cat)}</div>
+        </div>
+        <div class="product-name">${productEsc(p.name)}</div>
+        <div class="product-desc">${productEsc(p.desc)}</div>
+        <div class="product-tags">${tags}</div>
+        <div class="product-footer">
+          <div>
+            <span class="product-price-label">Mulai dari</span>
+            <div class="product-price">${fmt(getStartPrice(p))}</div>
+          </div>
+          <button class="btn-add" onclick="event.stopPropagation(); quickAdd(${p.id})">BELI →</button>
+        </div>
+      </div>`;
+            }).join('');
+            initProductAnimations();
+        }
+
+        function openProductModal(productId) {
+            currentModalProduct = PRODUCTS.find(p => Number(p.id) === Number(productId));
+            if (!currentModalProduct) return;
+            const p = currentModalProduct;
+            selectedFormatIdx = 0;
+            selectedDurationIdx = 0;
+            document.getElementById('modal-category').textContent = catLabel(p.cat).toUpperCase();
+            document.getElementById('modal-title').textContent = p.name;
+            document.getElementById('modal-desc').textContent = p.desc;
+            const fSec = document.getElementById('modal-formats-section');
+            const dSec = document.getElementById('modal-durations-section');
+            if (p.formats && p.formats.length) {
+                document.getElementById('modal-format-grid').innerHTML = p.formats.map((f, i) =>
+                    `<button type="button" class="modal-duration-option ${i === 0 ? 'selected' : ''}" onclick="selectModalFormat(${i})">${productEsc(f.l)}</button>`).join('');
+                fSec.style.display = 'block';
+            } else fSec.style.display = 'none';
+            if (p.durations && p.durations.length) {
+                document.getElementById('modal-duration-grid').innerHTML = p.durations.map((d, i) =>
+                    `<button type="button" class="modal-duration-option ${i === 0 ? 'selected' : ''}" onclick="selectModalDuration(${i})">${productEsc(d.l)}<small>${fmt(d.p)}</small></button>`).join('');
+                dSec.style.display = 'block';
+            } else dSec.style.display = 'none';
+            updateModalPrice();
+            document.getElementById('product-modal-overlay').classList.add('active');
+            lockBodyScroll();
+        }
+
+        function quickAdd(productId) {
+            const p = PRODUCTS.find(x => Number(x.id) === Number(productId));
+            if (!p) return;
+            const key = `${p.id}_0_0`;
+            cart[key] = (cart[key] || 0) + 1;
+            updateCartBadge();
+            showToast(`${p.name} ditambahkan ke keranjang`, 'success');
+        }
+
+        // Normalisasi ulang data bawaan lokal agar konsisten dengan kategori menu
+        PRODUCTS = PRODUCTS.map(p => ({ ...p, cat: normCat(p.cat), formats: p.formats || [], durations: p.durations || [] }));
+        renderProducts();
+    </script>
+
 </body>
 
 </html>
