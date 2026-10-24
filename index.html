@@ -4944,9 +4944,19 @@
                                     <div class="form-group"><label class="form-label">Badge</label><input type="text"
                                             id="product-badge-input" class="form-input" placeholder="HOT / BEST / NEW">
                                     </div>
-                                    <div class="form-group"><label class="form-label">URL Gambar</label><input
-                                            type="url" id="product-image-input" class="form-input"
-                                            placeholder="https://.../gambar.jpg"></div>
+                                    <div class="form-group">
+                                        <label class="form-label">Gambar Produk (opsional)</label>
+                                        <input type="hidden" id="product-image-input">
+                                        <input type="file" id="product-image-file" class="form-input" accept="image/*"
+                                            onchange="onProductImagePicked(this)">
+                                        <div id="product-image-preview"
+                                            style="display:none;margin-top:10px;align-items:center;gap:10px;">
+                                            <img id="product-image-preview-img" alt="Preview"
+                                                style="width:72px;height:72px;object-fit:cover;border:3px solid #000;box-shadow:3px 3px 0 0 #000;background:#FFF9E6;">
+                                            <button type="button" class="product-mini-btn"
+                                                onclick="clearProductImage()">✕ Hapus Gambar</button>
+                                        </div>
+                                    </div>
                                     <div class="form-group product-form-wide"><label class="form-label">Deskripsi
                                             *</label><textarea id="product-desc-input"
                                             class="form-input product-textarea" rows="3"
@@ -6991,7 +7001,7 @@
         document.addEventListener('keydown', function (e) {
             const tag = (e.target.tagName || '').toUpperCase();
             if (tag === 'INPUT' || tag === 'TEXTAREA' || e.target.isContentEditable) return;
-            if (e.shiftKey && (e.key === 'A' || e.key === 'a')) { e.preventDefault(); openAdmin(); }
+            /* Shift+A dipindah ke Shift+A+S */
             if (e.shiftKey && (e.key === 'X' || e.key === 'x')) { e.preventDefault(); exitAdmin(); }
         });
 
@@ -7237,6 +7247,391 @@
         renderProducts();
     </script>
 
+    <script id="zevora-image-upload">
+        const PRODUCT_BUCKET = 'product-images';
+        let pendingImageBlob = null;     // gambar baru yang belum diupload
+        let pendingImageRemoved = false; // admin menekan "Hapus Gambar"
+        let pendingPreviewUrl = '';
+
+        function showImagePreview(src) {
+            const box = document.getElementById('product-image-preview');
+            const img = document.getElementById('product-image-preview-img');
+            if (!box || !img) return;
+            if (src) { img.src = src; box.style.display = 'flex'; }
+            else { img.removeAttribute('src'); box.style.display = 'none'; }
+        }
+
+        function resetPendingImage() {
+            if (pendingPreviewUrl) { URL.revokeObjectURL(pendingPreviewUrl); pendingPreviewUrl = ''; }
+            pendingImageBlob = null;
+            pendingImageRemoved = false;
+            const f = document.getElementById('product-image-file');
+            if (f) f.value = '';
+        }
+
+        // Perkecil gambar (maks 900px) & ubah ke WebP supaya ringan
+        function compressImage(file, maxSide = 900, quality = 0.85) {
+            return new Promise((resolve, reject) => {
+                const url = URL.createObjectURL(file);
+                const img = new Image();
+                img.onload = () => {
+                    const scale = Math.min(1, maxSide / Math.max(img.width, img.height));
+                    const w = Math.max(1, Math.round(img.width * scale));
+                    const h = Math.max(1, Math.round(img.height * scale));
+                    const canvas = document.createElement('canvas');
+                    canvas.width = w; canvas.height = h;
+                    const ctx = canvas.getContext('2d');
+                    ctx.fillStyle = '#FFFFFF'; ctx.fillRect(0, 0, w, h);
+                    ctx.drawImage(img, 0, 0, w, h);
+                    URL.revokeObjectURL(url);
+                    canvas.toBlob(b => b ? resolve(b) : reject(new Error('Gagal memproses gambar')), 'image/webp', quality);
+                };
+                img.onerror = () => { URL.revokeObjectURL(url); reject(new Error('File bukan gambar yang valid')); };
+                img.src = url;
+            });
+        }
+
+        async function onProductImagePicked(input) {
+            const file = input.files && input.files[0];
+            if (!file) return;
+            if (!file.type.startsWith('image/')) { showToast('File harus berupa gambar', 'error'); input.value = ''; return; }
+            if (file.size > 15 * 1024 * 1024) { showToast('Ukuran gambar maksimal 15 MB', 'error'); input.value = ''; return; }
+            try {
+                const blob = await compressImage(file);
+                if (pendingPreviewUrl) URL.revokeObjectURL(pendingPreviewUrl);
+                pendingImageBlob = blob;
+                pendingImageRemoved = false;
+                pendingPreviewUrl = URL.createObjectURL(blob);
+                showImagePreview(pendingPreviewUrl);
+            } catch (e) {
+                showToast(e.message || 'Gagal memproses gambar', 'error');
+                input.value = '';
+            }
+        }
+
+        function clearProductImage() {
+            if (pendingPreviewUrl) { URL.revokeObjectURL(pendingPreviewUrl); pendingPreviewUrl = ''; }
+            pendingImageBlob = null;
+            pendingImageRemoved = true;
+            const f = document.getElementById('product-image-file');
+            if (f) f.value = '';
+            showImagePreview('');
+        }
+
+        async function uploadProductImage(blob) {
+            const ext = blob.type === 'image/webp' ? 'webp' : (blob.type === 'image/png' ? 'png' : 'jpg');
+            const path = `products/${Date.now()}_${Math.random().toString(36).slice(2, 8)}.${ext}`;
+            const { error } = await supabaseClient.storage.from(PRODUCT_BUCKET)
+                .upload(path, blob, { contentType: blob.type, cacheControl: '31536000', upsert: false });
+            if (error) throw new Error(error.message || 'Upload gagal');
+            return supabaseClient.storage.from(PRODUCT_BUCKET).getPublicUrl(path).data.publicUrl;
+        }
+
+        async function removeStoredImage(url) {
+            if (!url) return;
+            const marker = `/object/public/${PRODUCT_BUCKET}/`;
+            const i = url.indexOf(marker);
+            if (i === -1) return; // bukan file dari bucket kita
+            const path = decodeURIComponent(url.slice(i + marker.length).split('?')[0]);
+            try { await supabaseClient.storage.from(PRODUCT_BUCKET).remove([path]); } catch (e) { console.warn(e); }
+        }
+
+        /* --- Bungkus fungsi lama agar form ikut sinkron --- */
+        const _resetProductFormOrig = resetProductForm;
+        resetProductForm = function () {
+            _resetProductFormOrig();
+            resetPendingImage();
+            showImagePreview('');
+        };
+
+        const _editProductOrig = editProduct;
+        editProduct = function (id) {
+            _editProductOrig(id);
+            resetPendingImage();
+            showImagePreview(document.getElementById('product-image-input').value || '');
+        };
+
+        /* --- Simpan produk (dengan upload gambar) --- */
+        saveProductToSupabase = async function () {
+            if (!initSupabase()) { showToast('Supabase belum siap', 'error'); return; }
+            const val = id => document.getElementById(id).value;
+            const editId = val('product-edit-id').trim();
+            const name = val('product-name-input').trim();
+            const cat = val('product-cat-input');
+            const badge = val('product-badge-input').trim();
+            const description = val('product-desc-input').trim();
+            const price = Number(val('product-price-input') || 0);
+            const unit = val('product-unit-input').trim();
+            const sort_order = Number(val('product-sort-input') || 0);
+            const formats = readProductOptions('formats');
+            const durations = readProductOptions('durations');
+            const oldImage = val('product-image-input').trim();
+
+            if (!name || !cat || !description) { showToast('Nama, kategori, dan deskripsi wajib diisi', 'error'); return; }
+            if (!formats.length && !durations.length && price <= 0) { showToast('Isi harga dasar atau tambahkan format/durasi', 'error'); return; }
+
+            const saveBtn = document.getElementById('product-save-btn');
+            const status = document.getElementById('product-form-status');
+            if (saveBtn) { saveBtn.disabled = true; saveBtn.textContent = 'Menyimpan...'; }
+
+            let image_url = oldImage;
+            let uploadedNew = false;
+            try {
+                if (pendingImageBlob) {
+                    if (status) status.textContent = 'Mengupload gambar...';
+                    image_url = await uploadProductImage(pendingImageBlob);
+                    uploadedNew = true;
+                } else if (pendingImageRemoved) {
+                    image_url = '';
+                }
+
+                const payload = { cat, name, badge, image_url, description, price, unit, formats, durations, active: true, sort_order };
+                const result = editId
+                    ? await supabaseClient.from('products').update(payload).eq('id', Number(editId)).select('*').single()
+                    : await supabaseClient.from('products').insert(payload).select('*').single();
+
+                if (result.error) {
+                    if (uploadedNew) await removeStoredImage(image_url); // batalkan upload yatim
+                    showToast(`Gagal menyimpan: ${formatSupabaseError(result.error)}`, 'error');
+                    return;
+                }
+                if (oldImage && oldImage !== image_url) await removeStoredImage(oldImage);
+
+                await syncProductsFromSupabase({ silent: true, seedLocalIfEmpty: false });
+                const wasEdit = !!editId;
+                resetProductForm();
+                renderAdminProducts();
+                showToast(wasEdit ? 'Produk berhasil diperbarui' : 'Produk berhasil ditambahkan', 'success');
+            } catch (e) {
+                console.error(e);
+                showToast(`Upload gambar gagal: ${e.message || e}`, 'error');
+            } finally {
+                if (saveBtn) {
+                    saveBtn.disabled = false;
+                    saveBtn.textContent = document.getElementById('product-edit-id').value ? '✓ Simpan Perubahan' : '＋ Simpan Produk';
+                }
+            }
+        };
+
+        /* --- Hapus produk sekalian hapus gambarnya --- */
+        deleteProduct = function (id) {
+            const p = PRODUCTS.find(x => Number(x.id) === Number(id));
+            if (!p) return;
+            openConfirmModal({
+                kicker: 'HAPUS PRODUK', title: 'Hapus produk ini?',
+                message: 'Produk dan gambarnya akan dihapus permanen dari Supabase.',
+                target: p.name, confirmText: 'Hapus Produk', danger: true,
+                action: async () => {
+                    const { error } = await supabaseClient.from('products').delete().eq('id', Number(id));
+                    if (error) { showToast(`Gagal menghapus: ${formatSupabaseError(error)}`, 'error'); return; }
+                    await removeStoredImage(p.image_url);
+                    await syncProductsFromSupabase({ silent: true, seedLocalIfEmpty: false });
+                    showToast(`${p.name} berhasil dihapus`, 'success');
+                }
+            });
+        };
+
+        // Teks petunjuk di admin
+        const _note = document.querySelector('.admin-product-form-note');
+        if (_note) _note.textContent = 'Gambar diupload langsung dari perangkat ke Supabase Storage (otomatis dikecilkan). Data produk tersimpan di Supabase dan terbaca di semua perangkat.';
+    </script>
+    <script id="zevora-harga-fix">
+        /* Durasi berharga 0 diabaikan jika produk punya harga dasar */
+        const _normProductOrig = normalizeProductRow;
+        normalizeProductRow = function (row) {
+            const p = _normProductOrig(row);
+            if (p && p.price > 0) p.durations = (p.durations || []).filter(d => d.p > 0);
+            return p;
+        };
+        /* Saat simpan: buang baris durasi yang harganya 0 */
+        const _readOptionsOrig = readProductOptions;
+        readProductOptions = function (type) {
+            const list = _readOptionsOrig(type);
+            return type === 'durations' ? list.filter(d => d.p > 0) : list;
+        };
+        /* Form tambah produk tidak lagi membuat durasi kosong bawaan */
+        const _resetFormOrig2 = resetProductForm;
+        resetProductForm = function () {
+            _resetFormOrig2();
+            const list = document.getElementById('product-durations-list');
+            if (list) list.innerHTML = '';
+        };
+        resetProductForm();
+    </script>
+    <script id="zevora-cleanup">
+        /* ===== 1. CSS: sembunyikan scrollbar, rapikan teks, matikan animasi ulang ===== */
+        (function () {
+            const st = document.createElement('style');
+            st.id = 'zevora-cleanup-css';
+            st.textContent = `
+            *{scrollbar-width:none;-ms-overflow-style:none}
+            *::-webkit-scrollbar{display:none;width:0;height:0}
+            .render-static .cart-item,.render-static .history-card,.render-static .promo-card{animation:none!important}
+            .product-desc{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+            .product-tag{font-size:10px}
+            @media (max-width:430px){.zevora-pill-nav .radial-menu-item{font-size:9px}}
+        `;
+            document.head.appendChild(st);
+        })();
+
+        /* ===== 2. Shortcut admin: masuk = Shift+A+S, keluar = Shift+X (tetap) ===== */
+        const _adminKeys = new Set();
+        document.addEventListener('keydown', function (e) {
+            const tag = (e.target.tagName || '').toUpperCase();
+            if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || e.target.isContentEditable) return;
+            _adminKeys.add((e.key || '').toLowerCase());
+            if (e.shiftKey && _adminKeys.has('a') && _adminKeys.has('s')) {
+                e.preventDefault();
+                openAdmin();
+                _adminKeys.clear();
+            }
+        });
+        document.addEventListener('keyup', e => _adminKeys.delete((e.key || '').toLowerCase()));
+        window.addEventListener('blur', () => _adminKeys.clear());
+        const _openAdminOrig = openAdmin;
+        openAdmin = function () {
+            if (!(_adminKeys.has('a') && _adminKeys.has('s'))) return; // Shift+A saja tidak lagi membuka admin
+            return _openAdminOrig();
+        };
+
+        /* ===== 3. Animasi hanya saat pindah halaman, bukan tiap data di-refresh ===== */
+        let _animNext = true;
+        const _goPageOrig = goPage;
+        goPage = function (page) {
+            _animNext = true;
+            try { return _goPageOrig(page); } finally { _animNext = false; }
+        };
+
+        let _revObs = null;
+        initScrollReveal = function () {
+            const items = document.querySelectorAll('.reveal:not(.visible)');
+            if (!items.length) return;
+            const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            if (reduce || typeof IntersectionObserver === 'undefined') { items.forEach(el => el.classList.add('visible')); return; }
+            if (!_revObs) {
+                _revObs = new IntersectionObserver(entries => entries.forEach(en => {
+                    if (!en.isIntersecting) return;
+                    en.target.classList.add('visible');
+                    _revObs.unobserve(en.target);
+                }), { threshold: 0.08, rootMargin: '0px 0px -50px 0px' });
+            }
+            items.forEach(el => _revObs.observe(el));
+        };
+
+        let _prodObs = null;
+        initProductAnimations = function () {
+            const items = document.querySelectorAll('#prod-grid .product:not(.visible)');
+            if (!items.length) return;
+            const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            if (reduce || typeof IntersectionObserver === 'undefined') { items.forEach(el => el.classList.add('visible')); return; }
+            if (!_prodObs) {
+                _prodObs = new IntersectionObserver(entries => entries.forEach(en => {
+                    if (!en.isIntersecting) return;
+                    en.target.classList.add('visible');
+                    _prodObs.unobserve(en.target);
+                }), { threshold: 0.12, rootMargin: '0px 0px -50px 0px' });
+            }
+            items.forEach((el, i) => { el.style.transitionDelay = Math.min(i * 0.05, 0.3) + 's'; _prodObs.observe(el); });
+        };
+
+        /* Render ulang hanya jika datanya benar-benar berubah */
+        const _prodSig = () => currentFilter + '|' + JSON.stringify(PRODUCTS);
+        let _lastProdSig = _prodSig();
+        const _renderProductsOrig = renderProducts;
+        renderProducts = function () {
+            const grid = document.getElementById('prod-grid');
+            const sig = _prodSig();
+            if (grid && grid.children.length && sig === _lastProdSig) return;
+            _lastProdSig = sig;
+            _renderProductsOrig();
+        };
+
+        let _lastPromoSig = '';
+        const _renderPromosOrig = renderPromos;
+        renderPromos = function () {
+            const c = document.getElementById('promo-content');
+            const sig = JSON.stringify([promos, getLocalRedeemedPromoIds(), todayStr()]);
+            if (c && c.children.length && sig === _lastPromoSig) return;
+            _lastPromoSig = sig;
+            if (c) c.classList.toggle('render-static', !_animNext);
+            _renderPromosOrig();
+        };
+
+        const _renderCartOrig = renderCart;
+        renderCart = function () {
+            const c = document.getElementById('cart-content');
+            const typed = document.getElementById('cart-voucher-code')?.value || '';
+            if (c) c.classList.toggle('render-static', !_animNext);
+            _renderCartOrig();
+            const input = document.getElementById('cart-voucher-code');
+            if (input && typed) input.value = typed;
+        };
+
+        /* Riwayat: skip jika tidak berubah + escape teks dari pelanggan */
+        let _lastHistSig = '';
+        const _renderHistoryOrig = renderHistory;
+        renderHistory = function () {
+            const c = document.getElementById('history-content');
+            const sig = JSON.stringify(history);
+            if (c && c.children.length && sig === _lastHistSig && !_animNext) return;
+            _lastHistSig = sig;
+            if (c) c.classList.toggle('render-static', !_animNext);
+            const real = history;
+            history = real.map(h => ({ ...h, orderId: productEsc(h.orderId), name: productEsc(h.name), notes: productEsc(h.notes), voucher: productEsc(h.voucher), date: productEsc(h.date) }));
+            try { _renderHistoryOrig(); } finally { history = real; }
+        };
+
+        /* Panel admin: escape data order dari pelanggan (cegah penyisipan kode) */
+        const _renderAdminOrdersOrig = renderAdminOrders;
+        renderAdminOrders = function () {
+            const real = adminOrders;
+            adminOrders = real.map(o => ({
+                ...o,
+                order_id: productEsc(o.order_id), customer_name: productEsc(o.customer_name),
+                customer_phone: productEsc(o.customer_phone), voucher: o.voucher ? productEsc(o.voucher) : o.voucher,
+                notes: productEsc(o.notes),
+                items: Array.isArray(o.items) ? o.items.map(it => ({ ...it, name: productEsc(it?.name) })) : o.items
+            }));
+            try { _renderAdminOrdersOrig(); } finally { adminOrders = real; }
+        };
+
+        /* ===== 4. Keranjang tersimpan walau halaman di-refresh ===== */
+        try {
+            const saved = JSON.parse(localStorage.getItem('zevora_cart_v1') || '{}');
+            if (saved && typeof saved === 'object') Object.keys(saved).forEach(k => { if (Number(saved[k]) > 0) cart[k] = Number(saved[k]); });
+        } catch (e) { }
+        const _updateCartBadgeOrig = updateCartBadge;
+        updateCartBadge = function () {
+            try { localStorage.setItem('zevora_cart_v1', JSON.stringify(cart)); } catch (e) { }
+            _updateCartBadgeOrig();
+        };
+        updateCartBadge();
+
+        /* ===== 5. Tombol BELI & modal memakai opsi termurah (sama dengan "Mulai dari") ===== */
+        function _cheapestIdx(arr, key) {
+            if (!Array.isArray(arr) || !arr.length) return 0;
+            let best = 0;
+            arr.forEach((x, i) => { if ((Number(x[key]) || 0) < (Number(arr[best][key]) || 0)) best = i; });
+            return best;
+        }
+        quickAdd = function (productId) {
+            const p = PRODUCTS.find(x => Number(x.id) === Number(productId));
+            if (!p) return;
+            const key = `${p.id}_${_cheapestIdx(p.durations, 'p')}_${_cheapestIdx(p.formats, 'mult')}`;
+            cart[key] = (cart[key] || 0) + 1;
+            updateCartBadge();
+            showToast(`${p.name} ditambahkan ke keranjang`, 'success');
+        };
+        const _openProductModalOrig = openProductModal;
+        openProductModal = function (id) {
+            _openProductModalOrig(id);
+            const p = currentModalProduct;
+            if (!p) return;
+            const di = _cheapestIdx(p.durations, 'p'), fi = _cheapestIdx(p.formats, 'mult');
+            if (fi > 0) selectModalFormat(fi);
+            if (di > 0) selectModalDuration(di);
+        };
+    </script>
 </body>
 
 </html>
