@@ -58,9 +58,7 @@ body{
 button, textarea, input{ font:inherit; }
 button{ border:0; outline:0; background:none; cursor:pointer; }
 
-/* =========================================================
-   INTRO (simple spinner)
-========================================================= */
+/* INTRO */
 
 .intro{
   position:fixed;
@@ -90,9 +88,7 @@ button{ border:0; outline:0; background:none; cursor:pointer; }
 
 @keyframes spin{ to{ transform:rotate(360deg); } }
 
-/* =========================================================
-   APP
-========================================================= */
+/* APP */
 
 .app{
   position:relative;
@@ -105,9 +101,7 @@ button{ border:0; outline:0; background:none; cursor:pointer; }
   background:var(--bg);
 }
 
-/* =========================================================
-   HEADER
-========================================================= */
+/* HEADER */
 
 .header{
   position:relative;
@@ -155,9 +149,7 @@ button{ border:0; outline:0; background:none; cursor:pointer; }
   display:none;
 }
 
-/* =========================================================
-   CHAT SCROLL
-========================================================= */
+/* CHAT SCROLL */
 
 .chat-scroll{
   position:relative;
@@ -166,7 +158,6 @@ button{ border:0; outline:0; background:none; cursor:pointer; }
   min-height:0;
   overflow-y:auto;
   overflow-x:hidden;
-  scroll-behavior:smooth;
   padding:24px 16px 16px;
 }
 
@@ -183,9 +174,7 @@ button{ border:0; outline:0; background:none; cursor:pointer; }
   margin:0 auto;
 }
 
-/* =========================================================
-   WELCOME
-========================================================= */
+/* WELCOME */
 
 .welcome{
   min-height:100%;
@@ -253,9 +242,7 @@ button{ border:0; outline:0; background:none; cursor:pointer; }
   line-height:1.4;
 }
 
-/* =========================================================
-   MESSAGE
-========================================================= */
+/* MESSAGE */
 
 .message-row{
   width:100%;
@@ -293,9 +280,7 @@ button{ border:0; outline:0; background:none; cursor:pointer; }
   padding:12px 16px;
 }
 
-/* =========================================================
-   AI TEXT
-========================================================= */
+/* AI TEXT */
 
 .ai-content{ width:100%; }
 
@@ -333,9 +318,7 @@ button{ border:0; outline:0; background:none; cursor:pointer; }
   font-size:.88em;
 }
 
-/* =========================================================
-   TYPEWRITER
-========================================================= */
+/* TYPEWRITER */
 
 .ai-typewriter{
   white-space:pre-wrap;
@@ -358,9 +341,7 @@ button{ border:0; outline:0; background:none; cursor:pointer; }
   50%,100%{ opacity:0; }
 }
 
-/* =========================================================
-   CODE BLOCK
-========================================================= */
+/* CODE BLOCK */
 
 .code-block{
   position:relative;
@@ -440,9 +421,7 @@ button{ border:0; outline:0; background:none; cursor:pointer; }
   border-radius:999px;
 }
 
-/* =========================================================
-   TYPING DOTS
-========================================================= */
+/* TYPING DOTS */
 
 .message.ai.typing-message{
   width:auto;
@@ -480,9 +459,7 @@ button{ border:0; outline:0; background:none; cursor:pointer; }
   30%{ opacity:1; transform:translateY(-3px); }
 }
 
-/* =========================================================
-   GENERATED IMAGE
-========================================================= */
+/* GENERATED IMAGE */
 
 .generated-image{
   width:100%;
@@ -502,9 +479,7 @@ button{ border:0; outline:0; background:none; cursor:pointer; }
   font-size:12.5px;
 }
 
-/* =========================================================
-   COMPOSER
-========================================================= */
+/* COMPOSER */
 
 .composer-wrap{
   position:relative;
@@ -625,6 +600,16 @@ button{ border:0; outline:0; background:none; cursor:pointer; }
 
 .tool-btn svg{ width:19px; height:19px; }
 
+/* Input file disembunyikan secara aman (tetap bisa dibuka lewat <label>) */
+.sr-file{
+  position:absolute;
+  width:1px;
+  height:1px;
+  opacity:0;
+  overflow:hidden;
+  pointer-events:none;
+}
+
 .input-area{
   flex:1;
   min-width:0;
@@ -671,9 +656,7 @@ textarea::placeholder{ color:var(--ink-mute); }
 
 .send-btn svg{ width:17px; height:17px; }
 
-/* =========================================================
-   IMAGE MODAL
-========================================================= */
+/* IMAGE MODAL */
 
 .image-modal{
   position:fixed;
@@ -765,9 +748,7 @@ textarea::placeholder{ color:var(--ink-mute); }
   font-size:16px;
 }
 
-/* =========================================================
-   MOBILE
-========================================================= */
+/* MOBILE */
 
 @media(max-width:650px){
   .header{
@@ -890,14 +871,15 @@ textarea::placeholder{ color:var(--ink-mute); }
 
     <div class="composer">
 
-      <button class="tool-btn" id="uploadBtn" type="button" aria-label="Upload gambar" title="Upload gambar">
+      <!-- Tombol + memakai <label for> supaya file picker terbuka native di HP -->
+      <label class="tool-btn" id="uploadBtn" for="fileInput" role="button" aria-label="Upload gambar" title="Upload gambar">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M12 5v14"></path>
           <path d="M5 12h14"></path>
         </svg>
-      </button>
+      </label>
 
-      <input type="file" id="fileInput" accept="image/*" hidden>
+      <input type="file" id="fileInput" class="sr-file" accept="image/*">
 
       <div class="input-area">
         <textarea id="messageInput" rows="1" placeholder="Tanya apa saja..." autocomplete="off" spellcheck="true"></textarea>
@@ -1055,6 +1037,8 @@ const ERROR_MESSAGES = {
     "🎨 Gambar belum berhasil dibuat. Coba pakai prompt yang sedikit berbeda.",
   imageGeneral:
     "🎨 Lagi ada kendala waktu membuat gambar. Coba lagi sebentar.",
+  vision:
+    "🖼️ Gambarnya belum bisa diproses. Kemungkinan model atau worker belum mendukung input gambar, atau ukurannya terlalu besar. Coba lagi dengan gambar lain.",
   general:
     "⚠️ Zevora AI lagi mengalami gangguan. Coba lagi beberapa saat."
 };
@@ -1406,11 +1390,6 @@ function animateText(container, text){
     let index = 0;
     const len = text.length;
 
-    /* Kecepatan adaptif:
-       - teks pendek: 1 karakter per tick (tetap kelihatan mengetik)
-       - teks sedang: 2 karakter per tick
-       - teks panjang: 3–5 karakter per tick supaya tidak lama
-       Delay antar tick cuma 4ms → sangat cepat. */
     const chunk =
       len > 600 ? 5 :
       len > 300 ? 3 :
@@ -1700,9 +1679,6 @@ function appendMessage(role, text){
 }
 
 
-/* ==========================================================
-   TYPING DOTS
-========================================================== */
 
 function showTyping(){
 
@@ -1731,9 +1707,7 @@ function hideTyping(){
 }
 
 
-/* ==========================================================
-   GENERATED IMAGE MESSAGE
-========================================================== */
+
 
 function appendGeneratedImageMessage(imageUrl, prompt){
 
@@ -1764,9 +1738,6 @@ function appendGeneratedImageMessage(imageUrl, prompt){
 }
 
 
-/* ==========================================================
-   IMAGE MODAL
-========================================================== */
 
 function openImageModal(imageUrl){
   currentModalImage = imageUrl;
@@ -1786,9 +1757,7 @@ imageModal.addEventListener("click", event => {
 });
 
 
-/* ==========================================================
-   DOWNLOAD IMAGE
-========================================================== */
+
 
 modalDownload.addEventListener("click", async () => {
 
@@ -1813,9 +1782,6 @@ modalDownload.addEventListener("click", async () => {
 });
 
 
-/* ==========================================================
-   MODE
-========================================================== */
 
 function setMode(mode){
 
@@ -1838,38 +1804,32 @@ chatModeBtn.addEventListener("click", () => setMode("chat"));
 imageModeBtn.addEventListener("click", () => setMode("image"));
 
 
-/* ==========================================================
-   UPLOAD IMAGE
-========================================================== */
-
-uploadBtn.addEventListener("click", () => fileInput.click());
 
 fileInput.addEventListener("change", async event => {
 
   const file = event.target.files?.[0];
   if(!file) return;
 
-  if(!file.type.startsWith("image/")){
+  if(file.type && !file.type.startsWith("image/")){
     alert("File yang dipilih harus berupa gambar.");
+    fileInput.value = "";
     return;
   }
 
   try{
-    const compressed = await resizeImage(file, 1600, 0.82);
+    const compressed = await resizeImage(file, 1024, 0.75);
     selectedImageFile = file;
     selectedImageData = compressed;
     previewImage.src = compressed;
     previewWrap.classList.add("show");
   }catch(error){
     console.error(error);
-    alert("Gagal memproses gambar.");
+    alert("Gagal memproses gambar. Kalau fotonya format HEIC, coba pakai JPG atau PNG.");
+    fileInput.value = "";
   }
 });
 
 
-/* ==========================================================
-   REMOVE IMAGE
-========================================================== */
 
 removeImageBtn.addEventListener("click", () => {
   selectedImageData = null;
@@ -1880,9 +1840,7 @@ removeImageBtn.addEventListener("click", () => {
 });
 
 
-/* ==========================================================
-   RESIZE IMAGE
-========================================================== */
+
 
 function resizeImage(file, maxSize, quality){
 
@@ -1925,9 +1883,7 @@ function resizeImage(file, maxSize, quality){
 }
 
 
-/* ==========================================================
-   TEXTAREA AUTO RESIZE
-========================================================== */
+
 
 function autoResize(){
   messageInput.style.height = "auto";
@@ -1938,9 +1894,7 @@ function autoResize(){
 messageInput.addEventListener("input", autoResize);
 
 
-/* ==========================================================
-   SUGGESTIONS
-========================================================== */
+
 
 document.querySelectorAll(".suggestion").forEach(button => {
   button.addEventListener("click", () => {
@@ -1951,9 +1905,7 @@ document.querySelectorAll(".suggestion").forEach(button => {
 });
 
 
-/* ==========================================================
-   GENERATE IMAGE
-========================================================== */
+
 
 async function generateImage(prompt){
 
@@ -2009,9 +1961,18 @@ async function generateImage(prompt){
 }
 
 
-/* ==========================================================
-   SEND MESSAGE
-========================================================== */
+
+
+function stripOldImages(){
+  messages.forEach(m => {
+    if(Array.isArray(m.content)){
+      const t = m.content.find(p => p.type === "text")?.text || "";
+      m.content = t + " [gambar sudah dikirim sebelumnya]";
+    }
+  });
+}
+
+
 
 async function sendMessage(){
 
@@ -2026,9 +1987,7 @@ async function sendMessage(){
   isGenerating = true;
   sendBtn.disabled = true;
 
-  /* ========================================================
-     IMAGE MODE
-  ======================================================== */
+  
 
   if(currentMode === "image"){
 
@@ -2059,9 +2018,7 @@ async function sendMessage(){
   }
 
 
-  /* ========================================================
-     CHAT / VISION
-  ======================================================== */
+  
 
   let userContent;
 
@@ -2082,6 +2039,7 @@ async function sendMessage(){
 
   appendMessage("user", text || "📷 Mengirim gambar...");
 
+  stripOldImages();
   messages.push({ role:"user", content:userContent });
 
   messageInput.value = "";
@@ -2101,7 +2059,7 @@ async function sendMessage(){
       headers:{ "Content-Type": "application/json" },
       body: JSON.stringify({
         model: MODEL,
-        messages: messages,
+        messages: [messages[0], ...messages.slice(1).slice(-10)],
         max_tokens: MAX_TOKENS,
         temperature: 0.75
       })
@@ -2142,14 +2100,26 @@ async function sendMessage(){
     row.appendChild(bubble);
     chat.appendChild(row);
 
-    await animateAIResponse(bubble, cleanReply);
+    bubble.appendChild(renderAIResponse(cleanReply));
+    scrollToBottom();
 
     messages.push({ role:"assistant", content: cleanReply });
 
   }catch(error){
     hideTyping();
-    appendMessage("ai", getCustomErrorMessage(error, "chat"));
+
+   
+    if(messages[messages.length - 1]?.role === "user"){
+      messages.pop();
+    }
+
     console.error("Zevora error:", error);
+
+    if(Array.isArray(userContent)){
+      appendMessage("ai", ERROR_MESSAGES.vision);
+    }else{
+      appendMessage("ai", getCustomErrorMessage(error, "chat"));
+    }
   }
 
   isGenerating = false;
@@ -2157,16 +2127,11 @@ async function sendMessage(){
 }
 
 
-/* ==========================================================
-   SEND BUTTON
-========================================================== */
+
 
 sendBtn.addEventListener("click", sendMessage);
 
 
-/* ==========================================================
-   ENTER TO SEND
-========================================================== */
 
 messageInput.addEventListener("keydown", event => {
   if(event.key === "Enter" && !event.shiftKey){
@@ -2176,27 +2141,18 @@ messageInput.addEventListener("keydown", event => {
 });
 
 
-/* ==========================================================
-   ESC CLOSE MODAL
-========================================================== */
 
 document.addEventListener("keydown", event => {
   if(event.key === "Escape") closeImageModal();
 });
 
 
-/* ==========================================================
-   PREVENT MOBILE GESTURE ZOOM
-========================================================== */
 
 document.addEventListener("gesturestart", e => e.preventDefault(), { passive:false });
 document.addEventListener("gesturechange", e => e.preventDefault(), { passive:false });
 document.addEventListener("gestureend", e => e.preventDefault(), { passive:false });
 
 
-/* ==========================================================
-   INITIALIZE
-========================================================== */
 
 setMode("chat");
 autoResize();
