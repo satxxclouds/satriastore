@@ -974,7 +974,7 @@
             pointer-events: none
         }
 
-        .video-wrapper video {
+        .video-wrapper img {
             position: absolute;
             inset: 0;
             width: 100%;
@@ -983,7 +983,9 @@
             display: block;
             border: none;
             background: #000;
-            pointer-events: none
+            pointer-events: none;
+            user-select: none;
+            -webkit-user-drag: none
         }
 
         .store-shell {
@@ -4575,9 +4577,8 @@
                         </div>
 
                         <div class="video-wrapper reveal reveal-scale">
-                            <video id="store-video" src="satriake9.mp4" autoplay muted loop playsinline preload="auto"
-                                disablepictureinpicture controlslist="nodownload nofullscreen noremoteplayback"
-                                webkit-playsinline></video>
+                            <img id="store-banner" src="kilua.jpg" alt="ZEVORASTORE" loading="eager" decoding="async"
+                                draggable="false">
                         </div>
 
                         <div class="catalog-bar reveal">
